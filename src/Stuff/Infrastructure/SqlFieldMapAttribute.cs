@@ -1,6 +1,6 @@
 using System;
 
-namespace Stuff;
+namespace Stuff.Infrastructure;
 
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Parameter)]
 public sealed class SqlFieldMapAttribute<TM, TD> : Attribute

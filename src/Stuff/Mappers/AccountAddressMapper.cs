@@ -1,8 +1,10 @@
 using System.Data;
 using System.Data.Common;
 using System.Diagnostics.CodeAnalysis;
+using Stuff.Infrastructure;
+using Stuff.Primatives;
 
-namespace Stuff;
+namespace Stuff.Mappers;
 
 [SuppressMessage(category: "Microsoft.Performance", checkId: "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Unit test")]
 [SuppressMessage(category: "ReSharper", checkId: "ClassNeverInstantiated.Local", Justification = "Unit test")]

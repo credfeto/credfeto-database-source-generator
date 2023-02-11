@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Bogus.DataSets;
 using FunFair.Test.Common;
 using Npgsql;
-using Stuff;
+using Stuff.Models;
 using Xunit;
 using Database = Stuff.Database;
 

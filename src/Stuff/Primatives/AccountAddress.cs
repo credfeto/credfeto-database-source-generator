@@ -1,6 +1,6 @@
 using System.Diagnostics;
 
-namespace Stuff;
+namespace Stuff.Primatives;
 
 [DebuggerDisplay("{Value}")]
 public sealed class AccountAddress

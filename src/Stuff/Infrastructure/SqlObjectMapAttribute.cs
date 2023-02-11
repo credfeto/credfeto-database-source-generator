@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 
-namespace Stuff;
+namespace Stuff.Infrastructure;
 
 [DebuggerDisplay("Name = {Name}, SqlObjectType = {SqlObjectType}")]
 [AttributeUsage(AttributeTargets.Method)]

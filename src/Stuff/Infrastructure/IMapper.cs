@@ -1,7 +1,7 @@
 ﻿using System.Data.Common;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Stuff;
+namespace Stuff.Infrastructure;
 
 public interface IMapper<T>
 {

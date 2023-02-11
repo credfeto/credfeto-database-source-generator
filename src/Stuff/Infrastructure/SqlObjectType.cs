@@ -1,9 +1,9 @@
-namespace Stuff;
+namespace Stuff.Infrastructure;
 
 internal enum SqlObjectType
 {
-    Table,
-    Function,
-    TableFunction,
-    StoredProcedure
+    TABLE,
+    FUNCTION,
+    TABLE_FUNCTION,
+    STORED_PROCEDURE
 }
