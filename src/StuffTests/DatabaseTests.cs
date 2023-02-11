@@ -53,7 +53,7 @@ public sealed class DatabaseTests : TestBase
         {
             NpgsqlConnection connection = await this._dataSource.OpenConnectionAsync(cts.Token);
 
-            Identity name = MakeFake<Identity>(rules: f => f.RuleFor(property: u => u.Name, setter: (f, u) => f.Name.FirstName(f.PickRandom<Name.Gender>())), itemCount: 1)
+            Identity name = MakeFake<Identity>(rules: f => f.RuleFor(property: u => u.Name, setter: (f, u) => f.Name.FullName(f.PickRandom<Name.Gender>())), itemCount: 1)
                 .First();
 
             await Database.InsertAsync(connection: connection, name: name.Name, new() { Value = "0x1234567890123456789012345678901234567890" }, cancellationToken: cts.Token);
@@ -64,6 +64,7 @@ public sealed class DatabaseTests : TestBase
     [SuppressMessage(category: "ReSharper", checkId: "ClassNeverInstantiated.Local", Justification = "Unit test")]
     private sealed class Identity
     {
-        public string Name { get; } = default!;
+        [SuppressMessage(category: "ReSharper", checkId: "AutoPropertyCanBeMadeGetOnly.Local", Justification = "Stops rider from disappearing the property setter")]
+        public string Name { get; set; } = default!;
     }
 }
