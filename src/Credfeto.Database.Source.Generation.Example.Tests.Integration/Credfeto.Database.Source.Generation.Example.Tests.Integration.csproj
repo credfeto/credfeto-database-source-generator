@@ -63,6 +63,6 @@
     <PackageReference Include="xunit.analyzers" Version="1.1.0" PrivateAssets="All" ExcludeAssets="runtime"/>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Stuff\Stuff.csproj"/>
+    <ProjectReference Include="..\Credfeto.Database.Source.Generation.Example\Credfeto.Database.Source.Generation.Example.csproj"/>
   </ItemGroup>
 </Project>

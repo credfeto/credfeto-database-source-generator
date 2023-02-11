@@ -3,11 +3,11 @@ using System.Data.Common;
 using System.Threading;
 using System.Threading.Tasks;
 using Credfeto.Database.Interfaces;
-using Stuff.Mappers;
-using Stuff.Models;
-using Stuff.Primatives;
+using Credfeto.Database.Source.Generation.Example.Mappers;
+using Credfeto.Database.Source.Generation.Example.Models;
+using Credfeto.Database.Source.Generation.Example.Primatives;
 
-namespace Stuff;
+namespace Credfeto.Database.Source.Generation.Example;
 
 public static partial class Database
 {

@@ -2,9 +2,9 @@ using System.Data;
 using System.Data.Common;
 using System.Diagnostics.CodeAnalysis;
 using Credfeto.Database.Interfaces;
-using Stuff.Primatives;
+using Credfeto.Database.Source.Generation.Example.Primatives;
 
-namespace Stuff.Mappers;
+namespace Credfeto.Database.Source.Generation.Example.Mappers;
 
 [SuppressMessage(category: "Microsoft.Performance", checkId: "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Unit test")]
 [SuppressMessage(category: "ReSharper", checkId: "ClassNeverInstantiated.Local", Justification = "Unit test")]

@@ -1,9 +1,9 @@
 using System.Diagnostics;
 using Credfeto.Database.Interfaces;
-using Stuff.Mappers;
-using Stuff.Primatives;
+using Credfeto.Database.Source.Generation.Example.Mappers;
+using Credfeto.Database.Source.Generation.Example.Primatives;
 
-namespace Stuff.Models;
+namespace Credfeto.Database.Source.Generation.Example.Models;
 
 [DebuggerDisplay("Id = {Id}, Name = {Name}, Address = {Address}")]
 public sealed record Accounts(int Id,

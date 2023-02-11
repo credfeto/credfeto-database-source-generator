@@ -7,15 +7,15 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Stuff.Mappers;
-using Stuff.Models;
-using Stuff.Primatives;
+using Credfeto.Database.Source.Generation.Example.Mappers;
+using Credfeto.Database.Source.Generation.Example.Models;
+using Credfeto.Database.Source.Generation.Example.Primatives;
 
-namespace Stuff;
+namespace Credfeto.Database.Source.Generation.Example;
 
 public static partial class Database
 {
-    [GeneratedCode(tool: "Stuff", version: "0.0.0.1")]
+    [GeneratedCode(tool: "Credfeto.Database.Source.Generation.Example", version: "0.0.0.1")]
     public static async partial Task<Accounts?> GetAsync(DbConnection connection, int id, CancellationToken cancellationToken)
     {
         DbCommand command = connection.CreateCommand();
@@ -34,7 +34,7 @@ public static partial class Database
         }
     }
 
-    [GeneratedCode(tool: "Stuff", version: "0.0.0.1")]
+    [GeneratedCode(tool: "Credfeto.Database.Source.Generation.Example", version: "0.0.0.1")]
     public static async partial Task<IReadOnlyList<Accounts>> GetAllAsync(DbConnection connection, AccountAddress address, CancellationToken cancellationToken)
     {
         DbCommand command = connection.CreateCommand();
@@ -52,7 +52,7 @@ public static partial class Database
         }
     }
 
-    [GeneratedCode(tool: "Stuff", version: "0.0.0.1")]
+    [GeneratedCode(tool: "Credfeto.Database.Source.Generation.Example", version: "0.0.0.1")]
     public static partial Task InsertAsync(DbConnection connection, string name, AccountAddress address, CancellationToken cancellationToken)
     {
         DbCommand command = connection.CreateCommand();

@@ -11,9 +11,9 @@ ProjectSection(SolutionItems) = preProject
 	..\README.md = ..\README.md
 EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stuff", "Stuff\Stuff.csproj", "{68B8DA2B-676E-4EA3-B4C4-48167E4B1A64}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Credfeto.Database.Source.Generation.Example", "Credfeto.Database.Source.Generation.Example\Credfeto.Database.Source.Generation.Example.csproj", "{68B8DA2B-676E-4EA3-B4C4-48167E4B1A64}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StuffTests", "StuffTests\StuffTests.csproj", "{671AAF68-E159-4069-B34B-1F21243035FD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Credfeto.Database.Source.Generation.Example.Tests.Integration", "Credfeto.Database.Source.Generation.Example.Tests.Integration\Credfeto.Database.Source.Generation.Example.Tests.Integration.csproj", "{671AAF68-E159-4069-B34B-1F21243035FD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL", "SQL", "{968E2B5E-1F86-4ACB-B99B-85A98A6F92A0}"
 EndProject

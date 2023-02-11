@@ -5,13 +5,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Bogus.DataSets;
+using Credfeto.Database.Source.Generation.Example.Models;
 using FunFair.Test.Common;
 using Npgsql;
-using Stuff.Models;
 using Xunit;
-using Database = Stuff.Database;
 
-namespace StuffTests;
+namespace Credfeto.Database.Source.Generation.Example.Tests.Integration;
 
 public sealed class DatabaseTests : TestBase
 {
