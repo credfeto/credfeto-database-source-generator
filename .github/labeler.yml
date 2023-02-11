@@ -32,3 +32,9 @@
  - any: [ './**/*.md' ]
 "github-actions":
  - any: [ '.github/workflows/*.yml' ]
+"Credfeto.Database.Interfaces":
+ - any: [ 'src/Credfeto.Database.Interfaces/**/*' ]
+"Example":
+ - any: [ 'src/Credfeto.Database.Source.Generation.Example/**/*' ]
+"Example.Tests.Integration":
+ - any: [ 'src/Credfeto.Database.Source.Generation.Example.Tests.Integration/**/*' ]
