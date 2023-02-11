@@ -1,7 +1,7 @@
 ﻿using System.Data.Common;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Stuff.Infrastructure;
+namespace Credfeto.Database.Interfaces;
 
 public interface IMapper<T>
 {

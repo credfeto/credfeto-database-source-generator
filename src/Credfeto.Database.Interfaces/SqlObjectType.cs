@@ -1,4 +1,4 @@
-namespace Stuff.Infrastructure;
+namespace Credfeto.Database.Interfaces;
 
 internal enum SqlObjectType
 {

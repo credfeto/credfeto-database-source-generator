@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Threading;
 using System.Threading.Tasks;
-using Stuff.Infrastructure;
+using Credfeto.Database.Interfaces;
 using Stuff.Mappers;
 using Stuff.Models;
 using Stuff.Primatives;

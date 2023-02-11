@@ -1,7 +1,7 @@
 using System.Data;
 using System.Data.Common;
 using System.Diagnostics.CodeAnalysis;
-using Stuff.Infrastructure;
+using Credfeto.Database.Interfaces;
 using Stuff.Primatives;
 
 namespace Stuff.Mappers;

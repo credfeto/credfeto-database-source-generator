@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 
-namespace Stuff.Infrastructure;
+namespace Credfeto.Database.Interfaces;
 
 [DebuggerDisplay("Name = {Name}, SqlObjectType = {SqlObjectType}")]
 [AttributeUsage(AttributeTargets.Method)]

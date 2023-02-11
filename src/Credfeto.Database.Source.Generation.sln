@@ -22,6 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Postgresql", "Postgresql", 
 		..\db\postgresql\pgsql.schema.sql = ..\db\postgresql\pgsql.schema.sql
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Credfeto.Database.Interfaces", "Credfeto.Database.Interfaces\Credfeto.Database.Interfaces.csproj", "{FB429B42-24ED-47EB-B653-B4593D4D28DB}"
+EndProject
 Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{68B8DA2B-676E-4EA3-B4C4-48167E4B1A64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{671AAF68-E159-4069-B34B-1F21243035FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{671AAF68-E159-4069-B34B-1F21243035FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{671AAF68-E159-4069-B34B-1F21243035FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB429B42-24ED-47EB-B653-B4593D4D28DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB429B42-24ED-47EB-B653-B4593D4D28DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB429B42-24ED-47EB-B653-B4593D4D28DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB429B42-24ED-47EB-B653-B4593D4D28DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
