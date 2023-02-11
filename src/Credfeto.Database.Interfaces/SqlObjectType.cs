@@ -1,6 +1,6 @@
 namespace Credfeto.Database.Interfaces;
 
-internal enum SqlObjectType
+public enum SqlObjectType
 {
     TABLE,
     SCALAR_FUNCTION,
