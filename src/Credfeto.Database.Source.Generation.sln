@@ -9,8 +9,25 @@ ProjectSection(SolutionItems) = preProject
 	global.json = global.json
 	..\CHANGELOG.md = ..\CHANGELOG.md
 	..\README.md = ..\README.md
-	FunFair.props = FunFair.props
 EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stuff", "Stuff\Stuff.csproj", "{68B8DA2B-676E-4EA3-B4C4-48167E4B1A64}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StuffTests", "StuffTests\StuffTests.csproj", "{671AAF68-E159-4069-B34B-1F21243035FD}"
+EndProject
 Global
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{68B8DA2B-676E-4EA3-B4C4-48167E4B1A64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68B8DA2B-676E-4EA3-B4C4-48167E4B1A64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68B8DA2B-676E-4EA3-B4C4-48167E4B1A64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68B8DA2B-676E-4EA3-B4C4-48167E4B1A64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{671AAF68-E159-4069-B34B-1F21243035FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{671AAF68-E159-4069-B34B-1F21243035FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{671AAF68-E159-4069-B34B-1F21243035FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{671AAF68-E159-4069-B34B-1F21243035FD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
 EndGlobal
