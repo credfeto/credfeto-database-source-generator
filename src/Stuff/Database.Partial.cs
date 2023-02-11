@@ -1,7 +1,9 @@
+using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -86,5 +88,25 @@ public static partial class Database
 
             yield return new(Id: recId, Name: recName, Address: recAddress);
         }
+    }
+
+    public static async partial Task<int> GetMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken)
+    {
+        DbCommand command = connection.CreateCommand();
+        command.CommandText = "select ethereum.get_meaning_of_life_universe_and_everything()";
+
+        object? result = await command.ExecuteScalarAsync(cancellationToken: cancellationToken);
+
+        if (result is null)
+        {
+            throw new InvalidOperationException("No result returned.");
+        }
+
+        if (result is int value)
+        {
+            return value;
+        }
+
+        return Convert.ToInt32(value: result, provider: CultureInfo.InvariantCulture);
     }
 }

@@ -35,6 +35,18 @@ public sealed class DatabaseTests : TestBase
     }
 
     [Fact]
+    public async Task ScalarFunctionAsync()
+    {
+        using (CancellationTokenSource cts = new(TimeSpan.FromSeconds(60)))
+        {
+            NpgsqlConnection connection = await this._dataSource.OpenConnectionAsync(cts.Token);
+
+            int result = await Database.GetMeaningOfLifeAsync(connection: connection, cancellationToken: cts.Token);
+            Assert.Equal(expected: 42, actual: result);
+        }
+    }
+
+    [Fact]
     public async Task StoredProcedureAsync()
     {
         using (CancellationTokenSource cts = new(TimeSpan.FromSeconds(60)))

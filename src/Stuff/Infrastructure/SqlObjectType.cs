@@ -3,7 +3,7 @@ namespace Stuff.Infrastructure;
 internal enum SqlObjectType
 {
     TABLE,
-    FUNCTION,
+    SCALAR_FUNCTION,
     TABLE_FUNCTION,
     STORED_PROCEDURE
 }
