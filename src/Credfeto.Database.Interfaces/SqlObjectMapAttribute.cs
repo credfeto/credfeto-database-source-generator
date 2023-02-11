@@ -5,7 +5,7 @@ namespace Credfeto.Database.Interfaces;
 
 [DebuggerDisplay("Name = {Name}, SqlObjectType = {SqlObjectType}")]
 [AttributeUsage(AttributeTargets.Method)]
-internal sealed class SqlObjectMapAttribute : Attribute
+public sealed class SqlObjectMapAttribute : Attribute
 {
     public SqlObjectMapAttribute(string name, SqlObjectType sqlObjectType)
     {
