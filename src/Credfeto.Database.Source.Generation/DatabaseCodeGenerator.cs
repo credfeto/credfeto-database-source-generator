@@ -36,7 +36,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
 
     private static void GenerateOneMethodGroup(in GeneratorExecutionContext context, IReadOnlyList<MethodGeneration> methods, string fullName)
     {
-        MethodGeneration firstMethod = methods.First();
+        MethodGeneration firstMethod = methods[0];
 
         CodeBuilder source = new();
 
@@ -44,6 +44,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
             ? "static "
             : string.Empty;
 
+        // TODO: add in any other using declarations that are needed
         using (source.AppendLine("using System;")
                      .AppendLine("using System.CodeDom.Compiler;")
                      .AppendLine("using System.Collections.Generic;")
