@@ -116,8 +116,20 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
                   .AppendLine(returnSymbol.ToDisplayString());
             }
 
+            TypeSyntax taskReturnType = genericNameSyntax.TypeArgumentList.Arguments[0];
             sb.Append("Task Return: ")
-              .AppendLine(genericNameSyntax.TypeArgumentList.Arguments.ToString());
+              .AppendLine(taskReturnType.ToString());
+
+            if (taskReturnType is GenericNameSyntax taskGenericNameSyntax)
+            {
+                ISymbol? taskReturnSymbol = semanticModel.GetSymbol(taskGenericNameSyntax);
+
+                if (taskReturnSymbol != null)
+                {
+                    sb.Append("Task Return Symbol: ")
+                      .AppendLine(taskReturnSymbol.ToDisplayString());
+                }
+            }
         }
 
         return new(methodDeclarationSyntax.GetAccessType(), methodDeclarationSyntax.Modifiers.Any(SyntaxKind.StaticKeyword), name: name, sb.ToString(), method: methodDeclarationSyntax);

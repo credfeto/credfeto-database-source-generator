@@ -103,6 +103,47 @@ namespace ConsoleApplication1;
     }
 
     [Fact]
+    public Task SimpleScalarFunctionAccountAddressAsync()
+    {
+        const string test = @"
+    using System;
+    using System.Data.Common;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Credfeto.Database.Interfaces;
+
+" + Constants.DatabaseTypes + @"
+
+    namespace ConsoleApplication1
+    {
+        public sealed class AccountAddress
+        {
+            public string Value { get; set;} = default!;
+        }
+
+        public static partial class DatabaseWrapper
+        {
+            [SqlObjectMap(name: ""example.scalar"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
+            public static partial Task<AccountAddress> GetMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken);
+        }
+    }";
+
+        (string filename, string generated)[] expected =
+        {
+            (filename: "ConsoleApplication1.EnumExtensions.generated.cs", generated: @"using System;
+using System.CodeDom.Compiler;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
+
+namespace ConsoleApplication1;
+")
+        };
+
+        return VerifyAsync(code: test, expected: expected);
+    }
+
+    [Fact]
     public Task SimpleScalarFunctionNullableIntAsync()
     {
         const string test = @"
@@ -147,7 +188,7 @@ namespace ConsoleApplication1;
     using System.Threading.Tasks;
     using Credfeto.Database.Interfaces;
 
-" + Constants.DatabaseTypes + @"
+" + Constants.DatabaseTypes + Constants.AccountAddressClass + Constants.AccountAddressMapperClass + @"
 
     namespace ConsoleApplication1
     {
