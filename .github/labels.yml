@@ -130,3 +130,7 @@
    color: "0e8a16"
    description: "Changes in Credfeto.Database.Source.Generation.Example.Tests.Integration project"
 
+ - name: "Tests"
+   color: "0e8a16"
+   description: "Changes in Credfeto.Database.Source.Generation.Tests project"
+
