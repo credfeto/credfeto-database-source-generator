@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Credfeto.Database.Source.Generation.Extensions;
 using Credfeto.Database.Source.Generation.Models;
 using Microsoft.CodeAnalysis;
@@ -30,6 +31,33 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
             return;
         }
 
-        this._methods.Add(item: new(namespaceName: "x", classAccessType: AccessType.PUBLIC, className: "x", methodDeclarationSyntax.GetAccessType(), method: methodDeclarationSyntax));
+        ClassDeclarationSyntax? classDeclarationSyntax = methodDeclarationSyntax.Ancestors()
+                                                                                .OfType<ClassDeclarationSyntax>()
+                                                                                .FirstOrDefault();
+
+        if (classDeclarationSyntax is null)
+        {
+            return;
+        }
+
+        if (!classDeclarationSyntax.Modifiers.Any(SyntaxKind.PartialKeyword))
+        {
+            return;
+        }
+
+        ClassInfo containingContext = GetClass(context: context, classDeclarationSyntax: classDeclarationSyntax);
+
+        this._methods.Add(item: new(containingContext: containingContext, methodDeclarationSyntax.GetAccessType(), method: methodDeclarationSyntax));
+    }
+
+    private static ClassInfo GetClass(in GeneratorSyntaxContext context, ClassDeclarationSyntax classDeclarationSyntax)
+    {
+        INamedTypeSymbol symbol = (INamedTypeSymbol)context.SemanticModel.GetDeclaredSymbol(declaration: classDeclarationSyntax)!;
+        ClassInfo containingContext = new(symbol.ContainingNamespace.ToDisplayString(),
+                                          name: symbol.Name,
+                                          classDeclarationSyntax.GetAccessType(),
+                                          classDeclarationSyntax.Modifiers.Any(SyntaxKind.StaticKeyword));
+
+        return containingContext;
     }
 }
