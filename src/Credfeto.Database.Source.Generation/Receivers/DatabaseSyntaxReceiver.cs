@@ -47,23 +47,23 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
             return;
         }
 
-        SqlObject? sqlObject = GetSqlObject(context: context, methodDeclarationSyntax: methodDeclarationSyntax);
+        SqlObject? sqlObject = GetSqlObject(semanticModel: context.SemanticModel, methodDeclarationSyntax: methodDeclarationSyntax);
 
         if (sqlObject is null)
         {
             return;
         }
 
-        ClassInfo containingContext = GetClass(context: context, classDeclarationSyntax: classDeclarationSyntax);
-        MethodInfo methodInfo = GetMethod(context: context, methodDeclarationSyntax: methodDeclarationSyntax);
+        ClassInfo containingContext = GetClass(semanticModel: context.SemanticModel, classDeclarationSyntax: classDeclarationSyntax);
+        MethodInfo methodInfo = GetMethod(semanticModel: context.SemanticModel, methodDeclarationSyntax: methodDeclarationSyntax);
 
         this._methods.Add(item: new(containingContext: containingContext, methodInfo: methodInfo, semanticModel: context.SemanticModel, sqlObject: sqlObject));
     }
 
-    private static SqlObject? GetSqlObject(GeneratorSyntaxContext context, MethodDeclarationSyntax methodDeclarationSyntax)
+    private static SqlObject? GetSqlObject(SemanticModel semanticModel, MethodDeclarationSyntax methodDeclarationSyntax)
     {
         return methodDeclarationSyntax.AttributeLists.SelectMany(selector: x => x.Attributes)
-                                      .Where(x => IsSqlObjectMapAttribute(context: context, attributeSyntax: x))
+                                      .Where(x => IsSqlObjectMapAttribute(semanticModel: semanticModel, attributeSyntax: x))
                                       .Select(selector: CreateSqlObject)
                                       .RemoveNulls()
                                       .FirstOrDefault();
@@ -91,7 +91,7 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
         return new(name: objectName, (SqlObjectType)Enum.Parse(typeof(SqlObjectType), parts[1], ignoreCase: false));
     }
 
-    private static MethodInfo GetMethod(in GeneratorSyntaxContext context, MethodDeclarationSyntax methodDeclarationSyntax)
+    private static MethodInfo GetMethod(SemanticModel semanticModel, MethodDeclarationSyntax methodDeclarationSyntax)
     {
         string name = methodDeclarationSyntax.Identifier.Text;
 
@@ -108,7 +108,7 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
                 throw new InvalidOperationException(message: $"Method {name} does not return a Task");
             }
 
-            ISymbol? returnSymbol = context.SemanticModel.GetDeclaredSymbol(declaration: genericNameSyntax);
+            ISymbol? returnSymbol = semanticModel.GetSymbol(genericNameSyntax);
 
             if (returnSymbol != null)
             {
@@ -123,9 +123,9 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
         return new(methodDeclarationSyntax.GetAccessType(), methodDeclarationSyntax.Modifiers.Any(SyntaxKind.StaticKeyword), name: name, sb.ToString(), method: methodDeclarationSyntax);
     }
 
-    private static bool IsSqlObjectMapAttribute(in GeneratorSyntaxContext context, AttributeSyntax attributeSyntax)
+    private static bool IsSqlObjectMapAttribute(SemanticModel semanticModel, AttributeSyntax attributeSyntax)
     {
-        if (context.SemanticModel.GetDeclaredSymbol(declaration: attributeSyntax) is not INamedTypeSymbol symbol)
+        if (semanticModel.GetSymbol(attributeSyntax) is not INamedTypeSymbol symbol)
         {
             return true;
         }
@@ -140,9 +140,9 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
         return symbol.Name is "SqlObjectMap" or "SqlObjectMapAttribute";
     }
 
-    private static ClassInfo GetClass(in GeneratorSyntaxContext context, ClassDeclarationSyntax classDeclarationSyntax)
+    private static ClassInfo GetClass(SemanticModel semanticModel, ClassDeclarationSyntax classDeclarationSyntax)
     {
-        INamedTypeSymbol symbol = (INamedTypeSymbol)context.SemanticModel.GetDeclaredSymbol(declaration: classDeclarationSyntax)!;
+        INamedTypeSymbol symbol = (INamedTypeSymbol)semanticModel.GetSymbol(classDeclarationSyntax)!;
 
         return new(symbol.ContainingNamespace.ToDisplayString(), name: symbol.Name, classDeclarationSyntax.GetAccessType(), classDeclarationSyntax.Modifiers.Any(SyntaxKind.StaticKeyword));
     }
