@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Credfeto.Database.Source.Generation.Extensions;
+using Credfeto.Database.Source.Generation.Helpers;
 using Credfeto.Database.Source.Generation.Models;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -46,7 +47,7 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
             return;
         }
 
-        SqlObject? sqlObject = GetSqlObject(semanticModel: context.SemanticModel, methodDeclarationSyntax: methodDeclarationSyntax);
+        SqlObject? sqlObject = AttributeMappings.GetSqlObject(semanticModel: context.SemanticModel, methodDeclarationSyntax: methodDeclarationSyntax);
 
         if (sqlObject is null)
         {
@@ -59,64 +60,35 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
         this._methods.Add(item: new(containingContext: containingContext, methodInfo: methodInfo, semanticModel: context.SemanticModel, sqlObject: sqlObject));
     }
 
-    private static SqlObject? GetSqlObject(SemanticModel semanticModel, MethodDeclarationSyntax methodDeclarationSyntax)
-    {
-        return methodDeclarationSyntax.AttributeLists.SelectMany(selector: x => x.Attributes)
-                                      .Where(x => IsSqlObjectMapAttribute(semanticModel: semanticModel, attributeSyntax: x))
-                                      .Select(selector: CreateSqlObject)
-                                      .RemoveNulls()
-                                      .FirstOrDefault();
-    }
-
-    private static SqlObject? CreateSqlObject(AttributeSyntax attributeSyntax)
-    {
-        if (attributeSyntax.ArgumentList?.Arguments.Count != 2)
-        {
-            return null;
-        }
-
-        string objectName = attributeSyntax.ArgumentList.Arguments[0]
-                                           .Expression.ToString();
-        string type = attributeSyntax.ArgumentList.Arguments[1]
-                                     .Expression.ToString();
-
-        string[] parts = type.Split('.');
-
-        if (parts.Length != 2)
-        {
-            return null;
-        }
-
-        return new(name: objectName, (SqlObjectType)Enum.Parse(typeof(SqlObjectType), parts[1], ignoreCase: false));
-    }
-
     private static MethodInfo GetMethod(SemanticModel semanticModel, MethodDeclarationSyntax methodDeclarationSyntax)
     {
         string name = methodDeclarationSyntax.Identifier.Text;
 
         TypeSyntax returnType = methodDeclarationSyntax.ReturnType;
 
-        MethodReturnType methodReturnType = GetReturnType(semanticModel: semanticModel, returnType: returnType, name: name);
+        MapperInfo? mapperInfo = AttributeMappings.GetMapperInfo(semanticModel: semanticModel, methodDeclarationSyntax: methodDeclarationSyntax);
+
+        MethodReturnType methodReturnType = GetReturnType(semanticModel: semanticModel, returnType: returnType, mapperInfo: mapperInfo, name: name);
 
         return new(methodDeclarationSyntax.GetAccessType(), methodDeclarationSyntax.Modifiers.Any(SyntaxKind.StaticKeyword), name: name, returnType: methodReturnType, method: methodDeclarationSyntax);
     }
 
-    private static MethodReturnType GetReturnType(SemanticModel semanticModel, TypeSyntax returnType, string name)
+    private static MethodReturnType GetReturnType(SemanticModel semanticModel, TypeSyntax returnType, MapperInfo? mapperInfo, string name)
     {
         if (returnType is GenericNameSyntax genericNameSyntax)
         {
-            return GetGenericTaskReturnType(semanticModel: semanticModel, name: name, genericNameSyntax: genericNameSyntax);
+            return GetGenericTaskReturnType(semanticModel: semanticModel, mapperInfo: mapperInfo, name: name, genericNameSyntax: genericNameSyntax);
         }
 
         if (returnType is IdentifierNameSyntax identifierNameSyntax)
         {
-            return GetNonGenericMethodReturnType(semanticModel: semanticModel, name: name, identifierNameSyntax: identifierNameSyntax);
+            return GetNonGenericMethodReturnType(semanticModel: semanticModel, mapperInfo: mapperInfo, name: name, identifierNameSyntax: identifierNameSyntax);
         }
 
         throw new InvalidOperationException(message: $"Method {name} does not return a Task");
     }
 
-    private static MethodReturnType GetNonGenericMethodReturnType(SemanticModel semanticModel, string name, IdentifierNameSyntax identifierNameSyntax)
+    private static MethodReturnType GetNonGenericMethodReturnType(SemanticModel semanticModel, MapperInfo? mapperInfo, string name, IdentifierNameSyntax identifierNameSyntax)
     {
         if (identifierNameSyntax.Identifier.Text != "Task")
         {
@@ -130,10 +102,10 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
             throw new InvalidOperationException(message: $"Method {name} could not determine task type");
         }
 
-        return new(returnType: returnSymbol, collectionReturnType: null, elementReturnType: null);
+        return new(returnType: returnSymbol, collectionReturnType: null, elementReturnType: null, mapperInfo: mapperInfo);
     }
 
-    private static MethodReturnType GetGenericTaskReturnType(SemanticModel semanticModel, string name, GenericNameSyntax genericNameSyntax)
+    private static MethodReturnType GetGenericTaskReturnType(SemanticModel semanticModel, MapperInfo? mapperInfo, string name, GenericNameSyntax genericNameSyntax)
     {
         if (genericNameSyntax.Identifier.Text != "Task")
         {
@@ -166,7 +138,7 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
                 throw new InvalidOperationException(message: $"Method {name} could not determine task return element type");
             }
 
-            return new(returnType: returnSymbol, collectionReturnType: taskReturnSymbol, elementReturnType: taskReturnElementSymbol);
+            return new(returnType: returnSymbol, collectionReturnType: taskReturnSymbol, elementReturnType: taskReturnElementSymbol, mapperInfo: mapperInfo);
         }
 
         if (taskReturnType is not IdentifierNameSyntax taskIdentifierNameSyntax)
@@ -181,24 +153,7 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
             throw new InvalidOperationException(message: $"Method {name} could not determine task return element type");
         }
 
-        return new(returnType: returnSymbol, collectionReturnType: null, elementReturnType: taskIdentifierReturnSymbol);
-    }
-
-    private static bool IsSqlObjectMapAttribute(SemanticModel semanticModel, AttributeSyntax attributeSyntax)
-    {
-        if (semanticModel.GetSymbol(attributeSyntax) is not INamedTypeSymbol symbol)
-        {
-            return true;
-        }
-
-        Console.WriteLine(symbol.ContainingNamespace.ToDisplayString());
-
-        if (symbol.ContainingNamespace.ToDisplayString() != "Credfeto.Database.Interfaces")
-        {
-            return false;
-        }
-
-        return symbol.Name is "SqlObjectMap" or "SqlObjectMapAttribute";
+        return new(returnType: returnSymbol, collectionReturnType: null, elementReturnType: taskIdentifierReturnSymbol, mapperInfo: mapperInfo);
     }
 
     private static ClassInfo GetClass(SemanticModel semanticModel, ClassDeclarationSyntax classDeclarationSyntax)
