@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Credfeto.Database.Source.Generation.Extensions;
 using Credfeto.Database.Source.Generation.Models;
 using Microsoft.CodeAnalysis;
@@ -54,7 +55,7 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
         }
 
         ClassInfo containingContext = GetClass(context: context, classDeclarationSyntax: classDeclarationSyntax);
-        MethodInfo methodInfo = GetMethod(methodDeclarationSyntax: methodDeclarationSyntax);
+        MethodInfo methodInfo = GetMethod(context: context, methodDeclarationSyntax: methodDeclarationSyntax);
 
         this._methods.Add(item: new(containingContext: containingContext, methodInfo: methodInfo, semanticModel: context.SemanticModel, sqlObject: sqlObject));
     }
@@ -90,20 +91,36 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
         return new(name: objectName, (SqlObjectType)Enum.Parse(typeof(SqlObjectType), parts[1], ignoreCase: false));
     }
 
-    private static MethodInfo GetMethod(MethodDeclarationSyntax methodDeclarationSyntax)
+    private static MethodInfo GetMethod(in GeneratorSyntaxContext context, MethodDeclarationSyntax methodDeclarationSyntax)
     {
         string name = methodDeclarationSyntax.Identifier.Text;
 
         TypeSyntax returnType = methodDeclarationSyntax.ReturnType;
 
-        string returnTypeName = returnType.ToString();
+        StringBuilder sb = new();
+        sb.Append("Base: ")
+          .AppendLine(returnType.ToString());
 
         if (returnType is GenericNameSyntax genericNameSyntax)
         {
-            returnTypeName = genericNameSyntax.TypeArgumentList.Arguments.ToString();
+            if (genericNameSyntax.Identifier.Text != "Task")
+            {
+                throw new InvalidOperationException(message: $"Method {name} does not return a Task");
+            }
+
+            ISymbol? returnSymbol = context.SemanticModel.GetDeclaredSymbol(declaration: genericNameSyntax);
+
+            if (returnSymbol != null)
+            {
+                sb.Append("Task: ")
+                  .AppendLine(returnSymbol.ToDisplayString());
+            }
+
+            sb.Append("Task Return: ")
+              .AppendLine(genericNameSyntax.TypeArgumentList.Arguments.ToString());
         }
 
-        return new(methodDeclarationSyntax.GetAccessType(), methodDeclarationSyntax.Modifiers.Any(SyntaxKind.StaticKeyword), name: name, returnType: returnTypeName, method: methodDeclarationSyntax);
+        return new(methodDeclarationSyntax.GetAccessType(), methodDeclarationSyntax.Modifiers.Any(SyntaxKind.StaticKeyword), name: name, sb.ToString(), method: methodDeclarationSyntax);
     }
 
     private static bool IsSqlObjectMapAttribute(in GeneratorSyntaxContext context, AttributeSyntax attributeSyntax)
