@@ -111,19 +111,17 @@ namespace ConsoleApplication1;
     using System.Threading;
     using System.Threading.Tasks;
     using Credfeto.Database.Interfaces;
+    using Mappers;
+    using Primatives;
 
 " + Constants.DatabaseTypes + @"
 
     namespace ConsoleApplication1
     {
-        public sealed class AccountAddress
-        {
-            public string Value { get; set;} = default!;
-        }
-
         public static partial class DatabaseWrapper
         {
             [SqlObjectMap(name: ""example.scalar"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
+            [return: SqlFieldMap<AccountAddressMapper, AccountAddress>]
             public static partial Task<AccountAddress> GetMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken);
         }
     }";
