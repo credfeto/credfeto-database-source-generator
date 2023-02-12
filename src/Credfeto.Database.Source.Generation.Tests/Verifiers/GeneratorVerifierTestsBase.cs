@@ -6,7 +6,7 @@ using FunFair.Test.Common;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 
-namespace Credfeto.Enumeration.Source.Generation.Tests.Verifiers;
+namespace Credfeto.Database.Source.Generation.Tests.Verifiers;
 
 public abstract class GeneratorVerifierTestsBase<TSourceGenerator> : TestBase
     where TSourceGenerator : ISourceGenerator, new()
