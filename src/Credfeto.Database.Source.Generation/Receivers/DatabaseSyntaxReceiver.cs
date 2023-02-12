@@ -1,14 +1,17 @@
 using System.Collections.Generic;
+using Credfeto.Database.Source.Generation.Extensions;
+using Credfeto.Database.Source.Generation.Models;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Credfeto.Database.Source.Generation.Receivers;
 
-public sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
+internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
 {
-    private readonly List<MethodDeclarationSyntax> _methods = new();
+    private readonly List<MethodGeneration> _methods = new();
 
-    public IReadOnlyList<MethodDeclarationSyntax> Methods => this._methods;
+    public IReadOnlyList<MethodGeneration> Methods => this._methods;
 
     public void OnVisitSyntaxNode(GeneratorSyntaxContext context)
     {
@@ -22,6 +25,11 @@ public sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
             return;
         }
 
-        this._methods.Add(item: methodDeclarationSyntax);
+        if (!methodDeclarationSyntax.Modifiers.Any(SyntaxKind.PartialKeyword))
+        {
+            return;
+        }
+
+        this._methods.Add(item: new(namespaceName: "x", classAccessType: AccessType.PUBLIC, className: "x", methodDeclarationSyntax.GetAccessType(), method: methodDeclarationSyntax));
     }
 }
