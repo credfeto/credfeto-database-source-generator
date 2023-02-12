@@ -99,7 +99,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
         }
     }
 
-    private static void GenerateScalarFunctionMethod(MethodGeneration method, CodeBuilder source, string classStaticModifier)
+    private static void GenerateTableFunctionMethod(MethodGeneration method, CodeBuilder source, string classStaticModifier)
     {
         using (source.StartBlock(text: "", start: "/*", end: "*/"))
         {
@@ -136,7 +136,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
         }
     }
 
-    private static void GenerateTableFunctionMethod(MethodGeneration method, CodeBuilder source, string classStaticModifier)
+    private static void GenerateScalarFunctionMethod(MethodGeneration method, CodeBuilder source, string classStaticModifier)
     {
         using (source.StartBlock(text: "", start: "/*", end: "*/"))
         {
