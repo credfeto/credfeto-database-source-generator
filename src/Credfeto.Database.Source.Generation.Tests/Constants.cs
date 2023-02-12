@@ -74,5 +74,17 @@ namespace Mappers
             parameter.Size = 100;
         }
     }
-}";
+}
+";
+
+    public const string AccountModelClass = @"
+namespace Models
+{
+    [DebuggerDisplay(""Id = {Id}, Name = {Name}, Address = {Address}"")]
+    public sealed record Accounts(int Id,
+                                  string Name,
+                                  [SqlFieldMap<AccountAddressMapper, AccountAddress>]
+                                  AccountAddress Address);
+}
+";
 }
