@@ -107,23 +107,6 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
             {
                 source.AppendLine($"-- {method.SqlObject.Name} {method.SqlObject.SqlObjectType.GetName()}");
 
-                // foreach (string attr in method.Method.Attributes)
-                // {
-                //     source.AppendLine($"Attribute: {attr}");
-                // }
-                //
-                // AttributeSyntax[] stuff = method.Method.Method.AttributeLists.SelectMany(selector: x => x.Attributes).ToArray();
-                //
-                // foreach (var thing in stuff)
-                // {
-                //     ISymbol? symbol = method.SemanticModel.GetDeclaredSymbol(declaration: thing);
-                //
-                //     if (symbol != null)
-                //     {
-                //         source.AppendLine($"Symbol: {symbol.ToDisplayString()}");
-                //     }
-                // }
-
                 source.AppendLine("await Task.CompletedTask;");
                 source.AppendLine("throw new NotImplementedException();");
             }
@@ -192,6 +175,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
         {
             using (BuildFunctionSignature(source: source, method: method))
             {
+                // TODO: Add Parameters, if any.
                 source.AppendLine("DbCommand command = connection.CreateCommand();")
                       .AppendLine($"command.CommandText = \"{method.SqlObject.Name}\";")
                       .AppendLine("command.CommandType = CommandType.StoredProcedure;");
