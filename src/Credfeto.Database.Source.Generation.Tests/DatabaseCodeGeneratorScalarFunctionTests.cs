@@ -9,7 +9,7 @@ namespace Credfeto.Database.Source.Generation.Tests;
 public sealed class DatabaseCodeGeneratorScalarFunctionTests : GeneratorVerifierTestsBase<DatabaseCodeGenerator>
 {
     [Fact]
-    public Task SimpleScalarFunctionAsync()
+    public Task SimpleScalarFunctionIntAsync()
     {
         const string test = @"
     using System;
@@ -48,6 +48,113 @@ public sealed class DatabaseCodeGeneratorScalarFunctionTests : GeneratorVerifier
         {
             [SqlObjectMap(name: ""example.scalar"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
             public static partial Task<int> GetMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken);
+        }
+    }";
+
+        (string filename, string generated)[] expected =
+        {
+            (filename: "ConsoleApplication1.EnumExtensions.generated.cs", generated: @"using System;
+using System.CodeDom.Compiler;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
+
+namespace ConsoleApplication1;
+")
+        };
+
+        return VerifyAsync(code: test, expected: expected);
+    }
+
+    [Fact]
+    public Task SimpleScalarFunctionStringAsync()
+    {
+        const string test = @"
+    using System;
+    using System.Data.Common;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Credfeto.Database.Interfaces;
+
+" + Constants.DatabaseTypes + @"
+
+    namespace ConsoleApplication1
+    {
+        public static partial class DatabaseWrapper
+        {
+            [SqlObjectMap(name: ""example.scalar"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
+            public static partial Task<string> GetMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken);
+        }
+    }";
+
+        (string filename, string generated)[] expected =
+        {
+            (filename: "ConsoleApplication1.EnumExtensions.generated.cs", generated: @"using System;
+using System.CodeDom.Compiler;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
+
+namespace ConsoleApplication1;
+")
+        };
+
+        return VerifyAsync(code: test, expected: expected);
+    }
+
+    [Fact]
+    public Task SimpleScalarFunctionNullableIntAsync()
+    {
+        const string test = @"
+    using System;
+    using System.Data.Common;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Credfeto.Database.Interfaces;
+" + Constants.DatabaseTypes + @"
+
+    namespace ConsoleApplication1
+    {
+        public static partial class DatabaseWrapper
+        {
+            [SqlObjectMap(name: ""example.scalar"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
+            public static partial Task<int?> GetMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken);
+        }
+    }";
+
+        (string filename, string generated)[] expected =
+        {
+            (filename: "ConsoleApplication1.EnumExtensions.generated.cs", generated: @"using System;
+using System.CodeDom.Compiler;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
+
+namespace ConsoleApplication1;
+")
+        };
+
+        return VerifyAsync(code: test, expected: expected);
+    }
+
+    [Fact]
+    public Task SimpleScalarFunctionNullableStringAsync()
+    {
+        const string test = @"
+    using System;
+    using System.Data.Common;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Credfeto.Database.Interfaces;
+
+" + Constants.DatabaseTypes + @"
+
+    namespace ConsoleApplication1
+    {
+        public static partial class DatabaseWrapper
+        {
+            [SqlObjectMap(name: ""example.scalar"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
+            public static partial Task<string?> GetMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken);
         }
     }";
 
