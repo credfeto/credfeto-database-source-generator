@@ -80,20 +80,30 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
 
     private static void GenerateMethod(MethodGeneration method, CodeBuilder source, string classStaticModifier)
     {
-        string methodStaticModifier = method.IsStatic
+        string methodStaticModifier = method.Method.IsStatic
             ? "static "
             : string.Empty;
 
-        using (source.AppendLine($"[GeneratedCode(tool: \"{typeof(DatabaseCodeGenerator).FullName}\", version: \"{VersionInformation.Version()}\")]")
-                     .StartBlock($"{method.MethodAccessType.ToKeywords()} {methodStaticModifier}async partial {method.Method.ReturnType} {method.Method.Identifier.Text}{method.Method.ParameterList}"))
+        using (source.StartBlock(text: "", start: "/*", end: "*/"))
         {
-            source.AppendLine("await Task.CompletedTask;");
-            source.AppendLine("throw new NotImplementedException();");
+            using (source.AppendLine($"[GeneratedCode(tool: \"{typeof(DatabaseCodeGenerator).FullName}\", version: \"{VersionInformation.Version()}\")]")
+                         .StartBlock(
+                             $"{method.Method.AccessType.ToKeywords()} {methodStaticModifier}async partial {method.Method.Method.ReturnType} {method.Method.Method.Identifier.Text}{method.Method.Method.ParameterList}"))
+            {
+                foreach (string attr in method.Method.Attributes)
+                {
+                    source.AppendLine($"Attribute: {attr}");
+                }
+
+                source.AppendLine($"// {method.Method.ReturnType}");
+                source.AppendLine("await Task.CompletedTask;");
+                source.AppendLine("throw new NotImplementedException();");
+            }
         }
 
-        source.AppendLine("/*");
-        source.AppendLine($" {method.ContainingContext.Namespace} {method.ContainingContext.AccessType.GetName()} {classStaticModifier} partial {method.ContainingContext.Name}");
-
-        source.AppendLine("*/");
+        using (source.StartBlock(text: "", start: "/*", end: "*/"))
+        {
+            source.AppendLine($" {method.ContainingContext.Namespace} {method.ContainingContext.AccessType.GetName()} {classStaticModifier} partial {method.ContainingContext.Name}");
+        }
     }
 }

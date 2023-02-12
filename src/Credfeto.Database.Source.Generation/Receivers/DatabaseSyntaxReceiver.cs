@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Credfeto.Database.Interfaces;
 using Credfeto.Database.Source.Generation.Extensions;
 using Credfeto.Database.Source.Generation.Models;
 using Microsoft.CodeAnalysis;
@@ -46,21 +47,51 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
         }
 
         ClassInfo containingContext = GetClass(context: context, classDeclarationSyntax: classDeclarationSyntax);
+        MethodInfo methodInfo = GetMethod(context: context, methodDeclarationSyntax: methodDeclarationSyntax);
 
-        this._methods.Add(item: new(containingContext: containingContext,
-                                    methodDeclarationSyntax.GetAccessType(),
-                                    methodDeclarationSyntax.Modifiers.Any(SyntaxKind.StaticKeyword),
-                                    method: methodDeclarationSyntax));
+        this._methods.Add(item: new(containingContext: containingContext, methodInfo: methodInfo));
+    }
+
+    private static MethodInfo GetMethod(GeneratorSyntaxContext context, MethodDeclarationSyntax methodDeclarationSyntax)
+    {
+        IReadOnlyList<string> attributes = methodDeclarationSyntax.AttributeLists.SelectMany(selector: x => x.Attributes)
+                                                                  .Where(x => IsSqlObjectMapAttribute(context: context, attributeSyntax: x))
+                                                                  .Select(selector: x => x.Name.ToString())
+                                                                  .ToList();
+
+        string name = methodDeclarationSyntax.Identifier.Text;
+
+        TypeSyntax returnType = methodDeclarationSyntax.ReturnType;
+
+        string returnTypeName = returnType.ToString();
+
+        if (returnType is GenericNameSyntax genericNameSyntax)
+        {
+            returnTypeName = genericNameSyntax.TypeArgumentList.Arguments.ToString();
+        }
+
+        return new(methodDeclarationSyntax.GetAccessType(),
+                   methodDeclarationSyntax.Modifiers.Any(SyntaxKind.StaticKeyword),
+                   name: name,
+                   returnType: returnTypeName,
+                   attributes: attributes,
+                   method: methodDeclarationSyntax);
+    }
+
+    private static bool IsSqlObjectMapAttribute(in GeneratorSyntaxContext context, AttributeSyntax attributeSyntax)
+    {
+        if (context.SemanticModel.GetDeclaredSymbol(declaration: attributeSyntax) is not INamedTypeSymbol symbol)
+        {
+            return true;
+        }
+
+        return symbol.ToDisplayString() == typeof(SqlObjectMapAttribute).FullName;
     }
 
     private static ClassInfo GetClass(in GeneratorSyntaxContext context, ClassDeclarationSyntax classDeclarationSyntax)
     {
         INamedTypeSymbol symbol = (INamedTypeSymbol)context.SemanticModel.GetDeclaredSymbol(declaration: classDeclarationSyntax)!;
-        ClassInfo containingContext = new(symbol.ContainingNamespace.ToDisplayString(),
-                                          name: symbol.Name,
-                                          classDeclarationSyntax.GetAccessType(),
-                                          classDeclarationSyntax.Modifiers.Any(SyntaxKind.StaticKeyword));
 
-        return containingContext;
+        return new(symbol.ContainingNamespace.ToDisplayString(), name: symbol.Name, classDeclarationSyntax.GetAccessType(), classDeclarationSyntax.Modifiers.Any(SyntaxKind.StaticKeyword));
     }
 }

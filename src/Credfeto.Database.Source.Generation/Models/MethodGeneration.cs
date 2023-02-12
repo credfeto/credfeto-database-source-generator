@@ -1,24 +1,16 @@
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-
 namespace Credfeto.Database.Source.Generation.Models;
 
 internal sealed class MethodGeneration
 {
-    public MethodGeneration(ClassInfo containingContext, AccessType methodAccessType, bool isStatic, MethodDeclarationSyntax method)
+    public MethodGeneration(ClassInfo containingContext, MethodInfo methodInfo)
     {
         this.ContainingContext = containingContext;
-        this.MethodAccessType = methodAccessType;
-        this.IsStatic = isStatic;
-        this.Method = method;
+        this.Method = methodInfo;
     }
 
     public ClassInfo ContainingContext { get; }
 
-    public AccessType MethodAccessType { get; }
+    public MethodInfo Method { get; }
 
-    public bool IsStatic { get; }
-
-    public MethodDeclarationSyntax Method { get; }
-
-    public string MethodGrouping => $"{this.ContainingContext.Namespace}.{this.ContainingContext.Name}.{this.Method.Identifier.Text}";
+    public string MethodGrouping => $"{this.ContainingContext.Namespace}.{this.ContainingContext.Name}.{this.Method.Method.Identifier.Text}";
 }

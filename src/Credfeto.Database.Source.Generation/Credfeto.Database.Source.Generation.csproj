@@ -74,4 +74,7 @@
     <PackageReference Include="SourceLink.Create.CommandLine" Version="2.8.3" PrivateAssets="All" ExcludeAssets="runtime"/>
     <PackageReference Include="ToStringWithoutOverrideAnalyzer" Version="0.6.0" PrivateAssets="All" ExcludeAssets="runtime"/>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Credfeto.Database.Interfaces\Credfeto.Database.Interfaces.csproj"/>
+  </ItemGroup>
 </Project>
