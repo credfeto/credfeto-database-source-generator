@@ -1,5 +1,5 @@
-﻿using System;
-using Credfeto.Database.Source.Generation.Builders;
+﻿using Credfeto.Database.Source.Generation.Builders;
+using Credfeto.Database.Source.Generation.Receivers;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -15,15 +15,16 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
             return;
         }
 
-        CodeBuilder cb = new();
+        CodeBuilder source = new();
 
         foreach (MethodDeclarationSyntax method in receiver.Methods)
         {
-            cb.AppendLine($"// {method.ReturnType} {method.Identifier.Text}({method.ParameterList});");
+            source.AppendLine("/*");
+            source.AppendLine($" {method.ReturnType} {method.Parent}::{method.Identifier.Text}{method.ParameterList};");
+            source.AppendLine("*/");
         }
 
-        Console.WriteLine(receiver.GetType()
-                                  .FullName);
+        context.AddSource(hintName: "Database.generated.cs", sourceText: source.Text);
     }
 
     public void Initialize(GeneratorInitializationContext context)

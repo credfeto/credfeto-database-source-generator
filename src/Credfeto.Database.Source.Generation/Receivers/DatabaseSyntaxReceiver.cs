@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace Credfeto.Database.Source.Generation;
+namespace Credfeto.Database.Source.Generation.Receivers;
 
 public sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
 {
