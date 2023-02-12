@@ -12,8 +12,7 @@ internal static class AttributeMappings
     public static SqlObject? GetSqlObject(SemanticModel semanticModel, MethodDeclarationSyntax methodDeclarationSyntax)
     {
         return methodDeclarationSyntax.AttributeLists.SelectMany(selector: x => x.Attributes)
-                                      .Where(x => IsSqlObjectMapAttribute(semanticModel: semanticModel, attributeSyntax: x))
-                                      .Select(selector: CreateSqlObject)
+                                      .Select(x => CreateSqlObject(semanticModel: semanticModel, attributeSyntax: x))
                                       .RemoveNulls()
                                       .FirstOrDefault();
     }
@@ -21,7 +20,6 @@ internal static class AttributeMappings
     public static MapperInfo? GetMapperInfo(SemanticModel semanticModel, MethodDeclarationSyntax methodDeclarationSyntax)
     {
         return methodDeclarationSyntax.AttributeLists.SelectMany(selector: x => x.Attributes)
-                                      .Where(x => IsMapperAttribute(semanticModel: semanticModel, attributeSyntax: x))
                                       .Select(x => CreateMapperInfo(semanticModel: semanticModel, attributeSyntax: x))
                                       .RemoveNulls()
                                       .FirstOrDefault();
@@ -29,78 +27,55 @@ internal static class AttributeMappings
 
     private static MapperInfo? CreateMapperInfo(SemanticModel semanticModel, AttributeSyntax attributeSyntax)
     {
-        if (attributeSyntax.ArgumentList?.Arguments.Count != 0)
-        {
-            Console.WriteLine("No arguments");
+        ISymbol? symbol = semanticModel.GetSymbol(attributeSyntax);
 
+        if (symbol == null)
+        {
             return null;
         }
 
-        if (semanticModel.GetSymbol(attributeSyntax) is not INamedTypeSymbol _)
-        {
-            Console.WriteLine("Is not INamedTypeSymbol");
+        INamedTypeSymbol? containingType = symbol.ContainingType;
 
+        if (containingType == null)
+        {
             return null;
         }
 
-        // if (symbol is GenericNameSyntax genericNameSyntax)
-        // {
-        //     ISymbol? mapperSymbol = semanticModel.GetSymbol(genericNameSyntax.TypeArgumentList.Arguments[0]);
-        //
-        //     if (mapperSymbol is null)
-        //     {
-        //         // todo: throw exception?
-        //         return null;
-        //     }
-        //
-        //     ISymbol? mappedSymbol = semanticModel.GetSymbol(genericNameSyntax.TypeArgumentList.Arguments[1]);
-        //
-        //     if (mappedSymbol is null)
-        //     {
-        //         // todo: throw exception?
-        //         return null;
-        //     }
-        //
-        //     return new MapperInfo(mapperSymbol, mappedSymbol);
-        // }
+        if (!containingType.IsGenericType)
+        {
+            return null;
+        }
 
-        Console.WriteLine("Banana");
+        string name = containingType.OriginalDefinition.ToDisplayString();
 
-        return null;
+        if (name != "Credfeto.Database.Interfaces.SqlFieldMapAttribute<TM, TD>")
+        {
+            return null;
+        }
+
+        ISymbol mapperSymbol = containingType.TypeArguments[0];
+
+        ISymbol mappedSymbol = containingType.TypeArguments[1];
+
+        return new(mapperSymbol: mapperSymbol, mappedSymbol: mappedSymbol);
     }
 
-    private static bool IsMapperAttribute(SemanticModel semanticModel, AttributeSyntax attributeSyntax)
+    private static SqlObject? CreateSqlObject(SemanticModel semanticModel, AttributeSyntax attributeSyntax)
     {
-        if (semanticModel.GetSymbol(attributeSyntax) is not INamedTypeSymbol symbol)
+        ISymbol? symbol = semanticModel.GetSymbol(attributeSyntax);
+
+        if (symbol == null)
         {
-            return false;
+            return null;
         }
 
-        if (symbol.ContainingNamespace.ToDisplayString() != "Credfeto.Database.Interfaces")
+        string name = symbol.ContainingType.ToDisplayString();
+
+        if (name != "Credfeto.Database.Interfaces.SqlObjectMapAttribute")
         {
-            return false;
+            return null;
         }
 
-        return symbol.Name is "SqlFieldMap" or "SqlFieldMapAttribute";
-    }
-
-    private static bool IsSqlObjectMapAttribute(SemanticModel semanticModel, AttributeSyntax attributeSyntax)
-    {
-        if (semanticModel.GetSymbol(attributeSyntax) is not INamedTypeSymbol symbol)
-        {
-            return false;
-        }
-
-        if (symbol.ContainingNamespace.ToDisplayString() != "Credfeto.Database.Interfaces")
-        {
-            return false;
-        }
-
-        return symbol.Name is "SqlObjectMap" or "SqlObjectMapAttribute";
-    }
-
-    private static SqlObject? CreateSqlObject(AttributeSyntax attributeSyntax)
-    {
         if (attributeSyntax.ArgumentList?.Arguments.Count != 2)
         {
             return null;

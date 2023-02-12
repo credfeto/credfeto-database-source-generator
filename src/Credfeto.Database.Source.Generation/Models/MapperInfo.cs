@@ -1,8 +1,16 @@
-using System.Diagnostics.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 
 namespace Credfeto.Database.Source.Generation.Models;
 
-[SuppressMessage(category: "Microsoft.Performance", checkId: "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Unit test")]
 internal sealed class MapperInfo
 {
+    public MapperInfo(ISymbol mapperSymbol, ISymbol mappedSymbol)
+    {
+        this.MapperSymbol = mapperSymbol;
+        this.MappedSymbol = mappedSymbol;
+    }
+
+    public ISymbol MapperSymbol { get; }
+
+    public ISymbol MappedSymbol { get; }
 }
