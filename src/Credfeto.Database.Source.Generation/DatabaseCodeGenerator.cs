@@ -90,10 +90,24 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
                          .StartBlock(
                              $"{method.Method.AccessType.ToKeywords()} {methodStaticModifier}async partial {method.Method.Method.ReturnType} {method.Method.Method.Identifier.Text}{method.Method.Method.ParameterList}"))
             {
-                foreach (string attr in method.Method.Attributes)
-                {
-                    source.AppendLine($"Attribute: {attr}");
-                }
+                source.AppendLine($"-- {method.SqlObject.Name} {method.SqlObject.SqlObjectType.GetName()}");
+
+                // foreach (string attr in method.Method.Attributes)
+                // {
+                //     source.AppendLine($"Attribute: {attr}");
+                // }
+                //
+                // AttributeSyntax[] stuff = method.Method.Method.AttributeLists.SelectMany(selector: x => x.Attributes).ToArray();
+                //
+                // foreach (var thing in stuff)
+                // {
+                //     ISymbol? symbol = method.SemanticModel.GetDeclaredSymbol(declaration: thing);
+                //
+                //     if (symbol != null)
+                //     {
+                //         source.AppendLine($"Symbol: {symbol.ToDisplayString()}");
+                //     }
+                // }
 
                 source.AppendLine($"// {method.Method.ReturnType}");
                 source.AppendLine("await Task.CompletedTask;");

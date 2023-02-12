@@ -1,6 +1,6 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Credfeto.Database.Interfaces;
 using Credfeto.Database.Source.Generation.Extensions;
 using Credfeto.Database.Source.Generation.Models;
 using Microsoft.CodeAnalysis;
@@ -46,19 +46,52 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
             return;
         }
 
-        ClassInfo containingContext = GetClass(context: context, classDeclarationSyntax: classDeclarationSyntax);
-        MethodInfo methodInfo = GetMethod(context: context, methodDeclarationSyntax: methodDeclarationSyntax);
+        SqlObject? sqlObject = GetSqlObject(context: context, methodDeclarationSyntax: methodDeclarationSyntax);
 
-        this._methods.Add(item: new(containingContext: containingContext, methodInfo: methodInfo));
+        if (sqlObject is null)
+        {
+            return;
+        }
+
+        ClassInfo containingContext = GetClass(context: context, classDeclarationSyntax: classDeclarationSyntax);
+        MethodInfo methodInfo = GetMethod(methodDeclarationSyntax: methodDeclarationSyntax);
+
+        this._methods.Add(item: new(containingContext: containingContext, methodInfo: methodInfo, semanticModel: context.SemanticModel, sqlObject: sqlObject));
     }
 
-    private static MethodInfo GetMethod(GeneratorSyntaxContext context, MethodDeclarationSyntax methodDeclarationSyntax)
+    private static SqlObject? GetSqlObject(GeneratorSyntaxContext context, MethodDeclarationSyntax methodDeclarationSyntax)
     {
-        IReadOnlyList<string> attributes = methodDeclarationSyntax.AttributeLists.SelectMany(selector: x => x.Attributes)
-                                                                  .Where(x => IsSqlObjectMapAttribute(context: context, attributeSyntax: x))
-                                                                  .Select(selector: x => x.Name.ToString())
-                                                                  .ToList();
+        return methodDeclarationSyntax.AttributeLists.SelectMany(selector: x => x.Attributes)
+                                      .Where(x => IsSqlObjectMapAttribute(context: context, attributeSyntax: x))
+                                      .Select(selector: CreateSqlObject)
+                                      .RemoveNulls()
+                                      .FirstOrDefault();
+    }
 
+    private static SqlObject? CreateSqlObject(AttributeSyntax attributeSyntax)
+    {
+        if (attributeSyntax.ArgumentList?.Arguments.Count != 2)
+        {
+            return null;
+        }
+
+        string objectName = attributeSyntax.ArgumentList.Arguments[0]
+                                           .Expression.ToString();
+        string type = attributeSyntax.ArgumentList.Arguments[1]
+                                     .Expression.ToString();
+
+        string[] parts = type.Split('.');
+
+        if (parts.Length != 2)
+        {
+            return null;
+        }
+
+        return new(name: objectName, (SqlObjectType)Enum.Parse(typeof(SqlObjectType), parts[1], ignoreCase: false));
+    }
+
+    private static MethodInfo GetMethod(MethodDeclarationSyntax methodDeclarationSyntax)
+    {
         string name = methodDeclarationSyntax.Identifier.Text;
 
         TypeSyntax returnType = methodDeclarationSyntax.ReturnType;
@@ -70,12 +103,7 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
             returnTypeName = genericNameSyntax.TypeArgumentList.Arguments.ToString();
         }
 
-        return new(methodDeclarationSyntax.GetAccessType(),
-                   methodDeclarationSyntax.Modifiers.Any(SyntaxKind.StaticKeyword),
-                   name: name,
-                   returnType: returnTypeName,
-                   attributes: attributes,
-                   method: methodDeclarationSyntax);
+        return new(methodDeclarationSyntax.GetAccessType(), methodDeclarationSyntax.Modifiers.Any(SyntaxKind.StaticKeyword), name: name, returnType: returnTypeName, method: methodDeclarationSyntax);
     }
 
     private static bool IsSqlObjectMapAttribute(in GeneratorSyntaxContext context, AttributeSyntax attributeSyntax)
@@ -85,7 +113,14 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
             return true;
         }
 
-        return symbol.ToDisplayString() == typeof(SqlObjectMapAttribute).FullName;
+        Console.WriteLine(symbol.ContainingNamespace.ToDisplayString());
+
+        if (symbol.ContainingNamespace.ToDisplayString() != "Credfeto.Database.Interfaces")
+        {
+            return false;
+        }
+
+        return symbol.Name is "SqlObjectMap" or "SqlObjectMapAttribute";
     }
 
     private static ClassInfo GetClass(in GeneratorSyntaxContext context, ClassDeclarationSyntax classDeclarationSyntax)
