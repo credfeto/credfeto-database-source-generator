@@ -103,7 +103,7 @@ public static partial class Database
 
         object? result = await command.ExecuteScalarAsync(cancellationToken: cancellationToken);
 
-        if (result is null)
+        if (result is null || Convert.IsDBNull(result))
         {
             throw new InvalidOperationException("No result returned.");
         }
@@ -114,6 +114,80 @@ public static partial class Database
         }
 
         return Convert.ToInt32(value: result, provider: CultureInfo.InvariantCulture);
+    }
+
+    public static async partial Task<int?> GetOptionalMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken)
+    {
+        // todo - command caching?
+        DbCommand command = connection.CreateCommand();
+        command.CommandText = "select ethereum.get_meaning_of_life_universe_and_everything()";
+
+        object? result = await command.ExecuteScalarAsync(cancellationToken: cancellationToken);
+
+        if (result is null || Convert.IsDBNull(result))
+        {
+            return null;
+        }
+
+        if (result is int value)
+        {
+            return value;
+        }
+
+        return Convert.ToInt32(value: result, provider: CultureInfo.InvariantCulture);
+    }
+
+    public static async partial Task<string> GetStringMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken)
+    {
+        // todo - command caching?
+        DbCommand command = connection.CreateCommand();
+        command.CommandText = "select ethereum.get_meaning_of_life_universe_and_everything()";
+
+        object? result = await command.ExecuteScalarAsync(cancellationToken: cancellationToken);
+
+        if (result is null || Convert.IsDBNull(result))
+        {
+            throw new InvalidOperationException("No result returned.");
+        }
+
+        if (result is string value)
+        {
+            return value;
+        }
+
+        return result.ToString() ?? throw new InvalidOperationException("No result returned.");
+    }
+
+    public static async partial Task<AccountAddress> GetAddressMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken)
+    {
+        // todo - command caching?
+        DbCommand command = connection.CreateCommand();
+        command.CommandText = "select ethereum.get_meaning_of_life_universe_and_everything()";
+
+        object? result = await command.ExecuteScalarAsync(cancellationToken: cancellationToken);
+
+        if (result is null || Convert.IsDBNull(result))
+        {
+            throw new InvalidOperationException("No result returned.");
+        }
+
+        return AccountAddressMapper.MapFromDb(result);
+    }
+
+    public static async partial Task<AccountAddress?> GetOptionalAddressMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken)
+    {
+        // todo - command caching?
+        DbCommand command = connection.CreateCommand();
+        command.CommandText = "select ethereum.get_meaning_of_life_universe_and_everything()";
+
+        object? result = await command.ExecuteScalarAsync(cancellationToken: cancellationToken);
+
+        if (result is null || Convert.IsDBNull(result))
+        {
+            return null;
+        }
+
+        return AccountAddressMapper.MapFromDb(result);
     }
 }
 #endif

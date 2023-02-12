@@ -24,4 +24,18 @@ public static partial class Database
 
     [SqlObjectMap(name: "ethereum.get_meaning_of_life_universe_and_everything", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
     public static partial Task<int> GetMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken);
+
+    [SqlObjectMap(name: "ethereum.get_meaning_of_life_universe_and_everything", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
+    public static partial Task<int?> GetOptionalMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken);
+
+    [SqlObjectMap(name: "ethereum.get_meaning_of_life_universe_and_everything", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
+    public static partial Task<string> GetStringMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken);
+
+    [SqlObjectMap(name: "ethereum.get_meaning_of_life_universe_and_everything", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
+    [return: SqlFieldMap<AccountAddressMapper, AccountAddress>]
+    public static partial Task<AccountAddress> GetAddressMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken);
+
+    [SqlObjectMap(name: "ethereum.get_meaning_of_life_universe_and_everything", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
+    [return: SqlFieldMap<AccountAddressMapper, AccountAddress>]
+    public static partial Task<AccountAddress?> GetOptionalAddressMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken);
 }
