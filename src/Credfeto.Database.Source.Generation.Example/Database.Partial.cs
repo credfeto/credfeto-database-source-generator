@@ -18,6 +18,7 @@ public static partial class Database
     [GeneratedCode(tool: "Credfeto.Database.Source.Generation.Example", version: "0.0.0.1")]
     public static async partial Task<Accounts?> GetAsync(DbConnection connection, int id, CancellationToken cancellationToken)
     {
+        // todo - command caching?
         DbCommand command = connection.CreateCommand();
         command.CommandText = "select * from ethereum.account_get(@id)";
 
@@ -37,6 +38,7 @@ public static partial class Database
     [GeneratedCode(tool: "Credfeto.Database.Source.Generation.Example", version: "0.0.0.1")]
     public static async partial Task<IReadOnlyList<Accounts>> GetAllAsync(DbConnection connection, AccountAddress address, CancellationToken cancellationToken)
     {
+        // todo - command caching?
         DbCommand command = connection.CreateCommand();
         command.CommandText = "select * from ethereum.account_getall(@address)";
 
@@ -55,6 +57,7 @@ public static partial class Database
     [GeneratedCode(tool: "Credfeto.Database.Source.Generation.Example", version: "0.0.0.1")]
     public static partial Task InsertAsync(DbConnection connection, string name, AccountAddress address, CancellationToken cancellationToken)
     {
+        // todo - command caching?
         DbCommand command = connection.CreateCommand();
         command.CommandText = "ethereum.account_insert";
         command.CommandType = CommandType.StoredProcedure;
@@ -92,6 +95,7 @@ public static partial class Database
 
     public static async partial Task<int> GetMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken)
     {
+        // todo - command caching?
         DbCommand command = connection.CreateCommand();
         command.CommandText = "select ethereum.get_meaning_of_life_universe_and_everything()";
 
