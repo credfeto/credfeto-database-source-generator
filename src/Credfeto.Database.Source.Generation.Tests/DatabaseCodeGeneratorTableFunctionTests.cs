@@ -6,7 +6,7 @@ using Xunit;
 namespace Credfeto.Database.Source.Generation.Tests;
 
 [SuppressMessage(category: "Meziantou.Analyzer", checkId: "MA0051:Method too long", Justification = "Test")]
-public sealed class DatabaseCodeGeneratorScalarFunctionTests : GeneratorVerifierTestsBase<DatabaseCodeGenerator>
+public sealed class DatabaseCodeGeneratorTableFunctionTests : GeneratorVerifierTestsBase<DatabaseCodeGenerator>
 {
     [Fact]
     public Task SimpleScalarFunctionIntAsync()
@@ -24,7 +24,7 @@ public sealed class DatabaseCodeGeneratorScalarFunctionTests : GeneratorVerifier
     {
         public static partial class DatabaseWrapper
         {
-            [SqlObjectMap(name: ""example.scalarfunction"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
+            [SqlObjectMap(name: ""example.tablefunction"", sqlObjectType: SqlObjectType.TABLE_FUNCTION)]
             public static partial Task<int> GetMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken);
         }
     }";
@@ -60,7 +60,7 @@ namespace ConsoleApplication1;
     {
         public static partial class DatabaseWrapper
         {
-            [SqlObjectMap(name: ""example.scalarfunction"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
+            [SqlObjectMap(name: ""example.tablefunction"", sqlObjectType: SqlObjectType.TABLE_FUNCTION)]
             public static partial Task<int> GetMeaningOfLifeAsync(DbConnection connection, int factor, CancellationToken cancellationToken);
         }
     }";
@@ -96,7 +96,7 @@ namespace ConsoleApplication1;
     {
         public static partial class DatabaseWrapper
         {
-            [SqlObjectMap(name: ""example.scalarfunction"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
+            [SqlObjectMap(name: ""example.tablefunction"", sqlObjectType: SqlObjectType.TABLE_FUNCTION)]
             public static partial Task<int> GetMeaningOfLifeAsync(DbConnection connection, int factor, string name, CancellationToken cancellationToken);
         }
     }";
@@ -132,7 +132,7 @@ namespace ConsoleApplication1;
     {
         public static partial class DatabaseWrapper
         {
-            [SqlObjectMap(name: ""example.scalarfunction"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
+            [SqlObjectMap(name: ""example.tablefunction"", sqlObjectType: SqlObjectType.TABLE_FUNCTION)]
             public static partial Task<int> GetMeaningOfLifeAsync(
                     DbConnection connection,
                     int factor,
@@ -174,7 +174,7 @@ namespace ConsoleApplication1;
     {
         public static partial class DatabaseWrapper
         {
-            [SqlObjectMap(name: ""example.scalarfunction"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
+            [SqlObjectMap(name: ""example.tablefunction"", sqlObjectType: SqlObjectType.TABLE_FUNCTION)]
             public static partial Task<string> GetMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken);
         }
     }";
@@ -212,7 +212,7 @@ namespace ConsoleApplication1;
     {
         public static partial class DatabaseWrapper
         {
-            [SqlObjectMap(name: ""example.scalarfunction"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
+            [SqlObjectMap(name: ""example.tablefunction"", sqlObjectType: SqlObjectType.TABLE_FUNCTION)]
             [return: SqlFieldMap<AccountAddressMapper, AccountAddress>]
             public static partial Task<AccountAddress> GetMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken);
         }
@@ -248,7 +248,7 @@ namespace ConsoleApplication1;
     {
         public static partial class DatabaseWrapper
         {
-            [SqlObjectMap(name: ""example.scalarfunction"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
+            [SqlObjectMap(name: ""example.tablefunction"", sqlObjectType: SqlObjectType.TABLE_FUNCTION)]
             public static partial Task<int?> GetMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken);
         }
     }";
@@ -284,7 +284,7 @@ namespace ConsoleApplication1;
     {
         public static partial class DatabaseWrapper
         {
-            [SqlObjectMap(name: ""example.scalarfunction"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
+            [SqlObjectMap(name: ""example.tablefunction"", sqlObjectType: SqlObjectType.TABLE_FUNCTION)]
             public static partial Task<string?> GetMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken);
         }
     }";
