@@ -34,6 +34,8 @@
  - any: [ '.github/workflows/*.yml' ]
 "Credfeto.Database.Interfaces":
  - any: [ 'src/Credfeto.Database.Interfaces/**/*' ]
+"Credfeto.Database.Source.Generation":
+ - any: [ 'src/Credfeto.Database.Source.Generation/**/*' ]
 "Example":
  - any: [ 'src/Credfeto.Database.Source.Generation.Example/**/*' ]
 "Example.Tests.Integration":
