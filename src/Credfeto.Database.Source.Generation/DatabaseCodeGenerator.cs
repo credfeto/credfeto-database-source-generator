@@ -100,15 +100,9 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
 
     private static void GenerateScalarFunctionMethod(MethodGeneration method, CodeBuilder source, string classStaticModifier)
     {
-        string methodStaticModifier = method.Method.IsStatic
-            ? "static "
-            : string.Empty;
-
         using (source.StartBlock(text: "", start: "/*", end: "*/"))
         {
-            using (source.AppendLine($"[GeneratedCode(tool: \"{typeof(DatabaseCodeGenerator).FullName}\", version: \"{VersionInformation.Version()}\")]")
-                         .StartBlock(
-                             $"{method.Method.AccessType.ToKeywords()} {methodStaticModifier}async partial {method.Method.Method.ReturnType} {method.Method.Method.Identifier.Text}{method.Method.Method.ParameterList}"))
+            using (BuildFunctionSignature(source: source, method: method))
             {
                 source.AppendLine($"-- {method.SqlObject.Name} {method.SqlObject.SqlObjectType.GetName()}");
 
@@ -143,18 +137,30 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
 
     private static void GenerateTableFunctionMethod(MethodGeneration method, CodeBuilder source, string classStaticModifier)
     {
-        string methodStaticModifier = method.Method.IsStatic
-            ? "static "
-            : string.Empty;
-
         using (source.StartBlock(text: "", start: "/*", end: "*/"))
         {
-            using (source.AppendLine($"[GeneratedCode(tool: \"{typeof(DatabaseCodeGenerator).FullName}\", version: \"{VersionInformation.Version()}\")]")
-                         .StartBlock(
-                             $"{method.Method.AccessType.ToKeywords()} {methodStaticModifier}async partial {method.Method.Method.ReturnType} {method.Method.Method.Identifier.Text}{method.Method.Method.ParameterList}"))
+            using (BuildFunctionSignature(source: source, method: method))
             {
-                source.AppendLine("await Task.CompletedTask;");
-                source.AppendLine("throw new NotImplementedException();");
+                // TODO: Add Parameters, if any.
+                source.AppendLine("DbCommand command = connection.CreateCommand();")
+                      .AppendLine($"command.CommandText = \"select {method.SqlObject.Name}()\";")
+                      .AppendBlankLine()
+                      .AppendLine("object? result = await command.ExecuteScalarAsync(cancellationToken: cancellationToken);")
+                      .AppendBlankLine();
+
+                // TODO: Handle null/DBNull when type is nullable.
+                using (source.StartBlock(text: "if (result is null)"))
+                {
+                    source.AppendLine("throw new InvalidOperationException(\"No result returned.\");");
+                }
+
+                // TODO - Handle types other than int
+                using (source.StartBlock(text: "if (result is int value)"))
+                {
+                    source.AppendLine("return value;");
+                }
+
+                source.AppendLine("return Convert.ToInt32(value: result, provider: CultureInfo.InvariantCulture);");
             }
         }
 
@@ -164,17 +170,22 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
         }
     }
 
-    private static void GenerateStoredProcedureMethod(MethodGeneration method, CodeBuilder source, string classStaticModifier)
+    private static IDisposable BuildFunctionSignature(CodeBuilder source, MethodGeneration method)
     {
         string methodStaticModifier = method.Method.IsStatic
             ? "static "
             : string.Empty;
 
+        return source.AppendLine($"[GeneratedCode(tool: \"{typeof(DatabaseCodeGenerator).FullName}\", version: \"{VersionInformation.Version()}\")]")
+                     .StartBlock(
+                         $"{method.Method.AccessType.ToKeywords()} {methodStaticModifier}async partial {method.Method.Method.ReturnType} {method.Method.Method.Identifier.Text}{method.Method.Method.ParameterList}");
+    }
+
+    private static void GenerateStoredProcedureMethod(MethodGeneration method, CodeBuilder source, string classStaticModifier)
+    {
         using (source.StartBlock(text: "", start: "/*", end: "*/"))
         {
-            using (source.AppendLine($"[GeneratedCode(tool: \"{typeof(DatabaseCodeGenerator).FullName}\", version: \"{VersionInformation.Version()}\")]")
-                         .StartBlock(
-                             $"{method.Method.AccessType.ToKeywords()} {methodStaticModifier}async partial {method.Method.Method.ReturnType} {method.Method.Method.Identifier.Text}{method.Method.Method.ParameterList}"))
+            using (BuildFunctionSignature(source: source, method: method))
             {
                 source.AppendLine($"-- {method.SqlObject.Name} {method.SqlObject.SqlObjectType.GetName()}");
 
