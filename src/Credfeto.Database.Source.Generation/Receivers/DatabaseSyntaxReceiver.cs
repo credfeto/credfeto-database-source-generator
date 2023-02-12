@@ -47,7 +47,10 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
 
         ClassInfo containingContext = GetClass(context: context, classDeclarationSyntax: classDeclarationSyntax);
 
-        this._methods.Add(item: new(containingContext: containingContext, methodDeclarationSyntax.GetAccessType(), method: methodDeclarationSyntax));
+        this._methods.Add(item: new(containingContext: containingContext,
+                                    methodDeclarationSyntax.GetAccessType(),
+                                    methodDeclarationSyntax.Modifiers.Any(SyntaxKind.StaticKeyword),
+                                    method: methodDeclarationSyntax));
     }
 
     private static ClassInfo GetClass(in GeneratorSyntaxContext context, ClassDeclarationSyntax classDeclarationSyntax)

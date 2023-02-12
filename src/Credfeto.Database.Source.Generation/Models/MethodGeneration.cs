@@ -4,16 +4,19 @@ namespace Credfeto.Database.Source.Generation.Models;
 
 internal sealed class MethodGeneration
 {
-    public MethodGeneration(ClassInfo containingContext, AccessType methodAccessType, MethodDeclarationSyntax method)
+    public MethodGeneration(ClassInfo containingContext, AccessType methodAccessType, bool isStatic, MethodDeclarationSyntax method)
     {
         this.ContainingContext = containingContext;
         this.MethodAccessType = methodAccessType;
+        this.IsStatic = isStatic;
         this.Method = method;
     }
 
     public ClassInfo ContainingContext { get; }
 
     public AccessType MethodAccessType { get; }
+
+    public bool IsStatic { get; }
 
     public MethodDeclarationSyntax Method { get; }
 

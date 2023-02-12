@@ -1,18 +1,6 @@
-using System;
-using System.CodeDom.Compiler;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
-using System.Globalization;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Credfeto.Database.Source.Generation.Example.Mappers;
-using Credfeto.Database.Source.Generation.Example.Models;
-using Credfeto.Database.Source.Generation.Example.Primatives;
-
 namespace Credfeto.Database.Source.Generation.Example;
 
+#if IGNORE
 public static partial class Database
 {
     [GeneratedCode(tool: "Credfeto.Database.Source.Generation.Example", version: "0.0.0.1")]
@@ -114,3 +102,4 @@ public static partial class Database
         return Convert.ToInt32(value: result, provider: CultureInfo.InvariantCulture);
     }
 }
+#endif
