@@ -172,13 +172,17 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
 
     private static IDisposable BuildFunctionSignature(CodeBuilder source, MethodGeneration method)
     {
-        string methodStaticModifier = method.Method.IsStatic
+        return BuildFunctionSignature(source: source, method: method.Method);
+    }
+
+    private static IDisposable BuildFunctionSignature(CodeBuilder source, MethodInfo method)
+    {
+        string methodStaticModifier = method.IsStatic
             ? "static "
             : string.Empty;
 
         return source.AppendLine($"[GeneratedCode(tool: \"{typeof(DatabaseCodeGenerator).FullName}\", version: \"{VersionInformation.Version()}\")]")
-                     .StartBlock(
-                         $"{method.Method.AccessType.ToKeywords()} {methodStaticModifier}async partial {method.Method.Method.ReturnType} {method.Method.Method.Identifier.Text}{method.Method.Method.ParameterList}");
+                     .StartBlock($"{method.AccessType.ToKeywords()} {methodStaticModifier}async partial {method.Method.ReturnType} {method.Method.Identifier.Text}{method.Method.ParameterList}");
     }
 
     private static void GenerateStoredProcedureMethod(MethodGeneration method, CodeBuilder source, string classStaticModifier)
