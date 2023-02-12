@@ -25,7 +25,7 @@ public sealed class DatabaseCodeGeneratorScalarFunctionTests : GeneratorVerifier
         public static partial class DatabaseWrapper
         {
             [SqlObjectMap(name: ""example.scalarfunction"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
-            public static partial Task<int> GetMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken);
+            public static partial Task<int> GetValueAsync(DbConnection connection, CancellationToken cancellationToken);
         }
     }";
 
@@ -61,7 +61,7 @@ namespace ConsoleApplication1;
         public static partial class DatabaseWrapper
         {
             [SqlObjectMap(name: ""example.scalarfunction"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
-            public static partial Task<int> GetMeaningOfLifeAsync(DbConnection connection, int factor, CancellationToken cancellationToken);
+            public static partial Task<int> GetValueAsync(DbConnection connection, int factor, CancellationToken cancellationToken);
         }
     }";
 
@@ -97,7 +97,7 @@ namespace ConsoleApplication1;
         public static partial class DatabaseWrapper
         {
             [SqlObjectMap(name: ""example.scalarfunction"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
-            public static partial Task<int> GetMeaningOfLifeAsync(DbConnection connection, int factor, string name, CancellationToken cancellationToken);
+            public static partial Task<int> GetValueAsync(DbConnection connection, int factor, string name, CancellationToken cancellationToken);
         }
     }";
 
@@ -133,7 +133,7 @@ namespace ConsoleApplication1;
         public static partial class DatabaseWrapper
         {
             [SqlObjectMap(name: ""example.scalarfunction"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
-            public static partial Task<int> GetMeaningOfLifeAsync(
+            public static partial Task<int> GetValueAsync(
                     DbConnection connection,
                     int factor,
                     string name,
@@ -175,7 +175,7 @@ namespace ConsoleApplication1;
         public static partial class DatabaseWrapper
         {
             [SqlObjectMap(name: ""example.scalarfunction"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
-            public static partial Task<string> GetMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken);
+            public static partial Task<string> GetValueAsync(DbConnection connection, CancellationToken cancellationToken);
         }
     }";
 
@@ -214,7 +214,7 @@ namespace ConsoleApplication1;
         {
             [SqlObjectMap(name: ""example.scalarfunction"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
             [return: SqlFieldMap<AccountAddressMapper, AccountAddress>]
-            public static partial Task<AccountAddress> GetMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken);
+            public static partial Task<AccountAddress> GetValueAsync(DbConnection connection, CancellationToken cancellationToken);
         }
     }";
 
@@ -249,7 +249,7 @@ namespace ConsoleApplication1;
         public static partial class DatabaseWrapper
         {
             [SqlObjectMap(name: ""example.scalarfunction"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
-            public static partial Task<int?> GetMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken);
+            public static partial Task<int?> GetValueAsync(DbConnection connection, CancellationToken cancellationToken);
         }
     }";
 
@@ -285,7 +285,7 @@ namespace ConsoleApplication1;
         public static partial class DatabaseWrapper
         {
             [SqlObjectMap(name: ""example.scalarfunction"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
-            public static partial Task<string?> GetMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken);
+            public static partial Task<string?> GetValueAsync(DbConnection connection, CancellationToken cancellationToken);
         }
     }";
 
