@@ -4,11 +4,14 @@
     <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
     <EnablePackageValidation>true</EnablePackageValidation>
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
     <Features>strict;flow-analysis</Features>
     <GenerateNeutralResourcesLanguageAttribute>true</GenerateNeutralResourcesLanguageAttribute>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IlcGenerateStackTraceData>false</IlcGenerateStackTraceData>
     <IlcOptimizationPreference>Size</IlcOptimizationPreference>
     <ImplicitUsings>disable</ImplicitUsings>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
     <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
     <IsPackable>true</IsPackable>
     <IsPublishable>false</IsPublishable>
@@ -17,14 +20,29 @@
     <NoWarn/>
     <Nullable>enable</Nullable>
     <OutputType>Library</OutputType>
+    <PackAsTool>false</PackAsTool>
     <RunAOTCompilation>false</RunAOTCompilation>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <TieredCompilation>true</TieredCompilation>
     <TieredPGO>true</TieredPGO>
-    <TreatSpecificWarningsAsErrors/>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <UseSystemResourceKeys>true</UseSystemResourceKeys>
     <WarningsAsErrors/>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Company>Mark Ridgwell</Company>
+    <Copyright>Mark Ridgwell</Copyright>
+    <PackageLicense>https://raw.githubusercontent.com/credfeto/credfeto-database-source-generation/main/LICENSE</PackageLicense>
+    <PackageReleaseNotes>$(ReleaseNotes)</PackageReleaseNotes>
+    <Product>Source Generation</Product>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Description>Source code generator for Enums.</Description>
+    <DevelopmentDependency>true</DevelopmentDependency>
+    <NoPackageAnalysis>true</NoPackageAnalysis>
+    <NeutralLanguage>en</NeutralLanguage>
+    <PackageTags>C# Source code generator Enum</PackageTags>
+    <RepositoryUrl>https://github.com/credfeto/credfeto-database-source-generation</RepositoryUrl>
   </PropertyGroup>
   <PropertyGroup>
     <AnalysisLevel>latest</AnalysisLevel>
@@ -34,27 +52,14 @@
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
-  <PropertyGroup>
-    <Authors>Mark Ridgwell</Authors>
-    <Company>Mark Ridgwell</Company>
-    <Copyright>Mark Ridgwell</Copyright>
-    <PackageLicense>https://raw.githubusercontent.com/credfeto/credfeto-database-source-generation/main/LICENSE</PackageLicense>
-    <PackageReleaseNotes>$(ReleaseNotes)</PackageReleaseNotes>
-    <NeutralLanguage>en-GB</NeutralLanguage>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>$(ReleaseNotes)</PackageReleaseNotes>
-    <PackageTags>Database wrapper.</PackageTags>
-    <Product>Database wrapper</Product>
-    <RepositoryUrl>https://github.com/credfeto/credfeto-database-source-generation</RepositoryUrl>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyTitle>Database interfaces</AssemblyTitle>
-    <Description>Database interfaces</Description>
-  </PropertyGroup>
+  <Import Project="$(SolutionDir)SourceGenerator.props"/>
   <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0" PrivateAssets="all" ExcludeAssets="runtime">
+      <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" PrivateAssets="All" ExcludeAssets="runtime"/>
     <PackageReference Include="AsyncFixer" Version="1.6.0" PrivateAssets="All" ExcludeAssets="runtime"/>
     <PackageReference Include="codecracker.CSharp" Version="1.1.0" PrivateAssets="All" ExcludeAssets="runtime"/>
-    <PackageReference Include="Credfeto.Enumeration.Source.Generation" Version="1.0.5.17" PrivateAssets="All" ExcludeAssets="runtime"/>
     <PackageReference Include="FunFair.CodeAnalysis" Version="5.9.0.1493" PrivateAssets="All" ExcludeAssets="runtime"/>
     <PackageReference Include="Meziantou.Analyzer" Version="2.0.14" PrivateAssets="All" ExcludeAssets="runtime"/>
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.5.22" PrivateAssets="All" ExcludeAssets="runtime"/>
