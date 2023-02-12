@@ -26,6 +26,6 @@ public sealed class DatabaseCodeGeneratorEmptyTests : GeneratorVerifierTestsBase
         }
     }";
 
-        return VerifyAsync(code: test, Array.Empty<(string filename, string generated)>());
+        return this.VerifyAsync(code: test, Array.Empty<(string filename, string generated)>());
     }
 }

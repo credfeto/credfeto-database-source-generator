@@ -51,6 +51,6 @@ namespace ConsoleApplication1;
 ")
         };
 
-        return VerifyAsync(code: test, expected: expected);
+        return this.VerifyAsync(code: test, expected: expected);
     }
 }
