@@ -128,6 +128,15 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
                 {
                     sb.Append("Task Return Symbol: ")
                       .AppendLine(taskReturnSymbol.ToDisplayString());
+
+                    TypeSyntax taskReturnElementType = taskGenericNameSyntax.TypeArgumentList.Arguments[0];
+                    ISymbol? taskReturnElementSymbol = semanticModel.GetSymbol(taskReturnElementType);
+
+                    if (taskReturnElementSymbol != null)
+                    {
+                        sb.Append("Task Return Element Symbol: ")
+                          .AppendLine(taskReturnElementSymbol.ToDisplayString());
+                    }
                 }
             }
         }

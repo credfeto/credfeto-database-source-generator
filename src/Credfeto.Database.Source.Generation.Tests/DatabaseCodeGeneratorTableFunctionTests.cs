@@ -2,35 +2,42 @@ using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Credfeto.Database.Source.Generation.Tests.Verifiers;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Credfeto.Database.Source.Generation.Tests;
 
 [SuppressMessage(category: "Meziantou.Analyzer", checkId: "MA0051:Method too long", Justification = "Test")]
 public sealed class DatabaseCodeGeneratorTableFunctionTests : GeneratorVerifierTestsBase<DatabaseCodeGenerator>
 {
+    public DatabaseCodeGeneratorTableFunctionTests(ITestOutputHelper output)
+        : base(output)
+    {
+    }
+
     [Fact]
-    public Task SimpleScalarFunctionGetReadOnlyListOfAccountsAsync()
+    public Task SimpleTableFunctionGetReadOnlyListOfAccountsAsync()
     {
         const string test = @"
-    using System;
-    using System.Data.Common;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Credfeto.Database.Interfaces;
-    using Primatives;
-    using Mappers;
-    using Models;
+using System;
+using System.Data.Common;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using Credfeto.Database.Interfaces;
+using Primatives;
+using Mappers;
+using Models;
 
-    " + Constants.DatabaseTypes + Constants.AccountAddressClass + Constants.AccountAddressMapperClass + Constants.AccountModelClass + @"
+" + Constants.DatabaseTypes + Constants.AccountAddressClass + Constants.AccountAddressMapperClass + Constants.AccountModelClass + @"
 
-    namespace ConsoleApplication1
+namespace ConsoleApplication1
+{
+    public static partial class DatabaseWrapper
     {
-        public static partial class DatabaseWrapper
-        {
-            [SqlObjectMap(name: ""example.tablefunction"", sqlObjectType: SqlObjectType.TABLE_FUNCTION)]
-            public static partial Task<IReadOnlyList<Account>> GetValuesAsync(DbConnection connection, CancellationToken cancellationToken);
-        }
-    }";
+        [SqlObjectMap(name: ""example.tablefunction"", sqlObjectType: SqlObjectType.TABLE_FUNCTION)]
+        public static partial Task<IReadOnlyList<Account>> GetValuesAsync(DbConnection connection, CancellationToken cancellationToken);
+    }
+}";
 
         (string filename, string generated)[] expected =
         {

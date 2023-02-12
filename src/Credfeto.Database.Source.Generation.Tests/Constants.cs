@@ -53,7 +53,8 @@ namespace Primatives
     {
         public required string Value { get; init; }
     }
-}";
+}
+";
 
     public const string AccountAddressMapperClass = @"
 namespace Mappers
@@ -81,10 +82,10 @@ namespace Mappers
 namespace Models
 {
     [DebuggerDisplay(""Id = {Id}, Name = {Name}, Address = {Address}"")]
-    public sealed record Accounts(int Id,
-                                  string Name,
-                                  [SqlFieldMap<AccountAddressMapper, AccountAddress>]
-                                  AccountAddress Address);
+    public sealed record Account(int Id,
+                                 string Name,
+                                 [SqlFieldMap<AccountAddressMapper, AccountAddress>]
+                                 AccountAddress Address);
 }
 ";
 }

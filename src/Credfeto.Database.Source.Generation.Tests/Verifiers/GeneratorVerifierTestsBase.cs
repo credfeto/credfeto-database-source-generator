@@ -5,13 +5,19 @@ using System.Threading.Tasks;
 using FunFair.Test.Common;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
+using Xunit.Abstractions;
 
 namespace Credfeto.Database.Source.Generation.Tests.Verifiers;
 
-public abstract class GeneratorVerifierTestsBase<TSourceGenerator> : TestBase
+public abstract class GeneratorVerifierTestsBase<TSourceGenerator> : LoggingTestBase
     where TSourceGenerator : ISourceGenerator, new()
 {
-    protected static Task VerifyAsync(string code, IReadOnlyList<(string filename, string generated)> expected)
+    protected GeneratorVerifierTestsBase(ITestOutputHelper output)
+        : base(output)
+    {
+    }
+
+    protected Task VerifyAsync(string code, IReadOnlyList<(string filename, string generated)> expected)
     {
         CSharpSourceGeneratorVerifier<TSourceGenerator>.Test t = new() { TestState = { Sources = { code } } };
 
@@ -22,6 +28,8 @@ public abstract class GeneratorVerifierTestsBase<TSourceGenerator> : TestBase
 
             t.TestState.GeneratedSources.Add(item);
         }
+
+        this.Output.WriteLine(code);
 
         return t.RunAsync();
     }
