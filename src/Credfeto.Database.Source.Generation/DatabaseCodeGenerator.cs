@@ -80,6 +80,26 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
 
     private static void GenerateMethod(MethodGeneration method, CodeBuilder source, string classStaticModifier)
     {
+        switch (method.SqlObject.SqlObjectType)
+        {
+            case SqlObjectType.SCALAR_FUNCTION:
+                GenerateScalarFunctionMethod(method: method, source: source, classStaticModifier: classStaticModifier);
+
+                break;
+            case SqlObjectType.TABLE_FUNCTION:
+                GenerateTableFunctionMethod(method: method, source: source, classStaticModifier: classStaticModifier);
+
+                break;
+            case SqlObjectType.STORED_PROCEDURE:
+                GenerateStoredProcedureMethod(method: method, source: source, classStaticModifier: classStaticModifier);
+
+                break;
+            default: throw new ArgumentOutOfRangeException(nameof(method), actualValue: method.SqlObject.SqlObjectType, message: "Unsupported SQL object type");
+        }
+    }
+
+    private static void GenerateScalarFunctionMethod(MethodGeneration method, CodeBuilder source, string classStaticModifier)
+    {
         string methodStaticModifier = method.Method.IsStatic
             ? "static "
             : string.Empty;
@@ -110,6 +130,54 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
                 // }
 
                 source.AppendLine($"// {method.Method.ReturnType}");
+                source.AppendLine("await Task.CompletedTask;");
+                source.AppendLine("throw new NotImplementedException();");
+            }
+        }
+
+        using (source.StartBlock(text: "", start: "/*", end: "*/"))
+        {
+            source.AppendLine($" {method.ContainingContext.Namespace} {method.ContainingContext.AccessType.GetName()} {classStaticModifier} partial {method.ContainingContext.Name}");
+        }
+    }
+
+    private static void GenerateTableFunctionMethod(MethodGeneration method, CodeBuilder source, string classStaticModifier)
+    {
+        string methodStaticModifier = method.Method.IsStatic
+            ? "static "
+            : string.Empty;
+
+        using (source.StartBlock(text: "", start: "/*", end: "*/"))
+        {
+            using (source.AppendLine($"[GeneratedCode(tool: \"{typeof(DatabaseCodeGenerator).FullName}\", version: \"{VersionInformation.Version()}\")]")
+                         .StartBlock(
+                             $"{method.Method.AccessType.ToKeywords()} {methodStaticModifier}async partial {method.Method.Method.ReturnType} {method.Method.Method.Identifier.Text}{method.Method.Method.ParameterList}"))
+            {
+                source.AppendLine("await Task.CompletedTask;");
+                source.AppendLine("throw new NotImplementedException();");
+            }
+        }
+
+        using (source.StartBlock(text: "", start: "/*", end: "*/"))
+        {
+            source.AppendLine($" {method.ContainingContext.Namespace} {method.ContainingContext.AccessType.GetName()} {classStaticModifier} partial {method.ContainingContext.Name}");
+        }
+    }
+
+    private static void GenerateStoredProcedureMethod(MethodGeneration method, CodeBuilder source, string classStaticModifier)
+    {
+        string methodStaticModifier = method.Method.IsStatic
+            ? "static "
+            : string.Empty;
+
+        using (source.StartBlock(text: "", start: "/*", end: "*/"))
+        {
+            using (source.AppendLine($"[GeneratedCode(tool: \"{typeof(DatabaseCodeGenerator).FullName}\", version: \"{VersionInformation.Version()}\")]")
+                         .StartBlock(
+                             $"{method.Method.AccessType.ToKeywords()} {methodStaticModifier}async partial {method.Method.Method.ReturnType} {method.Method.Method.Identifier.Text}{method.Method.Method.ParameterList}"))
+            {
+                source.AppendLine($"-- {method.SqlObject.Name} {method.SqlObject.SqlObjectType.GetName()}");
+
                 source.AppendLine("await Task.CompletedTask;");
                 source.AppendLine("throw new NotImplementedException();");
             }

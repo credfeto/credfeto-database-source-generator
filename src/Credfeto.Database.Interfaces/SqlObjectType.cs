@@ -2,8 +2,7 @@ namespace Credfeto.Database.Interfaces;
 
 public enum SqlObjectType
 {
-    TABLE,
-    SCALAR_FUNCTION,
-    TABLE_FUNCTION,
-    STORED_PROCEDURE
+    SCALAR_FUNCTION = 0,
+    TABLE_FUNCTION = 1,
+    STORED_PROCEDURE = 2
 }
