@@ -124,7 +124,6 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
                 //     }
                 // }
 
-                source.AppendLine($"// {method.Method.ReturnType}");
                 source.AppendLine("await Task.CompletedTask;");
                 source.AppendLine("throw new NotImplementedException();");
             }
@@ -183,7 +182,8 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
             : string.Empty;
 
         return source.AppendLine($"[GeneratedCode(tool: \"{typeof(DatabaseCodeGenerator).FullName}\", version: \"{VersionInformation.Version()}\")]")
-                     .StartBlock($"{method.AccessType.ToKeywords()} {methodStaticModifier}async partial {method.Method.ReturnType} {method.Method.Identifier.Text}{method.Method.ParameterList}");
+                     .StartBlock(
+                         $"{method.AccessType.ToKeywords()} {methodStaticModifier}async partial {method.ReturnType.ReturnType.ToDisplayString()} {method.Method.Identifier.Text}{method.Method.ParameterList}");
     }
 
     private static void GenerateStoredProcedureMethod(MethodGeneration method, CodeBuilder source, string classStaticModifier)
@@ -192,6 +192,10 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
         {
             using (BuildFunctionSignature(source: source, method: method))
             {
+                source.AppendLine("DbCommand command = connection.CreateCommand();")
+                      .AppendLine($"command.CommandText = \"{method.SqlObject.Name}\";")
+                      .AppendLine("command.CommandType = CommandType.StoredProcedure;");
+
                 source.AppendLine($"-- {method.SqlObject.Name} {method.SqlObject.SqlObjectType.GetName()}");
 
                 source.AppendLine("await Task.CompletedTask;");

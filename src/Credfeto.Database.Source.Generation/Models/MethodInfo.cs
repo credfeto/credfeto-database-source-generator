@@ -4,7 +4,7 @@ namespace Credfeto.Database.Source.Generation.Models;
 
 internal sealed class MethodInfo
 {
-    public MethodInfo(AccessType accessType, bool isStatic, string name, string returnType, MethodDeclarationSyntax method)
+    public MethodInfo(AccessType accessType, bool isStatic, string name, MethodReturnType returnType, MethodDeclarationSyntax method)
     {
         this.AccessType = accessType;
         this.IsStatic = isStatic;
@@ -19,7 +19,7 @@ internal sealed class MethodInfo
 
     public string Name { get; }
 
-    public string ReturnType { get; }
+    public MethodReturnType ReturnType { get; }
 
     public MethodDeclarationSyntax Method { get; }
 }

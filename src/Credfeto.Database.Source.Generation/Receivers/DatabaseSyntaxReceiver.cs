@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Credfeto.Database.Source.Generation.Extensions;
 using Credfeto.Database.Source.Generation.Models;
 using Microsoft.CodeAnalysis;
@@ -97,51 +96,92 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
 
         TypeSyntax returnType = methodDeclarationSyntax.ReturnType;
 
-        StringBuilder sb = new();
-        sb.Append("Base: ")
-          .AppendLine(returnType.ToString());
+        MethodReturnType methodReturnType = GetReturnType(semanticModel: semanticModel, returnType: returnType, name: name);
 
+        return new(methodDeclarationSyntax.GetAccessType(), methodDeclarationSyntax.Modifiers.Any(SyntaxKind.StaticKeyword), name: name, returnType: methodReturnType, method: methodDeclarationSyntax);
+    }
+
+    private static MethodReturnType GetReturnType(SemanticModel semanticModel, TypeSyntax returnType, string name)
+    {
         if (returnType is GenericNameSyntax genericNameSyntax)
         {
-            if (genericNameSyntax.Identifier.Text != "Task")
-            {
-                throw new InvalidOperationException(message: $"Method {name} does not return a Task");
-            }
-
-            ISymbol? returnSymbol = semanticModel.GetSymbol(genericNameSyntax);
-
-            if (returnSymbol != null)
-            {
-                sb.Append("Task: ")
-                  .AppendLine(returnSymbol.ToDisplayString());
-            }
-
-            TypeSyntax taskReturnType = genericNameSyntax.TypeArgumentList.Arguments[0];
-            sb.Append("Task Return: ")
-              .AppendLine(taskReturnType.ToString());
-
-            if (taskReturnType is GenericNameSyntax taskGenericNameSyntax)
-            {
-                ISymbol? taskReturnSymbol = semanticModel.GetSymbol(taskGenericNameSyntax);
-
-                if (taskReturnSymbol != null)
-                {
-                    sb.Append("Task Return Symbol: ")
-                      .AppendLine(taskReturnSymbol.ToDisplayString());
-
-                    TypeSyntax taskReturnElementType = taskGenericNameSyntax.TypeArgumentList.Arguments[0];
-                    ISymbol? taskReturnElementSymbol = semanticModel.GetSymbol(taskReturnElementType);
-
-                    if (taskReturnElementSymbol != null)
-                    {
-                        sb.Append("Task Return Element Symbol: ")
-                          .AppendLine(taskReturnElementSymbol.ToDisplayString());
-                    }
-                }
-            }
+            return GetGenericTaskReturnType(semanticModel: semanticModel, name: name, genericNameSyntax: genericNameSyntax);
         }
 
-        return new(methodDeclarationSyntax.GetAccessType(), methodDeclarationSyntax.Modifiers.Any(SyntaxKind.StaticKeyword), name: name, sb.ToString(), method: methodDeclarationSyntax);
+        if (returnType is IdentifierNameSyntax identifierNameSyntax)
+        {
+            return GetNonGenericMethodReturnType(semanticModel: semanticModel, name: name, identifierNameSyntax: identifierNameSyntax);
+        }
+
+        throw new InvalidOperationException(message: $"Method {name} does not return a Task");
+    }
+
+    private static MethodReturnType GetNonGenericMethodReturnType(SemanticModel semanticModel, string name, IdentifierNameSyntax identifierNameSyntax)
+    {
+        if (identifierNameSyntax.Identifier.Text != "Task")
+        {
+            throw new InvalidOperationException(message: $"Method {name} does not return a Task");
+        }
+
+        ISymbol? returnSymbol = semanticModel.GetSymbol(identifierNameSyntax);
+
+        if (returnSymbol == null)
+        {
+            throw new InvalidOperationException(message: $"Method {name} could not determine task type");
+        }
+
+        return new(returnType: returnSymbol, collectionReturnType: null, elementReturnType: null);
+    }
+
+    private static MethodReturnType GetGenericTaskReturnType(SemanticModel semanticModel, string name, GenericNameSyntax genericNameSyntax)
+    {
+        if (genericNameSyntax.Identifier.Text != "Task")
+        {
+            throw new InvalidOperationException(message: $"Method {name} does not return a Task");
+        }
+
+        ISymbol? returnSymbol = semanticModel.GetSymbol(genericNameSyntax);
+
+        if (returnSymbol == null)
+        {
+            throw new InvalidOperationException(message: $"Method {name} could not determine task type");
+        }
+
+        TypeSyntax taskReturnType = genericNameSyntax.TypeArgumentList.Arguments[0];
+
+        if (taskReturnType is GenericNameSyntax taskGenericNameSyntax)
+        {
+            ISymbol? taskReturnSymbol = semanticModel.GetSymbol(taskGenericNameSyntax);
+
+            if (taskReturnSymbol == null)
+            {
+                throw new InvalidOperationException(message: $"Method {name} could not determine task return type");
+            }
+
+            TypeSyntax taskReturnElementType = taskGenericNameSyntax.TypeArgumentList.Arguments[0];
+            ISymbol? taskReturnElementSymbol = semanticModel.GetSymbol(taskReturnElementType);
+
+            if (taskReturnElementSymbol == null)
+            {
+                throw new InvalidOperationException(message: $"Method {name} could not determine task return element type");
+            }
+
+            return new(returnType: returnSymbol, collectionReturnType: taskReturnSymbol, elementReturnType: taskReturnElementSymbol);
+        }
+
+        if (taskReturnType is not IdentifierNameSyntax taskIdentifierNameSyntax)
+        {
+            throw new InvalidOperationException(message: $"Method {name} does not return a Task");
+        }
+
+        ISymbol? taskIdentifierReturnSymbol = semanticModel.GetSymbol(taskIdentifierNameSyntax);
+
+        if (taskIdentifierReturnSymbol == null)
+        {
+            throw new InvalidOperationException(message: $"Method {name} could not determine task return element type");
+        }
+
+        return new(returnType: returnSymbol, collectionReturnType: null, elementReturnType: taskIdentifierReturnSymbol);
     }
 
     private static bool IsSqlObjectMapAttribute(SemanticModel semanticModel, AttributeSyntax attributeSyntax)
