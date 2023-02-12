@@ -66,6 +66,18 @@ public sealed class DatabaseCodeGeneratorTests : GeneratorVerifierTestsBase<Data
         }
     }";
 
-        return VerifyAsync(code: test, Array.Empty<(string filename, string generated)>());
+        (string filename, string generated)[] expected =
+        {
+            (filename: "ConsoleApplication1.EnumExtensions.generated.cs", generated: @"using System;
+using System.CodeDom.Compiler;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
+
+namespace ConsoleApplication1;
+")
+        };
+
+        return VerifyAsync(code: test, expected: expected);
     }
 }
