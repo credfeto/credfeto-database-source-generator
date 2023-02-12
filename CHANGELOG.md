@@ -11,6 +11,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Changed
 - FF-3881 - Updated DotNet SDK to 7.0.102
 - FF-1429 - Updated FunFair.Test.Common to 6.0.20.2640
+- FF-1429 - Updated NSubstitute to 5.0.0
 ### Removed
 ### Deployment Changes
 
