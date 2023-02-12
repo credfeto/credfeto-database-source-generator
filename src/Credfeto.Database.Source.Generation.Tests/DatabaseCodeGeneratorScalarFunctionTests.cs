@@ -212,7 +212,7 @@ namespace ConsoleApplication1;
     using Mappers;
     using Primatives;
 
-" + Constants.DatabaseTypes + @"
+" + Constants.DatabaseTypes + Constants.AccountAddressClass + Constants.AccountAddressMapperClass + @"
 
     namespace ConsoleApplication1
     {
