@@ -106,7 +106,9 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
         {
             using (BuildFunctionSignature(source: source, method: method))
             {
-                source.AppendLine($"-- {method.SqlObject.Name} {method.SqlObject.SqlObjectType.GetName()}");
+                string functionParameters = BuildFunctionParameters(method);
+
+                source.AppendLine($"select * from {method.SqlObject.Name}({functionParameters})");
 
                 source.AppendLine("await Task.CompletedTask;");
                 source.AppendLine("throw new NotImplementedException();");
@@ -125,12 +127,19 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
         {
             using (BuildFunctionSignature(source: source, method: method))
             {
+                string functionParameters = BuildFunctionParameters(method);
+
                 // TODO: Add Parameters, if any.
                 source.AppendLine("DbCommand command = connection.CreateCommand();")
-                      .AppendLine($"command.CommandText = \"select {method.SqlObject.Name}()\";")
+                      .AppendLine($"command.CommandText = \"select {method.SqlObject.Name}({functionParameters})\";")
                       .AppendBlankLine()
                       .AppendLine("object? result = await command.ExecuteScalarAsync(cancellationToken: cancellationToken);")
                       .AppendBlankLine();
+
+                if (method.Method.ReturnType.ElementReturnType is null)
+                {
+                    throw new InvalidOperationException("Return type is null");
+                }
 
                 // TODO: Handle null/DBNull when type is nullable.
                 using (source.StartBlock(text: "if (result is null)"))
@@ -152,6 +161,22 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
         {
             source.AppendLine($" {method.ContainingContext.Namespace} {method.ContainingContext.AccessType.GetName()} {classStaticModifier} partial {method.ContainingContext.Name}");
         }
+    }
+
+    private static string BuildFunctionParameters(MethodGeneration method)
+    {
+        static IEnumerable<string> Build(IReadOnlyList<MethodParameter> parameters)
+        {
+            foreach (MethodParameter parameter in parameters)
+            {
+                if (parameter.Usage == MethodParameterUsage.DB)
+                {
+                    yield return $"@{parameter.Name}";
+                }
+            }
+        }
+
+        return string.Join(separator: ", ", Build(parameters: method.Method.Parameters));
     }
 
     private static IDisposable BuildFunctionSignature(CodeBuilder source, MethodGeneration method)
