@@ -165,8 +165,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
             : string.Empty;
 
         return source.AppendLine($"[GeneratedCode(tool: \"{typeof(DatabaseCodeGenerator).FullName}\", version: \"{VersionInformation.Version()}\")]")
-                     .StartBlock(
-                         $"{method.AccessType.ToKeywords()} {methodStaticModifier}async partial {method.ReturnType.ReturnType.ToDisplayString()} {method.Method.Identifier.Text}{method.Method.ParameterList}");
+                     .StartBlock($"{method.AccessType.ToKeywords()} {methodStaticModifier}async partial {method.ReturnType.ReturnType.ToDisplayString()} {method.Name}{method.Method.ParameterList}");
     }
 
     private static void GenerateStoredProcedureMethod(MethodGeneration method, CodeBuilder source, string classStaticModifier)
