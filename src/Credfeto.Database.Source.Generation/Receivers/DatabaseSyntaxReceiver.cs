@@ -95,12 +95,7 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
             throw new InvalidOperationException(message: $"Method {name} does not return a Task");
         }
 
-        ISymbol? returnSymbol = semanticModel.GetSymbol(identifierNameSyntax);
-
-        if (returnSymbol == null)
-        {
-            throw new InvalidOperationException(message: $"Method {name} could not determine task type");
-        }
+        ISymbol returnSymbol = semanticModel.GetSymbol(identifierNameSyntax) ?? throw new InvalidOperationException(message: $"Method {name} could not determine task type");
 
         return new(returnType: returnSymbol, collectionReturnType: null, elementReturnType: null, mapperInfo: mapperInfo);
     }
@@ -112,33 +107,35 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
             throw new InvalidOperationException(message: $"Method {name} does not return a Task");
         }
 
-        ISymbol? returnSymbol = semanticModel.GetSymbol(genericNameSyntax);
-
-        if (returnSymbol == null)
-        {
-            throw new InvalidOperationException(message: $"Method {name} could not determine task type");
-        }
+        ISymbol returnSymbol = semanticModel.GetSymbol(genericNameSyntax) ?? throw new InvalidOperationException(message: $"Method {name} could not determine task type");
 
         TypeSyntax taskReturnType = genericNameSyntax.TypeArgumentList.Arguments[0];
 
         if (taskReturnType is GenericNameSyntax taskGenericNameSyntax)
         {
-            ISymbol? taskReturnSymbol = semanticModel.GetSymbol(taskGenericNameSyntax);
-
-            if (taskReturnSymbol == null)
-            {
-                throw new InvalidOperationException(message: $"Method {name} could not determine task return type");
-            }
+            ISymbol taskReturnSymbol = semanticModel.GetSymbol(taskGenericNameSyntax) ?? throw new InvalidOperationException(message: $"Method {name} could not determine task return type");
 
             TypeSyntax taskReturnElementType = taskGenericNameSyntax.TypeArgumentList.Arguments[0];
-            ISymbol? taskReturnElementSymbol = semanticModel.GetSymbol(taskReturnElementType);
-
-            if (taskReturnElementSymbol == null)
-            {
-                throw new InvalidOperationException(message: $"Method {name} could not determine task return element type");
-            }
+            ISymbol taskReturnElementSymbol = semanticModel.GetSymbol(taskReturnElementType) ??
+                                              throw new InvalidOperationException(message: $"Method {name} could not determine task return element type");
 
             return new(returnType: returnSymbol, collectionReturnType: taskReturnSymbol, elementReturnType: taskReturnElementSymbol, mapperInfo: mapperInfo);
+        }
+
+        if (taskReturnType is PredefinedTypeSyntax predefinedTypeSyntax)
+        {
+            ISymbol taskIdentifierPredefinedTypeReturnSymbol =
+                semanticModel.GetSymbol(predefinedTypeSyntax) ?? throw new InvalidOperationException(message: $"Method {name} could not determine task return element type");
+
+            return new(returnType: returnSymbol, collectionReturnType: null, elementReturnType: taskIdentifierPredefinedTypeReturnSymbol, mapperInfo: mapperInfo);
+        }
+
+        if (taskReturnType is NullableTypeSyntax nullableTypeSyntax)
+        {
+            ISymbol taskIdentifierNullableTypeReturnSymbol =
+                semanticModel.GetSymbol(nullableTypeSyntax) ?? throw new InvalidOperationException(message: $"Method {name} could not determine task return element type");
+
+            return new(returnType: returnSymbol, collectionReturnType: null, elementReturnType: taskIdentifierNullableTypeReturnSymbol, mapperInfo: mapperInfo);
         }
 
         if (taskReturnType is not IdentifierNameSyntax taskIdentifierNameSyntax)
@@ -146,12 +143,8 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
             throw new InvalidOperationException(message: $"Method {name} does not return a Task");
         }
 
-        ISymbol? taskIdentifierReturnSymbol = semanticModel.GetSymbol(taskIdentifierNameSyntax);
-
-        if (taskIdentifierReturnSymbol == null)
-        {
-            throw new InvalidOperationException(message: $"Method {name} could not determine task return element type");
-        }
+        ISymbol taskIdentifierReturnSymbol = semanticModel.GetSymbol(taskIdentifierNameSyntax) ??
+                                             throw new InvalidOperationException(message: $"Method {name} could not determine task return element type");
 
         return new(returnType: returnSymbol, collectionReturnType: null, elementReturnType: taskIdentifierReturnSymbol, mapperInfo: mapperInfo);
     }
