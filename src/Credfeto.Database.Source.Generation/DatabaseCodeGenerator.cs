@@ -85,7 +85,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
         switch (method.SqlObject.SqlObjectType)
         {
             case SqlObjectType.SCALAR_FUNCTION:
-                GenerateScalarFunctionMethod(method: method, source: source, classStaticModifier: classStaticModifier);
+                GenerateScalarFunctionMethod(method: method, source: source);
 
                 break;
             case SqlObjectType.TABLE_FUNCTION:
@@ -121,7 +121,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
         }
     }
 
-    private static void GenerateScalarFunctionMethod(MethodGeneration method, CodeBuilder source, string classStaticModifier)
+    private static void GenerateScalarFunctionMethod(MethodGeneration method, CodeBuilder source)
     {
         using (source.StartBlock(text: "", start: "/*", end: "*/"))
         {
@@ -129,10 +129,11 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
             {
                 string functionParameters = BuildFunctionParameters(method);
 
-                // TODO: Add Parameters, if any.
                 source.AppendLine("DbCommand command = connection.CreateCommand();")
-                      .AppendLine($"command.CommandText = \"select {method.SqlObject.Name}({functionParameters})\";")
-                      .AppendBlankLine()
+                      .AppendLine($"command.CommandText = \"select {method.SqlObject.Name}({functionParameters})\";");
+                AppendCommandParameters(source: source, method: method, command: "command");
+
+                source.AppendBlankLine()
                       .AppendLine("object? result = await command.ExecuteScalarAsync(cancellationToken: cancellationToken);")
                       .AppendBlankLine();
 
@@ -157,10 +158,32 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
                 }
             }
         }
+    }
 
-        using (source.StartBlock(text: "", start: "/*", end: "*/"))
+    private static void AppendCommandParameters(CodeBuilder source, MethodGeneration method, string command)
+    {
+        int parameterIndex = 0;
+
+        foreach (MethodParameter parameter in method.Method.Parameters)
         {
-            source.AppendLine($" {method.ContainingContext.Namespace} {method.ContainingContext.AccessType.GetName()} {classStaticModifier} partial {method.ContainingContext.Name}");
+            if (parameter.Usage == MethodParameterUsage.DB)
+            {
+                source.AppendLine($"DbParameter p{parameterIndex} = command.CreateParameter();");
+
+                if (parameter.MapperInfo != null)
+                {
+                    source.AppendLine($"{parameter.MapperInfo.MapperSymbol.ToDisplayString()}.MapToDb({parameter.Name}, p{parameterIndex});");
+                }
+                else
+                {
+                    source.AppendLine("p{parameterIndex}.Value = {parameter.Name};");
+                }
+
+                source.AppendLine($"p{parameterIndex}.ParameterName = `\"@{parameter.Name}\";")
+                      .AppendLine($"{command}.Parameters.Add(p{parameterIndex});");
+
+                ++parameterIndex;
+            }
         }
     }
 
@@ -227,6 +250,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
                 source.AppendLine("DbCommand command = connection.CreateCommand();")
                       .AppendLine($"command.CommandText = \"{method.SqlObject.Name}\";")
                       .AppendLine("command.CommandType = CommandType.StoredProcedure;");
+                AppendCommandParameters(source: source, method: method, command: "command");
 
                 source.AppendLine($"-- {method.SqlObject.Name} {method.SqlObject.SqlObjectType.GetName()}");
 
