@@ -147,13 +147,14 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
                     source.AppendLine("throw new InvalidOperationException(\"No result returned.\");");
                 }
 
-                // TODO - Handle types other than int
-                using (source.StartBlock(text: "if (result is int value)"))
+                if (method.Method.ReturnType.MapperInfo != null)
                 {
-                    source.AppendLine("return value;");
+                    source.AppendLine($"return {method.Method.ReturnType.MapperInfo.MapperSymbol.ToDisplayString()}.MapFromDb(value: result);");
                 }
-
-                source.AppendLine("return Convert.ToInt32(value: result, provider: CultureInfo.InvariantCulture);");
+                else
+                {
+                    source.AppendLine($"return ({method.Method.ReturnType.ElementReturnType!.ToDisplayString()})result");
+                }
             }
         }
 

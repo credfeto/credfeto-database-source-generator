@@ -10,14 +10,14 @@ namespace Credfeto.Database.Source.Generation.Example.Mappers;
 [SuppressMessage(category: "ReSharper", checkId: "ClassNeverInstantiated.Local", Justification = "Unit test")]
 internal sealed class AccountAddressMapper : IMapper<AccountAddress>
 {
-    public static AccountAddress MapFromDb(object thing)
+    public static AccountAddress MapFromDb(object value)
     {
-        return new() { Value = (string)thing };
+        return new() { Value = (string)value };
     }
 
-    public static void MapToDb(AccountAddress thing, DbParameter parameter)
+    public static void MapToDb(AccountAddress value, DbParameter parameter)
     {
-        parameter.Value = thing.Value;
+        parameter.Value = value.Value;
         parameter.DbType = DbType.String;
         parameter.Size = 100;
     }

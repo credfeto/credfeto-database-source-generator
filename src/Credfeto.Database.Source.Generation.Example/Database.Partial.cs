@@ -45,7 +45,7 @@ public static partial class Database
         command.CommandText = "select * from ethereum.account_getall(@address)";
 
         DbParameter p = command.CreateParameter();
-        AccountAddressMapper.MapToDb(thing: address, parameter: p);
+        AccountAddressMapper.MapToDb(value: address, parameter: p);
         p.ParameterName = "address";
         command.Parameters.Add(p);
 
@@ -71,7 +71,7 @@ public static partial class Database
         command.Parameters.Add(p1);
 
         DbParameter p2 = command.CreateParameter();
-        AccountAddressMapper.MapToDb(thing: address, parameter: p2);
+        AccountAddressMapper.MapToDb(value: address, parameter: p2);
         p2.ParameterName = "address";
         command.Parameters.Add(p2);
 
