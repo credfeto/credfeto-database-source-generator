@@ -19,10 +19,20 @@ internal static class AttributeMappings
 
     public static MapperInfo? GetMapperInfo(SemanticModel semanticModel, MethodDeclarationSyntax methodDeclarationSyntax)
     {
-        return methodDeclarationSyntax.AttributeLists.SelectMany(selector: x => x.Attributes)
-                                      .Select(x => CreateMapperInfo(semanticModel: semanticModel, attributeSyntax: x))
-                                      .RemoveNulls()
-                                      .FirstOrDefault();
+        return GetMapperInfo(semanticModel: semanticModel, attributeLists: methodDeclarationSyntax.AttributeLists);
+    }
+
+    public static MapperInfo? GetMapperInfo(SemanticModel semanticModel, ParameterSyntax parameterSyntax)
+    {
+        return GetMapperInfo(semanticModel: semanticModel, attributeLists: parameterSyntax.AttributeLists);
+    }
+
+    private static MapperInfo? GetMapperInfo(SemanticModel semanticModel, in SyntaxList<AttributeListSyntax> attributeLists)
+    {
+        return attributeLists.SelectMany(selector: x => x.Attributes)
+                             .Select(x => CreateMapperInfo(semanticModel: semanticModel, attributeSyntax: x))
+                             .RemoveNulls()
+                             .FirstOrDefault();
     }
 
     private static MapperInfo? CreateMapperInfo(SemanticModel semanticModel, AttributeSyntax attributeSyntax)

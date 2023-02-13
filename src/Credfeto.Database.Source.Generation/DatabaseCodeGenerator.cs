@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
+using System.Threading;
 using Credfeto.Database.Source.Generation.Builders;
 using Credfeto.Database.Source.Generation.Extensions;
 using Credfeto.Database.Source.Generation.Helpers;
 using Credfeto.Database.Source.Generation.Models;
 using Credfeto.Database.Source.Generation.Receivers;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Credfeto.Database.Source.Generation;
 
@@ -155,7 +158,14 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
 
     private static IDisposable BuildFunctionSignature(CodeBuilder source, MethodGeneration method)
     {
-        return BuildFunctionSignature(source: source, method: method.Method);
+        try
+        {
+            return BuildFunctionSignature(source: source, method: method.Method);
+        }
+        finally
+        {
+            DumpParameters(method: method, source: source);
+        }
     }
 
     private static IDisposable BuildFunctionSignature(CodeBuilder source, MethodInfo method)
@@ -189,6 +199,42 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
         using (source.StartBlock(text: "", start: "/*", end: "*/"))
         {
             source.AppendLine($" {method.ContainingContext.Namespace} {method.ContainingContext.AccessType.GetName()} {classStaticModifier} partial {method.ContainingContext.Name}");
+        }
+    }
+
+    private static void DumpParameters(MethodGeneration method, CodeBuilder source)
+    {
+        SeparatedSyntaxList<ParameterSyntax> parameters = method.Method.Method.ParameterList.Parameters;
+
+        foreach (ParameterSyntax parameter in parameters)
+        {
+            string parameterName = parameter.Identifier.Text;
+            ISymbol? pType = method.SemanticModel.GetSymbol(parameter);
+
+            MapperInfo? mapperInfo = AttributeMappings.GetMapperInfo(semanticModel: method.SemanticModel, parameterSyntax: parameter);
+
+            if (pType is null)
+            {
+                source.AppendLine($"// TODO: Add parameter {parameterName} of type ????");
+            }
+            else
+            {
+                string displayType = pType.ToDisplayString();
+
+                if (displayType == typeof(DbConnection).FullName || displayType == typeof(CancellationToken).FullName)
+                {
+                    source.AppendLine($"// TODO: Add C# parameter {parameterName} of type {pType.ToDisplayString()}");
+                }
+                else
+                {
+                    source.AppendLine($"// TODO: Add DB parameter {parameterName} of type {pType.ToDisplayString()}");
+
+                    if (mapperInfo != null)
+                    {
+                        source.AppendLine($" -> Using {mapperInfo.MapperSymbol.ToDisplayString()} to map to {mapperInfo.MappedSymbol.ToDisplayString()}");
+                    }
+                }
+            }
         }
     }
 }
