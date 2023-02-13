@@ -1,16 +1,16 @@
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System.Collections.Generic;
 
 namespace Credfeto.Database.Source.Generation.Models;
 
 internal sealed class MethodInfo
 {
-    public MethodInfo(AccessType accessType, bool isStatic, string name, MethodReturnType returnType, MethodDeclarationSyntax method)
+    public MethodInfo(AccessType accessType, bool isStatic, string name, MethodReturnType returnType, IReadOnlyList<MethodParameter> parameters)
     {
         this.AccessType = accessType;
         this.IsStatic = isStatic;
         this.Name = name;
         this.ReturnType = returnType;
-        this.Method = method;
+        this.Parameters = parameters;
     }
 
     public AccessType AccessType { get; }
@@ -21,5 +21,5 @@ internal sealed class MethodInfo
 
     public MethodReturnType ReturnType { get; }
 
-    public MethodDeclarationSyntax Method { get; }
+    public IReadOnlyList<MethodParameter> Parameters { get; }
 }

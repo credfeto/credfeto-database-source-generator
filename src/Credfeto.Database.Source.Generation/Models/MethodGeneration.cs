@@ -20,5 +20,5 @@ internal sealed class MethodGeneration
 
     public SqlObject SqlObject { get; }
 
-    public string MethodGrouping => $"{this.ContainingContext.Namespace}.{this.ContainingContext.Name}.{this.Method.Method.Identifier.Text}";
+    public string MethodGrouping => string.Join(separator: ".", this.ContainingContext.Namespace, this.ContainingContext.Name, this.Method.Name);
 }

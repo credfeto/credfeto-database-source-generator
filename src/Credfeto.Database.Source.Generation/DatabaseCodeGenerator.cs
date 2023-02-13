@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Linq;
-using System.Threading;
+using System.Text;
 using Credfeto.Database.Source.Generation.Builders;
 using Credfeto.Database.Source.Generation.Extensions;
 using Credfeto.Database.Source.Generation.Helpers;
 using Credfeto.Database.Source.Generation.Models;
 using Credfeto.Database.Source.Generation.Receivers;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Credfeto.Database.Source.Generation;
 
@@ -158,14 +156,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
 
     private static IDisposable BuildFunctionSignature(CodeBuilder source, MethodGeneration method)
     {
-        try
-        {
-            return BuildFunctionSignature(source: source, method: method.Method);
-        }
-        finally
-        {
-            DumpParameters(method: method, source: source);
-        }
+        return BuildFunctionSignature(source: source, method: method.Method);
     }
 
     private static IDisposable BuildFunctionSignature(CodeBuilder source, MethodInfo method)
@@ -174,8 +165,30 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
             ? "static "
             : string.Empty;
 
-        return source.AppendLine($"[GeneratedCode(tool: \"{typeof(DatabaseCodeGenerator).FullName}\", version: \"{VersionInformation.Version()}\")]")
-                     .StartBlock($"{method.AccessType.ToKeywords()} {methodStaticModifier}async partial {method.ReturnType.ReturnType.ToDisplayString()} {method.Name}{method.Method.ParameterList}");
+        source.AppendLine($"[GeneratedCode(tool: \"{typeof(DatabaseCodeGenerator).FullName}\", version: \"{VersionInformation.Version()}\")]");
+        StringBuilder stringBuilder = new($"{method.AccessType.ToKeywords()} {methodStaticModifier}async partial {method.ReturnType.ReturnType.ToDisplayString()} {method.Name}(");
+
+        bool first = true;
+
+        foreach (MethodParameter parameter in method.Parameters)
+        {
+            if (first)
+            {
+                first = false;
+            }
+            else
+            {
+                stringBuilder.Append(", ");
+            }
+
+            stringBuilder.Append(parameter.Type.ToDisplayString())
+                         .Append(' ')
+                         .Append(parameter.Name);
+        }
+
+        stringBuilder.Append(')');
+
+        return source.StartBlock(stringBuilder.ToString());
     }
 
     private static void GenerateStoredProcedureMethod(MethodGeneration method, CodeBuilder source, string classStaticModifier)
@@ -199,42 +212,6 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
         using (source.StartBlock(text: "", start: "/*", end: "*/"))
         {
             source.AppendLine($" {method.ContainingContext.Namespace} {method.ContainingContext.AccessType.GetName()} {classStaticModifier} partial {method.ContainingContext.Name}");
-        }
-    }
-
-    private static void DumpParameters(MethodGeneration method, CodeBuilder source)
-    {
-        SeparatedSyntaxList<ParameterSyntax> parameters = method.Method.Method.ParameterList.Parameters;
-
-        foreach (ParameterSyntax parameter in parameters)
-        {
-            string parameterName = parameter.Identifier.Text;
-            ISymbol? pType = method.SemanticModel.GetSymbol(parameter);
-
-            MapperInfo? mapperInfo = AttributeMappings.GetMapperInfo(semanticModel: method.SemanticModel, parameterSyntax: parameter);
-
-            if (pType is null)
-            {
-                source.AppendLine($"// TODO: Add parameter {parameterName} of type ????");
-            }
-            else
-            {
-                string displayType = pType.ToDisplayString();
-
-                if (displayType == typeof(DbConnection).FullName || displayType == typeof(CancellationToken).FullName)
-                {
-                    source.AppendLine($"// TODO: Add C# parameter {parameterName} of type {pType.ToDisplayString()}");
-                }
-                else
-                {
-                    source.AppendLine($"// TODO: Add DB parameter {parameterName} of type {pType.ToDisplayString()}");
-
-                    if (mapperInfo != null)
-                    {
-                        source.AppendLine($" -> Using {mapperInfo.MapperSymbol.ToDisplayString()} to map to {mapperInfo.MappedSymbol.ToDisplayString()}");
-                    }
-                }
-            }
         }
     }
 }

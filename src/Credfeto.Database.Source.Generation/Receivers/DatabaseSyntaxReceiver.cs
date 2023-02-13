@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
+using System.Threading;
 using Credfeto.Database.Source.Generation.Extensions;
 using Credfeto.Database.Source.Generation.Helpers;
 using Credfeto.Database.Source.Generation.Models;
@@ -70,7 +72,9 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
 
         MethodReturnType methodReturnType = GetReturnType(semanticModel: semanticModel, returnType: returnType, mapperInfo: mapperInfo, name: name);
 
-        return new(methodDeclarationSyntax.GetAccessType(), methodDeclarationSyntax.Modifiers.Any(SyntaxKind.StaticKeyword), name: name, returnType: methodReturnType, method: methodDeclarationSyntax);
+        IReadOnlyList<MethodParameter> parameters = GetParameters(semanticModel: semanticModel, method: methodDeclarationSyntax);
+
+        return new(methodDeclarationSyntax.GetAccessType(), methodDeclarationSyntax.Modifiers.Any(SyntaxKind.StaticKeyword), name: name, returnType: methodReturnType, parameters: parameters);
     }
 
     private static MethodReturnType GetReturnType(SemanticModel semanticModel, TypeSyntax returnType, MapperInfo? mapperInfo, string name)
@@ -154,5 +158,38 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
         INamedTypeSymbol symbol = (INamedTypeSymbol)semanticModel.GetSymbol(classDeclarationSyntax)!;
 
         return new(symbol.ContainingNamespace.ToDisplayString(), name: symbol.Name, classDeclarationSyntax.GetAccessType(), classDeclarationSyntax.Modifiers.Any(SyntaxKind.StaticKeyword));
+    }
+
+    private static IReadOnlyList<MethodParameter> GetParameters(SemanticModel semanticModel, MethodDeclarationSyntax method)
+    {
+        static IEnumerable<MethodParameter> Build(SemanticModel model, SeparatedSyntaxList<ParameterSyntax> parameters)
+        {
+            foreach (ParameterSyntax parameter in parameters)
+            {
+                yield return GetParameter(semanticModel: model, parameter: parameter);
+            }
+        }
+
+        return Build(model: semanticModel, parameters: method.ParameterList.Parameters)
+            .ToArray();
+    }
+
+    private static MethodParameter GetParameter(SemanticModel semanticModel, ParameterSyntax parameter)
+    {
+        string parameterName = parameter.Identifier.Text;
+        ISymbol pType = semanticModel.GetSymbol(parameter) ?? throw new InvalidOperationException(message: $"Could not determine type of parameter {parameterName}");
+
+        MapperInfo? mapperInfo = AttributeMappings.GetMapperInfo(semanticModel: semanticModel, parameterSyntax: parameter);
+
+        string displayType = pType.ToDisplayString();
+
+        return IsContextParameter(displayType)
+            ? new(name: parameterName, type: pType, usage: MethodParameterUsage.CONTEXT, mapperInfo: null)
+            : new(name: parameterName, type: pType, usage: MethodParameterUsage.DB, mapperInfo: mapperInfo);
+    }
+
+    private static bool IsContextParameter(string displayType)
+    {
+        return displayType == typeof(DbConnection).FullName || displayType == typeof(CancellationToken).FullName;
     }
 }
