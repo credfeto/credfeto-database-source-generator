@@ -491,10 +491,10 @@ public static partial class DatabaseWrapper
 
         if (result is null)
         {
-            throw new InvalidOperationException(""No result returned."");
+            return null;
         }
 
-        return Mappers.AccountAddressMapper.MapFromDb(value: result);
+        return (int)result;
     }
 }
 ")
@@ -556,10 +556,10 @@ public static partial class DatabaseWrapper
 
         if (result is null)
         {
-            throw new InvalidOperationException(""No result returned."");
+            return null;
         }
 
-        return Mappers.AccountAddressMapper.MapFromDb(value: result);
+        return (string)result;
     }
 }
 ")

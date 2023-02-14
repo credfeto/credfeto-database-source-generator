@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Credfeto.Database.Source.Generation.Exceptions;
 using Credfeto.Database.Source.Generation.Extensions;
 using Credfeto.Database.Source.Generation.Models;
 using Microsoft.CodeAnalysis;
@@ -67,14 +68,14 @@ internal static class AttributeMappings
 
         if (mapperSymbol.Kind == SymbolKind.ErrorType)
         {
-            throw new InvalidOperationException($"Unable to determine the mapped type for {mapperSymbol.ToDisplayString()}");
+            throw new InvalidModelException($"Unable to determine the mapped type for {mapperSymbol.ToDisplayString()}");
         }
 
         ISymbol mappedSymbol = containingType.TypeArguments[1];
 
         if (mappedSymbol.Kind == SymbolKind.ErrorType)
         {
-            throw new InvalidOperationException($"Unable to determine the mapped type for {mappedSymbol.ToDisplayString()}");
+            throw new InvalidModelException($"Unable to determine the mapped type for {mappedSymbol.ToDisplayString()}");
         }
 
         return new(mapperSymbol: mapperSymbol, mappedSymbol: mappedSymbol);
