@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 using System.Threading;
+using Credfeto.Database.Source.Generation.Exceptions;
 using Credfeto.Database.Source.Generation.Extensions;
 using Credfeto.Database.Source.Generation.Helpers;
 using Credfeto.Database.Source.Generation.Models;
@@ -14,9 +15,18 @@ namespace Credfeto.Database.Source.Generation.Receivers;
 
 internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
 {
-    private readonly List<MethodGeneration> _methods = new();
+    private readonly List<InvalidModelInfo> _errors;
+    private readonly List<MethodGeneration> _methods;
+
+    public DatabaseSyntaxReceiver()
+    {
+        this._methods = new();
+        this._errors = new();
+    }
 
     public IReadOnlyList<MethodGeneration> Methods => this._methods;
+
+    public IReadOnlyList<InvalidModelInfo> Errors => this._errors;
 
     public void OnVisitSyntaxNode(GeneratorSyntaxContext context)
     {
@@ -49,17 +59,38 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
             return;
         }
 
+        Location location = context.Node.GetLocation();
+
+        try
+        {
+            MethodGeneration? method = BuildMethod(context: context, methodDeclarationSyntax: methodDeclarationSyntax, classDeclarationSyntax: classDeclarationSyntax);
+
+            if (method is null)
+            {
+                return;
+            }
+
+            this._methods.Add(item: method);
+        }
+        catch (InvalidModelException exception)
+        {
+            this._errors.Add(new(location: location, message: exception.Message));
+        }
+    }
+
+    private static MethodGeneration? BuildMethod(in GeneratorSyntaxContext context, MethodDeclarationSyntax methodDeclarationSyntax, ClassDeclarationSyntax classDeclarationSyntax)
+    {
         SqlObject? sqlObject = AttributeMappings.GetSqlObject(semanticModel: context.SemanticModel, methodDeclarationSyntax: methodDeclarationSyntax);
 
         if (sqlObject is null)
         {
-            return;
+            return null;
         }
 
         ClassInfo containingContext = GetClass(semanticModel: context.SemanticModel, classDeclarationSyntax: classDeclarationSyntax);
         MethodInfo methodInfo = GetMethod(semanticModel: context.SemanticModel, methodDeclarationSyntax: methodDeclarationSyntax);
 
-        this._methods.Add(item: new(containingContext: containingContext, methodInfo: methodInfo, semanticModel: context.SemanticModel, sqlObject: sqlObject));
+        return new(containingContext: containingContext, methodInfo: methodInfo, semanticModel: context.SemanticModel, sqlObject: sqlObject);
     }
 
     private static MethodInfo GetMethod(SemanticModel semanticModel, MethodDeclarationSyntax methodDeclarationSyntax)
