@@ -192,14 +192,18 @@ namespace ConsoleApplication1;
 public static partial class DatabaseWrapper
 {
     [GeneratedCode(tool: ""Credfeto.Database.Source.Generation.DatabaseCodeGenerator"", version: ""1.0.0"")]
-    public static async partial System.Threading.Tasks.Task<int> GetValueAsync(System.Data.Common.DbConnection connection, System.Threading.CancellationToken cancellationToken)
+    public static async partial System.Threading.Tasks.Task<int> GetValueAsync(System.Data.Common.DbConnection connection, int factor, string name, System.Threading.CancellationToken cancellationToken)
     {
         DbCommand command = connection.CreateCommand();
-        command.CommandText = ""select example.scalarfunction()"";
+        command.CommandText = ""select example.scalarfunction(@factor, @name)"";
         DbParameter p0 = command.CreateParameter();
         p0.Value = factor;
         p0.ParameterName = ""@factor"";
         command.Parameters.Add(p0);
+        DbParameter p1 = command.CreateParameter();
+        p1.Value = name;
+        p1.ParameterName = ""@name"";
+        command.Parameters.Add(p1);
 
         object? result = await command.ExecuteScalarAsync(cancellationToken: cancellationToken);
 
@@ -230,6 +234,8 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Credfeto.Database.Interfaces;
+using Mappers;
+using Primatives;
 
 " + Constants.DatabaseTypes + Constants.AccountAddressClass + Constants.AccountAddressMapperClass + @"
 
@@ -267,7 +273,7 @@ namespace ConsoleApplication1;
 public static partial class DatabaseWrapper
 {
     [GeneratedCode(tool: ""Credfeto.Database.Source.Generation.DatabaseCodeGenerator"", version: ""1.0.0"")]
-    public static async partial System.Threading.Tasks.Task<int> GetValueAsync(System.Data.Common.DbConnection connection, int factor, string name, AccountAddress address, System.Threading.CancellationToken cancellationToken)
+    public static async partial System.Threading.Tasks.Task<int> GetValueAsync(System.Data.Common.DbConnection connection, int factor, string name, Primatives.AccountAddress address, System.Threading.CancellationToken cancellationToken)
     {
         DbCommand command = connection.CreateCommand();
         command.CommandText = ""select example.scalarfunction(@factor, @name, @address)"";
@@ -280,7 +286,7 @@ public static partial class DatabaseWrapper
         p1.ParameterName = ""@name"";
         command.Parameters.Add(p1);
         DbParameter p2 = command.CreateParameter();
-        AccountAddressMapper.MapToDb(address, p2);
+        Mappers.AccountAddressMapper.MapToDb(address, p2);
         p2.ParameterName = ""@address"";
         command.Parameters.Add(p2);
 

@@ -65,7 +65,17 @@ internal static class AttributeMappings
 
         ISymbol mapperSymbol = containingType.TypeArguments[0];
 
+        if (mapperSymbol.Kind == SymbolKind.ErrorType)
+        {
+            throw new InvalidOperationException($"Unable to determine the mapped type for {mapperSymbol.ToDisplayString()}");
+        }
+
         ISymbol mappedSymbol = containingType.TypeArguments[1];
+
+        if (mappedSymbol.Kind == SymbolKind.ErrorType)
+        {
+            throw new InvalidOperationException($"Unable to determine the mapped type for {mappedSymbol.ToDisplayString()}");
+        }
 
         return new(mapperSymbol: mapperSymbol, mappedSymbol: mappedSymbol);
     }
