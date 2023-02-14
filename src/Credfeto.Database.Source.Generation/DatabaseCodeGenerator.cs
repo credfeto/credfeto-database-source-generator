@@ -123,39 +123,38 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
 
     private static void GenerateScalarFunctionMethod(MethodGeneration method, CodeBuilder source)
     {
-        using (source.StartBlock(text: "", start: "/*", end: "*/"))
+        using (BuildFunctionSignature(source: source, method: method))
         {
-            using (BuildFunctionSignature(source: source, method: method))
+            string functionParameters = BuildFunctionParameters(method);
+
+            source.AppendLine("DbCommand command = connection.CreateCommand();")
+                  .AppendLine($"command.CommandText = \"select {method.SqlObject.Name}({functionParameters})\";");
+            AppendCommandParameters(source: source, method: method, command: "command");
+
+            source.AppendBlankLine()
+                  .AppendLine("object? result = await command.ExecuteScalarAsync(cancellationToken: cancellationToken);")
+                  .AppendBlankLine();
+
+            if (method.Method.ReturnType.ElementReturnType is null)
             {
-                string functionParameters = BuildFunctionParameters(method);
+                throw new InvalidOperationException("Return type is null");
+            }
 
-                source.AppendLine("DbCommand command = connection.CreateCommand();")
-                      .AppendLine($"command.CommandText = \"select {method.SqlObject.Name}({functionParameters})\";");
-                AppendCommandParameters(source: source, method: method, command: "command");
+            // TODO: Handle null/DBNull when type is nullable.
+            using (source.StartBlock(text: "if (result is null)"))
+            {
+                source.AppendLine("throw new InvalidOperationException(\"No result returned.\");");
+            }
 
-                source.AppendBlankLine()
-                      .AppendLine("object? result = await command.ExecuteScalarAsync(cancellationToken: cancellationToken);")
-                      .AppendBlankLine();
+            source.AppendBlankLine();
 
-                if (method.Method.ReturnType.ElementReturnType is null)
-                {
-                    throw new InvalidOperationException("Return type is null");
-                }
-
-                // TODO: Handle null/DBNull when type is nullable.
-                using (source.StartBlock(text: "if (result is null)"))
-                {
-                    source.AppendLine("throw new InvalidOperationException(\"No result returned.\");");
-                }
-
-                if (method.Method.ReturnType.MapperInfo != null)
-                {
-                    source.AppendLine($"return {method.Method.ReturnType.MapperInfo.MapperSymbol.ToDisplayString()}.MapFromDb(value: result);");
-                }
-                else
-                {
-                    source.AppendLine($"return ({method.Method.ReturnType.ElementReturnType!.ToDisplayString()})result");
-                }
+            if (method.Method.ReturnType.MapperInfo != null)
+            {
+                source.AppendLine($"return {method.Method.ReturnType.MapperInfo.MapperSymbol.ToDisplayString()}.MapFromDb(value: result);");
+            }
+            else
+            {
+                source.AppendLine($"return ({method.Method.ReturnType.ElementReturnType!.ToDisplayString()})result;");
             }
         }
     }

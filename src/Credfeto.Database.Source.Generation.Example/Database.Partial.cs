@@ -1,10 +1,8 @@
 #define IGNORE
-using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -95,6 +93,7 @@ public static partial class Database
         }
     }
 
+#if FALSE
     public static async partial Task<int> GetMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken)
     {
         // todo - command caching?
@@ -189,5 +188,6 @@ public static partial class Database
 
         return AccountAddressMapper.MapFromDb(result);
     }
+#endif
 }
 #endif
