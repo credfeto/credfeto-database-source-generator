@@ -177,10 +177,10 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
                 }
                 else
                 {
-                    source.AppendLine("p{parameterIndex}.Value = {parameter.Name};");
+                    source.AppendLine($"p{parameterIndex}.Value = {parameter.Name};");
                 }
 
-                source.AppendLine($"p{parameterIndex}.ParameterName = `\"@{parameter.Name}\";")
+                source.AppendLine($"p{parameterIndex}.ParameterName = \"@{parameter.Name}\";")
                       .AppendLine($"{command}.Parameters.Add(p{parameterIndex});");
 
                 ++parameterIndex;

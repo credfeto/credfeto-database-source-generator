@@ -123,7 +123,7 @@ namespace ConsoleApplication1;
 public static partial class DatabaseWrapper
 {
     [GeneratedCode(tool: ""Credfeto.Database.Source.Generation.DatabaseCodeGenerator"", version: ""1.0.0"")]
-    public static async partial System.Threading.Tasks.Task<int> GetValueAsync(System.Data.Common.DbConnection connection, System.Threading.CancellationToken cancellationToken)
+    public static async partial System.Threading.Tasks.Task<int> GetValueAsync(System.Data.Common.DbConnection connection, int factor, System.Threading.CancellationToken cancellationToken)
     {
         DbCommand command = connection.CreateCommand();
         command.CommandText = ""select example.scalarfunction(@factor)"";
