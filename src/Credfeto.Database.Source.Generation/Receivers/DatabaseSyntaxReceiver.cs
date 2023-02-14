@@ -132,7 +132,7 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
 
         ISymbol returnSymbol = semanticModel.GetSymbol(identifierNameSyntax) ?? throw new InvalidOperationException(message: $"Method {name} could not determine task type");
 
-        return new(returnType: returnSymbol, collectionReturnType: null, elementReturnType: null, mapperInfo: mapperInfo);
+        return new(returnType: returnSymbol, collectionReturnType: null, elementReturnType: null, mapperInfo: mapperInfo, isNullable: false);
     }
 
     private static MethodReturnType GetGenericTaskReturnType(SemanticModel semanticModel, MapperInfo? mapperInfo, string name, GenericNameSyntax genericNameSyntax)
@@ -154,7 +154,7 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
             ISymbol taskReturnElementSymbol = semanticModel.GetSymbol(taskReturnElementType) ??
                                               throw new InvalidOperationException(message: $"Method {name} could not determine task return element type");
 
-            return new(returnType: returnSymbol, collectionReturnType: taskReturnSymbol, elementReturnType: taskReturnElementSymbol, mapperInfo: mapperInfo);
+            return new(returnType: returnSymbol, collectionReturnType: taskReturnSymbol, elementReturnType: taskReturnElementSymbol, mapperInfo: mapperInfo, isNullable: false);
         }
 
         if (taskReturnType is PredefinedTypeSyntax predefinedTypeSyntax)
@@ -162,15 +162,15 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
             ISymbol taskIdentifierPredefinedTypeReturnSymbol =
                 semanticModel.GetSymbol(predefinedTypeSyntax) ?? throw new InvalidOperationException(message: $"Method {name} could not determine task return element type");
 
-            return new(returnType: returnSymbol, collectionReturnType: null, elementReturnType: taskIdentifierPredefinedTypeReturnSymbol, mapperInfo: mapperInfo);
+            return new(returnType: returnSymbol, collectionReturnType: null, elementReturnType: taskIdentifierPredefinedTypeReturnSymbol, mapperInfo: mapperInfo, isNullable: false);
         }
 
         if (taskReturnType is NullableTypeSyntax nullableTypeSyntax)
         {
-            ISymbol taskIdentifierNullableTypeReturnSymbol =
-                semanticModel.GetSymbol(nullableTypeSyntax) ?? throw new InvalidOperationException(message: $"Method {name} could not determine task return element type");
+            ISymbol taskIdentifierNullableTypeReturnSymbol = semanticModel.GetSymbol(nullableTypeSyntax.ElementType) ??
+                                                             throw new InvalidOperationException(message: $"Method {name} could not determine task return element type");
 
-            return new(returnType: returnSymbol, collectionReturnType: null, elementReturnType: taskIdentifierNullableTypeReturnSymbol, mapperInfo: mapperInfo);
+            return new(returnType: returnSymbol, collectionReturnType: null, elementReturnType: taskIdentifierNullableTypeReturnSymbol, mapperInfo: mapperInfo, isNullable: true);
         }
 
         if (taskReturnType is not IdentifierNameSyntax taskIdentifierNameSyntax)
@@ -181,7 +181,7 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
         ISymbol taskIdentifierReturnSymbol = semanticModel.GetSymbol(taskIdentifierNameSyntax) ??
                                              throw new InvalidOperationException(message: $"Method {name} could not determine task return element type");
 
-        return new(returnType: returnSymbol, collectionReturnType: null, elementReturnType: taskIdentifierReturnSymbol, mapperInfo: mapperInfo);
+        return new(returnType: returnSymbol, collectionReturnType: null, elementReturnType: taskIdentifierReturnSymbol, mapperInfo: mapperInfo, isNullable: false);
     }
 
     private static ClassInfo GetClass(SemanticModel semanticModel, ClassDeclarationSyntax classDeclarationSyntax)

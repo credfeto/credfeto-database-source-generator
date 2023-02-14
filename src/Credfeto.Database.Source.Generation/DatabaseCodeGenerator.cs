@@ -171,7 +171,9 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
             // TODO: Handle null/DBNull when type is nullable.
             using (source.StartBlock(text: "if (result is null)"))
             {
-                source.AppendLine("throw new InvalidOperationException(\"No result returned.\");");
+                source.AppendLine(method.Method.ReturnType.IsNullable
+                                      ? "return null;"
+                                      : "throw new InvalidOperationException(\"No result returned.\");");
             }
 
             source.AppendBlankLine();
@@ -182,7 +184,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
             }
             else
             {
-                source.AppendLine($"return ({method.Method.ReturnType.ElementReturnType!.ToDisplayString()})result;");
+                source.AppendLine($"return ({method.Method.ReturnType.ElementReturnType.ToDisplayString()})result;");
             }
         }
     }
