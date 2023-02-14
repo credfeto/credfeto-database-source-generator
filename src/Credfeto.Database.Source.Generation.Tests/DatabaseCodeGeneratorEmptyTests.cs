@@ -19,6 +19,8 @@ public sealed class DatabaseCodeGeneratorEmptyTests : GeneratorVerifierTestsBase
     public Task NothingToGenerateGeneratesNothingAsync()
     {
         const string test = @"
+#nullable enable
+
 namespace ConsoleApplication1
 {
     public static class EmptyClass

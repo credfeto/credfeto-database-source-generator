@@ -32,6 +32,8 @@ using Primatives;
 using Mappers;
 using Models;
 
+#nullable enable
+
 " + Constants.DatabaseTypes + Constants.AccountAddressClass + Constants.AccountAddressMapperClass + Constants.AccountModelClass + @"
 
 namespace ConsoleApplication1

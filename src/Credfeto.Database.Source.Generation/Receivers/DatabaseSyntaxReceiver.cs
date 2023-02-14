@@ -120,66 +120,77 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
             return GetNonGenericMethodReturnType(semanticModel: semanticModel, mapperInfo: mapperInfo, name: name, identifierNameSyntax: identifierNameSyntax);
         }
 
-        throw new InvalidOperationException(message: $"Method {name} does not return a Task");
+        throw new InvalidModelException(message: $"Method {name} does not return a Task");
     }
 
     private static MethodReturnType GetNonGenericMethodReturnType(SemanticModel semanticModel, MapperInfo? mapperInfo, string name, IdentifierNameSyntax identifierNameSyntax)
     {
         if (identifierNameSyntax.Identifier.Text != "Task")
         {
-            throw new InvalidOperationException(message: $"Method {name} does not return a Task");
+            throw new InvalidModelException(message: $"Method {name} does not return a Task");
         }
 
-        ISymbol returnSymbol = semanticModel.GetSymbol(identifierNameSyntax) ?? throw new InvalidOperationException(message: $"Method {name} could not determine task type");
+        ISymbol returnSymbol = ValidateSymbol(semanticModel.GetSymbol(identifierNameSyntax), $"Method {name} could not determine task type");
 
         return new(returnType: returnSymbol, collectionReturnType: null, elementReturnType: null, mapperInfo: mapperInfo, isNullable: false);
+    }
+
+    private static ISymbol ValidateSymbol(ISymbol? symbol, string error)
+    {
+        if (symbol == null)
+        {
+            throw new InvalidModelException(message: error);
+        }
+
+        if (symbol.Kind == SymbolKind.ErrorType)
+        {
+            throw new InvalidModelException(message: error);
+        }
+
+        return symbol;
     }
 
     private static MethodReturnType GetGenericTaskReturnType(SemanticModel semanticModel, MapperInfo? mapperInfo, string name, GenericNameSyntax genericNameSyntax)
     {
         if (genericNameSyntax.Identifier.Text != "Task")
         {
-            throw new InvalidOperationException(message: $"Method {name} does not return a Task");
+            throw new InvalidModelException(message: $"Method {name} does not return a Task");
         }
 
-        ISymbol returnSymbol = semanticModel.GetSymbol(genericNameSyntax) ?? throw new InvalidOperationException(message: $"Method {name} could not determine task type");
+        ISymbol returnSymbol = ValidateSymbol(semanticModel.GetSymbol(genericNameSyntax), $"Method {name} could not determine task type");
 
         TypeSyntax taskReturnType = genericNameSyntax.TypeArgumentList.Arguments[0];
 
         if (taskReturnType is GenericNameSyntax taskGenericNameSyntax)
         {
-            ISymbol taskReturnSymbol = semanticModel.GetSymbol(taskGenericNameSyntax) ?? throw new InvalidOperationException(message: $"Method {name} could not determine task return type");
+            ISymbol taskReturnSymbol = ValidateSymbol(semanticModel.GetSymbol(taskGenericNameSyntax), $"Method {name} could not determine task return type");
 
             TypeSyntax taskReturnElementType = taskGenericNameSyntax.TypeArgumentList.Arguments[0];
-            ISymbol taskReturnElementSymbol = semanticModel.GetSymbol(taskReturnElementType) ??
-                                              throw new InvalidOperationException(message: $"Method {name} could not determine task return element type");
+            ISymbol taskReturnElementSymbol = ValidateSymbol(semanticModel.GetSymbol(taskReturnElementType), $"Method {name} could not determine task return element type");
 
             return new(returnType: returnSymbol, collectionReturnType: taskReturnSymbol, elementReturnType: taskReturnElementSymbol, mapperInfo: mapperInfo, isNullable: false);
         }
 
         if (taskReturnType is PredefinedTypeSyntax predefinedTypeSyntax)
         {
-            ISymbol taskIdentifierPredefinedTypeReturnSymbol =
-                semanticModel.GetSymbol(predefinedTypeSyntax) ?? throw new InvalidOperationException(message: $"Method {name} could not determine task return element type");
+            ISymbol taskIdentifierPredefinedTypeReturnSymbol = ValidateSymbol(semanticModel.GetSymbol(predefinedTypeSyntax), $"Method {name} could not determine task return element type");
 
             return new(returnType: returnSymbol, collectionReturnType: null, elementReturnType: taskIdentifierPredefinedTypeReturnSymbol, mapperInfo: mapperInfo, isNullable: false);
         }
 
         if (taskReturnType is NullableTypeSyntax nullableTypeSyntax)
         {
-            ISymbol taskIdentifierNullableTypeReturnSymbol = semanticModel.GetSymbol(nullableTypeSyntax.ElementType) ??
-                                                             throw new InvalidOperationException(message: $"Method {name} could not determine task return element type");
+            ISymbol taskIdentifierNullableTypeReturnSymbol = ValidateSymbol(semanticModel.GetSymbol(nullableTypeSyntax.ElementType), $"Method {name} could not determine task return element type");
 
             return new(returnType: returnSymbol, collectionReturnType: null, elementReturnType: taskIdentifierNullableTypeReturnSymbol, mapperInfo: mapperInfo, isNullable: true);
         }
 
         if (taskReturnType is not IdentifierNameSyntax taskIdentifierNameSyntax)
         {
-            throw new InvalidOperationException(message: $"Method {name} does not return a Task");
+            throw new InvalidModelException(message: $"Method {name} does not return a Task");
         }
 
-        ISymbol taskIdentifierReturnSymbol = semanticModel.GetSymbol(taskIdentifierNameSyntax) ??
-                                             throw new InvalidOperationException(message: $"Method {name} could not determine task return element type");
+        ISymbol taskIdentifierReturnSymbol = ValidateSymbol(semanticModel.GetSymbol(taskIdentifierNameSyntax), $"Method {name} could not determine task return element type");
 
         return new(returnType: returnSymbol, collectionReturnType: null, elementReturnType: taskIdentifierReturnSymbol, mapperInfo: mapperInfo, isNullable: false);
     }

@@ -28,6 +28,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Credfeto.Database.Interfaces;
 
+#nullable enable
+
 " + Constants.DatabaseTypes + @"
 
 namespace ConsoleApplication1
@@ -92,6 +94,8 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Credfeto.Database.Interfaces;
+
+#nullable enable
 
 " + Constants.DatabaseTypes + @"
 
@@ -161,6 +165,8 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Credfeto.Database.Interfaces;
+
+#nullable enable
 
 " + Constants.DatabaseTypes + @"
 
@@ -236,6 +242,8 @@ using System.Threading.Tasks;
 using Credfeto.Database.Interfaces;
 using Mappers;
 using Primatives;
+
+#nullable enable
 
 " + Constants.DatabaseTypes + Constants.AccountAddressClass + Constants.AccountAddressMapperClass + @"
 
@@ -320,6 +328,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Credfeto.Database.Interfaces;
 
+#nullable enable
+
 " + Constants.DatabaseTypes + @"
 
 namespace ConsoleApplication1
@@ -387,6 +397,8 @@ using Credfeto.Database.Interfaces;
 using Mappers;
 using Primatives;
 
+#nullable enable
+
 " + Constants.DatabaseTypes + Constants.AccountAddressClass + Constants.AccountAddressMapperClass + @"
 
 namespace ConsoleApplication1
@@ -452,6 +464,9 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Credfeto.Database.Interfaces;
+
+#nullable enable
+
 " + Constants.DatabaseTypes + @"
 
 namespace ConsoleApplication1
@@ -517,7 +532,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Credfeto.Database.Interfaces;
 
-" + Constants.DatabaseTypes + Constants.AccountAddressClass + Constants.AccountAddressMapperClass + @"
+#nullable enable
+
+" + Constants.DatabaseTypes + @"
 
 namespace ConsoleApplication1
 {
