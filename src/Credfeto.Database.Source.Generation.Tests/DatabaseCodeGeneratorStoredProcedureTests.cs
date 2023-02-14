@@ -19,9 +19,12 @@ public sealed class DatabaseCodeGeneratorStoredProcedureTests : GeneratorVerifie
     {
         const string test = @"
 using System;
-using System.Data.Common;
-using System.Diagnostics.CodeAnalysis;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Credfeto.Database.Interfaces;
@@ -60,9 +63,12 @@ namespace ConsoleApplication1;
     {
         const string test = @"
 using System;
-using System.Data.Common;
-using System.Diagnostics.CodeAnalysis;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Credfeto.Database.Interfaces;

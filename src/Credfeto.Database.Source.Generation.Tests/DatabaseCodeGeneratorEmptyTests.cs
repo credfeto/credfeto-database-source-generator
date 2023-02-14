@@ -19,12 +19,12 @@ public sealed class DatabaseCodeGeneratorEmptyTests : GeneratorVerifierTestsBase
     public Task NothingToGenerateGeneratesNothingAsync()
     {
         const string test = @"
-    namespace ConsoleApplication1
+namespace ConsoleApplication1
+{
+    public static class EmptyClass
     {
-        public static class EmptyClass
-        {
-        }
-    }";
+    }
+}";
 
         return this.VerifyAsync(code: test, Array.Empty<(string filename, string generated)>());
     }

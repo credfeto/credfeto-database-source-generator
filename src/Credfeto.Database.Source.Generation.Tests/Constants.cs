@@ -28,13 +28,15 @@ namespace Credfeto.Database.Interfaces
 
     public interface IMapper<T>
     {
+#if NET7_0_OR_GREATER
         [SuppressMessage(category: ""Design"", checkId: ""MA0018:Do not declare a static member on generic types"", Justification = ""By Design"")]
         [SuppressMessage(category: ""Design"", checkId: ""CA1000:Do not declare a static member on generic types"", Justification = ""By Design"")]
-        abstract static T MapFromDb(object thing);
+        abstract static T MapFromDb(object value);
 
         [SuppressMessage(category: ""Design"", checkId: ""MA0018:Do not declare a static member on generic types"", Justification = ""By Design"")]
         [SuppressMessage(category: ""Design"", checkId: ""CA1000:Do not declare a static member on generic types"", Justification = ""By Design"")]
-        abstract static void MapToDb(T thing, DbParameter parameter);
+        abstract static void MapToDb(T value, DbParameter parameter);
+#endif
     }
 
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Parameter | AttributeTargets.ReturnValue)]
@@ -51,7 +53,11 @@ namespace Primatives
     [DebuggerDisplay(""{Value}"")]
     public sealed class AccountAddress
     {
+#if NET7_0_OR_GREATER
         public required string Value { get; init; }
+#else
+        public string Value { get; set; } = default!;
+#endif
     }
 }
 ";
@@ -63,14 +69,14 @@ namespace Mappers
     [SuppressMessage(category: ""ReSharper"", checkId: ""ClassNeverInstantiated.Local"", Justification = ""Unit test"")]
     internal sealed class AccountAddressMapper : IMapper<AccountAddress>
     {
-        public static AccountAddress MapFromDb(object thing)
+        public static AccountAddress MapFromDb(object value)
         {
-            return new() { Value = (string)thing };
+            return new() { Value = (string)value };
         }
 
-        public static void MapToDb(AccountAddress thing, DbParameter parameter)
+        public static void MapToDb(AccountAddress value, DbParameter parameter)
         {
-            parameter.Value = thing.Value;
+            parameter.Value = value.Value;
             parameter.DbType = DbType.String;
             parameter.Size = 100;
         }

@@ -18,23 +18,26 @@ public sealed class DatabaseCodeGeneratorScalarFunctionTests : GeneratorVerifier
     public Task SimpleScalarFunctionIntAsync()
     {
         const string test = @"
-    using System;
-    using System.Data.Common;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Credfeto.Database.Interfaces;
+using System;
+using System.Data;
+using System.Data.Common;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
+using Credfeto.Database.Interfaces;
 
-    " + Constants.DatabaseTypes + @"
+" + Constants.DatabaseTypes + @"
 
-    namespace ConsoleApplication1
+namespace ConsoleApplication1
+{
+    public static partial class DatabaseWrapper
     {
-        public static partial class DatabaseWrapper
-        {
-            [SqlObjectMap(name: ""example.scalarfunction"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
-            public static partial Task<int> GetValueAsync(DbConnection connection, CancellationToken cancellationToken);
-        }
-    }";
+        [SqlObjectMap(name: ""example.scalarfunction"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
+        public static partial Task<int> GetValueAsync(DbConnection connection, CancellationToken cancellationToken);
+    }
+}";
 
         (string filename, string generated)[] expected =
         {
@@ -55,23 +58,26 @@ namespace ConsoleApplication1;
     public Task SimpleScalarFunctionIntWithOneParameterAsync()
     {
         const string test = @"
-    using System;
-    using System.Data.Common;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Credfeto.Database.Interfaces;
+using System;
+using System.Data;
+using System.Data.Common;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
+using Credfeto.Database.Interfaces;
 
-    " + Constants.DatabaseTypes + @"
+" + Constants.DatabaseTypes + @"
 
-    namespace ConsoleApplication1
+namespace ConsoleApplication1
+{
+    public static partial class DatabaseWrapper
     {
-        public static partial class DatabaseWrapper
-        {
-            [SqlObjectMap(name: ""example.scalarfunction"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
-            public static partial Task<int> GetValueAsync(DbConnection connection, int factor, CancellationToken cancellationToken);
-        }
-    }";
+        [SqlObjectMap(name: ""example.scalarfunction"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
+        public static partial Task<int> GetValueAsync(DbConnection connection, int factor, CancellationToken cancellationToken);
+    }
+}";
 
         (string filename, string generated)[] expected =
         {
@@ -92,23 +98,26 @@ namespace ConsoleApplication1;
     public Task SimpleScalarFunctionIntWithTwoParametersAsync()
     {
         const string test = @"
-    using System;
-    using System.Data.Common;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Credfeto.Database.Interfaces;
+using System;
+using System.Data;
+using System.Data.Common;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
+using Credfeto.Database.Interfaces;
 
-    " + Constants.DatabaseTypes + @"
+" + Constants.DatabaseTypes + @"
 
-    namespace ConsoleApplication1
+namespace ConsoleApplication1
+{
+    public static partial class DatabaseWrapper
     {
-        public static partial class DatabaseWrapper
-        {
-            [SqlObjectMap(name: ""example.scalarfunction"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
-            public static partial Task<int> GetValueAsync(DbConnection connection, int factor, string name, CancellationToken cancellationToken);
-        }
-    }";
+        [SqlObjectMap(name: ""example.scalarfunction"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
+        public static partial Task<int> GetValueAsync(DbConnection connection, int factor, string name, CancellationToken cancellationToken);
+    }
+}";
 
         (string filename, string generated)[] expected =
         {
@@ -129,29 +138,32 @@ namespace ConsoleApplication1;
     public Task SimpleScalarFunctionIntWithThreeParametersAsync()
     {
         const string test = @"
-    using System;
-    using System.Data.Common;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Credfeto.Database.Interfaces;
+using System;
+using System.Data;
+using System.Data.Common;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
+using Credfeto.Database.Interfaces;
 
-    " + Constants.DatabaseTypes + Constants.AccountAddressClass + Constants.AccountAddressMapperClass + @"
+" + Constants.DatabaseTypes + Constants.AccountAddressClass + Constants.AccountAddressMapperClass + @"
 
-    namespace ConsoleApplication1
+namespace ConsoleApplication1
+{
+    public static partial class DatabaseWrapper
     {
-        public static partial class DatabaseWrapper
-        {
-            [SqlObjectMap(name: ""example.scalarfunction"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
-            public static partial Task<int> GetValueAsync(
-                    DbConnection connection,
-                    int factor,
-                    string name,
-                    [SqlFieldMap<AccountAddressMapper, AccountAddress>]
-                    AccountAddress address,
-                    CancellationToken cancellationToken);
-        }
-    }";
+        [SqlObjectMap(name: ""example.scalarfunction"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
+        public static partial Task<int> GetValueAsync(
+                DbConnection connection,
+                int factor,
+                string name,
+                [SqlFieldMap<AccountAddressMapper, AccountAddress>]
+                AccountAddress address,
+                CancellationToken cancellationToken);
+    }
+}";
 
         (string filename, string generated)[] expected =
         {
@@ -172,23 +184,26 @@ namespace ConsoleApplication1;
     public Task SimpleScalarFunctionStringAsync()
     {
         const string test = @"
-    using System;
-    using System.Data.Common;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Credfeto.Database.Interfaces;
+using System;
+using System.Data;
+using System.Data.Common;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
+using Credfeto.Database.Interfaces;
 
 " + Constants.DatabaseTypes + @"
 
-    namespace ConsoleApplication1
+namespace ConsoleApplication1
+{
+    public static partial class DatabaseWrapper
     {
-        public static partial class DatabaseWrapper
-        {
-            [SqlObjectMap(name: ""example.scalarfunction"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
-            public static partial Task<string> GetValueAsync(DbConnection connection, CancellationToken cancellationToken);
-        }
-    }";
+        [SqlObjectMap(name: ""example.scalarfunction"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
+        public static partial Task<string> GetValueAsync(DbConnection connection, CancellationToken cancellationToken);
+    }
+}";
 
         (string filename, string generated)[] expected =
         {
@@ -209,26 +224,29 @@ namespace ConsoleApplication1;
     public Task SimpleScalarFunctionAccountAddressAsync()
     {
         const string test = @"
-    using System;
-    using System.Data.Common;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Credfeto.Database.Interfaces;
-    using Mappers;
-    using Primatives;
+using System;
+using System.Data;
+using System.Data.Common;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
+using Credfeto.Database.Interfaces;
+using Mappers;
+using Primatives;
 
 " + Constants.DatabaseTypes + Constants.AccountAddressClass + Constants.AccountAddressMapperClass + @"
 
-    namespace ConsoleApplication1
+namespace ConsoleApplication1
+{
+    public static partial class DatabaseWrapper
     {
-        public static partial class DatabaseWrapper
-        {
-            [SqlObjectMap(name: ""example.scalarfunction"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
-            [return: SqlFieldMap<AccountAddressMapper, AccountAddress>]
-            public static partial Task<AccountAddress> GetValueAsync(DbConnection connection, CancellationToken cancellationToken);
-        }
-    }";
+        [SqlObjectMap(name: ""example.scalarfunction"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
+        [return: SqlFieldMap<AccountAddressMapper, AccountAddress>]
+        public static partial Task<AccountAddress> GetValueAsync(DbConnection connection, CancellationToken cancellationToken);
+    }
+}";
 
         (string filename, string generated)[] expected =
         {
@@ -274,22 +292,25 @@ public static partial class DatabaseWrapper
     public Task SimpleScalarFunctionNullableIntAsync()
     {
         const string test = @"
-    using System;
-    using System.Data.Common;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Credfeto.Database.Interfaces;
+using System;
+using System.Data;
+using System.Data.Common;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
+using Credfeto.Database.Interfaces;
 " + Constants.DatabaseTypes + @"
 
-    namespace ConsoleApplication1
+namespace ConsoleApplication1
+{
+    public static partial class DatabaseWrapper
     {
-        public static partial class DatabaseWrapper
-        {
-            [SqlObjectMap(name: ""example.scalarfunction"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
-            public static partial Task<int?> GetValueAsync(DbConnection connection, CancellationToken cancellationToken);
-        }
-    }";
+        [SqlObjectMap(name: ""example.scalarfunction"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
+        public static partial Task<int?> GetValueAsync(DbConnection connection, CancellationToken cancellationToken);
+    }
+}";
 
         (string filename, string generated)[] expected =
         {
@@ -310,23 +331,26 @@ namespace ConsoleApplication1;
     public Task SimpleScalarFunctionNullableStringAsync()
     {
         const string test = @"
-    using System;
-    using System.Data.Common;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Credfeto.Database.Interfaces;
+using System;
+using System.Data;
+using System.Data.Common;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
+using Credfeto.Database.Interfaces;
 
 " + Constants.DatabaseTypes + Constants.AccountAddressClass + Constants.AccountAddressMapperClass + @"
 
-    namespace ConsoleApplication1
+namespace ConsoleApplication1
+{
+    public static partial class DatabaseWrapper
     {
-        public static partial class DatabaseWrapper
-        {
-            [SqlObjectMap(name: ""example.scalarfunction"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
-            public static partial Task<string?> GetValueAsync(DbConnection connection, CancellationToken cancellationToken);
-        }
-    }";
+        [SqlObjectMap(name: ""example.scalarfunction"", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
+        public static partial Task<string?> GetValueAsync(DbConnection connection, CancellationToken cancellationToken);
+    }
+}";
 
         (string filename, string generated)[] expected =
         {
