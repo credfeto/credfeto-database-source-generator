@@ -20,6 +20,7 @@ public sealed class DatabaseCodeGeneratorStoredProcedureTests : GeneratorVerifie
         const string test = @"
 using System;
 using System.Data.Common;
+using System.Diagnostics.CodeAnalysis;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -60,6 +61,7 @@ namespace ConsoleApplication1;
         const string test = @"
 using System;
 using System.Data.Common;
+using System.Diagnostics.CodeAnalysis;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;

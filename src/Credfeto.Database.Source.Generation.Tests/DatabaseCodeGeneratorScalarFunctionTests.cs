@@ -20,6 +20,7 @@ public sealed class DatabaseCodeGeneratorScalarFunctionTests : GeneratorVerifier
         const string test = @"
     using System;
     using System.Data.Common;
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading;
     using System.Threading.Tasks;
     using Credfeto.Database.Interfaces;
@@ -56,6 +57,7 @@ namespace ConsoleApplication1;
         const string test = @"
     using System;
     using System.Data.Common;
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading;
     using System.Threading.Tasks;
     using Credfeto.Database.Interfaces;
@@ -92,6 +94,7 @@ namespace ConsoleApplication1;
         const string test = @"
     using System;
     using System.Data.Common;
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading;
     using System.Threading.Tasks;
     using Credfeto.Database.Interfaces;
@@ -128,6 +131,7 @@ namespace ConsoleApplication1;
         const string test = @"
     using System;
     using System.Data.Common;
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading;
     using System.Threading.Tasks;
     using Credfeto.Database.Interfaces;
@@ -170,6 +174,7 @@ namespace ConsoleApplication1;
         const string test = @"
     using System;
     using System.Data.Common;
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading;
     using System.Threading.Tasks;
     using Credfeto.Database.Interfaces;
@@ -206,6 +211,7 @@ namespace ConsoleApplication1;
         const string test = @"
     using System;
     using System.Data.Common;
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading;
     using System.Threading.Tasks;
     using Credfeto.Database.Interfaces;
@@ -270,6 +276,7 @@ public static partial class DatabaseWrapper
         const string test = @"
     using System;
     using System.Data.Common;
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading;
     using System.Threading.Tasks;
     using Credfeto.Database.Interfaces;
@@ -305,6 +312,7 @@ namespace ConsoleApplication1;
         const string test = @"
     using System;
     using System.Data.Common;
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading;
     using System.Threading.Tasks;
     using Credfeto.Database.Interfaces;

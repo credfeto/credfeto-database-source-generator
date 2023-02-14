@@ -20,6 +20,7 @@ public sealed class DatabaseCodeGeneratorTableFunctionTests : GeneratorVerifierT
         const string test = @"
 using System;
 using System.Data.Common;
+using System.Diagnostics.CodeAnalysis;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
