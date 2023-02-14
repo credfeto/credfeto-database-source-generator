@@ -196,6 +196,10 @@ public static partial class DatabaseWrapper
     {
         DbCommand command = connection.CreateCommand();
         command.CommandText = ""select example.scalarfunction()"";
+        DbParameter p0 = command.CreateParameter();
+        p0.Value = factor;
+        p0.ParameterName = ""@factor"";
+        command.Parameters.Add(p0);
 
         object? result = await command.ExecuteScalarAsync(cancellationToken: cancellationToken);
 
@@ -263,10 +267,22 @@ namespace ConsoleApplication1;
 public static partial class DatabaseWrapper
 {
     [GeneratedCode(tool: ""Credfeto.Database.Source.Generation.DatabaseCodeGenerator"", version: ""1.0.0"")]
-    public static async partial System.Threading.Tasks.Task<int> GetValueAsync(System.Data.Common.DbConnection connection, System.Threading.CancellationToken cancellationToken)
+    public static async partial System.Threading.Tasks.Task<int> GetValueAsync(System.Data.Common.DbConnection connection, int factor, string name, AccountAddress address, System.Threading.CancellationToken cancellationToken)
     {
         DbCommand command = connection.CreateCommand();
-        command.CommandText = ""select example.scalarfunction()"";
+        command.CommandText = ""select example.scalarfunction(@factor, @name, @address)"";
+        DbParameter p0 = command.CreateParameter();
+        p0.Value = factor;
+        p0.ParameterName = ""@factor"";
+        command.Parameters.Add(p0);
+        DbParameter p1 = command.CreateParameter();
+        p1.Value = name;
+        p1.ParameterName = ""@name"";
+        command.Parameters.Add(p1);
+        DbParameter p2 = command.CreateParameter();
+        AccountAddressMapper.MapToDb(address, p2);
+        p2.ParameterName = ""@address"";
+        command.Parameters.Add(p2);
 
         object? result = await command.ExecuteScalarAsync(cancellationToken: cancellationToken);
 
