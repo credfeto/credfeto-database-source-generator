@@ -21,18 +21,44 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
             return;
         }
 
-        foreach (IGrouping<string, MethodGeneration> methodGroup in receiver.Methods.GroupBy(keySelector: m => m.MethodGrouping, comparer: StringComparer.OrdinalIgnoreCase))
+        if (receiver.Errors.Count != 0)
         {
-            IReadOnlyList<MethodGeneration> methods = methodGroup.ToArray();
-            string fullName = methodGroup.Key;
-            GenerateOneMethodGroup(context: context, methods: methods, fullName: fullName);
+            ReportErrors(context: context, receiver: receiver);
+
+            return;
         }
+
+        GenerateMethods(context: context, receiver: receiver);
     }
 
     public void Initialize(GeneratorInitializationContext context)
     {
         // Register a syntax receiver that will be created for each generation pass
         context.RegisterForSyntaxNotifications(() => new DatabaseSyntaxReceiver());
+    }
+
+    private static void ReportErrors(in GeneratorExecutionContext context, DatabaseSyntaxReceiver receiver)
+    {
+        foreach (InvalidModelInfo invalidModel in receiver.Errors)
+        {
+            context.ReportDiagnostic(diagnostic: Diagnostic.Create(new(id: "CDSG001",
+                                                                       title: "Invalid model",
+                                                                       messageFormat: invalidModel.Message,
+                                                                       category: "Credfeto.Database.Source.Generation",
+                                                                       defaultSeverity: DiagnosticSeverity.Error,
+                                                                       isEnabledByDefault: true),
+                                                                   location: invalidModel.Location));
+        }
+    }
+
+    private static void GenerateMethods(in GeneratorExecutionContext context, DatabaseSyntaxReceiver receiver)
+    {
+        foreach (IGrouping<string, MethodGeneration> methodGroup in receiver.Methods.GroupBy(keySelector: m => m.MethodGrouping, comparer: StringComparer.OrdinalIgnoreCase))
+        {
+            IReadOnlyList<MethodGeneration> methods = methodGroup.ToArray();
+            string fullName = methodGroup.Key;
+            GenerateOneMethodGroup(context: context, methods: methods, fullName: fullName);
+        }
     }
 
     private static void GenerateOneMethodGroup(in GeneratorExecutionContext context, IReadOnlyList<MethodGeneration> methods, string fullName)
