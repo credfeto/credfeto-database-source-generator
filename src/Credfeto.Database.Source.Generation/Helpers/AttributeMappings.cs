@@ -103,6 +103,16 @@ internal static class AttributeMappings
             return null;
         }
 
-        return new(name: objectName, (SqlObjectType)Enum.Parse(typeof(SqlObjectType), parts[1], ignoreCase: false));
+        return new(RemoveQuotes(objectName), (SqlObjectType)Enum.Parse(typeof(SqlObjectType), parts[1], ignoreCase: false));
+    }
+
+    private static string RemoveQuotes(string objectName)
+    {
+        if (objectName.StartsWith(value: "\"", comparisonType: StringComparison.Ordinal) && objectName.EndsWith(value: "\"", comparisonType: StringComparison.Ordinal))
+        {
+            return objectName.Substring(startIndex: 1, objectName.Length - 2);
+        }
+
+        return objectName;
     }
 }

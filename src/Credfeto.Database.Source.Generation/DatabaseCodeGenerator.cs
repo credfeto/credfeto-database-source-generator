@@ -56,6 +56,8 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
                      .AppendLine("using System.Threading;")
                      .AppendLine("using System.Threading.Tasks;")
                      .AppendBlankLine()
+                     .AppendLine("#nullable enable")
+                     .AppendBlankLine()
                      .AppendLine($"namespace {firstMethod.ContainingContext.Namespace};")
                      .AppendBlankLine()
                      .StartBlock($"{firstMethod.ContainingContext.AccessType.ToKeywords()} {classStaticModifier}partial class {firstMethod.ContainingContext.Name}"))
