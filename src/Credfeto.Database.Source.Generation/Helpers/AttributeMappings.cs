@@ -45,6 +45,11 @@ internal static class AttributeMappings
             return null;
         }
 
+        if (symbol.Kind == SymbolKind.ErrorType)
+        {
+            return null;
+        }
+
         INamedTypeSymbol? containingType = symbol.ContainingType;
 
         if (containingType == null)
@@ -86,6 +91,11 @@ internal static class AttributeMappings
         ISymbol? symbol = semanticModel.GetSymbol(attributeSyntax);
 
         if (symbol == null)
+        {
+            return null;
+        }
+
+        if (symbol.Kind == SymbolKind.ErrorType)
         {
             return null;
         }

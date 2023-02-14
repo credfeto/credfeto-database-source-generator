@@ -6,9 +6,7 @@ internal static class SemanticModelExtensions
 {
     public static ISymbol? GetSymbol(this SemanticModel semanticModel, SyntaxNode node)
     {
-        ISymbol? symbol = semanticModel.GetDeclaredSymbol(node) ?? semanticModel.GetSymbolInfo(node)
-                                                                                .Symbol;
-
-        return symbol;
+        return semanticModel.GetDeclaredSymbol(node) ?? semanticModel.GetSymbolInfo(node)
+                                                                     .Symbol;
     }
 }

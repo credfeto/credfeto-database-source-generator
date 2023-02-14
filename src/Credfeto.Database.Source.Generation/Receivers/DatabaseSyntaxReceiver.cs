@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
@@ -197,7 +196,7 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
 
     private static ClassInfo GetClass(SemanticModel semanticModel, ClassDeclarationSyntax classDeclarationSyntax)
     {
-        INamedTypeSymbol symbol = (INamedTypeSymbol)semanticModel.GetSymbol(classDeclarationSyntax)!;
+        INamedTypeSymbol symbol = (INamedTypeSymbol)ValidateSymbol(semanticModel.GetSymbol(classDeclarationSyntax), $"Could not determine class type for {classDeclarationSyntax.Identifier.Text}");
 
         return new(symbol.ContainingNamespace.ToDisplayString(), name: symbol.Name, classDeclarationSyntax.GetAccessType(), classDeclarationSyntax.Modifiers.Any(SyntaxKind.StaticKeyword));
     }
@@ -219,7 +218,7 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
     private static MethodParameter GetParameter(SemanticModel semanticModel, ParameterSyntax parameter)
     {
         string parameterName = parameter.Identifier.Text;
-        ISymbol pType = semanticModel.GetSymbol(parameter) ?? throw new InvalidOperationException(message: $"Could not determine type of parameter {parameterName}");
+        ISymbol pType = ValidateSymbol(semanticModel.GetSymbol(parameter), $"Could not determine type of parameter {parameterName}");
 
         MapperInfo? mapperInfo = AttributeMappings.GetMapperInfo(semanticModel: semanticModel, parameterSyntax: parameter);
 
