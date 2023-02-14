@@ -226,13 +226,38 @@ namespace ConsoleApplication1;
 
         (string filename, string generated)[] expected =
         {
-            (filename: "ConsoleApplication1.EnumExtensions.generated.cs", generated: @"using System;
+            (filename: "ConsoleApplication1.DatabaseWrapper.GetValueAsync.Database.generated.cs", generated: @"using System;
 using System.CodeDom.Compiler;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
+using System.Globalization;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+
+#nullable enable
 
 namespace ConsoleApplication1;
+
+public static partial class DatabaseWrapper
+{
+    [GeneratedCode(tool: ""Credfeto.Database.Source.Generation.DatabaseCodeGenerator"", version: ""1.0.0"")]
+    public static async partial System.Threading.Tasks.Task<Primatives.AccountAddress> GetValueAsync(System.Data.Common.DbConnection connection, System.Threading.CancellationToken cancellationToken)
+    {
+        DbCommand command = connection.CreateCommand();
+        command.CommandText = ""select example.scalarfunction()"";
+
+        object? result = await command.ExecuteScalarAsync(cancellationToken: cancellationToken);
+
+        if (result is null)
+        {
+            throw new InvalidOperationException(""No result returned."");
+        }
+
+        return Mappers.AccountAddressMapper.MapFromDb(value: result);
+    }
+}
 ")
         };
 
