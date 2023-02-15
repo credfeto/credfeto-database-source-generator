@@ -4,17 +4,17 @@ namespace Credfeto.Database.Source.Generation.Models;
 
 internal sealed class MethodGeneration
 {
-    public MethodGeneration(ClassInfo containingContext, MethodInfo methodInfo, SemanticModel semanticModel, SqlObject sqlObject)
+    public MethodGeneration(ClassInfo containingContext, MethodToGenerate methodToGenerate, SemanticModel semanticModel, SqlObject sqlObject)
     {
         this.ContainingContext = containingContext;
-        this.Method = methodInfo;
+        this.Method = methodToGenerate;
         this.SemanticModel = semanticModel;
         this.SqlObject = sqlObject;
     }
 
     public ClassInfo ContainingContext { get; }
 
-    public MethodInfo Method { get; }
+    public MethodToGenerate Method { get; }
 
     public SemanticModel SemanticModel { get; }
 

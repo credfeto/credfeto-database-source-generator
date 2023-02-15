@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading;
 using Credfeto.Database.Source.Generation.Exceptions;
 using Credfeto.Database.Source.Generation.Extensions;
 using Credfeto.Database.Source.Generation.Models;
@@ -10,35 +11,35 @@ namespace Credfeto.Database.Source.Generation.Helpers;
 
 internal static class AttributeMappings
 {
-    public static SqlObject? GetSqlObject(SemanticModel semanticModel, MethodDeclarationSyntax methodDeclarationSyntax)
+    public static SqlObject? GetSqlObject(SemanticModel semanticModel, MethodDeclarationSyntax methodDeclarationSyntax, CancellationToken cancellationToken)
     {
         return methodDeclarationSyntax.AttributeLists.SelectMany(selector: x => x.Attributes)
-                                      .Select(x => CreateSqlObject(semanticModel: semanticModel, attributeSyntax: x))
+                                      .Select(x => CreateSqlObject(semanticModel: semanticModel, attributeSyntax: x, cancellationToken: cancellationToken))
                                       .RemoveNulls()
                                       .FirstOrDefault();
     }
 
-    public static MapperInfo? GetMapperInfo(SemanticModel semanticModel, MethodDeclarationSyntax methodDeclarationSyntax)
+    public static MapperInfo? GetMapperInfo(SemanticModel semanticModel, MethodDeclarationSyntax methodDeclarationSyntax, CancellationToken cancellationToken)
     {
-        return GetMapperInfo(semanticModel: semanticModel, attributeLists: methodDeclarationSyntax.AttributeLists);
+        return GetMapperInfo(semanticModel: semanticModel, attributeLists: methodDeclarationSyntax.AttributeLists, cancellationToken: cancellationToken);
     }
 
-    public static MapperInfo? GetMapperInfo(SemanticModel semanticModel, ParameterSyntax parameterSyntax)
+    public static MapperInfo? GetMapperInfo(SemanticModel semanticModel, ParameterSyntax parameterSyntax, CancellationToken cancellationToken)
     {
-        return GetMapperInfo(semanticModel: semanticModel, attributeLists: parameterSyntax.AttributeLists);
+        return GetMapperInfo(semanticModel: semanticModel, attributeLists: parameterSyntax.AttributeLists, cancellationToken: cancellationToken);
     }
 
-    private static MapperInfo? GetMapperInfo(SemanticModel semanticModel, in SyntaxList<AttributeListSyntax> attributeLists)
+    private static MapperInfo? GetMapperInfo(SemanticModel semanticModel, in SyntaxList<AttributeListSyntax> attributeLists, CancellationToken cancellationToken)
     {
         return attributeLists.SelectMany(selector: x => x.Attributes)
-                             .Select(x => CreateMapperInfo(semanticModel: semanticModel, attributeSyntax: x))
+                             .Select(x => CreateMapperInfo(semanticModel: semanticModel, attributeSyntax: x, cancellationToken: cancellationToken))
                              .RemoveNulls()
                              .FirstOrDefault();
     }
 
-    private static MapperInfo? CreateMapperInfo(SemanticModel semanticModel, AttributeSyntax attributeSyntax)
+    private static MapperInfo? CreateMapperInfo(SemanticModel semanticModel, AttributeSyntax attributeSyntax, CancellationToken cancellationToken)
     {
-        ISymbol? symbol = semanticModel.GetSymbol(attributeSyntax);
+        ISymbol? symbol = semanticModel.GetSymbol(node: attributeSyntax, cancellationToken: cancellationToken);
 
         if (symbol == null)
         {
@@ -86,9 +87,9 @@ internal static class AttributeMappings
         return new(mapperSymbol: mapperSymbol, mappedSymbol: mappedSymbol);
     }
 
-    private static SqlObject? CreateSqlObject(SemanticModel semanticModel, AttributeSyntax attributeSyntax)
+    private static SqlObject? CreateSqlObject(SemanticModel semanticModel, AttributeSyntax attributeSyntax, CancellationToken cancellationToken)
     {
-        ISymbol? symbol = semanticModel.GetSymbol(attributeSyntax);
+        ISymbol? symbol = semanticModel.GetSymbol(node: attributeSyntax, cancellationToken: cancellationToken);
 
         if (symbol == null)
         {

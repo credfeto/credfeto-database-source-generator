@@ -237,7 +237,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
         return BuildFunctionSignature(source: source, method: method.Method);
     }
 
-    private static IDisposable BuildFunctionSignature(CodeBuilder source, MethodInfo method)
+    private static IDisposable BuildFunctionSignature(CodeBuilder source, MethodToGenerate method)
     {
         string methodStaticModifier = method.IsStatic
             ? "static "

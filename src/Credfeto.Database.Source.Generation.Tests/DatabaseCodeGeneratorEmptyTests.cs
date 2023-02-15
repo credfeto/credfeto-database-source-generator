@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using System.Threading.Tasks;
 using Credfeto.Database.Source.Generation.Tests.Verifiers;
 using Xunit;
@@ -28,6 +29,6 @@ namespace ConsoleApplication1
     }
 }";
 
-        return this.VerifyAsync(code: test, Array.Empty<(string filename, string generated)>());
+        return this.VerifyAsync(code: test, Array.Empty<(string filename, string generated)>(), cancellationToken: CancellationToken.None);
     }
 }

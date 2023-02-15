@@ -2,9 +2,9 @@ using System.Collections.Generic;
 
 namespace Credfeto.Database.Source.Generation.Models;
 
-internal sealed class MethodInfo
+internal sealed class MethodToGenerate
 {
-    public MethodInfo(AccessType accessType, bool isStatic, string name, MethodReturnType returnType, IReadOnlyList<MethodParameter> parameters)
+    public MethodToGenerate(AccessType accessType, bool isStatic, string name, MethodReturnType returnType, IReadOnlyList<MethodParameter> parameters)
     {
         this.AccessType = accessType;
         this.IsStatic = isStatic;

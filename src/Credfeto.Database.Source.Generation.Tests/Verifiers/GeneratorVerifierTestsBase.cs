@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using FunFair.Test.Common;
 using Microsoft.CodeAnalysis;
@@ -17,7 +18,16 @@ public abstract class GeneratorVerifierTestsBase<TSourceGenerator> : LoggingTest
     {
     }
 
-    protected Task VerifyAsync(string code, IReadOnlyList<(string filename, string generated)> expected)
+    protected Task VerifyAsync(string code, IReadOnlyList<(string filename, string generated)> expected, in CancellationToken cancellationToken)
+    {
+        CSharpSourceGeneratorVerifier<TSourceGenerator>.Test t = BuildSources(code: code, expected: expected);
+
+        this.Output.WriteLine(code);
+
+        return t.RunAsync(cancellationToken);
+    }
+
+    private static CSharpSourceGeneratorVerifier<TSourceGenerator>.Test BuildSources(string code, IReadOnlyList<(string filename, string generated)> expected)
     {
         CSharpSourceGeneratorVerifier<TSourceGenerator>.Test t = new() { TestState = { Sources = { code } } };
 
@@ -29,8 +39,6 @@ public abstract class GeneratorVerifierTestsBase<TSourceGenerator> : LoggingTest
             t.TestState.GeneratedSources.Add(item);
         }
 
-        this.Output.WriteLine(code);
-
-        return t.RunAsync();
+        return t;
     }
 }
