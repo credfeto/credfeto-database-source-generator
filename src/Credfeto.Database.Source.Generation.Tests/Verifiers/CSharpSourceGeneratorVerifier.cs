@@ -11,7 +11,7 @@ public static class CSharpSourceGeneratorVerifier<TSourceGenerator>
 {
     internal sealed class Test : CSharpSourceGeneratorTest<TSourceGenerator, XUnitVerifier>
     {
-        private LanguageVersion LanguageVersion { get; } = LanguageVersion.Default;
+        private LanguageVersion LanguageVersion { get; } = LanguageVersion.Latest;
 
         protected override CompilationOptions CreateCompilationOptions()
         {
