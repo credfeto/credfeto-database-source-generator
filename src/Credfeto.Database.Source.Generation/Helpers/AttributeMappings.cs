@@ -24,6 +24,15 @@ internal static class AttributeMappings
         return GetMapperInfo(semanticModel: semanticModel, attributeLists: methodDeclarationSyntax.AttributeLists, cancellationToken: cancellationToken);
     }
 
+    public static MapperInfo? GetMapperInfo(this IParameterSymbol parameterSymbol)
+    {
+        return parameterSymbol.GetAttributes()
+                              .Select(x => x.AttributeClass)
+                              .RemoveNulls()
+                              .Select(CreateMapperInfo2)
+                              .FirstOrDefault();
+    }
+
     public static MapperInfo? GetMapperInfo(SemanticModel semanticModel, ParameterSyntax parameterSyntax, CancellationToken cancellationToken)
     {
         return GetMapperInfo(semanticModel: semanticModel, attributeLists: parameterSyntax.AttributeLists, cancellationToken: cancellationToken);
@@ -41,6 +50,11 @@ internal static class AttributeMappings
     {
         ISymbol? symbol = semanticModel.GetSymbol(node: attributeSyntax, cancellationToken: cancellationToken);
 
+        return CreateMapperInfo(symbol);
+    }
+
+    private static MapperInfo? CreateMapperInfo(ISymbol? symbol)
+    {
         if (symbol == null)
         {
             return null;
@@ -53,6 +67,31 @@ internal static class AttributeMappings
 
         INamedTypeSymbol? containingType = symbol.ContainingType;
 
+        return CreateMapperInfo(containingType);
+    }
+
+    private static MapperInfo? CreateMapperInfo2(ISymbol? symbol)
+    {
+        if (symbol == null)
+        {
+            return null;
+        }
+
+        if (symbol.Kind == SymbolKind.ErrorType)
+        {
+            return null;
+        }
+
+        if (symbol is not INamedTypeSymbol namedTypeSymbol)
+        {
+            return null;
+        }
+
+        return CreateMapperInfo(namedTypeSymbol);
+    }
+
+    private static MapperInfo? CreateMapperInfo(INamedTypeSymbol containingType)
+    {
         if (containingType == null)
         {
             return null;

@@ -179,7 +179,11 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
                             : ",";
 
                         IParameterSymbol column = columns[columnIndex];
-                        source.AppendLine($"                         {column.Name}: ({column.Type.ToDisplayString()})reader.GetValue(ordinal{column.Name}){end}");
+
+                        MapperInfo? mapperInfo = column.GetMapperInfo();
+                        source.AppendLine(mapperInfo != null
+                                              ? $"                         {column.Name}: {mapperInfo.MapperSymbol.ToDisplayString()}.MapFromDb(reader.GetValue(ordinal{column.Name})){end}"
+                                              : $"                         {column.Name}: ({column.Type.ToDisplayString()})reader.GetValue(ordinal{column.Name}){end}");
                     }
 
                     source.AppendLine("                         );");
@@ -205,20 +209,20 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
 
     private static ImmutableArray<IParameterSymbol> ExtractColumns(INamedTypeSymbol returnType)
     {
-        bool IsSameType(IMethodSymbol c)
+        bool IsSameType(IMethodSymbol constructor)
         {
-            if (c.IsStatic)
+            if (constructor.IsStatic)
             {
                 return false;
             }
 
-            if (c.DeclaredAccessibility != Accessibility.Public)
+            if (constructor.DeclaredAccessibility != Accessibility.Public)
             {
                 return false;
             }
 
-            return c.Parameters.Length == 1 && c.Parameters[0]
-                                                .Type.ToDisplayString() == returnType.ToDisplayString();
+            return constructor.Parameters.Length == 1 && constructor.Parameters[0]
+                                                                    .Type.ToDisplayString() == returnType.ToDisplayString();
         }
 
         ImmutableArray<IParameterSymbol> columns = returnType.Constructors.Where(c => c.Parameters.Length > 0 && !IsSameType(c))
