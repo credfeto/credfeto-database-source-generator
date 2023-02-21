@@ -142,7 +142,39 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
             ImmutableArray<IParameterSymbol> columns = ExtractColumns((INamedTypeSymbol)method.Method.ReturnType.ElementReturnType!);
             string columnSelector = BuildFunctionColumns(columns: columns);
 
-            source.AppendLine("DbCommand command = connection.CreateCommand();")
+            string returnType = method.Method.ReturnType.ElementReturnType!.ToDisplayString();
+
+            using (source.AppendBlankLine()
+                         .StartBlock($"static IEnumerable<{returnType}> Extract(IDataReader reader)"))
+            {
+                foreach (string column in columns.Select(selector: column => column.Name))
+                {
+                    source.AppendLine($"int ordinal{column} = reader.GetOrdinal(name: \"{column}\");");
+                }
+
+                using (source.StartBlock("while (reader.Read())"))
+                {
+                    source.AppendLine($"yield return new {returnType}(");
+
+                    for (int columnIndex = 0; columnIndex < columns.Length; columnIndex++)
+                    {
+                        bool isLast = columnIndex == columns.Length - 1;
+                        string end = isLast
+                            ? ");"
+                            : ",";
+
+                        IParameterSymbol column = columns[columnIndex];
+
+                        MapperInfo? mapperInfo = column.GetMapperInfo();
+                        source.AppendLine(mapperInfo != null
+                                              ? $"                         {column.Name}: {mapperInfo.MapperSymbol.ToDisplayString()}.MapFromDb(reader.GetValue(ordinal{column.Name})){end}"
+                                              : $"                         {column.Name}: ({column.Type.ToDisplayString()})reader.GetValue(ordinal{column.Name}){end}");
+                    }
+                }
+            }
+
+            source.AppendBlankLine()
+                  .AppendLine("DbCommand command = connection.CreateCommand();")
                   .AppendLine($"command.CommandText = \"select {columnSelector} from {method.SqlObject.Name}({functionParameters})\";");
             AppendCommandParameters(source: source, method: method, command: "command");
 
@@ -153,51 +185,9 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
             using (source.AppendBlankLine()
                          .StartBlock($"using (IDataReader reader = await command.ExecuteReaderAsync(behavior: CommandBehavior.{commandBehaviour}, cancellationToken: cancellationToken))"))
             {
-                foreach (string column in columns.Select(selector: column => column.Name))
-                {
-                    source.AppendLine($"int ordinal{column} = reader.GetOrdinal(name: \"{column}\");");
-                }
-
-                string returnType = method.Method.ReturnType.ElementReturnType!.ToDisplayString();
-
-                source.AppendBlankLine();
-
-                if (isCollection)
-                {
-                    source.AppendLine($"List<{returnType}> records = new();");
-                }
-
-                using (source.StartBlock("while (reader.Read())"))
-                {
-                    source.AppendLine($"{returnType} record = new(");
-
-                    for (int columnIndex = 0; columnIndex < columns.Length; columnIndex++)
-                    {
-                        bool isLast = columnIndex == columns.Length - 1;
-                        string end = isLast
-                            ? string.Empty
-                            : ",";
-
-                        IParameterSymbol column = columns[columnIndex];
-
-                        MapperInfo? mapperInfo = column.GetMapperInfo();
-                        source.AppendLine(mapperInfo != null
-                                              ? $"                         {column.Name}: {mapperInfo.MapperSymbol.ToDisplayString()}.MapFromDb(reader.GetValue(ordinal{column.Name})){end}"
-                                              : $"                         {column.Name}: ({column.Type.ToDisplayString()})reader.GetValue(ordinal{column.Name}){end}");
-                    }
-
-                    source.AppendLine("                         );");
-
-                    source.AppendLine(isCollection
-                                          ? "records.Add(item: record);"
-                                          : "return record;");
-                }
-
-                source.AppendBlankLine();
-
                 source.AppendLine(isCollection
-                                      ? "return records;"
-                                      : "return null;");
+                                      ? "return Extract(reader: reader).ToArray();"
+                                      : "return Extract(reader: reader).FirstOrDefault();");
             }
         }
     }
