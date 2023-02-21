@@ -69,9 +69,9 @@ public static partial class DatabaseWrapper
     {
         static IEnumerable<Models.Account> Extract(IDataReader reader)
         {
-            int ordinalId = reader.GetOrdinal(name: ""Id"");
-            int ordinalName = reader.GetOrdinal(name: ""Name"");
-            int ordinalAddress = reader.GetOrdinal(name: ""Address"");
+            int ordinalId = reader.GetOrdinal(name: nameof(Models.Account.Id));
+            int ordinalName = reader.GetOrdinal(name: nameof(Models.Account.Name));
+            int ordinalAddress = reader.GetOrdinal(name: nameof(Models.Account.Address));
             while (reader.Read())
             {
                 yield return new Models.Account(

@@ -148,7 +148,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
             {
                 foreach (string column in columns.Select(selector: column => column.Name))
                 {
-                    source.AppendLine($"int ordinal{column} = reader.GetOrdinal(name: \"{column}\");");
+                    source.AppendLine($"int ordinal{column} = reader.GetOrdinal(name: nameof({returnType}.{column}));");
                 }
 
                 using (source.StartBlock("while (reader.Read())"))
