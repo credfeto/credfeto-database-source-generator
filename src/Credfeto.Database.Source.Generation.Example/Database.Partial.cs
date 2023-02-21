@@ -1,13 +1,10 @@
 #define IGNORE
 using System.CodeDom.Compiler;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Credfeto.Database.Source.Generation.Example.Mappers;
-using Credfeto.Database.Source.Generation.Example.Models;
 using Credfeto.Database.Source.Generation.Example.Primatives;
 
 namespace Credfeto.Database.Source.Generation.Example;
@@ -15,6 +12,7 @@ namespace Credfeto.Database.Source.Generation.Example;
 #if IGNORE
 public static partial class Database
 {
+#if TABLE_FUNCTIONS
     [GeneratedCode(tool: "Credfeto.Database.Source.Generation.Example", version: "0.0.0.1")]
     public static async partial Task<Accounts?> GetAsync(DbConnection connection, int id, CancellationToken cancellationToken)
     {
@@ -53,6 +51,7 @@ public static partial class Database
                 .ToArray();
         }
     }
+#endif
 
     [GeneratedCode(tool: "Credfeto.Database.Source.Generation.Example", version: "0.0.0.1")]
     public static partial Task InsertAsync(DbConnection connection, string name, AccountAddress address, CancellationToken cancellationToken)
@@ -76,13 +75,13 @@ public static partial class Database
         return command.ExecuteNonQueryAsync(cancellationToken);
     }
 
+#if TABLE_FUNCTIONS
     private static IEnumerable<Accounts> ExtractAccountAddress(IDataReader reader)
     {
         int ordinalId = reader.GetOrdinal(nameof(Accounts.Id));
         int ordinalName = reader.GetOrdinal(nameof(Accounts.Name));
         int ordinalAddress = reader.GetOrdinal(nameof(Accounts.Address));
 
-        while (reader.Read())
         {
             int recId = reader.GetInt32(ordinalId);
             string recName = reader.GetString(ordinalName);
@@ -92,6 +91,7 @@ public static partial class Database
             yield return new(Id: recId, Name: recName, Address: recAddress);
         }
     }
+#endif
 
 #if FALSE
     public static async partial Task<int> GetMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken)

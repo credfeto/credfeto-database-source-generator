@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using Credfeto.Database.Source.Generation.Builders;
@@ -117,7 +120,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
 
                 break;
             case SqlObjectType.TABLE_FUNCTION:
-                GenerateTableFunctionMethod(method: method, source: source, classStaticModifier: classStaticModifier);
+                GenerateTableFunctionMethod(method: method, source: source);
 
                 break;
             case SqlObjectType.STORED_PROCEDURE:
@@ -128,25 +131,101 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
         }
     }
 
-    private static void GenerateTableFunctionMethod(MethodGeneration method, CodeBuilder source, string classStaticModifier)
+    [SuppressMessage(category: "Meziantou.Analyzer", checkId: "MA0051:Method too long", Justification = "Test")]
+    private static void GenerateTableFunctionMethod(MethodGeneration method, CodeBuilder source)
     {
-        using (source.StartBlock(text: "", start: "/*", end: "*/"))
+        bool isCollection = method.Method.ReturnType.CollectionReturnType != null;
+
+        using (BuildFunctionSignature(source: source, method: method))
         {
-            using (BuildFunctionSignature(source: source, method: method))
+            string functionParameters = BuildFunctionParameters(method);
+            ImmutableArray<IParameterSymbol> columns = ExtractColumns((INamedTypeSymbol)method.Method.ReturnType.ElementReturnType!);
+            string columnSelector = BuildFunctionColumns(columns: columns);
+
+            source.AppendLine("DbCommand command = connection.CreateCommand();")
+                  .AppendLine($"command.CommandText = \"select {columnSelector} from {method.SqlObject.Name}({functionParameters})\";");
+            AppendCommandParameters(source: source, method: method, command: "command");
+
+            string commandBehaviour = isCollection
+                ? nameof(CommandBehavior.Default)
+                : nameof(CommandBehavior.SingleRow);
+
+            using (source.AppendBlankLine()
+                         .StartBlock($"using (IDataReader reader = await command.ExecuteReaderAsync(behavior: CommandBehavior.{commandBehaviour}, cancellationToken: cancellationToken))"))
             {
-                string functionParameters = BuildFunctionParameters(method);
+                foreach (string column in columns.Select(selector: column => column.Name))
+                {
+                    source.AppendLine($"int ordinal{column} = reader.GetOrdinal(name: \"{column}\");");
+                }
 
-                source.AppendLine($"select * from {method.SqlObject.Name}({functionParameters})");
+                string returnType = method.Method.ReturnType.ElementReturnType!.ToDisplayString();
 
-                source.AppendLine("await Task.CompletedTask;");
-                source.AppendLine("throw new NotImplementedException();");
+                source.AppendBlankLine();
+
+                if (isCollection)
+                {
+                    source.AppendLine($"List<{returnType}> records = new();");
+                }
+
+                using (source.StartBlock("while (reader.Read())"))
+                {
+                    source.AppendLine($"{returnType} record = new(");
+
+                    for (int columnIndex = 0; columnIndex < columns.Length; columnIndex++)
+                    {
+                        bool isLast = columnIndex == columns.Length - 1;
+                        string end = isLast
+                            ? string.Empty
+                            : ",";
+
+                        IParameterSymbol column = columns[columnIndex];
+                        source.AppendLine($"                         {column.Name}: ({column.Type.ToDisplayString()})reader.GetValue(ordinal{column.Name}){end}");
+                    }
+
+                    source.AppendLine("                         );");
+
+                    source.AppendLine(isCollection
+                                          ? "records.Add(item: record);"
+                                          : "return record;");
+                }
+
+                source.AppendBlankLine();
+
+                source.AppendLine(isCollection
+                                      ? "return records;"
+                                      : "return null;");
             }
         }
+    }
 
-        using (source.StartBlock(text: "", start: "/*", end: "*/"))
+    private static string BuildFunctionColumns(in ImmutableArray<IParameterSymbol> columns)
+    {
+        return string.Join(separator: ", ", columns.Select(selector: p => p.Name));
+    }
+
+    private static ImmutableArray<IParameterSymbol> ExtractColumns(INamedTypeSymbol returnType)
+    {
+        bool IsSameType(IMethodSymbol c)
         {
-            source.AppendLine($" {method.ContainingContext.Namespace} {method.ContainingContext.AccessType.GetName()} {classStaticModifier} partial {method.ContainingContext.Name}");
+            if (c.IsStatic)
+            {
+                return false;
+            }
+
+            if (c.DeclaredAccessibility != Accessibility.Public)
+            {
+                return false;
+            }
+
+            return c.Parameters.Length == 1 && c.Parameters[0]
+                                                .Type.ToDisplayString() == returnType.ToDisplayString();
         }
+
+        ImmutableArray<IParameterSymbol> columns = returnType.Constructors.Where(c => c.Parameters.Length > 0 && !IsSameType(c))
+                                                             .Select(selector: c => c.Parameters)
+                                                             .First();
+
+        return columns;
     }
 
     private static void GenerateScalarFunctionMethod(MethodGeneration method, CodeBuilder source)
