@@ -144,8 +144,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
 
             string returnType = method.Method.ReturnType.ElementReturnType!.ToDisplayString();
 
-            using (source.AppendBlankLine()
-                         .StartBlock($"static IEnumerable<{returnType}> Extract(IDataReader reader)"))
+            using (source.StartBlock($"static IEnumerable<{returnType}> Extract(IDataReader reader)"))
             {
                 foreach (string column in columns.Select(selector: column => column.Name))
                 {
