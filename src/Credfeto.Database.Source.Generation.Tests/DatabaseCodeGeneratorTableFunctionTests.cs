@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
+using Credfeto.Database.Source.Generation.Tests.Helpers;
 using Credfeto.Database.Source.Generation.Tests.Verifiers;
 using Xunit;
 using Xunit.Abstractions;
@@ -64,7 +65,7 @@ namespace ConsoleApplication1;
 
 public static partial class DatabaseWrapper
 {
-    [GeneratedCode(tool: ""Credfeto.Database.Source.Generation.DatabaseCodeGenerator"", version: ""1.0.0"")]
+    [GeneratedCode(tool: ""Credfeto.Database.Source.Generation.DatabaseCodeGenerator"", version: """ + VersionInformation.Version() + @""")]
     public static async partial System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<Models.Account>> GetValuesAsync(System.Data.Common.DbConnection connection, System.Threading.CancellationToken cancellationToken)
     {
         static IEnumerable<Models.Account> Extract(IDataReader reader)

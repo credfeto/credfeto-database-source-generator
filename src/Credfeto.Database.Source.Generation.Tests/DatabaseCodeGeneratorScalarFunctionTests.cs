@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
+using Credfeto.Database.Source.Generation.Tests.Helpers;
 using Credfeto.Database.Source.Generation.Tests.Verifiers;
 using Xunit;
 using Xunit.Abstractions;
@@ -60,7 +61,7 @@ namespace ConsoleApplication1;
 
 public static partial class DatabaseWrapper
 {
-    [GeneratedCode(tool: ""Credfeto.Database.Source.Generation.DatabaseCodeGenerator"", version: ""1.0.0"")]
+    [GeneratedCode(tool: ""Credfeto.Database.Source.Generation.DatabaseCodeGenerator"", version: """ + VersionInformation.Version() + @""")]
     public static async partial System.Threading.Tasks.Task<int> GetValueAsync(System.Data.Common.DbConnection connection, System.Threading.CancellationToken cancellationToken)
     {
         DbCommand command = connection.CreateCommand();
@@ -127,7 +128,7 @@ namespace ConsoleApplication1;
 
 public static partial class DatabaseWrapper
 {
-    [GeneratedCode(tool: ""Credfeto.Database.Source.Generation.DatabaseCodeGenerator"", version: ""1.0.0"")]
+    [GeneratedCode(tool: ""Credfeto.Database.Source.Generation.DatabaseCodeGenerator"", version: """ + VersionInformation.Version() + @""")]
     public static async partial System.Threading.Tasks.Task<int> GetValueAsync(System.Data.Common.DbConnection connection, int factor, System.Threading.CancellationToken cancellationToken)
     {
         DbCommand command = connection.CreateCommand();
@@ -198,7 +199,7 @@ namespace ConsoleApplication1;
 
 public static partial class DatabaseWrapper
 {
-    [GeneratedCode(tool: ""Credfeto.Database.Source.Generation.DatabaseCodeGenerator"", version: ""1.0.0"")]
+    [GeneratedCode(tool: ""Credfeto.Database.Source.Generation.DatabaseCodeGenerator"", version: """ + VersionInformation.Version() + @""")]
     public static async partial System.Threading.Tasks.Task<int> GetValueAsync(System.Data.Common.DbConnection connection, int factor, string name, System.Threading.CancellationToken cancellationToken)
     {
         DbCommand command = connection.CreateCommand();
@@ -281,7 +282,7 @@ namespace ConsoleApplication1;
 
 public static partial class DatabaseWrapper
 {
-    [GeneratedCode(tool: ""Credfeto.Database.Source.Generation.DatabaseCodeGenerator"", version: ""1.0.0"")]
+    [GeneratedCode(tool: ""Credfeto.Database.Source.Generation.DatabaseCodeGenerator"", version: """ + VersionInformation.Version() + @""")]
     public static async partial System.Threading.Tasks.Task<int> GetValueAsync(System.Data.Common.DbConnection connection, int factor, string name, Primatives.AccountAddress address, System.Threading.CancellationToken cancellationToken)
     {
         DbCommand command = connection.CreateCommand();
@@ -360,7 +361,7 @@ namespace ConsoleApplication1;
 
 public static partial class DatabaseWrapper
 {
-    [GeneratedCode(tool: ""Credfeto.Database.Source.Generation.DatabaseCodeGenerator"", version: ""1.0.0"")]
+    [GeneratedCode(tool: ""Credfeto.Database.Source.Generation.DatabaseCodeGenerator"", version: """ + VersionInformation.Version() + @""")]
     public static async partial System.Threading.Tasks.Task<string> GetValueAsync(System.Data.Common.DbConnection connection, System.Threading.CancellationToken cancellationToken)
     {
         DbCommand command = connection.CreateCommand();
@@ -430,7 +431,7 @@ namespace ConsoleApplication1;
 
 public static partial class DatabaseWrapper
 {
-    [GeneratedCode(tool: ""Credfeto.Database.Source.Generation.DatabaseCodeGenerator"", version: ""1.0.0"")]
+    [GeneratedCode(tool: ""Credfeto.Database.Source.Generation.DatabaseCodeGenerator"", version: """ + VersionInformation.Version() + @""")]
     public static async partial System.Threading.Tasks.Task<Primatives.AccountAddress> GetValueAsync(System.Data.Common.DbConnection connection, System.Threading.CancellationToken cancellationToken)
     {
         DbCommand command = connection.CreateCommand();
@@ -497,7 +498,7 @@ namespace ConsoleApplication1;
 
 public static partial class DatabaseWrapper
 {
-    [GeneratedCode(tool: ""Credfeto.Database.Source.Generation.DatabaseCodeGenerator"", version: ""1.0.0"")]
+    [GeneratedCode(tool: ""Credfeto.Database.Source.Generation.DatabaseCodeGenerator"", version: """ + VersionInformation.Version() + @""")]
     public static async partial System.Threading.Tasks.Task<int?> GetValueAsync(System.Data.Common.DbConnection connection, System.Threading.CancellationToken cancellationToken)
     {
         DbCommand command = connection.CreateCommand();
@@ -564,7 +565,7 @@ namespace ConsoleApplication1;
 
 public static partial class DatabaseWrapper
 {
-    [GeneratedCode(tool: ""Credfeto.Database.Source.Generation.DatabaseCodeGenerator"", version: ""1.0.0"")]
+    [GeneratedCode(tool: ""Credfeto.Database.Source.Generation.DatabaseCodeGenerator"", version: """ + VersionInformation.Version() + @""")]
     public static async partial System.Threading.Tasks.Task<string?> GetValueAsync(System.Data.Common.DbConnection connection, System.Threading.CancellationToken cancellationToken)
     {
         DbCommand command = connection.CreateCommand();
