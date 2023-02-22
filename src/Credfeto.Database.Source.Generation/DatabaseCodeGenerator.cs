@@ -104,14 +104,14 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
                     source.AppendBlankLine();
                 }
 
-                GenerateMethod(method: method, source: source, classStaticModifier: classStaticModifier);
+                GenerateMethod(method: method, source: source);
             }
         }
 
         context.AddSource($"{fullName}.Database.generated.cs", sourceText: source.Text);
     }
 
-    private static void GenerateMethod(MethodGeneration method, CodeBuilder source, string classStaticModifier)
+    private static void GenerateMethod(MethodGeneration method, CodeBuilder source)
     {
         switch (method.SqlObject.SqlObjectType)
         {
@@ -124,7 +124,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
 
                 break;
             case SqlObjectType.STORED_PROCEDURE:
-                GenerateStoredProcedureMethod(method: method, source: source, classStaticModifier: classStaticModifier);
+                GenerateStoredProcedureMethod(method: method, source: source);
 
                 break;
             default: throw new ArgumentOutOfRangeException(nameof(method), actualValue: method.SqlObject.SqlObjectType, message: "Unsupported SQL object type");
@@ -346,7 +346,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
         return source.StartBlock(stringBuilder.ToString());
     }
 
-    private static void GenerateStoredProcedureMethod(MethodGeneration method, CodeBuilder source, string classStaticModifier)
+    private static void GenerateStoredProcedureMethod(MethodGeneration method, CodeBuilder source)
     {
         using (BuildFunctionSignature(source: source, method: method))
         {
@@ -383,11 +383,6 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
                                           : "return Extract(reader: reader).FirstOrDefault();");
                 }
             }
-        }
-
-        using (source.StartBlock(text: "", start: "/*", end: "*/"))
-        {
-            source.AppendLine($" {method.ContainingContext.Namespace} {method.ContainingContext.AccessType.GetName()} {classStaticModifier} partial {method.ContainingContext.Name}");
         }
     }
 }
