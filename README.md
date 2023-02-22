@@ -1,5 +1,5 @@
-# cs-template
-C# Template
+# credfeto-database-source-generator
+Database source generator
 
 ## Changelog
 

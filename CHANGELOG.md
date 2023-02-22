@@ -7,6 +7,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 
 ## [Unreleased]
 ### Added
+- Simple generation for stored procedures and user defined functions
 ### Fixed
 ### Changed
 - FF-3881 - Updated DotNet SDK to 7.0.102
