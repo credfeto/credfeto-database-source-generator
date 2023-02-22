@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Credfeto.Database.Interfaces\Credfeto.Database.Interfaces.csproj"/>
+    <ProjectReference Include="..\Credfeto.Database.Pgsql\Credfeto.Database.Pgsql.csproj"/>
     <ProjectReference Include="..\Credfeto.Database.Source.Generation\Credfeto.Database.Source.Generation.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
   </ItemGroup>
   <Import Project="$(SolutionDir)KeepGeneratedFiles.props" Condition="Exists('$(SolutionDir)KeepGeneratedFiles.props')"/>

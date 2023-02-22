@@ -30,6 +30,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Credfeto.Database.Source.Ge
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Credfeto.Database.Source.Generation.Tests", "Credfeto.Database.Source.Generation.Tests\Credfeto.Database.Source.Generation.Tests.csproj", "{F4CB78A0-08B6-4D95-B053-8EC429900CE7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Credfeto.Database", "Credfeto.Database\Credfeto.Database.csproj", "{15F6C0B1-9441-4BC5-B1F6-AAD14A3C3F98}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Credfeto.Database.Pgsql", "Credfeto.Database.Pgsql\Credfeto.Database.Pgsql.csproj", "{FCDB7BDB-0B01-4D8A-9167-BCB0B3A5E148}"
+EndProject
 Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{68B8DA2B-676E-4EA3-B4C4-48167E4B1A64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -52,6 +56,14 @@ Global
 		{F4CB78A0-08B6-4D95-B053-8EC429900CE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4CB78A0-08B6-4D95-B053-8EC429900CE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4CB78A0-08B6-4D95-B053-8EC429900CE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15F6C0B1-9441-4BC5-B1F6-AAD14A3C3F98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15F6C0B1-9441-4BC5-B1F6-AAD14A3C3F98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15F6C0B1-9441-4BC5-B1F6-AAD14A3C3F98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15F6C0B1-9441-4BC5-B1F6-AAD14A3C3F98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCDB7BDB-0B01-4D8A-9167-BCB0B3A5E148}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCDB7BDB-0B01-4D8A-9167-BCB0B3A5E148}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCDB7BDB-0B01-4D8A-9167-BCB0B3A5E148}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCDB7BDB-0B01-4D8A-9167-BCB0B3A5E148}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

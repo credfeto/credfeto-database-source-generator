@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <DebuggerSupport>true</DebuggerSupport>
     <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
@@ -38,19 +38,25 @@
     <Authors>Mark Ridgwell</Authors>
     <Company>Mark Ridgwell</Company>
     <Copyright>Mark Ridgwell</Copyright>
-    <PackageLicense>https://raw.githubusercontent.com/credfeto/credfeto-database-source-generation/main/LICENSE</PackageLicense>
-    <PackageReleaseNotes>$(ReleaseNotes)</PackageReleaseNotes>
     <NeutralLanguage>en-GB</NeutralLanguage>
+    <PackageLicense>https://raw.githubusercontent.com/credfeto/credfeto-database-source-generation/main/LICENSE</PackageLicense>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReleaseNotes>$(ReleaseNotes)</PackageReleaseNotes>
-    <PackageTags>Database wrapper.</PackageTags>
+    <PackageTags>Database wrapper PostgreSQL</PackageTags>
     <Product>Database wrapper</Product>
     <RepositoryUrl>https://github.com/credfeto/credfeto-database-source-generation</RepositoryUrl>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyTitle>Database interfaces</AssemblyTitle>
-    <Description>Database interfaces</Description>
+    <AssemblyTitle>PostgreSQL implemetation of database.</AssemblyTitle>
+    <Description>PostgreSQL implemetation of database.</Description>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Credfeto.Database\Credfeto.Database.csproj"/>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2"/>
+    <PackageReference Include="Npgsql" Version="7.0.1"/>
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AsyncFixer" Version="1.6.0" PrivateAssets="All" ExcludeAssets="runtime"/>
     <PackageReference Include="codecracker.CSharp" Version="1.1.0" PrivateAssets="All" ExcludeAssets="runtime"/>

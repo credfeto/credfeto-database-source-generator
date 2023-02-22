@@ -2,7 +2,7 @@
 namespace Credfeto.Database.Source.Generation.Example;
 
 #if IGNORE
-public static partial class Database
+internal static partial class Database
 {
 #if TABLE_FUNCTIONS
     [GeneratedCode(tool: "Credfeto.Database.Source.Generation.Example", version: "0.0.0.1")]

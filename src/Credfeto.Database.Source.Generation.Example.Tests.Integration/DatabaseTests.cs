@@ -5,20 +5,23 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Bogus.DataSets;
+using Credfeto.Database.Pgsql;
 using Credfeto.Database.Source.Generation.Example.Models;
 using FunFair.Test.Common;
-using Npgsql;
+using Microsoft.Extensions.Options;
 using Xunit;
 
 namespace Credfeto.Database.Source.Generation.Example.Tests.Integration;
 
 public sealed class DatabaseTests : TestBase
 {
-    private readonly NpgsqlDataSource _dataSource;
+    private readonly ITestDatabase _dataSource;
 
     public DatabaseTests()
     {
-        this._dataSource = NpgsqlDataSource.Create(new NpgsqlConnectionStringBuilder("Host=localhost;Username=markr;Password=ShhDontTellAnyone;Database=test"));
+        PgsqlServerConfiguration cfg = new("Host=localhost;Username=markr;Password=ShhDontTellAnyone;Database=test");
+        IDatabase db = new PgsqlDatabase(Options.Create(cfg), this.GetTypedLogger<PgsqlDatabase>());
+        this._dataSource = new TestDatabase(db);
     }
 
     [Fact]
@@ -26,9 +29,7 @@ public sealed class DatabaseTests : TestBase
     {
         using (CancellationTokenSource cts = new(TimeSpan.FromSeconds(60)))
         {
-            NpgsqlConnection connection = await this._dataSource.OpenConnectionAsync(cts.Token);
-
-            IReadOnlyList<Accounts> result = await Database.GetAllAsync(connection: connection, new() { Value = "0x1234567890123456789012345678901234567890" }, cancellationToken: cts.Token);
+            IReadOnlyList<Accounts> result = await this._dataSource.GetAllAsync(new() { Value = "0x1234567890123456789012345678901234567890" }, cancellationToken: cts.Token);
             Assert.NotNull(result);
         }
     }
@@ -38,9 +39,7 @@ public sealed class DatabaseTests : TestBase
     {
         using (CancellationTokenSource cts = new(TimeSpan.FromSeconds(60)))
         {
-            NpgsqlConnection connection = await this._dataSource.OpenConnectionAsync(cts.Token);
-
-            int result = await Database.GetMeaningOfLifeAsync(connection: connection, cancellationToken: cts.Token);
+            int result = await this._dataSource.GetMeaningOfLifeAsync(cancellationToken: cts.Token);
             Assert.Equal(expected: 42, actual: result);
         }
     }
@@ -50,12 +49,10 @@ public sealed class DatabaseTests : TestBase
     {
         using (CancellationTokenSource cts = new(TimeSpan.FromSeconds(60)))
         {
-            NpgsqlConnection connection = await this._dataSource.OpenConnectionAsync(cts.Token);
-
             Identity name = MakeFake<Identity>(rules: f => f.RuleFor(property: u => u.Name, setter: (faker, _) => faker.Name.FullName(faker.PickRandom<Name.Gender>())), itemCount: 1)
                 .First();
 
-            await Database.InsertAsync(connection: connection, name: name.Name, new() { Value = "0x1234567890123456789012345678901234567890" }, cancellationToken: cts.Token);
+            await this._dataSource.InsertAsync(name: name.Name, new() { Value = "0x1234567890123456789012345678901234567890" }, cancellationToken: cts.Token);
         }
     }
 

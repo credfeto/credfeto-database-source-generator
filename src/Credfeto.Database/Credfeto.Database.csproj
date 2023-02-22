@@ -10,7 +10,7 @@
     <IlcOptimizationPreference>Size</IlcOptimizationPreference>
     <ImplicitUsings>disable</ImplicitUsings>
     <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
-    <IsPackable>true</IsPackable>
+    <IsPackable>false</IsPackable>
     <IsPublishable>false</IsPublishable>
     <IsTrimmable>true</IsTrimmable>
     <LangVersion>latest</LangVersion>
@@ -38,19 +38,21 @@
     <Authors>Mark Ridgwell</Authors>
     <Company>Mark Ridgwell</Company>
     <Copyright>Mark Ridgwell</Copyright>
-    <PackageLicense>https://raw.githubusercontent.com/credfeto/credfeto-database-source-generation/main/LICENSE</PackageLicense>
-    <PackageReleaseNotes>$(ReleaseNotes)</PackageReleaseNotes>
     <NeutralLanguage>en-GB</NeutralLanguage>
+    <PackageLicense>https://raw.githubusercontent.com/credfeto/credfeto-database-source-generation/main/LICENSE</PackageLicense>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReleaseNotes>$(ReleaseNotes)</PackageReleaseNotes>
     <PackageTags>Database wrapper.</PackageTags>
     <Product>Database wrapper</Product>
-    <RepositoryUrl>https://github.com/credfeto/credfeto-database-source-generation</RepositoryUrl>
+    <RepositoryUrl>https://github.com/credfeto/credfeto-database-source-generator</RepositoryUrl>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyTitle>Database interfaces</AssemblyTitle>
     <Description>Database interfaces</Description>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Polly" Version="7.2.3"/>
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AsyncFixer" Version="1.6.0" PrivateAssets="All" ExcludeAssets="runtime"/>
     <PackageReference Include="codecracker.CSharp" Version="1.1.0" PrivateAssets="All" ExcludeAssets="runtime"/>
