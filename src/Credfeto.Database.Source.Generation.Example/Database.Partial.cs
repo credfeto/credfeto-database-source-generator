@@ -1,12 +1,4 @@
 #define IGNORE
-using System.CodeDom.Compiler;
-using System.Data;
-using System.Data.Common;
-using System.Threading;
-using System.Threading.Tasks;
-using Credfeto.Database.Source.Generation.Example.Mappers;
-using Credfeto.Database.Source.Generation.Example.Primatives;
-
 namespace Credfeto.Database.Source.Generation.Example;
 
 #if IGNORE
@@ -52,7 +44,7 @@ public static partial class Database
         }
     }
 #endif
-
+#if STORED_PROCEURE
     [GeneratedCode(tool: "Credfeto.Database.Source.Generation.Example", version: "0.0.0.1")]
     public static partial Task InsertAsync(DbConnection connection, string name, AccountAddress address, CancellationToken cancellationToken)
     {
@@ -74,6 +66,7 @@ public static partial class Database
 
         return command.ExecuteNonQueryAsync(cancellationToken);
     }
+#endif
 
 #if TABLE_FUNCTIONS
     private static IEnumerable<Accounts> ExtractAccountAddress(IDataReader reader)

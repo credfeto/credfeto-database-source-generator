@@ -350,7 +350,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
     {
         using (BuildFunctionSignature(source: source, method: method))
         {
-            if (method.Method.ReturnType.ElementReturnType is null)
+            if (method.Method.ReturnType.ElementReturnType != null)
             {
                 ImmutableArray<IParameterSymbol> columns = ExtractColumns((INamedTypeSymbol)method.Method.ReturnType.ElementReturnType!);
 
