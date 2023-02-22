@@ -144,33 +144,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
 
             string returnType = method.Method.ReturnType.ElementReturnType!.ToDisplayString();
 
-            using (source.StartBlock($"static IEnumerable<{returnType}> Extract(IDataReader reader)"))
-            {
-                foreach (string column in columns.Select(selector: column => column.Name))
-                {
-                    source.AppendLine($"int ordinal{column} = reader.GetOrdinal(name: nameof({returnType}.{column}));");
-                }
-
-                using (source.StartBlock("while (reader.Read())"))
-                {
-                    source.AppendLine($"yield return new {returnType}(");
-
-                    for (int columnIndex = 0; columnIndex < columns.Length; columnIndex++)
-                    {
-                        bool isLast = columnIndex == columns.Length - 1;
-                        string end = isLast
-                            ? ");"
-                            : ",";
-
-                        IParameterSymbol column = columns[columnIndex];
-
-                        MapperInfo? mapperInfo = column.GetMapperInfo();
-                        source.AppendLine(mapperInfo != null
-                                              ? $"                         {column.Name}: {mapperInfo.MapperSymbol.ToDisplayString()}.MapFromDb(reader.GetValue(ordinal{column.Name})){end}"
-                                              : $"                         {column.Name}: ({column.Type.ToDisplayString()})reader.GetValue(ordinal{column.Name}){end}");
-                    }
-                }
-            }
+            BuildExtractLocalMethod(source: source, returnType: returnType, columns: columns);
 
             source.AppendBlankLine()
                   .AppendLine("DbCommand command = connection.CreateCommand();")
@@ -187,6 +161,37 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
                 source.AppendLine(isCollection
                                       ? "return Extract(reader: reader).ToArray();"
                                       : "return Extract(reader: reader).FirstOrDefault();");
+            }
+        }
+    }
+
+    private static void BuildExtractLocalMethod(CodeBuilder source, string returnType, in ImmutableArray<IParameterSymbol> columns)
+    {
+        using (source.StartBlock($"static IEnumerable<{returnType}> Extract(IDataReader reader)"))
+        {
+            foreach (string column in columns.Select(selector: column => column.Name))
+            {
+                source.AppendLine($"int ordinal{column} = reader.GetOrdinal(name: nameof({returnType}.{column}));");
+            }
+
+            using (source.StartBlock("while (reader.Read())"))
+            {
+                source.AppendLine($"yield return new {returnType}(");
+
+                for (int columnIndex = 0; columnIndex < columns.Length; columnIndex++)
+                {
+                    bool isLast = columnIndex == columns.Length - 1;
+                    string end = isLast
+                        ? ");"
+                        : ",";
+
+                    IParameterSymbol column = columns[columnIndex];
+
+                    MapperInfo? mapperInfo = column.GetMapperInfo();
+                    source.AppendLine(mapperInfo != null
+                                          ? $"                         {column.Name}: {mapperInfo.MapperSymbol.ToDisplayString()}.MapFromDb(reader.GetValue(ordinal{column.Name})){end}"
+                                          : $"                         {column.Name}: ({column.Type.ToDisplayString()})reader.GetValue(ordinal{column.Name}){end}");
+                }
             }
         }
     }
@@ -343,20 +348,40 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
 
     private static void GenerateStoredProcedureMethod(MethodGeneration method, CodeBuilder source, string classStaticModifier)
     {
-        using (source.StartBlock(text: "", start: "/*", end: "*/"))
+        using (BuildFunctionSignature(source: source, method: method))
         {
-            using (BuildFunctionSignature(source: source, method: method))
+            if (method.Method.ReturnType.ElementReturnType is null)
             {
-                // TODO: Add Parameters, if any.
-                source.AppendLine("DbCommand command = connection.CreateCommand();")
-                      .AppendLine($"command.CommandText = \"{method.SqlObject.Name}\";")
-                      .AppendLine("command.CommandType = CommandType.StoredProcedure;");
-                AppendCommandParameters(source: source, method: method, command: "command");
+                ImmutableArray<IParameterSymbol> columns = ExtractColumns((INamedTypeSymbol)method.Method.ReturnType.ElementReturnType!);
 
-                source.AppendLine($"-- {method.SqlObject.Name} {method.SqlObject.SqlObjectType.GetName()}");
+                string returnType = method.Method.ReturnType.ElementReturnType!.ToDisplayString();
 
-                source.AppendLine("await Task.CompletedTask;");
-                source.AppendLine("throw new NotImplementedException();");
+                BuildExtractLocalMethod(source: source, returnType: returnType, columns: columns);
+            }
+
+            source.AppendLine("DbCommand command = connection.CreateCommand();")
+                  .AppendLine($"command.CommandText = \"{method.SqlObject.Name}\";")
+                  .AppendLine("command.CommandType = CommandType.StoredProcedure;");
+            AppendCommandParameters(source: source, method: method, command: "command");
+
+            if (method.Method.ReturnType.ElementReturnType is null)
+            {
+                source.AppendLine("await command.ExecuteNonQueryAsync(cancellationToken);");
+            }
+            else
+            {
+                bool isCollection = method.Method.ReturnType.CollectionReturnType != null;
+                string commandBehaviour = isCollection
+                    ? nameof(CommandBehavior.Default)
+                    : nameof(CommandBehavior.SingleRow);
+
+                using (source.AppendBlankLine()
+                             .StartBlock($"using (IDataReader reader = await command.ExecuteReaderAsync(behavior: CommandBehavior.{commandBehaviour}, cancellationToken: cancellationToken))"))
+                {
+                    source.AppendLine(isCollection
+                                          ? "return Extract(reader: reader).ToArray();"
+                                          : "return Extract(reader: reader).FirstOrDefault();");
+                }
             }
         }
 
