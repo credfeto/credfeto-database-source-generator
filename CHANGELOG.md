@@ -7,16 +7,20 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 
 ## [Unreleased]
 ### Added
-- Simple generation for stored procedures and user defined functions
 ### Fixed
 ### Changed
-- FF-1429 - Updated FunFair.Test.Common to 6.0.20.2640
-- FF-1429 - Updated NSubstitute to 5.0.0
-- FF-3881 - Updated DotNet SDK to 7.0.200
 ### Removed
 ### Deployment Changes
 
 <!--
 Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
 -->
+## [0.0.1] - 2023-02-23
+### Added
+- Simple generation for stored procedures and user defined functions
+### Changed
+- FF-1429 - Updated FunFair.Test.Common to 6.0.20.2640
+- FF-1429 - Updated NSubstitute to 5.0.0
+- FF-3881 - Updated DotNet SDK to 7.0.200
+
 ## [0.0.0] - Project created
