@@ -240,11 +240,21 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
 
         MapperInfo? mapperInfo = AttributeMappings.GetMapperInfo(semanticModel: semanticModel, parameterSyntax: parameter, cancellationToken: cancellationToken);
 
-        string displayType = pType.ToDisplayString();
+        string displayType = GetParameterType(pType: pType);
 
         return IsContextParameter(displayType)
             ? new(name: parameterName, type: pType, usage: MethodParameterUsage.CONTEXT, mapperInfo: null)
             : new(name: parameterName, type: pType, usage: MethodParameterUsage.DB, mapperInfo: mapperInfo);
+    }
+
+    private static string GetParameterType(ISymbol pType)
+    {
+        if (pType is IParameterSymbol ps)
+        {
+            return ps.Type.ToDisplayString();
+        }
+
+        return pType.ToDisplayString();
     }
 
     private static bool IsContextParameter(string displayType)

@@ -42,8 +42,6 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
 
     private static void ReportErrors(in GeneratorExecutionContext context, DatabaseSyntaxReceiver receiver)
     {
-        Console.WriteLine("Errors found");
-
         foreach (InvalidModelInfo invalidModel in receiver.Errors)
         {
             context.ReportDiagnostic(diagnostic: Diagnostic.Create(new(id: "CDSG001",
@@ -61,8 +59,32 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
         foreach (IGrouping<string, MethodGeneration> methodGroup in receiver.Methods.GroupBy(keySelector: m => m.MethodGrouping, comparer: StringComparer.OrdinalIgnoreCase))
         {
             IReadOnlyList<MethodGeneration> methods = methodGroup.ToArray();
-            string fullName = methodGroup.Key;
-            GenerateOneMethodGroup(context: context, methods: methods, fullName: fullName);
+
+            try
+            {
+                string fullName = methodGroup.Key;
+                context.ReportDiagnostic(diagnostic: Diagnostic.Create(new(id: "CDSG003",
+                                                                           title: "Info",
+                                                                           messageFormat: fullName,
+                                                                           category: "Credfeto.Database.Source.Generation",
+                                                                           defaultSeverity: DiagnosticSeverity.Info,
+                                                                           isEnabledByDefault: true),
+                                                                       methods.First()
+                                                                              .Method.ReturnType.ReturnType.Locations.First()));
+
+                GenerateOneMethodGroup(context: context, methods: methods, fullName: fullName);
+            }
+            catch (Exception exception)
+            {
+                context.ReportDiagnostic(diagnostic: Diagnostic.Create(new(id: "CDSG002",
+                                                                           title: "Unhandled exception",
+                                                                           messageFormat: exception.Message,
+                                                                           category: "Credfeto.Database.Source.Generation",
+                                                                           defaultSeverity: DiagnosticSeverity.Error,
+                                                                           isEnabledByDefault: true),
+                                                                       methodGroup.First()
+                                                                                  .Method.ReturnType.ReturnType.Locations.First()));
+            }
         }
     }
 
@@ -76,7 +98,6 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
             ? "static "
             : string.Empty;
 
-        // TODO: add in any other using declarations that are needed
         using (source.AppendLine("using System;")
                      .AppendLine("using System.CodeDom.Compiler;")
                      .AppendLine("using System.Collections.Generic;")
