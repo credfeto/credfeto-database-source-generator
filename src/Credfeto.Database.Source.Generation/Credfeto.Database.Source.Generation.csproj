@@ -37,11 +37,11 @@
     <Product>Source Generation</Product>
   </PropertyGroup>
   <PropertyGroup>
-    <Description>Source code generator for Enums.</Description>
+    <Description>Source code generator for database objects.</Description>
     <DevelopmentDependency>true</DevelopmentDependency>
     <NoPackageAnalysis>true</NoPackageAnalysis>
     <NeutralLanguage>en</NeutralLanguage>
-    <PackageTags>C# Source code generator Enum</PackageTags>
+    <PackageTags>C# Source code generator Database SQL</PackageTags>
     <RepositoryUrl>https://github.com/credfeto/credfeto-database-source-generation</RepositoryUrl>
   </PropertyGroup>
   <PropertyGroup>
