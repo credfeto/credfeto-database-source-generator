@@ -3,16 +3,14 @@
     <DebuggerSupport>true</DebuggerSupport>
     <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
     <EnablePackageValidation>true</EnablePackageValidation>
-    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
     <Features>strict;flow-analysis</Features>
     <GenerateNeutralResourcesLanguageAttribute>true</GenerateNeutralResourcesLanguageAttribute>
     <IlcGenerateStackTraceData>false</IlcGenerateStackTraceData>
     <IlcOptimizationPreference>Size</IlcOptimizationPreference>
     <ImplicitUsings>disable</ImplicitUsings>
     <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
-    <IsPackable>true</IsPackable>
+    <IsPackable>false</IsPackable>
     <IsPublishable>false</IsPublishable>
-    <IsTrimmable>true</IsTrimmable>
     <LangVersion>latest</LangVersion>
     <NoWarn/>
     <Nullable>enable</Nullable>
@@ -34,36 +32,27 @@
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
-  <PropertyGroup>
-    <Authors>Mark Ridgwell</Authors>
-    <Company>Mark Ridgwell</Company>
-    <Copyright>Mark Ridgwell</Copyright>
-    <NeutralLanguage>en-GB</NeutralLanguage>
-    <PackageLicense>https://raw.githubusercontent.com/credfeto/credfeto-database-source-generation/main/LICENSE</PackageLicense>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>$(ReleaseNotes)</PackageReleaseNotes>
-    <PackageTags>Database wrapper PostgreSQL</PackageTags>
-    <Product>Database wrapper</Product>
-    <RepositoryUrl>https://github.com/credfeto/credfeto-database-source-generation</RepositoryUrl>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyTitle>PostgreSQL implemetation of database.</AssemblyTitle>
-    <Description>PostgreSQL implemetation of database.</Description>
-  </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Credfeto.Database\Credfeto.Database.csproj"/>
+    <ProjectReference Include="..\Credfeto.Database.Pgsql\Credfeto.Database.Pgsql.csproj"/>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2"/>
-    <PackageReference Include="Npgsql" Version="7.0.1"/>
+    <PackageReference Include="FunFair.Test.Common" Version="6.0.21.2653"/>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1"/>
+    <PackageReference Include="NSubstitute" Version="5.0.0"/>
+    <PackageReference Include="TeamCity.VSTest.TestAdapter" Version="1.0.36"/>
+    <PackageReference Include="xunit" Version="2.4.2"/>
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5"/>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AsyncFixer" Version="1.6.0" PrivateAssets="All" ExcludeAssets="runtime"/>
     <PackageReference Include="codecracker.CSharp" Version="1.1.0" PrivateAssets="All" ExcludeAssets="runtime"/>
+    <PackageReference Include="coverlet.collector" Version="3.2.0" PrivateAssets="All" ExcludeAssets="runtime"/>
+    <PackageReference Include="coverlet.msbuild" Version="3.2.0" PrivateAssets="All" ExcludeAssets="runtime"/>
     <PackageReference Include="Credfeto.Enumeration.Source.Generation" Version="1.0.5.17" PrivateAssets="All" ExcludeAssets="runtime"/>
     <PackageReference Include="FunFair.CodeAnalysis" Version="5.9.0.1493" PrivateAssets="All" ExcludeAssets="runtime"/>
     <PackageReference Include="Meziantou.Analyzer" Version="2.0.14" PrivateAssets="All" ExcludeAssets="runtime"/>
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.5.22" PrivateAssets="All" ExcludeAssets="runtime"/>
+    <PackageReference Include="NSubstitute.Analyzers.CSharp" Version="1.0.16" PrivateAssets="All" ExcludeAssets="runtime"/>
     <PackageReference Include="Nullable.Extended.Analyzer" Version="1.10.4539" PrivateAssets="All" ExcludeAssets="runtime"/>
     <PackageReference Include="Philips.CodeAnalysis.DuplicateCodeAnalyzer" Version="1.1.7" PrivateAssets="All" ExcludeAssets="runtime"/>
     <PackageReference Include="Philips.CodeAnalysis.MaintainabilityAnalyzers" Version="1.2.32" PrivateAssets="All" ExcludeAssets="runtime"/>
@@ -73,5 +62,6 @@
     <PackageReference Include="SonarAnalyzer.CSharp" Version="8.52.0.60960" PrivateAssets="All" ExcludeAssets="runtime"/>
     <PackageReference Include="SourceLink.Create.CommandLine" Version="2.8.3" PrivateAssets="All" ExcludeAssets="runtime"/>
     <PackageReference Include="ToStringWithoutOverrideAnalyzer" Version="0.6.0" PrivateAssets="All" ExcludeAssets="runtime"/>
+    <PackageReference Include="xunit.analyzers" Version="1.1.0" PrivateAssets="All" ExcludeAssets="runtime"/>
   </ItemGroup>
 </Project>

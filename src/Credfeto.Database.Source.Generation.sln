@@ -34,6 +34,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Credfeto.Database", "Credfe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Credfeto.Database.Pgsql", "Credfeto.Database.Pgsql\Credfeto.Database.Pgsql.csproj", "{FCDB7BDB-0B01-4D8A-9167-BCB0B3A5E148}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Credfeto.Database.Pgsql.Tests", "Credfeto.Database.Pgsql.Tests\Credfeto.Database.Pgsql.Tests.csproj", "{A96CED07-7B69-4C40-B88C-63F1121E025C}"
+EndProject
 Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{68B8DA2B-676E-4EA3-B4C4-48167E4B1A64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -64,6 +66,10 @@ Global
 		{FCDB7BDB-0B01-4D8A-9167-BCB0B3A5E148}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCDB7BDB-0B01-4D8A-9167-BCB0B3A5E148}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCDB7BDB-0B01-4D8A-9167-BCB0B3A5E148}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A96CED07-7B69-4C40-B88C-63F1121E025C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A96CED07-7B69-4C40-B88C-63F1121E025C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A96CED07-7B69-4C40-B88C-63F1121E025C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A96CED07-7B69-4C40-B88C-63F1121E025C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

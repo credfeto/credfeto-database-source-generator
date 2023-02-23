@@ -42,6 +42,8 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
 
     private static void ReportErrors(in GeneratorExecutionContext context, DatabaseSyntaxReceiver receiver)
     {
+        Console.WriteLine("Errors found");
+
         foreach (InvalidModelInfo invalidModel in receiver.Errors)
         {
             context.ReportDiagnostic(diagnostic: Diagnostic.Create(new(id: "CDSG001",
