@@ -63,15 +63,6 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
             try
             {
                 string fullName = methodGroup.Key;
-                context.ReportDiagnostic(diagnostic: Diagnostic.Create(new(id: "CDSG003",
-                                                                           title: "Info",
-                                                                           messageFormat: fullName,
-                                                                           category: "Credfeto.Database.Source.Generation",
-                                                                           defaultSeverity: DiagnosticSeverity.Info,
-                                                                           isEnabledByDefault: true),
-                                                                       methods.First()
-                                                                              .Method.ReturnType.ReturnType.Locations.First()));
-
                 GenerateOneMethodGroup(context: context, methods: methods, fullName: fullName);
             }
             catch (Exception exception)
@@ -362,7 +353,6 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
 
             if (parameter.Type is IParameterSymbol ps)
             {
-                stringBuilder.AppendLine("// Parameter Symbol");
                 stringBuilder.Append(ps.Type.ToDisplayString())
                              .Append(' ')
                              .Append(parameter.Name);
