@@ -114,9 +114,21 @@
    color: "ff0000"
    description: "This pull request should not be merged yey"
 
+ - name: "Credfeto.Database"
+   color: "96f7d2"
+   description: "Changes in Credfeto.Database project"
+
  - name: "Credfeto.Database.Interfaces"
    color: "96f7d2"
    description: "Changes in Credfeto.Database.Interfaces project"
+
+ - name: "Credfeto.Database.Pgsql"
+   color: "96f7d2"
+   description: "Changes in Credfeto.Database.Pgsql project"
+
+ - name: "Credfeto.Database.Pgsql.Tests"
+   color: "0e8a16"
+   description: "Changes in Credfeto.Database.Pgsql.Tests project"
 
  - name: "Credfeto.Database.Source.Generation"
    color: "96f7d2"
