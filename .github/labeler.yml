@@ -32,8 +32,14 @@
  - any: [ './**/*.md' ]
 "github-actions":
  - any: [ '.github/workflows/*.yml' ]
+"Credfeto.Database":
+ - any: [ 'src/Credfeto.Database/**/*' ]
 "Credfeto.Database.Interfaces":
  - any: [ 'src/Credfeto.Database.Interfaces/**/*' ]
+"Credfeto.Database.Pgsql":
+ - any: [ 'src/Credfeto.Database.Pgsql/**/*' ]
+"Credfeto.Database.Pgsql.Tests":
+ - any: [ 'src/Credfeto.Database.Pgsql.Tests/**/*' ]
 "Credfeto.Database.Source.Generation":
  - any: [ 'src/Credfeto.Database.Source.Generation/**/*' ]
 "Example":
