@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if ERROR
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -64,3 +65,4 @@ public sealed class DatabaseTests : TestBase
         public string Name { get; set; } = default!;
     }
 }
+#endif

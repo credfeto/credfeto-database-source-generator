@@ -316,6 +316,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
         return BuildFunctionSignature(source: source, method: method.Method);
     }
 
+    [SuppressMessage(category: "", checkId: "ENUM001", Justification = "Temp code")]
     private static IDisposable BuildFunctionSignature(CodeBuilder source, MethodToGenerate method)
     {
         string methodStaticModifier = method.IsStatic
@@ -338,9 +339,17 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
                 stringBuilder.Append(", ");
             }
 
-            stringBuilder.Append(parameter.Type.ToDisplayString())
-                         .Append(' ')
-                         .Append(parameter.Name);
+            if (parameter.Type is IParameterSymbol ps)
+            {
+                stringBuilder.AppendLine("// Parameter Symbol");
+                stringBuilder.Append(ps.Type.ToDisplayString())
+                             .Append(' ')
+                             .Append(parameter.Name);
+            }
+            else
+            {
+                stringBuilder.Append(parameter.Type.ToDisplayString());
+            }
         }
 
         stringBuilder.Append(')');

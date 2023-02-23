@@ -9,7 +9,7 @@ using Credfeto.Database.Source.Generation.Example.Primatives;
 
 namespace Credfeto.Database.Source.Generation.Example;
 
-internal static partial class Database
+internal static partial class DatabaseWrapper
 {
     [SqlObjectMap(name: "ethereum.account_getall", sqlObjectType: SqlObjectType.TABLE_FUNCTION)]
     public static partial Task<IReadOnlyList<Accounts>> GetAllAsync(DbConnection connection,

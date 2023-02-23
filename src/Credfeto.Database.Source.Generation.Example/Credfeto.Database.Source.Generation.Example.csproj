@@ -43,7 +43,7 @@
     <PackageReleaseNotes>$(ReleaseNotes)</PackageReleaseNotes>
     <PackageTags>Database wrapper.</PackageTags>
     <Product>Database wrapper</Product>
-    <RepositoryUrl>https://github.com/credfeto/credfeto-database</RepositoryUrl>
+    <RepositoryUrl>https://github.com/credfeto/credfeto-database-source-generation</RepositoryUrl>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyTitle>Database interfaces</AssemblyTitle>
