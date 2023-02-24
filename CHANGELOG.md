@@ -10,6 +10,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Fixed
 ### Changed
 - Used CALL for stored procedures
+- FF-1429 - Updated Meziantou.Analyzer to 2.0.18
 ### Removed
 ### Deployment Changes
 
