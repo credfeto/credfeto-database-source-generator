@@ -381,9 +381,9 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
                 BuildExtractLocalMethod(source: source, returnType: returnType, columns: columns);
             }
 
+            string functionParameters = BuildFunctionParameters(method);
             source.AppendLine("DbCommand command = connection.CreateCommand();")
-                  .AppendLine($"command.CommandText = \"{method.SqlObject.Name}\";")
-                  .AppendLine("command.CommandType = CommandType.StoredProcedure;");
+                  .AppendLine($"command.CommandText = \"CALL {method.SqlObject.Name}({functionParameters})\";");
             AppendCommandParameters(source: source, method: method, command: "command");
 
             if (method.Method.ReturnType.ElementReturnType is null)
