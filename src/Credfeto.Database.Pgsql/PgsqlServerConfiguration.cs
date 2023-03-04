@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Text.Json.Serialization;
+using Npgsql;
 
 namespace Credfeto.Database.Pgsql;
 
@@ -9,7 +10,7 @@ public sealed class PgsqlServerConfiguration
     [JsonConstructor]
     public PgsqlServerConfiguration(string connectionString)
     {
-        this.ConnectionString = connectionString;
+        this.ConnectionString = new NpgsqlConnectionStringBuilder(connectionString) { Multiplexing = true, Pooling = true }.ToString();
     }
 
     public string ConnectionString { get; }
