@@ -74,7 +74,7 @@ public static partial class DatabaseWrapper
             throw new InvalidOperationException(""No result returned."");
         }
 
-        return (int)result;
+        return Convert.ToInt32(result);
     }
 }
 ")
@@ -145,7 +145,7 @@ public static partial class DatabaseWrapper
             throw new InvalidOperationException(""No result returned."");
         }
 
-        return (int)result;
+        return Convert.ToInt32(result);
     }
 }
 ")
@@ -220,7 +220,7 @@ public static partial class DatabaseWrapper
             throw new InvalidOperationException(""No result returned."");
         }
 
-        return (int)result;
+        return Convert.ToInt32(result);
     }
 }
 ")
@@ -307,7 +307,7 @@ public static partial class DatabaseWrapper
             throw new InvalidOperationException(""No result returned."");
         }
 
-        return (int)result;
+        return Convert.ToInt32(result);
     }
 }
 ")
@@ -511,7 +511,7 @@ public static partial class DatabaseWrapper
             return null;
         }
 
-        return (int)result;
+        return Convert.ToInt32(result);
     }
 }
 ")
