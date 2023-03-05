@@ -336,23 +336,37 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
         {
             if (parameter.Usage == MethodParameterUsage.DB)
             {
-                source.AppendLine($"DbParameter p{parameterIndex} = command.CreateParameter();");
-
-                if (parameter.MapperInfo != null)
-                {
-                    source.AppendLine($"{parameter.MapperInfo.MapperSymbol.ToDisplayString()}.MapToDb({parameter.Name}, p{parameterIndex});");
-                }
-                else
-                {
-                    source.AppendLine($"p{parameterIndex}.Value = {parameter.Name};");
-                }
-
-                source.AppendLine($"p{parameterIndex}.ParameterName = \"@{parameter.Name}\";")
-                      .AppendLine($"{command}.Parameters.Add(p{parameterIndex});");
+                CreateParameter(source: source, command: command, parameterIndex: parameterIndex, parameter: parameter);
 
                 ++parameterIndex;
             }
         }
+    }
+
+    private static void CreateParameter(CodeBuilder source, string command, int parameterIndex, MethodParameter parameter)
+    {
+        source.AppendLine($"DbParameter p{parameterIndex} = command.CreateParameter();");
+
+        if (parameter.MapperInfo != null)
+        {
+            source.AppendLine($"{parameter.MapperInfo.MapperSymbol.ToDisplayString()}.MapToDb({parameter.Name}, p{parameterIndex});");
+        }
+        else
+        {
+            source.AppendLine($"p{parameterIndex}.Value = {parameter.Name};");
+
+            if (parameter.Type is IParameterSymbol ps)
+            {
+                ParameterSetter.SetParamerterInfo(source: source, $"p{parameterIndex}", parameterName: parameter.Name, ps.Type.ToDisplayString());
+            }
+            else
+            {
+                ParameterSetter.SetParamerterInfo(source: source, $"p{parameterIndex}", parameterName: parameter.Name, parameter.Type.ToDisplayString());
+            }
+        }
+
+        source.AppendLine($"p{parameterIndex}.ParameterName = \"@{parameter.Name}\";")
+              .AppendLine($"{command}.Parameters.Add(p{parameterIndex});");
     }
 
     private static string BuildFunctionParameters(MethodGeneration method)
