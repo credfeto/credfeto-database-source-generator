@@ -97,7 +97,7 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
         ClassInfo containingContext = GetClass(semanticModel: context.SemanticModel, classDeclarationSyntax: classDeclarationSyntax, cancellationToken: cancellationToken);
         MethodToGenerate methodToGenerate = GetMethod(semanticModel: context.SemanticModel, methodDeclarationSyntax: methodDeclarationSyntax, cancellationToken: cancellationToken);
 
-        return new(containingContext: containingContext, methodToGenerate: methodToGenerate, semanticModel: context.SemanticModel, sqlObject: sqlObject);
+        return new(containingContext: containingContext, methodToGenerate: methodToGenerate, semanticModel: context.SemanticModel, sqlObject: sqlObject, methodDeclarationSyntax.GetLocation());
     }
 
     private static MethodToGenerate GetMethod(SemanticModel semanticModel, MethodDeclarationSyntax methodDeclarationSyntax, CancellationToken cancellationToken)

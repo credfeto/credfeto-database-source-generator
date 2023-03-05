@@ -74,8 +74,8 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
                                                                            category: "Credfeto.Database.Source.Generation",
                                                                            defaultSeverity: DiagnosticSeverity.Error,
                                                                            isEnabledByDefault: true),
-                                                                       methodGroup.First()
-                                                                                  .Method.ReturnType.ReturnType.Locations.First()));
+                                                                       location: methodGroup.First()
+                                                                                            .Location));
             }
         }
     }
