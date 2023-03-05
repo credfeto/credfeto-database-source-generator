@@ -32,6 +32,8 @@ internal static class ExtractColumns
             "decimal?" => ExtractNullableDecimal(source: source),
             "string" => ExtractString(source: source),
             "string?" => ExtractNullableString(source: source),
+            "System.DateTime" => ExtractDateTime(source: source),
+            "System.DateTime?" => ExtractNullableDateTime(source: source),
             _ => null
         };
     }
@@ -383,6 +385,34 @@ internal static class ExtractColumns
             ReturnNullIfNull(source);
 
             source.AppendLine("return (string)value");
+        }
+
+        return methodName;
+    }
+
+    private static string ExtractDateTime(CodeBuilder source)
+    {
+        const string methodName = nameof(ExtractString);
+
+        using (source.StartBlock($"static DateTime {methodName}(object value, string columName)"))
+        {
+            EnsureColumnIsNotNull(source);
+
+            source.AppendLine("return (DateTime)value");
+        }
+
+        return methodName;
+    }
+
+    private static string ExtractNullableDateTime(CodeBuilder source)
+    {
+        const string methodName = nameof(ExtractNullableDateTime);
+
+        using (source.StartBlock($"static DateTime? {methodName}(object value, string columName)"))
+        {
+            ReturnNullIfNull(source);
+
+            source.AppendLine("return (DateTime)value");
         }
 
         return methodName;
