@@ -6,6 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using Credfeto.Database.Source.Generation.Builders;
+using Credfeto.Database.Source.Generation.Exceptions;
 using Credfeto.Database.Source.Generation.Extensions;
 using Credfeto.Database.Source.Generation.Helpers;
 using Credfeto.Database.Source.Generation.Models;
@@ -181,6 +182,30 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
 
     private static void BuildExtractLocalMethod(CodeBuilder source, string returnType, in ImmutableArray<IParameterSymbol> columns)
     {
+        Dictionary<string, string> generated = new(StringComparer.Ordinal);
+
+        foreach (IParameterSymbol column in columns)
+        {
+            MapperInfo? mapperInfo = column.GetMapperInfo();
+
+            if (mapperInfo != null)
+            {
+                continue;
+            }
+
+            string typeName = column.Type.ToDisplayString();
+
+            if (generated.TryGetValue(key: typeName, value: out _))
+            {
+                continue;
+            }
+
+            string methodName = Helpers.ExtractColumns.GenerateExtractColumnMapper(source: source, typeName: typeName) ??
+                                throw new InvalidModelException($"Unsupported C# data type {typeName} for column {column.Name}, does it need a mapper?");
+
+            generated.Add(key: typeName, value: methodName);
+        }
+
         using (source.StartBlock($"static IEnumerable<{returnType}> Extract(IDataReader reader)"))
         {
             foreach (string column in columns.Select(selector: column => column.Name))
