@@ -154,7 +154,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
         using (BuildFunctionSignature(source: source, method: method))
         {
             string functionParameters = BuildFunctionParameters(method);
-            ImmutableArray<IParameterSymbol> columns = ExtractColumns((INamedTypeSymbol)method.Method.ReturnType.ElementReturnType!);
+            ImmutableArray<IParameterSymbol> columns = ExtractColumnsFromConstructor((INamedTypeSymbol)method.Method.ReturnType.ElementReturnType!);
             string columnSelector = BuildFunctionColumns(columns: columns);
 
             string returnType = method.Method.ReturnType.ElementReturnType!.ToDisplayString();
@@ -200,7 +200,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
                 continue;
             }
 
-            string methodName = Helpers.ExtractColumns.GenerateExtractColumnMapper(source: source, typeName: typeName) ??
+            string methodName = ExtractColumns.GenerateExtractColumnMapper(source: source, typeName: typeName) ??
                                 throw new InvalidModelException($"Unsupported C# data type {typeName} for column {column.Name}, does it need a mapper?");
 
             generated.Add(key: typeName, value: methodName);
@@ -240,7 +240,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
         return string.Join(separator: ", ", columns.Select(selector: p => p.Name));
     }
 
-    private static ImmutableArray<IParameterSymbol> ExtractColumns(INamedTypeSymbol returnType)
+    private static ImmutableArray<IParameterSymbol> ExtractColumnsFromConstructor(INamedTypeSymbol returnType)
     {
         bool IsSameType(IMethodSymbol constructor)
         {
@@ -399,7 +399,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
         {
             if (method.Method.ReturnType.ElementReturnType != null)
             {
-                ImmutableArray<IParameterSymbol> columns = ExtractColumns((INamedTypeSymbol)method.Method.ReturnType.ElementReturnType!);
+                ImmutableArray<IParameterSymbol> columns = ExtractColumnsFromConstructor((INamedTypeSymbol)method.Method.ReturnType.ElementReturnType!);
 
                 string returnType = method.Method.ReturnType.ElementReturnType!.ToDisplayString();
 
