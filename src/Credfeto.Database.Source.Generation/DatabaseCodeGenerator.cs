@@ -204,6 +204,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
                                 throw new InvalidModelException($"Unsupported C# data type {typeName} for column {column.Name}, does it need a mapper?");
 
             generated.Add(key: typeName, value: methodName);
+            source.AppendBlankLine();
         }
 
         using (source.StartBlock($"static IEnumerable<{returnType}> Extract(IDataReader reader)"))
@@ -318,7 +319,11 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
             }
             else
             {
-                source.AppendLine($"return ({method.Method.ReturnType.ElementReturnType.ToDisplayString()})result;");
+                string typeName = method.Method.ReturnType.ElementReturnType.ToDisplayString();
+                string returnString = ExtractColumns.GenerateReturn(typeName: typeName, variable: "result") ??
+                                      throw new InvalidModelException($"Unsupported C# data type {typeName} for return type, does it need a mapper?");
+
+                source.AppendLine(returnString);
             }
         }
     }
