@@ -62,7 +62,7 @@ internal static class ExtractColumns
         {
             EnsureColumnIsNotNull(source);
 
-            source.AppendLine("return (sbyte)value");
+            source.AppendLine("return (sbyte)value;");
         }
 
         return methodName;
@@ -76,7 +76,7 @@ internal static class ExtractColumns
         {
             ReturnNullIfNull(source);
 
-            source.AppendLine("return (sbyte)value");
+            source.AppendLine("return (sbyte)value;");
         }
 
         return methodName;
@@ -90,7 +90,7 @@ internal static class ExtractColumns
         {
             EnsureColumnIsNotNull(source);
 
-            source.AppendLine("return (byte)value");
+            source.AppendLine("return (byte)value;");
         }
 
         return methodName;
@@ -104,7 +104,7 @@ internal static class ExtractColumns
         {
             ReturnNullIfNull(source);
 
-            source.AppendLine("return (byte)value");
+            source.AppendLine("return (byte)value;");
         }
 
         return methodName;
@@ -118,7 +118,7 @@ internal static class ExtractColumns
         {
             EnsureColumnIsNotNull(source);
 
-            source.AppendLine("return (short)value");
+            source.AppendLine("return (short)value;");
         }
 
         return methodName;
@@ -132,7 +132,7 @@ internal static class ExtractColumns
         {
             ReturnNullIfNull(source);
 
-            source.AppendLine("return (short)value");
+            source.AppendLine("return (short)value;");
         }
 
         return methodName;
@@ -146,7 +146,7 @@ internal static class ExtractColumns
         {
             EnsureColumnIsNotNull(source);
 
-            source.AppendLine("return (ushort)value");
+            source.AppendLine("return (ushort)value;");
         }
 
         return methodName;
@@ -160,7 +160,7 @@ internal static class ExtractColumns
         {
             ReturnNullIfNull(source);
 
-            source.AppendLine("return (ushort)value");
+            source.AppendLine("return (ushort)value;");
         }
 
         return methodName;
@@ -174,7 +174,7 @@ internal static class ExtractColumns
         {
             EnsureColumnIsNotNull(source);
 
-            source.AppendLine("return (int)value");
+            source.AppendLine("return (int)value;");
         }
 
         return methodName;
@@ -188,7 +188,7 @@ internal static class ExtractColumns
         {
             ReturnNullIfNull(source);
 
-            source.AppendLine("return (int)value");
+            source.AppendLine("return (int)value;");
         }
 
         return methodName;
@@ -202,7 +202,7 @@ internal static class ExtractColumns
         {
             EnsureColumnIsNotNull(source);
 
-            source.AppendLine("return (uint)value");
+            source.AppendLine("return (uint)value;");
         }
 
         return methodName;
@@ -216,7 +216,7 @@ internal static class ExtractColumns
         {
             ReturnNullIfNull(source);
 
-            source.AppendLine("return (uint)value");
+            source.AppendLine("return (uint)value;");
         }
 
         return methodName;
@@ -230,7 +230,7 @@ internal static class ExtractColumns
         {
             EnsureColumnIsNotNull(source);
 
-            source.AppendLine("return (long)value");
+            source.AppendLine("return (long)value;");
         }
 
         return methodName;
@@ -244,7 +244,7 @@ internal static class ExtractColumns
         {
             ReturnNullIfNull(source);
 
-            source.AppendLine("return (long)value");
+            source.AppendLine("return (long)value;");
         }
 
         return methodName;
@@ -258,7 +258,7 @@ internal static class ExtractColumns
         {
             EnsureColumnIsNotNull(source);
 
-            source.AppendLine("return (ulong)value");
+            source.AppendLine("return (ulong)value;");
         }
 
         return methodName;
@@ -272,7 +272,7 @@ internal static class ExtractColumns
         {
             ReturnNullIfNull(source);
 
-            source.AppendLine("return (ulong)value");
+            source.AppendLine("return (ulong)value;");
         }
 
         return methodName;
@@ -286,7 +286,7 @@ internal static class ExtractColumns
         {
             EnsureColumnIsNotNull(source);
 
-            source.AppendLine("return (float)value");
+            source.AppendLine("return (float)value;");
         }
 
         return methodName;
@@ -300,7 +300,7 @@ internal static class ExtractColumns
         {
             ReturnNullIfNull(source);
 
-            source.AppendLine("return (float)value");
+            source.AppendLine("return (float)value;");
         }
 
         return methodName;
@@ -314,7 +314,7 @@ internal static class ExtractColumns
         {
             EnsureColumnIsNotNull(source);
 
-            source.AppendLine("return (double)value");
+            source.AppendLine("return (double)value;");
         }
 
         return methodName;
@@ -328,7 +328,7 @@ internal static class ExtractColumns
         {
             ReturnNullIfNull(source);
 
-            source.AppendLine("return (double)value");
+            source.AppendLine("return (double)value;");
         }
 
         return methodName;
@@ -342,7 +342,7 @@ internal static class ExtractColumns
         {
             EnsureColumnIsNotNull(source);
 
-            source.AppendLine("return (decimal)value");
+            source.AppendLine("return (decimal)value;");
         }
 
         return methodName;
@@ -356,7 +356,7 @@ internal static class ExtractColumns
         {
             ReturnNullIfNull(source);
 
-            source.AppendLine("return (decimal)value");
+            source.AppendLine("return (decimal)value;");
         }
 
         return methodName;
@@ -370,7 +370,7 @@ internal static class ExtractColumns
         {
             EnsureColumnIsNotNull(source);
 
-            source.AppendLine("return (string)value");
+            source.AppendLine("return (string)value;");
         }
 
         return methodName;
@@ -384,7 +384,7 @@ internal static class ExtractColumns
         {
             ReturnNullIfNull(source);
 
-            source.AppendLine("return (string)value");
+            source.AppendLine("return (string)value;");
         }
 
         return methodName;
@@ -398,7 +398,7 @@ internal static class ExtractColumns
         {
             EnsureColumnIsNotNull(source);
 
-            source.AppendLine("return (DateTime)value");
+            source.AppendLine("return (DateTime)value;");
         }
 
         return methodName;
@@ -412,7 +412,7 @@ internal static class ExtractColumns
         {
             ReturnNullIfNull(source);
 
-            source.AppendLine("return (DateTime)value");
+            source.AppendLine("return (DateTime)value;");
         }
 
         return methodName;

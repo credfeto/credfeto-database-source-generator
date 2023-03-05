@@ -226,12 +226,30 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
 
                     IParameterSymbol column = columns[columnIndex];
 
-                    MapperInfo? mapperInfo = column.GetMapperInfo();
-                    source.AppendLine(mapperInfo != null
-                                          ? $"                         {column.Name}: {mapperInfo.MapperSymbol.ToDisplayString()}.MapFromDb(reader.GetValue(ordinal{column.Name})){end}"
-                                          : $"                         {column.Name}: ({column.Type.ToDisplayString()})reader.GetValue(ordinal{column.Name}){end}");
+                    AppendConstructorParameter(source: source, column: column, end: end, generated: generated);
                 }
             }
+        }
+    }
+
+    private static void AppendConstructorParameter(CodeBuilder source, IParameterSymbol column, string end, Dictionary<string, string> generated)
+    {
+        MapperInfo? mapperInfo = column.GetMapperInfo();
+
+        if (mapperInfo != null)
+        {
+            source.AppendLine($"                         {column.Name}: {mapperInfo.MapperSymbol.ToDisplayString()}.MapFromDb(reader.GetValue(ordinal{column.Name})){end}");
+        }
+        else
+        {
+            string typeName = column.Type.ToDisplayString();
+
+            if (!generated.TryGetValue(key: typeName, out string? mapper))
+            {
+                throw new InvalidModelException($"Unsupported C# data type {typeName} for column {column.Name}, does it need a mapper?");
+            }
+
+            source.AppendLine($"                         {column.Name}: {mapper}(reader.GetValue(ordinal{column.Name}), @\"{column.Name}\"){end}");
         }
     }
 
