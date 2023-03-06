@@ -353,8 +353,6 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
         }
         else
         {
-            source.AppendLine($"p{parameterIndex}.Value = {parameter.Name};");
-
             if (parameter.Type is IParameterSymbol ps)
             {
                 ParameterSetter.SetParamerterInfo(source: source, $"p{parameterIndex}", parameterName: parameter.Name, ps.Type.ToDisplayString());
