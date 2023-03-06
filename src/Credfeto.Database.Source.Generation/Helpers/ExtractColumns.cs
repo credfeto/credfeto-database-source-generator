@@ -9,6 +9,8 @@ internal static class ExtractColumns
     {
         return typeName switch
         {
+            "bool" => ExtractBool(source: source),
+            "bool?" => ExtractNullableBool(source: source),
             "byte" => ExtractUInt8(source: source),
             "byte?" => ExtractNullableUInt8(source: source),
             "sbyte" => ExtractInt8(source: source),
@@ -43,6 +45,7 @@ internal static class ExtractColumns
     {
         return typeName switch
         {
+            "bool" => ReturnBool(variable: variable),
             "byte" => ReturnUInt8(variable: variable),
             "sbyte" => ReturnInt8(variable: variable),
             "short" => ReturnInt16(variable: variable),
@@ -86,6 +89,11 @@ internal static class ExtractColumns
     private static string ReturnInt8(string variable)
     {
         return $"return Convert.ToSByte({variable});";
+    }
+
+    private static string ReturnBool(string variable)
+    {
+        return $"return Convert.ToBoolean({variable});";
     }
 
     private static string ReturnUInt8(string variable)
@@ -146,6 +154,16 @@ internal static class ExtractColumns
     private static string ReturnFloat(string variable)
     {
         return $"return Convert.Double({variable});";
+    }
+
+    private static string ExtractBool(CodeBuilder source)
+    {
+        return ExtractCommon(source: source, typeName: "bool", nameof(ExtractBool), isNullable: false, getReturnStatement: ReturnBool);
+    }
+
+    private static string ExtractNullableBool(CodeBuilder source)
+    {
+        return ExtractCommon(source: source, typeName: "bool", nameof(ExtractNullableBool), isNullable: true, getReturnStatement: ReturnBool);
     }
 
     private static string ExtractInt8(CodeBuilder source)
