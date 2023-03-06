@@ -31,6 +31,8 @@ internal static class ParameterSetter
     {
         source.AppendLine($"{parameterObject}.DbType = {nameof(DbType)}.{dbType.GetName()};")
               .AppendLine($"{parameterObject}.Value = {parameterName};");
+
+        SetParameterLength(source: source, parameterObject: parameterObject, parameterName: parameterName, dbType: dbType);
     }
 
     private static void AddNullableParameter(CodeBuilder source, string parameterObject, string parameterName, DbType dbType)
@@ -45,6 +47,20 @@ internal static class ParameterSetter
         using (source.StartBlock("else"))
         {
             source.AppendLine($"{parameterObject}.Value = {parameterName};");
+
+            SetParameterLength(source: source, parameterObject: parameterObject, parameterName: parameterName, dbType: dbType);
+        }
+    }
+
+    private static void SetParameterLength(CodeBuilder source, string parameterObject, string parameterName, DbType dbType)
+    {
+        if (dbType == DbType.String)
+        {
+            source.AppendLine($"{parameterObject}.Size = {parameterName}.Length;");
+        }
+        else if (dbType == DbType.Binary)
+        {
+            source.AppendLine($"{parameterObject}.Size = {parameterName}.Length;");
         }
     }
 

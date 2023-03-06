@@ -134,8 +134,8 @@ public static partial class DatabaseWrapper
         DbCommand command = connection.CreateCommand();
         command.CommandText = ""select example.scalarfunction(@factor)"";
         DbParameter p0 = command.CreateParameter();
-        p0.Value = factor;
         p0.DbType = DbType.Int32;
+        p0.Value = factor;
         p0.ParameterName = ""@factor"";
         command.Parameters.Add(p0);
 
@@ -206,8 +206,8 @@ public static partial class DatabaseWrapper
         DbCommand command = connection.CreateCommand();
         command.CommandText = ""select example.scalarfunction(@factor)"";
         DbParameter p0 = command.CreateParameter();
-        p0.Value = factor;
         p0.DbType = DbType.Int32;
+        p0.Value = factor;
         p0.ParameterName = ""@factor"";
         command.Parameters.Add(p0);
 
@@ -278,13 +278,14 @@ public static partial class DatabaseWrapper
         DbCommand command = connection.CreateCommand();
         command.CommandText = ""select example.scalarfunction(@factor, @name)"";
         DbParameter p0 = command.CreateParameter();
-        p0.Value = factor;
         p0.DbType = DbType.Int32;
+        p0.Value = factor;
         p0.ParameterName = ""@factor"";
         command.Parameters.Add(p0);
         DbParameter p1 = command.CreateParameter();
-        p1.Value = name;
         p1.DbType = DbType.String;
+        p1.Value = name;
+        p1.Size = name.Length;
         p1.ParameterName = ""@name"";
         command.Parameters.Add(p1);
 
@@ -363,13 +364,14 @@ public static partial class DatabaseWrapper
         DbCommand command = connection.CreateCommand();
         command.CommandText = ""select example.scalarfunction(@factor, @name, @address)"";
         DbParameter p0 = command.CreateParameter();
-        p0.Value = factor;
         p0.DbType = DbType.Int32;
+        p0.Value = factor;
         p0.ParameterName = ""@factor"";
         command.Parameters.Add(p0);
         DbParameter p1 = command.CreateParameter();
-        p1.Value = name;
         p1.DbType = DbType.String;
+        p1.Value = name;
+        p1.Size = name.Length;
         p1.ParameterName = ""@name"";
         command.Parameters.Add(p1);
         DbParameter p2 = command.CreateParameter();
