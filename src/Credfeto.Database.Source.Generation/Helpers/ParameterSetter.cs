@@ -15,7 +15,7 @@ internal static class ParameterSetter
             ? typeName.Substring(startIndex: 0, typeName.Length - 1)
             : typeName;
 
-        DbType dbType = TypeMapper.Map(typeName) ?? ThrowInvalidDbType(parameterName: parameterName, typeName: nonNullableType);
+        DbType dbType = TypeMapper.Map(nonNullableType) ?? ThrowInvalidDbType(parameterName: parameterName, typeName: nonNullableType);
 
         if (isNullable)
         {
