@@ -61,15 +61,25 @@
     <PackageReference Include="Philips.CodeAnalysis.MaintainabilityAnalyzers" Version="1.2.32" PrivateAssets="All" ExcludeAssets="runtime" />
     <PackageReference Include="Roslynator.Analyzers" Version="4.2.0" PrivateAssets="All" ExcludeAssets="runtime" />
     <PackageReference Include="SecurityCodeScan.VS2019" Version="5.6.7" PrivateAssets="All" ExcludeAssets="runtime" />
-    <PackageReference Include="SmartAnalyzers.CSharpExtensions.Annotations" Version="4.2.8" PrivateAssets="All" ExcludeAssets="runtime" />
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="8.54.0.64047" PrivateAssets="All" ExcludeAssets="runtime" />
-    <PackageReference Include="SourceLink.Create.CommandLine" Version="2.8.3" PrivateAssets="All" ExcludeAssets="runtime" />
-    <PackageReference Include="ToStringWithoutOverrideAnalyzer" Version="0.6.0" PrivateAssets="All" ExcludeAssets="runtime" />
+    <PackageReference Include="SmartAnalyzers.CSharpExtensions.Annotations" Version="4.2.8" PrivateAssets="All" ExcludeAssets="runtime"/>
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="8.54.0.64047" PrivateAssets="All" ExcludeAssets="runtime"/>
+    <PackageReference Include="SourceLink.Create.CommandLine" Version="2.8.3" PrivateAssets="All" ExcludeAssets="runtime"/>
+    <PackageReference Include="ToStringWithoutOverrideAnalyzer" Version="0.6.0" PrivateAssets="All" ExcludeAssets="runtime"/>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Credfeto.Database.Interfaces\Credfeto.Database.Interfaces.csproj" />
-    <ProjectReference Include="..\Credfeto.Database.Pgsql\Credfeto.Database.Pgsql.csproj" />
-    <ProjectReference Include="..\Credfeto.Database.Source.Generation\Credfeto.Database.Source.Generation.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\Credfeto.Database.Interfaces\Credfeto.Database.Interfaces.csproj"/>
+    <ProjectReference Include="..\Credfeto.Database.Pgsql\Credfeto.Database.Pgsql.csproj"/>
+    <ProjectReference Include="..\Credfeto.Database.Source.Generation\Credfeto.Database.Source.Generation.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
   </ItemGroup>
-  <Import Project="$(SolutionDir)KeepGeneratedFiles.props" Condition="Exists('$(SolutionDir)KeepGeneratedFiles.props')" />
+  <ItemGroup>
+    <Compile Include="Generated\Credfeto.Database.Source.Generation\Credfeto.Database.Source.Generation.DatabaseCodeGenerator\Credfeto.Database.Source.Generation.Example.DatabaseWrapper.GetAddressMeaningOfLifeAsync.Database.generated.cs"/>
+    <Compile Include="Generated\Credfeto.Database.Source.Generation\Credfeto.Database.Source.Generation.DatabaseCodeGenerator\Credfeto.Database.Source.Generation.Example.DatabaseWrapper.GetAllAsync.Database.generated.cs"/>
+    <Compile Include="Generated\Credfeto.Database.Source.Generation\Credfeto.Database.Source.Generation.DatabaseCodeGenerator\Credfeto.Database.Source.Generation.Example.DatabaseWrapper.GetAsync.Database.generated.cs"/>
+    <Compile Include="Generated\Credfeto.Database.Source.Generation\Credfeto.Database.Source.Generation.DatabaseCodeGenerator\Credfeto.Database.Source.Generation.Example.DatabaseWrapper.GetMeaningOfLifeAsync.Database.generated.cs"/>
+    <Compile Include="Generated\Credfeto.Database.Source.Generation\Credfeto.Database.Source.Generation.DatabaseCodeGenerator\Credfeto.Database.Source.Generation.Example.DatabaseWrapper.GetOptionalAddressMeaningOfLifeAsync.Database.generated.cs"/>
+    <Compile Include="Generated\Credfeto.Database.Source.Generation\Credfeto.Database.Source.Generation.DatabaseCodeGenerator\Credfeto.Database.Source.Generation.Example.DatabaseWrapper.GetOptionalMeaningOfLifeAsync.Database.generated.cs"/>
+    <Compile Include="Generated\Credfeto.Database.Source.Generation\Credfeto.Database.Source.Generation.DatabaseCodeGenerator\Credfeto.Database.Source.Generation.Example.DatabaseWrapper.GetStringMeaningOfLifeAsync.Database.generated.cs"/>
+    <Compile Include="Generated\Credfeto.Database.Source.Generation\Credfeto.Database.Source.Generation.DatabaseCodeGenerator\Credfeto.Database.Source.Generation.Example.DatabaseWrapper.InsertAsync.Database.generated.cs"/>
+  </ItemGroup>
+  <Import Project="$(SolutionDir)KeepGeneratedFiles.props" Condition="Exists('$(SolutionDir)KeepGeneratedFiles.props')"/>
 </Project>

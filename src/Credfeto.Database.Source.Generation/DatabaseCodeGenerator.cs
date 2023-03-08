@@ -6,6 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using Credfeto.Database.Source.Generation.Builders;
+using Credfeto.Database.Source.Generation.Exceptions;
 using Credfeto.Database.Source.Generation.Extensions;
 using Credfeto.Database.Source.Generation.Helpers;
 using Credfeto.Database.Source.Generation.Models;
@@ -73,8 +74,8 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
                                                                            category: "Credfeto.Database.Source.Generation",
                                                                            defaultSeverity: DiagnosticSeverity.Error,
                                                                            isEnabledByDefault: true),
-                                                                       methodGroup.First()
-                                                                                  .Method.ReturnType.ReturnType.Locations.First()));
+                                                                       location: methodGroup.First()
+                                                                                            .Location));
             }
         }
     }
@@ -153,7 +154,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
         using (BuildFunctionSignature(source: source, method: method))
         {
             string functionParameters = BuildFunctionParameters(method);
-            ImmutableArray<IParameterSymbol> columns = ExtractColumns((INamedTypeSymbol)method.Method.ReturnType.ElementReturnType!);
+            ImmutableArray<IParameterSymbol> columns = ExtractColumnsFromConstructor((INamedTypeSymbol)method.Method.ReturnType.ElementReturnType!);
             string columnSelector = BuildFunctionColumns(columns: columns);
 
             string returnType = method.Method.ReturnType.ElementReturnType!.ToDisplayString();
@@ -181,6 +182,31 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
 
     private static void BuildExtractLocalMethod(CodeBuilder source, string returnType, in ImmutableArray<IParameterSymbol> columns)
     {
+        Dictionary<string, string> generated = new(StringComparer.Ordinal);
+
+        foreach (IParameterSymbol column in columns)
+        {
+            MapperInfo? mapperInfo = column.GetMapperInfo();
+
+            if (mapperInfo != null)
+            {
+                continue;
+            }
+
+            string typeName = column.Type.ToDisplayString();
+
+            if (generated.TryGetValue(key: typeName, value: out _))
+            {
+                continue;
+            }
+
+            string methodName = ExtractColumns.GenerateExtractColumnMapper(source: source, typeName: typeName) ??
+                                throw new InvalidModelException($"Unsupported C# data type {typeName} for column {column.Name}, does it need a mapper?");
+
+            generated.Add(key: typeName, value: methodName);
+            source.AppendBlankLine();
+        }
+
         using (source.StartBlock($"static IEnumerable<{returnType}> Extract(IDataReader reader)"))
         {
             foreach (string column in columns.Select(selector: column => column.Name))
@@ -201,12 +227,30 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
 
                     IParameterSymbol column = columns[columnIndex];
 
-                    MapperInfo? mapperInfo = column.GetMapperInfo();
-                    source.AppendLine(mapperInfo != null
-                                          ? $"                         {column.Name}: {mapperInfo.MapperSymbol.ToDisplayString()}.MapFromDb(reader.GetValue(ordinal{column.Name})){end}"
-                                          : $"                         {column.Name}: ({column.Type.ToDisplayString()})reader.GetValue(ordinal{column.Name}){end}");
+                    AppendConstructorParameter(source: source, column: column, end: end, generated: generated);
                 }
             }
+        }
+    }
+
+    private static void AppendConstructorParameter(CodeBuilder source, IParameterSymbol column, string end, Dictionary<string, string> generated)
+    {
+        MapperInfo? mapperInfo = column.GetMapperInfo();
+
+        if (mapperInfo != null)
+        {
+            source.AppendLine($"                         {column.Name}: {mapperInfo.MapperSymbol.ToDisplayString()}.MapFromDb(reader.GetValue(ordinal{column.Name})){end}");
+        }
+        else
+        {
+            string typeName = column.Type.ToDisplayString();
+
+            if (!generated.TryGetValue(key: typeName, out string? mapper))
+            {
+                throw new InvalidModelException($"Unsupported C# data type {typeName} for column {column.Name}, does it need a mapper?");
+            }
+
+            source.AppendLine($"                         {column.Name}: {mapper}(reader.GetValue(ordinal{column.Name}), @\"{column.Name}\"){end}");
         }
     }
 
@@ -215,7 +259,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
         return string.Join(separator: ", ", columns.Select(selector: p => p.Name));
     }
 
-    private static ImmutableArray<IParameterSymbol> ExtractColumns(INamedTypeSymbol returnType)
+    private static ImmutableArray<IParameterSymbol> ExtractColumnsFromConstructor(INamedTypeSymbol returnType)
     {
         bool IsSameType(IMethodSymbol constructor)
         {
@@ -275,7 +319,11 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
             }
             else
             {
-                source.AppendLine($"return ({method.Method.ReturnType.ElementReturnType.ToDisplayString()})result;");
+                string typeName = method.Method.ReturnType.ElementReturnType.ToDisplayString();
+                string returnString = ExtractColumns.GenerateReturn(typeName: typeName, variable: "result") ??
+                                      throw new InvalidModelException($"Unsupported C# data type {typeName} for return type, does it need a mapper?");
+
+                source.AppendLine(returnString);
             }
         }
     }
@@ -288,23 +336,35 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
         {
             if (parameter.Usage == MethodParameterUsage.DB)
             {
-                source.AppendLine($"DbParameter p{parameterIndex} = command.CreateParameter();");
-
-                if (parameter.MapperInfo != null)
-                {
-                    source.AppendLine($"{parameter.MapperInfo.MapperSymbol.ToDisplayString()}.MapToDb({parameter.Name}, p{parameterIndex});");
-                }
-                else
-                {
-                    source.AppendLine($"p{parameterIndex}.Value = {parameter.Name};");
-                }
-
-                source.AppendLine($"p{parameterIndex}.ParameterName = \"@{parameter.Name}\";")
-                      .AppendLine($"{command}.Parameters.Add(p{parameterIndex});");
+                CreateParameter(source: source, command: command, parameterIndex: parameterIndex, parameter: parameter);
 
                 ++parameterIndex;
             }
         }
+    }
+
+    private static void CreateParameter(CodeBuilder source, string command, int parameterIndex, MethodParameter parameter)
+    {
+        source.AppendLine($"DbParameter p{parameterIndex} = command.CreateParameter();");
+
+        if (parameter.MapperInfo != null)
+        {
+            source.AppendLine($"{parameter.MapperInfo.MapperSymbol.ToDisplayString()}.MapToDb({parameter.Name}, p{parameterIndex});");
+        }
+        else
+        {
+            if (parameter.Type is IParameterSymbol ps)
+            {
+                ParameterSetter.SetParamerterInfo(source: source, $"p{parameterIndex}", parameterName: parameter.Name, ps.Type.ToDisplayString());
+            }
+            else
+            {
+                ParameterSetter.SetParamerterInfo(source: source, $"p{parameterIndex}", parameterName: parameter.Name, parameter.Type.ToDisplayString());
+            }
+        }
+
+        source.AppendLine($"p{parameterIndex}.ParameterName = \"@{parameter.Name}\";")
+              .AppendLine($"{command}.Parameters.Add(p{parameterIndex});");
     }
 
     private static string BuildFunctionParameters(MethodGeneration method)
@@ -374,7 +434,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
         {
             if (method.Method.ReturnType.ElementReturnType != null)
             {
-                ImmutableArray<IParameterSymbol> columns = ExtractColumns((INamedTypeSymbol)method.Method.ReturnType.ElementReturnType!);
+                ImmutableArray<IParameterSymbol> columns = ExtractColumnsFromConstructor((INamedTypeSymbol)method.Method.ReturnType.ElementReturnType!);
 
                 string returnType = method.Method.ReturnType.ElementReturnType!.ToDisplayString();
 
