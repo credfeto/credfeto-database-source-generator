@@ -10,7 +10,7 @@ public sealed class PgsqlServerConfiguration
     [JsonConstructor]
     public PgsqlServerConfiguration(string connectionString)
     {
-        this.ConnectionString = new NpgsqlConnectionStringBuilder(connectionString) { Multiplexing = true, Pooling = true }.ToString();
+        this.ConnectionString = new NpgsqlConnectionStringBuilder(connectionString) { Pooling = true }.ToString();
     }
 
     public string ConnectionString { get; }
