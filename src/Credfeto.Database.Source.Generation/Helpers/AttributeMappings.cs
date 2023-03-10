@@ -104,7 +104,7 @@ internal static class AttributeMappings
 
         string name = containingType.OriginalDefinition.ToDisplayString();
 
-        if (name != "Credfeto.Database.Interfaces.SqlFieldMapAttribute<TM, TD>")
+        if (name != "Credfeto.Database.Interfaces.SqlFieldMapAttribute<TMapper, TDataType>")
         {
             return null;
         }
