@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Credfeto.Database.SqlServer.Extensions;
+using Credfeto.Database.SqlServer.LoggingExtensions;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -123,11 +124,13 @@ public sealed class SqlServerDatabase : BaseDatabase
 
     protected override void LogAndDispatchTransientExceptions(Exception exception, Context context, in TimeSpan delay, int retryCount, int maxRetries)
     {
-        string details = FormatException(exception: exception, context: context.OperationKey);
-
-        this._logger.LogWarning(new(exception.HResult),
-                                exception: exception,
-                                $"Retrying transient exception {exception.GetType().Name}, on attempt {retryCount} of {maxRetries}. Current delay is {delay}: {details}");
+        this._logger.LogAndDispatchTransientException(typeName: exception.GetType()
+                                                                         .Name,
+                                                      retryCount: retryCount,
+                                                      maxRetries: maxRetries,
+                                                      delay: delay,
+                                                      FormatException(exception: exception, context: context.OperationKey),
+                                                      exception: exception);
     }
 
     private static string FormatException(Exception exception, string context)
