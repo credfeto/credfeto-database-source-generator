@@ -63,16 +63,16 @@ public abstract class BaseDatabase : IDatabase
         return this._retryPolicyAsync.ExecuteAsync(action: Wrapped, context: loggingContext);
     }
 
-    private async Task<T1> ExecuteWithRetriesAsync<T1>(Func<Task<T1>> func, string context)
+    private async Task<TReturn> ExecuteWithRetriesAsync<TReturn>(Func<Task<TReturn>> func, string context)
     {
         Context loggingContext = new(context);
 
-        Task<T1> Wrapped(Context c)
+        Task<TReturn> Wrapped(Context c)
         {
             return func();
         }
 
-        T1 result = await this._retryPolicyAsync.ExecuteAsync(action: Wrapped, context: loggingContext);
+        TReturn result = await this._retryPolicyAsync.ExecuteAsync(action: Wrapped, context: loggingContext);
 
         return result;
     }

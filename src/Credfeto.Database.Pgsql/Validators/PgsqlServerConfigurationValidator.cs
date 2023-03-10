@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Credfeto.Database.Pgsql;
+namespace Credfeto.Database.Pgsql.Validators;
 
 public sealed class PgsqlServerConfigurationValidator : AbstractValidator<PgsqlServerConfiguration>
 {

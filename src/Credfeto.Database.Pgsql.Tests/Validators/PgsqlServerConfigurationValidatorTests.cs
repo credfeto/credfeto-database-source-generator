@@ -1,8 +1,9 @@
+using Credfeto.Database.Pgsql.Validators;
 using FunFair.Test.Common;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Credfeto.Database.Pgsql.Tests;
+namespace Credfeto.Database.Pgsql.Tests.Validators;
 
 public sealed class PgsqlServerConfigurationValidatorTests : ValidatorTestBase<PgsqlServerConfigurationValidator, PgsqlServerConfiguration>
 {

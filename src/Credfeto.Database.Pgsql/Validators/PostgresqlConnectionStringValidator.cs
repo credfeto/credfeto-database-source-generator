@@ -4,7 +4,7 @@ using FluentValidation;
 using FluentValidation.Validators;
 using Npgsql;
 
-namespace Credfeto.Database.Pgsql;
+namespace Credfeto.Database.Pgsql.Validators;
 
 public sealed class PostgresqlConnectionStringValidator : IPropertyValidator<PgsqlServerConfiguration, string>
 {
