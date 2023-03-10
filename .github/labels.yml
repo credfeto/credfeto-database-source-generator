@@ -146,3 +146,11 @@
    color: "0e8a16"
    description: "Changes in Credfeto.Database.Source.Generation.Tests project"
 
+ - name: "Credfeto.Database.SqlServer"
+   color: "96f7d2"
+   description: "Changes in Credfeto.Database.SqlServer project"
+
+ - name: "Credfeto.Database.SqlServer.Tests"
+   color: "0e8a16"
+   description: "Changes in Credfeto.Database.SqlServer.Tests project"
+
