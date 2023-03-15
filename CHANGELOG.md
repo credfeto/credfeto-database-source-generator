@@ -15,6 +15,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - FF-1429 - Updated SonarAnalyzer.CSharp to 8.54.0.64047
 - FF-1429 - Updated FluentValidation to 11.5.1
 - FF-1429 - Updated Microsoft.Extensions to 7.0.1
+- SDK - Updated DotNet SDK to 7.0.202
 ### Removed
 ### Deployment Changes
 
