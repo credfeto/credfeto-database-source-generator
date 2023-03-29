@@ -16,7 +16,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - FF-1429 - Updated FluentValidation to 11.5.1
 - FF-1429 - Updated Microsoft.Extensions to 7.0.1
 - Dependencies - Updated SonarAnalyzer.CSharp to 8.55.0.65544
-- Dependencies - Updated Meziantou.Analyzer to 2.0.26
+- Dependencies - Updated Meziantou.Analyzer to 2.0.27
 ### Removed
 ### Deployment Changes
 
