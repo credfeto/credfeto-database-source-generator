@@ -303,8 +303,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
                 throw new InvalidOperationException("Return type is null");
             }
 
-            // TODO: Handle null/DBNull when type is nullable.
-            using (source.StartBlock(text: "if (result is null)"))
+            using (source.StartBlock(text: "if (result is null || Convert.IsDBNull(result))"))
             {
                 source.AppendLine(method.Method.ReturnType.IsNullable
                                       ? "return null;"

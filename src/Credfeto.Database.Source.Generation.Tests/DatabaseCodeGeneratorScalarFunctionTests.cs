@@ -69,7 +69,7 @@ public static partial class DatabaseWrapper
 
         object? result = await command.ExecuteScalarAsync(cancellationToken: cancellationToken);
 
-        if (result is null)
+        if (result is null || Convert.IsDBNull(result))
         {
             throw new InvalidOperationException(""No result returned."");
         }
@@ -141,7 +141,7 @@ public static partial class DatabaseWrapper
 
         object? result = await command.ExecuteScalarAsync(cancellationToken: cancellationToken);
 
-        if (result is null)
+        if (result is null || Convert.IsDBNull(result))
         {
             throw new InvalidOperationException(""No result returned."");
         }
@@ -207,7 +207,7 @@ public static partial class DatabaseWrapper
         command.CommandText = ""select example.scalarfunction(@factor)"";
         DbParameter p0 = command.CreateParameter();
         p0.DbType = DbType.Int32;
-        if(factor == null)
+        if (factor == null)
         {
             p0.Value = DBNull.Value;
         }
@@ -220,7 +220,7 @@ public static partial class DatabaseWrapper
 
         object? result = await command.ExecuteScalarAsync(cancellationToken: cancellationToken);
 
-        if (result is null)
+        if (result is null || Convert.IsDBNull(result))
         {
             throw new InvalidOperationException(""No result returned."");
         }
@@ -298,7 +298,7 @@ public static partial class DatabaseWrapper
 
         object? result = await command.ExecuteScalarAsync(cancellationToken: cancellationToken);
 
-        if (result is null)
+        if (result is null || Convert.IsDBNull(result))
         {
             throw new InvalidOperationException(""No result returned."");
         }
@@ -388,7 +388,7 @@ public static partial class DatabaseWrapper
 
         object? result = await command.ExecuteScalarAsync(cancellationToken: cancellationToken);
 
-        if (result is null)
+        if (result is null || Convert.IsDBNull(result))
         {
             throw new InvalidOperationException(""No result returned."");
         }
@@ -455,7 +455,7 @@ public static partial class DatabaseWrapper
 
         object? result = await command.ExecuteScalarAsync(cancellationToken: cancellationToken);
 
-        if (result is null)
+        if (result is null || Convert.IsDBNull(result))
         {
             throw new InvalidOperationException(""No result returned."");
         }
@@ -525,7 +525,7 @@ public static partial class DatabaseWrapper
 
         object? result = await command.ExecuteScalarAsync(cancellationToken: cancellationToken);
 
-        if (result is null)
+        if (result is null || Convert.IsDBNull(result))
         {
             throw new InvalidOperationException(""No result returned."");
         }
@@ -592,7 +592,7 @@ public static partial class DatabaseWrapper
 
         object? result = await command.ExecuteScalarAsync(cancellationToken: cancellationToken);
 
-        if (result is null)
+        if (result is null || Convert.IsDBNull(result))
         {
             return null;
         }
@@ -659,7 +659,7 @@ public static partial class DatabaseWrapper
 
         object? result = await command.ExecuteScalarAsync(cancellationToken: cancellationToken);
 
-        if (result is null)
+        if (result is null || Convert.IsDBNull(result))
         {
             return null;
         }
