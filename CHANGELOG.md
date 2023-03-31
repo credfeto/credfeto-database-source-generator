@@ -7,6 +7,16 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 
 ## [Unreleased]
 ### Added
+### Fixed
+### Changed
+### Removed
+### Deployment Changes
+
+<!--
+Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
+-->
+## [1.1.2] - 2023-03-31
+### Added
 - Provider for SqlServer
 ### Fixed
 - Case where DBNull wasn't explicitly checked
@@ -18,12 +28,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - FF-1429 - Updated Microsoft.Extensions to 7.0.1
 - Dependencies - Updated SonarAnalyzer.CSharp to 8.55.0.65544
 - Dependencies - Updated Meziantou.Analyzer to 2.0.28
-### Removed
-### Deployment Changes
 
-<!--
-Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
--->
 ## [1.1.1] - 2023-02-26
 ### Changed
 - FF-1429 - Updated Credfeto.Enumeration.Source.Generation to 1.0.7.19
