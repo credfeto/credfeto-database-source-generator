@@ -18,20 +18,30 @@ public abstract class BaseDatabase : IDatabase
         this._retryPolicyAsync = this.DefineAsyncPolicy();
     }
 
-    public async Task ExecuteAsync(Func<DbConnection, CancellationToken, Task> action, CancellationToken cancellationToken)
+    public Task<T> ExecuteAsync<T>(Func<DbConnection, CancellationToken, Task<T>> action, CancellationToken cancellationToken)
     {
-        await using (DbConnection connection = await this.GetConnectionAsync(cancellationToken))
+        async Task<T> Exec()
         {
-            await this.ExecuteWithRetriesAsync(func: () => action(arg1: connection, arg2: cancellationToken), context: "ExecuteAsync");
+            await using (DbConnection connection = await this.GetConnectionAsync(cancellationToken))
+            {
+                return await action(arg1: connection, arg2: cancellationToken);
+            }
         }
+
+        return this.ExecuteWithRetriesAsync(func: Exec, context: "ExecuteAsync");
     }
 
-    public async Task<T> ExecuteAsync<T>(Func<DbConnection, CancellationToken, Task<T>> action, CancellationToken cancellationToken)
+    public Task ExecuteAsync(Func<DbConnection, CancellationToken, Task> action, CancellationToken cancellationToken)
     {
-        await using (DbConnection connection = await this.GetConnectionAsync(cancellationToken))
+        async Task Exec()
         {
-            return await this.ExecuteWithRetriesAsync(func: () => action(arg1: connection, arg2: cancellationToken), context: "ExecuteAsync");
+            await using (DbConnection connection = await this.GetConnectionAsync(cancellationToken))
+            {
+                await action(arg1: connection, arg2: cancellationToken);
+            }
         }
+
+        return this.ExecuteWithRetriesAsync(func: Exec, context: "ExecuteAsync");
     }
 
     private AsyncRetryPolicy DefineAsyncPolicy()
