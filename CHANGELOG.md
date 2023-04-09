@@ -9,9 +9,9 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Added
 ### Fixed
 ### Changed
-- Dependencies - Updated Meziantou.Analyzer to 2.0.29
 - Changed so that OpenConnection is part of the retried part
 - Dependencies - Updated FluentValidation to 11.5.2
+- Dependencies - Updated Meziantou.Analyzer to 2.0.30
 ### Removed
 ### Deployment Changes
 
