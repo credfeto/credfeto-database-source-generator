@@ -12,6 +12,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Changed so that OpenConnection is part of the retried part
 - Dependencies - Updated FluentValidation to 11.5.2
 - Dependencies - Updated Meziantou.Analyzer to 2.0.34
+- Dependencies - Updated FunFair.Test.Common to 6.0.29.1
 ### Removed
 ### Deployment Changes
 
