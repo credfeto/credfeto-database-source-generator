@@ -16,6 +16,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Credfeto.Enumeration.Source.Generation to 1.0.9.588
 - Dependencies - Updated FunFair.Test.Common to 6.0.30.633
 - Dependencies - Updated Roslynator.Analyzers to 4.3.0
+- Dependencies - Updated Npgsql to 7.0.4
 ### Removed
 ### Deployment Changes
 
