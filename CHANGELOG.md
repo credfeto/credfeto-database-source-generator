@@ -11,10 +11,10 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Changed
 - Changed so that OpenConnection is part of the retried part
 - Dependencies - Updated FluentValidation to 11.5.2
-- Dependencies - Updated FunFair.Test.Common to 6.0.29.1
 - Dependencies - Updated SonarAnalyzer.CSharp to 8.56.0.67649
 - Dependencies - Updated Meziantou.Analyzer to 2.0.36
 - Dependencies - Updated Credfeto.Enumeration.Source.Generation to 1.0.9.588
+- Dependencies - Updated FunFair.Test.Common to 6.0.30.633
 ### Removed
 ### Deployment Changes
 
