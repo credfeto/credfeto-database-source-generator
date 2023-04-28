@@ -9,6 +9,14 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Added
 ### Fixed
 ### Changed
+### Removed
+### Deployment Changes
+
+<!--
+Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
+-->
+## [1.2.0] - 2023-04-28
+### Changed
 - Changed so that OpenConnection is part of the retried part
 - Dependencies - Updated FluentValidation to 11.5.2
 - Dependencies - Updated Credfeto.Enumeration.Source.Generation to 1.0.9.588
@@ -17,12 +25,8 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Npgsql to 7.0.4
 - Dependencies - Updated SonarAnalyzer.CSharp to 9.0.0.68202
 - Dependencies - Updated Meziantou.Analyzer to 2.0.43
-### Removed
-### Deployment Changes
+- Switched to use ValueTask
 
-<!--
-Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
--->
 ## [1.1.2] - 2023-03-31
 ### Added
 - Provider for SqlServer
