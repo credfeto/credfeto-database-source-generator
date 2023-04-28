@@ -18,9 +18,9 @@ public abstract class BaseDatabase : IDatabase
         this._retryPolicyAsync = this.DefineAsyncPolicy();
     }
 
-    public Task<T> ExecuteAsync<T>(Func<DbConnection, CancellationToken, Task<T>> action, CancellationToken cancellationToken)
+    public ValueTask<T> ExecuteAsync<T>(Func<DbConnection, CancellationToken, ValueTask<T>> action, CancellationToken cancellationToken)
     {
-        async Task<T> Exec()
+        async ValueTask<T> Exec()
         {
             await using (DbConnection connection = await this.GetConnectionAsync(cancellationToken))
             {
@@ -31,9 +31,9 @@ public abstract class BaseDatabase : IDatabase
         return this.ExecuteWithRetriesAsync(func: Exec, context: "ExecuteAsync");
     }
 
-    public Task ExecuteAsync(Func<DbConnection, CancellationToken, Task> action, CancellationToken cancellationToken)
+    public ValueTask ExecuteAsync(Func<DbConnection, CancellationToken, ValueTask> action, CancellationToken cancellationToken)
     {
-        async Task Exec()
+        async ValueTask Exec()
         {
             await using (DbConnection connection = await this.GetConnectionAsync(cancellationToken))
             {
@@ -61,27 +61,29 @@ public abstract class BaseDatabase : IDatabase
 
     protected abstract ValueTask<DbConnection> GetConnectionAsync(CancellationToken cancellationToken);
 
-    private Task ExecuteWithRetriesAsync(Func<Task> func, string context)
+    private async ValueTask ExecuteWithRetriesAsync(Func<ValueTask> func, string context)
     {
         Context loggingContext = new(context);
 
         Task Wrapped(Context c)
         {
-            return func();
+            return func()
+                .AsTask();
         }
 
-        return this._retryPolicyAsync.ExecuteAsync(action: Wrapped, context: loggingContext);
+        await this._retryPolicyAsync.ExecuteAsync(action: Wrapped, context: loggingContext);
     }
 
-    private Task<TReturn> ExecuteWithRetriesAsync<TReturn>(Func<Task<TReturn>> func, string context)
+    private async ValueTask<TReturn> ExecuteWithRetriesAsync<TReturn>(Func<ValueTask<TReturn>> func, string context)
     {
         Context loggingContext = new(context);
 
         Task<TReturn> Wrapped(Context c)
         {
-            return func();
+            return func()
+                .AsTask();
         }
 
-        return this._retryPolicyAsync.ExecuteAsync(action: Wrapped, context: loggingContext);
+        return await this._retryPolicyAsync.ExecuteAsync(action: Wrapped, context: loggingContext);
     }
 }

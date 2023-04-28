@@ -8,19 +8,19 @@ namespace Credfeto.Database.Source.Generation.Example;
 
 public interface ITestDatabase
 {
-    Task<IReadOnlyList<Accounts>> GetAllAsync(AccountAddress accountAddress, CancellationToken cancellationToken);
+    ValueTask<IReadOnlyList<Accounts>> GetAllAsync(AccountAddress accountAddress, CancellationToken cancellationToken);
 
-    Task<Accounts?> GetAsync(int id, CancellationToken cancellationToken);
+    ValueTask<Accounts?> GetAsync(int id, CancellationToken cancellationToken);
 
-    Task InsertAsync(string name, AccountAddress address, CancellationToken cancellationToken);
+    ValueTask InsertAsync(string name, AccountAddress address, CancellationToken cancellationToken);
 
-    Task<int> GetMeaningOfLifeAsync(CancellationToken cancellationToken);
+    ValueTask<int> GetMeaningOfLifeAsync(CancellationToken cancellationToken);
 
-    Task<int?> GetOptionalMeaningOfLifeAsync(CancellationToken cancellationToken);
+    ValueTask<int?> GetOptionalMeaningOfLifeAsync(CancellationToken cancellationToken);
 
-    Task<string> GetStringMeaningOfLifeAsync(CancellationToken cancellationToken);
+    ValueTask<string> GetStringMeaningOfLifeAsync(CancellationToken cancellationToken);
 
-    Task<AccountAddress> GetAddressMeaningOfLifeAsync(CancellationToken cancellationToken);
+    ValueTask<AccountAddress> GetAddressMeaningOfLifeAsync(CancellationToken cancellationToken);
 
-    Task<AccountAddress?> GetOptionalAddressMeaningOfLifeAsync(CancellationToken cancellationToken);
+    ValueTask<AccountAddress?> GetOptionalAddressMeaningOfLifeAsync(CancellationToken cancellationToken);
 }

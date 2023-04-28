@@ -136,9 +136,9 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
                                                                   IdentifierNameSyntax identifierNameSyntax,
                                                                   CancellationToken cancellationToken)
     {
-        if (identifierNameSyntax.Identifier.Text != "Task")
+        if (identifierNameSyntax.Identifier.Text != "Task" && identifierNameSyntax.Identifier.Text != "ValueTask")
         {
-            throw new InvalidModelException(message: $"Method {name} does not return a Task");
+            throw new InvalidModelException(message: $"Method {name} does not return a Task or ValueTask");
         }
 
         ISymbol returnSymbol = ValidateSymbol(semanticModel.GetSymbol(node: identifierNameSyntax, cancellationToken: cancellationToken), $"Method {name} could not determine task type");
@@ -163,9 +163,9 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
 
     private static MethodReturnType GetGenericTaskReturnType(SemanticModel semanticModel, MapperInfo? mapperInfo, string name, GenericNameSyntax genericNameSyntax, CancellationToken cancellationToken)
     {
-        if (genericNameSyntax.Identifier.Text != "Task")
+        if (genericNameSyntax.Identifier.Text != "Task" && genericNameSyntax.Identifier.Text != "ValueTask")
         {
-            throw new InvalidModelException(message: $"Method {name} does not return a Task");
+            throw new InvalidModelException(message: $"Method {name} does not return a Task or ValueTask");
         }
 
         ISymbol returnSymbol = ValidateSymbol(semanticModel.GetSymbol(node: genericNameSyntax, cancellationToken: cancellationToken), $"Method {name} could not determine task type");

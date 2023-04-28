@@ -12,30 +12,30 @@ namespace Credfeto.Database.Source.Generation.Example;
 internal static partial class DatabaseWrapper
 {
     [SqlObjectMap(name: "ethereum.account_getall", sqlObjectType: SqlObjectType.TABLE_FUNCTION)]
-    public static partial Task<IReadOnlyList<Accounts>> GetAllAsync(DbConnection connection,
-                                                                    [SqlFieldMap<AccountAddressMapper, AccountAddress>] AccountAddress address,
-                                                                    CancellationToken cancellationToken);
+    public static partial ValueTask<IReadOnlyList<Accounts>> GetAllAsync(DbConnection connection,
+                                                                         [SqlFieldMap<AccountAddressMapper, AccountAddress>] AccountAddress address,
+                                                                         CancellationToken cancellationToken);
 
     [SqlObjectMap(name: "ethereum.account_get", sqlObjectType: SqlObjectType.TABLE_FUNCTION)]
-    public static partial Task<Accounts?> GetAsync(DbConnection connection, int id, CancellationToken cancellationToken);
+    public static partial ValueTask<Accounts?> GetAsync(DbConnection connection, int id, CancellationToken cancellationToken);
 
     [SqlObjectMap(name: "ethereum.account_insert", sqlObjectType: SqlObjectType.STORED_PROCEDURE)]
-    public static partial Task InsertAsync(DbConnection connection, string name, [SqlFieldMap<AccountAddressMapper, AccountAddress>] AccountAddress address, CancellationToken cancellationToken);
+    public static partial ValueTask InsertAsync(DbConnection connection, string name, [SqlFieldMap<AccountAddressMapper, AccountAddress>] AccountAddress address, CancellationToken cancellationToken);
 
     [SqlObjectMap(name: "ethereum.get_meaning_of_life_universe_and_everything", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
-    public static partial Task<int> GetMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken);
+    public static partial ValueTask<int> GetMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken);
 
     [SqlObjectMap(name: "ethereum.get_meaning_of_life_universe_and_everything", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
-    public static partial Task<int?> GetOptionalMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken);
+    public static partial ValueTask<int?> GetOptionalMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken);
 
     [SqlObjectMap(name: "ethereum.get_meaning_of_life_universe_and_everything", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
-    public static partial Task<string> GetStringMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken);
-
-    [SqlObjectMap(name: "ethereum.get_meaning_of_life_universe_and_everything", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
-    [return: SqlFieldMap<AccountAddressMapper, AccountAddress>]
-    public static partial Task<AccountAddress> GetAddressMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken);
+    public static partial ValueTask<string> GetStringMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken);
 
     [SqlObjectMap(name: "ethereum.get_meaning_of_life_universe_and_everything", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
     [return: SqlFieldMap<AccountAddressMapper, AccountAddress>]
-    public static partial Task<AccountAddress?> GetOptionalAddressMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken);
+    public static partial ValueTask<AccountAddress> GetAddressMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken);
+
+    [SqlObjectMap(name: "ethereum.get_meaning_of_life_universe_and_everything", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
+    [return: SqlFieldMap<AccountAddressMapper, AccountAddress>]
+    public static partial ValueTask<AccountAddress?> GetOptionalAddressMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken);
 }
