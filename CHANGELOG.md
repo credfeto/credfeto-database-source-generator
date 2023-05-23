@@ -14,6 +14,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Microsoft.NET.Test.Sdk to 17.6.0
 - Dependencies - .NET 8 Preview 3
 - Dependencies - Updated Meziantou.Analyzer to 2.0.52
+- Dependencies - Updated Microsoft.CodeAnalysis.CSharp to 4.6.0
 ### Removed
 ### Deployment Changes
 
