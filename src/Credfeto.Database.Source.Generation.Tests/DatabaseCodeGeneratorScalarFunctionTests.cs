@@ -207,7 +207,7 @@ public static partial class DatabaseWrapper
         command.CommandText = ""select example.scalarfunction(@factor)"";
         DbParameter p0 = command.CreateParameter();
         p0.DbType = DbType.Int32;
-        if (factor == null)
+        if (factor is null)
         {
             p0.Value = DBNull.Value;
         }

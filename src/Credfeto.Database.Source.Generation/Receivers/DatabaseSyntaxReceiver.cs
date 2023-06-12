@@ -148,7 +148,7 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
 
     private static ISymbol ValidateSymbol(ISymbol? symbol, string error)
     {
-        if (symbol == null)
+        if (symbol is null)
         {
             throw new InvalidModelException(message: error);
         }

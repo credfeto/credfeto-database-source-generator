@@ -72,7 +72,7 @@ internal static class ExtractColumns
 
         using (source.StartBlock($"static {typeName}{nullableMarker} {methodName}(object {valueParameter}, string columName)"))
         {
-            using (source.StartBlock("if (value == null || Convert.IsDBNull(value))"))
+            using (source.StartBlock("if (value is null || Convert.IsDBNull(value))"))
             {
                 source.AppendLine(isNullable
                                       ? "return null;"

@@ -23,7 +23,7 @@ public sealed class PostgresqlConnectionStringValidator : IPropertyValidator<Pgs
             cs = null;
         }
 
-        return cs != null;
+        return cs is not null;
     }
 
     public string GetDefaultMessageTemplate(string errorCode)

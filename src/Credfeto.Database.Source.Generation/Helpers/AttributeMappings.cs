@@ -55,7 +55,7 @@ internal static class AttributeMappings
 
     private static MapperInfo? CreateMapperInfo(ISymbol? symbol)
     {
-        if (symbol == null)
+        if (symbol is null)
         {
             return null;
         }
@@ -72,7 +72,7 @@ internal static class AttributeMappings
 
     private static MapperInfo? CreateMapperInfo2(ISymbol? symbol)
     {
-        if (symbol == null)
+        if (symbol is null)
         {
             return null;
         }
@@ -92,7 +92,7 @@ internal static class AttributeMappings
 
     private static MapperInfo? CreateMapperInfo(INamedTypeSymbol containingType)
     {
-        if (containingType == null)
+        if (containingType is null)
         {
             return null;
         }
@@ -130,7 +130,7 @@ internal static class AttributeMappings
     {
         ISymbol? symbol = semanticModel.GetSymbol(node: attributeSyntax, cancellationToken: cancellationToken);
 
-        if (symbol == null)
+        if (symbol is null)
         {
             return null;
         }

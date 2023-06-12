@@ -149,7 +149,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
     [SuppressMessage(category: "Meziantou.Analyzer", checkId: "MA0051:Method too long", Justification = "Test")]
     private static void GenerateTableFunctionMethod(MethodGeneration method, CodeBuilder source)
     {
-        bool isCollection = method.Method.ReturnType.CollectionReturnType != null;
+        bool isCollection = method.Method.ReturnType.CollectionReturnType is not null;
 
         using (BuildFunctionSignature(source: source, method: method))
         {
@@ -188,7 +188,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
         {
             MapperInfo? mapperInfo = column.GetMapperInfo();
 
-            if (mapperInfo != null)
+            if (mapperInfo is not null)
             {
                 continue;
             }
@@ -237,7 +237,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
     {
         MapperInfo? mapperInfo = column.GetMapperInfo();
 
-        if (mapperInfo != null)
+        if (mapperInfo is not null)
         {
             source.AppendLine($"                         {column.Name}: {mapperInfo.MapperSymbol.ToDisplayString()}.MapFromDb(reader.GetValue(ordinal{column.Name})){end}");
         }
@@ -313,7 +313,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
 
             source.AppendBlankLine();
 
-            if (method.Method.ReturnType.MapperInfo != null)
+            if (method.Method.ReturnType.MapperInfo is not null)
             {
                 source.AppendLine($"return {method.Method.ReturnType.MapperInfo.MapperSymbol.ToDisplayString()}.MapFromDb(value: result);");
             }
@@ -347,7 +347,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
     {
         source.AppendLine($"DbParameter p{parameterIndex} = command.CreateParameter();");
 
-        if (parameter.MapperInfo != null)
+        if (parameter.MapperInfo is not null)
         {
             source.AppendLine($"{parameter.MapperInfo.MapperSymbol.ToDisplayString()}.MapToDb({parameter.Name}, p{parameterIndex});");
         }
@@ -432,7 +432,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
     {
         using (BuildFunctionSignature(source: source, method: method))
         {
-            if (method.Method.ReturnType.ElementReturnType != null)
+            if (method.Method.ReturnType.ElementReturnType is not null)
             {
                 ImmutableArray<IParameterSymbol> columns = ExtractColumnsFromConstructor((INamedTypeSymbol)method.Method.ReturnType.ElementReturnType!);
 
@@ -452,7 +452,7 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
             }
             else
             {
-                bool isCollection = method.Method.ReturnType.CollectionReturnType != null;
+                bool isCollection = method.Method.ReturnType.CollectionReturnType is not null;
                 string commandBehaviour = isCollection
                     ? nameof(CommandBehavior.Default)
                     : nameof(CommandBehavior.SingleRow);

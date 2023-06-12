@@ -39,7 +39,7 @@ internal static class ParameterSetter
     {
         source.AppendLine($"{parameterObject}.DbType = {nameof(DbType)}.{dbType.GetName()};");
 
-        using (source.StartBlock($"if ({parameterName} == null)"))
+        using (source.StartBlock($"if ({parameterName} is null)"))
         {
             source.AppendLine($"{parameterObject}.Value = DBNull.Value;");
         }
