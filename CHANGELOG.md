@@ -19,6 +19,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Microsoft.NET.Test.Sdk to 17.6.2
 - Dependencies - Updated Microsoft.Extensions to 7.0.1
 - Dependencies - Updated Polly to 7.2.4
+- Dependencies - Updated SonarAnalyzer.CSharp to 9.3.0.71466
 ### Removed
 ### Deployment Changes
 
