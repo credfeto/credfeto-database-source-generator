@@ -37,6 +37,8 @@ internal static class ExtractColumns
             "string?" => ExtractNullableString(source: source),
             "System.DateTime" => ExtractDateTime(source: source),
             "System.DateTime?" => ExtractNullableDateTime(source: source),
+            "System.DateTimeOffset" => ExtractDateTimeOffset(source: source),
+            "System.DateTimeOffset?" => ExtractNullableDateTimeOffset(source: source),
             _ => null
         };
     }
@@ -133,6 +135,12 @@ internal static class ExtractColumns
 
     private static string ReturnDateTime(string variable)
     {
+        return $"return Convert.ToDateTime({variable});";
+    }
+
+    private static string ReturnDateTimeOffset(string variable)
+    {
+        // need to do a version of this that goes to datetime offset
         return $"return Convert.ToDateTime({variable});";
     }
 
@@ -294,5 +302,15 @@ internal static class ExtractColumns
     private static string ExtractNullableDateTime(CodeBuilder source)
     {
         return ExtractCommon(source: source, typeName: "DateTime", nameof(ExtractNullableDateTime), isNullable: true, getReturnStatement: ReturnDateTime);
+    }
+
+    private static string ExtractDateTimeOffset(CodeBuilder source)
+    {
+        return ExtractCommon(source: source, typeName: "DateTimeOffset", nameof(ExtractDateTimeOffset), isNullable: false, getReturnStatement: ReturnDateTimeOffset);
+    }
+
+    private static string ExtractNullableDateTimeOffset(CodeBuilder source)
+    {
+        return ExtractCommon(source: source, typeName: "DateTimeOffset", nameof(ExtractNullableDateTimeOffset), isNullable: true, getReturnStatement: ReturnDateTimeOffset);
     }
 }
