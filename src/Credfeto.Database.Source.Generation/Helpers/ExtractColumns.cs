@@ -141,7 +141,7 @@ internal static class ExtractColumns
     private static string ReturnDateTimeOffset(string variable)
     {
         // need to do a version of this that goes to datetime offset
-        return $"return Convert.ToDateTime({variable});";
+        return $"return new(Convert.ToDateTime({variable}, CultureInfo.InvariantCulture));";
     }
 
     private static string ReturnString(string variable)
