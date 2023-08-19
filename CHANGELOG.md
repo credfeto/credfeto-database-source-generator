@@ -22,6 +22,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Microsoft.VisualStudio.Threading.Analyzers to 17.7.30
 - Dependencies - Updated Roslynator.Analyzers to 4.4.0
 - Dependencies - Updated SonarAnalyzer.CSharp to 9.7.0.75501
+- Dependencies - Updated xunit.analyzers to 1.2.0
 ### Removed
 ### Deployment Changes
 
