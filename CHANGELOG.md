@@ -15,13 +15,13 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Microsoft.NET.Test.Sdk to 17.6.2
 - Dependencies - Updated Microsoft.Extensions to 7.0.1
 - Dependencies - Updated Polly to 7.2.4
-- Dependencies - Updated SonarAnalyzer.CSharp to 9.4.0.72892
 - SDK - Updated DotNet SDK to 8.0.100-preview.7.23376.3
 - Dependencies - Updated FunFair.CodeAnalysis to 7.0.1.87
 - Dependencies - Updated Meziantou.Analyzer to 2.0.82
 - Dependencies - Updated Microsoft.CodeAnalysis.CSharp to 4.7.0
 - Dependencies - Updated Microsoft.VisualStudio.Threading.Analyzers to 17.7.30
 - Dependencies - Updated Roslynator.Analyzers to 4.4.0
+- Dependencies - Updated SonarAnalyzer.CSharp to 9.7.0.75501
 ### Removed
 ### Deployment Changes
 
