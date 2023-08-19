@@ -12,7 +12,6 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - .NET 8 Preview 3
 - Dependencies - Updated coverlet to 6.0.0
 - Dependencies - Updated FunFair.Test.Common to 6.1.1.49
-- Dependencies - Updated Microsoft.NET.Test.Sdk to 17.6.2
 - Dependencies - Updated Microsoft.Extensions to 7.0.1
 - Dependencies - Updated Polly to 7.2.4
 - SDK - Updated DotNet SDK to 8.0.100-preview.7.23376.3
@@ -24,6 +23,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated SonarAnalyzer.CSharp to 9.7.0.75501
 - Dependencies - Updated xunit.analyzers to 1.2.0
 - Dependencies - Updated FluentValidation to 11.7.1
+- Dependencies - Updated Microsoft.NET.Test.Sdk to 17.7.1
 ### Removed
 ### Deployment Changes
 
