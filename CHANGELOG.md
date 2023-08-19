@@ -10,7 +10,6 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Fixed
 ### Changed
 - Dependencies - .NET 8 Preview 3
-- Dependencies - Updated Microsoft.CodeAnalysis.CSharp to 4.6.0
 - Dependencies - Updated Microsoft.VisualStudio.Threading.Analyzers to 17.6.40
 - Dependencies - Updated coverlet to 6.0.0
 - Dependencies - Updated FunFair.Test.Common to 6.1.1.49
@@ -21,6 +20,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - SDK - Updated DotNet SDK to 8.0.100-preview.7.23376.3
 - Dependencies - Updated FunFair.CodeAnalysis to 7.0.1.87
 - Dependencies - Updated Meziantou.Analyzer to 2.0.82
+- Dependencies - Updated Microsoft.CodeAnalysis.CSharp to 4.7.0
 ### Removed
 ### Deployment Changes
 
