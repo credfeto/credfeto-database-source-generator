@@ -20,7 +20,10 @@ internal static partial class DatabaseWrapper
     public static partial ValueTask<Accounts?> GetAsync(DbConnection connection, int id, CancellationToken cancellationToken);
 
     [SqlObjectMap(name: "ethereum.account_insert", sqlObjectType: SqlObjectType.STORED_PROCEDURE)]
-    public static partial ValueTask InsertAsync(DbConnection connection, string name, [SqlFieldMap<AccountAddressMapper, AccountAddress>] AccountAddress address, CancellationToken cancellationToken);
+    public static partial ValueTask InsertAsync(DbConnection connection,
+                                                string name,
+                                                [SqlFieldMap<AccountAddressMapper, AccountAddress>] AccountAddress address,
+                                                CancellationToken cancellationToken);
 
     [SqlObjectMap(name: "ethereum.get_meaning_of_life_universe_and_everything", sqlObjectType: SqlObjectType.SCALAR_FUNCTION)]
     public static partial ValueTask<int> GetMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken);

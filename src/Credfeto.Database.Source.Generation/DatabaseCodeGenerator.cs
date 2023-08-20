@@ -171,7 +171,8 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
                 : nameof(CommandBehavior.SingleRow);
 
             using (source.AppendBlankLine()
-                         .StartBlock($"using (IDataReader reader = await command.ExecuteReaderAsync(behavior: CommandBehavior.{commandBehaviour}, cancellationToken: cancellationToken))"))
+                         .StartBlock(
+                             $"using (IDataReader reader = await command.ExecuteReaderAsync(behavior: CommandBehavior.{commandBehaviour}, cancellationToken: cancellationToken))"))
             {
                 source.AppendLine(isCollection
                                       ? "return Extract(reader: reader).ToArray();"
@@ -458,7 +459,8 @@ public sealed class DatabaseCodeGenerator : ISourceGenerator
                     : nameof(CommandBehavior.SingleRow);
 
                 using (source.AppendBlankLine()
-                             .StartBlock($"using (IDataReader reader = await command.ExecuteReaderAsync(behavior: CommandBehavior.{commandBehaviour}, cancellationToken: cancellationToken))"))
+                             .StartBlock(
+                                 $"using (IDataReader reader = await command.ExecuteReaderAsync(behavior: CommandBehavior.{commandBehaviour}, cancellationToken: cancellationToken))"))
                 {
                     source.AppendLine(isCollection
                                           ? "return Extract(reader: reader).ToArray();"

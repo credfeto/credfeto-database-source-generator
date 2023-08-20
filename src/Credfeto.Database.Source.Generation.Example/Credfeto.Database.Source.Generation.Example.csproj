@@ -2,6 +2,7 @@
   <PropertyGroup>
     <DebuggerSupport>true</DebuggerSupport>
     <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
+    <EnableMicrosoftExtensionsConfigurationBinderSourceGenerator>true</EnableMicrosoftExtensionsConfigurationBinderSourceGenerator>
     <EnablePackageValidation>true</EnablePackageValidation>
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
     <Features>strict;flow-analysis</Features>
@@ -13,9 +14,12 @@
     <IsPackable>false</IsPackable>
     <IsPublishable>false</IsPublishable>
     <IsTrimmable>true</IsTrimmable>
+    <JsonSerializerIsReflectionEnabledByDefault>false</JsonSerializerIsReflectionEnabledByDefault>
     <LangVersion>latest</LangVersion>
     <NoWarn />
+    <NuGetAudit>true</NuGetAudit>
     <Nullable>enable</Nullable>
+    <OptimizationPreference>speed</OptimizationPreference>
     <OutputType>Library</OutputType>
     <RunAOTCompilation>false</RunAOTCompilation>
     <TargetFrameworks>net7.0;net8.0</TargetFrameworks>
@@ -25,10 +29,6 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <UseSystemResourceKeys>true</UseSystemResourceKeys>
     <WarningsAsErrors />
-    <EnableMicrosoftExtensionsConfigurationBinderSourceGenerator>true</EnableMicrosoftExtensionsConfigurationBinderSourceGenerator>
-    <JsonSerializerIsReflectionEnabledByDefault>false</JsonSerializerIsReflectionEnabledByDefault>
-    <OptimizationPreference>speed</OptimizationPreference>
-    <NuGetAudit>true</NuGetAudit>
   </PropertyGroup>
   <PropertyGroup>
     <AnalysisLevel>latest</AnalysisLevel>
@@ -55,6 +55,22 @@
     <Description>Database interfaces</Description>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Generated\Credfeto.Database.Source.Generation\Credfeto.Database.Source.Generation.DatabaseCodeGenerator\Credfeto.Database.Source.Generation.Example.DatabaseWrapper.GetAddressMeaningOfLifeAsync.Database.generated.cs" />
+    <Compile Include="Generated\Credfeto.Database.Source.Generation\Credfeto.Database.Source.Generation.DatabaseCodeGenerator\Credfeto.Database.Source.Generation.Example.DatabaseWrapper.GetAllAsync.Database.generated.cs" />
+    <Compile Include="Generated\Credfeto.Database.Source.Generation\Credfeto.Database.Source.Generation.DatabaseCodeGenerator\Credfeto.Database.Source.Generation.Example.DatabaseWrapper.GetAsync.Database.generated.cs" />
+    <Compile Include="Generated\Credfeto.Database.Source.Generation\Credfeto.Database.Source.Generation.DatabaseCodeGenerator\Credfeto.Database.Source.Generation.Example.DatabaseWrapper.GetMeaningOfLifeAsync.Database.generated.cs" />
+    <Compile Include="Generated\Credfeto.Database.Source.Generation\Credfeto.Database.Source.Generation.DatabaseCodeGenerator\Credfeto.Database.Source.Generation.Example.DatabaseWrapper.GetOptionalAddressMeaningOfLifeAsync.Database.generated.cs" />
+    <Compile Include="Generated\Credfeto.Database.Source.Generation\Credfeto.Database.Source.Generation.DatabaseCodeGenerator\Credfeto.Database.Source.Generation.Example.DatabaseWrapper.GetOptionalMeaningOfLifeAsync.Database.generated.cs" />
+    <Compile Include="Generated\Credfeto.Database.Source.Generation\Credfeto.Database.Source.Generation.DatabaseCodeGenerator\Credfeto.Database.Source.Generation.Example.DatabaseWrapper.GetStringMeaningOfLifeAsync.Database.generated.cs" />
+    <Compile Include="Generated\Credfeto.Database.Source.Generation\Credfeto.Database.Source.Generation.DatabaseCodeGenerator\Credfeto.Database.Source.Generation.Example.DatabaseWrapper.InsertAsync.Database.generated.cs" />
+  </ItemGroup>
+  <Import Project="$(SolutionDir)KeepGeneratedFiles.props" Condition="Exists('$(SolutionDir)KeepGeneratedFiles.props')" />
+  <ItemGroup>
+    <ProjectReference Include="..\Credfeto.Database.Interfaces\Credfeto.Database.Interfaces.csproj" />
+    <ProjectReference Include="..\Credfeto.Database.Pgsql\Credfeto.Database.Pgsql.csproj" />
+    <ProjectReference Include="..\Credfeto.Database.Source.Generation\Credfeto.Database.Source.Generation.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="AsyncFixer" Version="1.6.0" PrivateAssets="All" ExcludeAssets="runtime" />
     <PackageReference Include="codecracker.CSharp" Version="1.1.0" PrivateAssets="All" ExcludeAssets="runtime" />
     <PackageReference Include="Credfeto.Enumeration.Source.Generation" Version="1.0.9.588" PrivateAssets="All" ExcludeAssets="runtime" />
@@ -72,20 +88,4 @@
     <PackageReference Include="SourceLink.Create.CommandLine" Version="2.8.3" PrivateAssets="All" ExcludeAssets="runtime" />
     <PackageReference Include="ToStringWithoutOverrideAnalyzer" Version="0.6.0" PrivateAssets="All" ExcludeAssets="runtime" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Credfeto.Database.Interfaces\Credfeto.Database.Interfaces.csproj" />
-    <ProjectReference Include="..\Credfeto.Database.Pgsql\Credfeto.Database.Pgsql.csproj" />
-    <ProjectReference Include="..\Credfeto.Database.Source.Generation\Credfeto.Database.Source.Generation.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Generated\Credfeto.Database.Source.Generation\Credfeto.Database.Source.Generation.DatabaseCodeGenerator\Credfeto.Database.Source.Generation.Example.DatabaseWrapper.GetAddressMeaningOfLifeAsync.Database.generated.cs" />
-    <Compile Include="Generated\Credfeto.Database.Source.Generation\Credfeto.Database.Source.Generation.DatabaseCodeGenerator\Credfeto.Database.Source.Generation.Example.DatabaseWrapper.GetAllAsync.Database.generated.cs" />
-    <Compile Include="Generated\Credfeto.Database.Source.Generation\Credfeto.Database.Source.Generation.DatabaseCodeGenerator\Credfeto.Database.Source.Generation.Example.DatabaseWrapper.GetAsync.Database.generated.cs" />
-    <Compile Include="Generated\Credfeto.Database.Source.Generation\Credfeto.Database.Source.Generation.DatabaseCodeGenerator\Credfeto.Database.Source.Generation.Example.DatabaseWrapper.GetMeaningOfLifeAsync.Database.generated.cs" />
-    <Compile Include="Generated\Credfeto.Database.Source.Generation\Credfeto.Database.Source.Generation.DatabaseCodeGenerator\Credfeto.Database.Source.Generation.Example.DatabaseWrapper.GetOptionalAddressMeaningOfLifeAsync.Database.generated.cs" />
-    <Compile Include="Generated\Credfeto.Database.Source.Generation\Credfeto.Database.Source.Generation.DatabaseCodeGenerator\Credfeto.Database.Source.Generation.Example.DatabaseWrapper.GetOptionalMeaningOfLifeAsync.Database.generated.cs" />
-    <Compile Include="Generated\Credfeto.Database.Source.Generation\Credfeto.Database.Source.Generation.DatabaseCodeGenerator\Credfeto.Database.Source.Generation.Example.DatabaseWrapper.GetStringMeaningOfLifeAsync.Database.generated.cs" />
-    <Compile Include="Generated\Credfeto.Database.Source.Generation\Credfeto.Database.Source.Generation.DatabaseCodeGenerator\Credfeto.Database.Source.Generation.Example.DatabaseWrapper.InsertAsync.Database.generated.cs" />
-  </ItemGroup>
-  <Import Project="$(SolutionDir)KeepGeneratedFiles.props" Condition="Exists('$(SolutionDir)KeepGeneratedFiles.props')" />
 </Project>
