@@ -20,13 +20,13 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Microsoft.VisualStudio.Threading.Analyzers to 17.7.30
 - Dependencies - Updated xunit.analyzers to 1.2.0
 - Dependencies - Updated FluentValidation to 11.7.1
-- Dependencies - Updated Microsoft.NET.Test.Sdk to 17.7.1
 - Dependencies - Updated xunit to 2.5.0
 - Dependencies - Updated xunit.runner.visualstudio to 2.5.0
 - Dependencies - Updated SonarAnalyzer.CSharp to 9.8.0.76515
 - Dependencies - Updated TeamCity.VSTest.TestAdapter to 1.0.37
 - Dependencies - Updated Roslynator.Analyzers to 4.5.0
 - Dependencies - Updated FunFair.CodeAnalysis to 7.0.2.121
+- Dependencies - Updated Microsoft.NET.Test.Sdk to 17.7.2
 ### Removed
 ### Deployment Changes
 
