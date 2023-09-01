@@ -15,7 +15,6 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Microsoft.Extensions to 7.0.1
 - Dependencies - Updated Polly to 7.2.4
 - SDK - Updated DotNet SDK to 8.0.100-preview.7.23376.3
-- Dependencies - Updated Meziantou.Analyzer to 2.0.82
 - Dependencies - Updated Microsoft.CodeAnalysis.CSharp to 4.7.0
 - Dependencies - Updated Microsoft.VisualStudio.Threading.Analyzers to 17.7.30
 - Dependencies - Updated xunit.analyzers to 1.2.0
@@ -27,6 +26,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Roslynator.Analyzers to 4.5.0
 - Dependencies - Updated FunFair.CodeAnalysis to 7.0.2.121
 - Dependencies - Updated Microsoft.NET.Test.Sdk to 17.7.2
+- Dependencies - Updated Meziantou.Analyzer to 2.0.83
 ### Removed
 ### Deployment Changes
 
