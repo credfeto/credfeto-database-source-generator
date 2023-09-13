@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace Credfeto.Database.Source.Generation.Helpers;
 
-internal static class VersionInformation
+public static class VersionInformation
 {
     public static string Version()
     {
@@ -14,9 +14,22 @@ internal static class VersionInformation
 
     private static string CommonVersion(Type type)
     {
-        FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(GetFileName(type.Assembly));
+        string filename = GetFileName(type.Assembly);
 
-        return fileVersionInfo.ProductVersion!;
+        if (string.IsNullOrWhiteSpace(filename))
+        {
+            return AssemblyVersion(type.Assembly);
+        }
+
+        FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(filename);
+
+        return fileVersionInfo.ProductVersion ?? AssemblyVersion(type.Assembly);
+    }
+
+    private static string AssemblyVersion(Assembly assembly)
+    {
+        return assembly.GetName()
+                       .Version?.ToString() ?? "0.0.0.1";
     }
 
     [SuppressMessage(category: "FunFair.CodeAnalysis", checkId: "FFS0008:Don't disable warnings with #pragma", Justification = "Needed in this case")]
