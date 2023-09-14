@@ -9,6 +9,14 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Added
 ### Fixed
 ### Changed
+### Removed
+### Deployment Changes
+
+<!--
+Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
+-->
+## [1.2.1] - 2023-09-14
+### Changed
 - Dependencies - .NET 8 Preview 3
 - Dependencies - Updated coverlet to 6.0.0
 - Dependencies - Updated FunFair.Test.Common to 6.1.1.49
@@ -29,12 +37,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated NSubstitute to 5.1.0
 - Dependencies - Updated Credfeto.Enumeration.Source.Generation to 1.1.0.138
 - SDK - Updated DotNet SDK to 8.0.100-rc.1.23455.8
-### Removed
-### Deployment Changes
 
-<!--
-Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
--->
 ## [1.2.0] - 2023-04-28
 ### Changed
 - Changed so that OpenConnection is part of the retried part
