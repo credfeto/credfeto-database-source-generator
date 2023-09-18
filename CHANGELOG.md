@@ -16,6 +16,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Npgsql to 7.0.6
 - Dependencies - Updated xunit to 2.5.1
 - Dependencies - Updated xunit.runner.visualstudio to 2.5.1
+- Used ThisAssembly.AssemblyInfo to generate static version information
 ### Removed
 ### Deployment Changes
 
