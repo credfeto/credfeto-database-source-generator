@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis;
 
 namespace Credfeto.Database.Source.Generation;
 
-[Generator]
+[Generator(LanguageNames.CSharp)]
 public sealed class DatabaseCodeGenerator : ISourceGenerator
 {
     public void Execute(GeneratorExecutionContext context)
