@@ -15,7 +15,7 @@ using Microsoft.CodeAnalysis;
 
 namespace Credfeto.Database.Source.Generation;
 
-static class DatabaseSourceCodeGenerator
+internal static class DatabaseSourceCodeGenerator
 {
     public static void ReportErrors(in GeneratorExecutionContext context, DatabaseSyntaxReceiver receiver)
     {
@@ -147,7 +147,8 @@ static class DatabaseSourceCodeGenerator
                 : nameof(CommandBehavior.SingleRow);
 
             using (source.AppendBlankLine()
-                         .StartBlock($"using (IDataReader reader = await command.ExecuteReaderAsync(behavior: CommandBehavior.{commandBehaviour}, cancellationToken: cancellationToken))"))
+                         .StartBlock(
+                             $"using (IDataReader reader = await command.ExecuteReaderAsync(behavior: CommandBehavior.{commandBehaviour}, cancellationToken: cancellationToken))"))
             {
                 source.AppendLine(isCollection
                                       ? "return Extract(reader: reader).ToArray();"
@@ -434,7 +435,8 @@ static class DatabaseSourceCodeGenerator
                     : nameof(CommandBehavior.SingleRow);
 
                 using (source.AppendBlankLine()
-                             .StartBlock($"using (IDataReader reader = await command.ExecuteReaderAsync(behavior: CommandBehavior.{commandBehaviour}, cancellationToken: cancellationToken))"))
+                             .StartBlock(
+                                 $"using (IDataReader reader = await command.ExecuteReaderAsync(behavior: CommandBehavior.{commandBehaviour}, cancellationToken: cancellationToken))"))
                 {
                     source.AppendLine(isCollection
                                           ? "return Extract(reader: reader).ToArray();"
