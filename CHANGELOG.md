@@ -10,13 +10,13 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Fixed
 ### Changed
 - Dependencies - Updated FunFair.CodeAnalysis to 7.0.3.138
-- Dependencies - Updated SonarAnalyzer.CSharp to 9.10.0.77988
 - Dependencies - Updated xunit.analyzers to 1.3.0
 - Dependencies - Updated FunFair.Test.Common to 6.1.10.156
 - Dependencies - Updated Npgsql to 7.0.6
 - Dependencies - Updated xunit to 2.5.1
 - Dependencies - Updated xunit.runner.visualstudio to 2.5.1
 - Used ThisAssembly.AssemblyInfo to generate static version information
+- Dependencies - Updated SonarAnalyzer.CSharp to 9.11.0.78383
 ### Removed
 ### Deployment Changes
 
