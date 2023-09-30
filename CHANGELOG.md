@@ -18,6 +18,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Used ThisAssembly.AssemblyInfo to generate static version information
 - Dependencies - Updated SonarAnalyzer.CSharp to 9.11.0.78383
 - Dependencies - Updated Polly to 8.0.0
+- Dependencies - Updated Meziantou.Analyzer to 2.0.87
 ### Removed
 ### Deployment Changes
 
