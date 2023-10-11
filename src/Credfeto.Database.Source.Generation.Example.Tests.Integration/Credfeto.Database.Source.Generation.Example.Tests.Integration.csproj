@@ -41,7 +41,7 @@
     <ProjectReference Include="..\Credfeto.Database.Source.Generation.Example\Credfeto.Database.Source.Generation.Example.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="FunFair.Test.Common" Version="6.1.11.175" />
+    <PackageReference Include="FunFair.Test.Common" Version="6.1.12.182" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.2" />
     <PackageReference Include="Npgsql" Version="7.0.6" />
     <PackageReference Include="NSubstitute" Version="5.1.0" />
