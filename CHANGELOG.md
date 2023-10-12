@@ -15,11 +15,11 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated xunit to 2.5.1
 - Dependencies - Updated xunit.runner.visualstudio to 2.5.1
 - Used ThisAssembly.AssemblyInfo to generate static version information
-- Dependencies - Updated SonarAnalyzer.CSharp to 9.11.0.78383
 - Dependencies - Updated Polly to 8.0.0
 - SDK - Updated DotNet SDK to 8.0.100-rc.2.23502.2
 - Dependencies - Updated Meziantou.Analyzer to 2.0.93
 - Dependencies - Updated FunFair.Test.Common to 6.1.12.182
+- Dependencies - Updated SonarAnalyzer.CSharp to 9.12.0.78982
 ### Removed
 ### Deployment Changes
 
