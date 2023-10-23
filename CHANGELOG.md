@@ -23,6 +23,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated FluentValidation to 11.8.0
 - Dependencies - Updated FunFair.Test.Common to 6.1.14.194
 - Dependencies - Updated Meziantou.Analyzer to 2.0.94
+- Dependencies - Updated Philips.CodeAnalysis.MaintainabilityAnalyzers to 1.3.0
 ### Removed
 ### Deployment Changes
 
