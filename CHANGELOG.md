@@ -12,7 +12,6 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated FunFair.CodeAnalysis to 7.0.3.138
 - Dependencies - Updated Npgsql to 7.0.6
 - Used ThisAssembly.AssemblyInfo to generate static version information
-- Dependencies - Updated Polly to 8.0.0
 - SDK - Updated DotNet SDK to 8.0.100-rc.2.23502.2
 - Dependencies - Updated SonarAnalyzer.CSharp to 9.12.0.78982
 - Dependencies - Updated xunit.analyzers to 1.4.0
@@ -24,6 +23,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Roslynator.Analyzers to 4.6.1
 - Dependencies - Updated Philips.CodeAnalysis.MaintainabilityAnalyzers to 1.3.1
 - Dependencies - Updated Meziantou.Analyzer to 2.0.103
+- Dependencies - Updated Polly to 8.1.0
 ### Removed
 ### Deployment Changes
 
