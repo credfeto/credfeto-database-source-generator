@@ -25,9 +25,9 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated FunFair.CodeAnalysis to 7.0.4.198
 - Dependencies - Updated Meziantou.Analyzer to 2.0.110
 - Dependencies - Updated Microsoft.VisualStudio.Threading.Analyzers to 17.8.14
-- Dependencies - Updated FunFair.Test.Common to 6.1.18.233
 - Dependencies - Updated Polly to 8.2.0
 - Dependencies - Updated Credfeto.Enumeration.Source.Generation to 1.1.1.168
+- Dependencies - Updated FunFair.Test.Common to 6.1.19.238
 ### Removed
 ### Deployment Changes
 
