@@ -9,7 +9,6 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Added
 ### Fixed
 ### Changed
-- Dependencies - Updated Npgsql to 7.0.6
 - Used ThisAssembly.AssemblyInfo to generate static version information
 - Dependencies - Updated SonarAnalyzer.CSharp to 9.12.0.78982
 - Dependencies - Updated TeamCity.VSTest.TestAdapter to 1.0.38
@@ -28,6 +27,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated xunit.analyzers to 1.6.0
 - Dependencies - Updated xunit to 2.6.2
 - Dependencies - Updated xunit.runner.visualstudio to 2.5.4
+- Dependencies - Updated Npgsql to 8.0.0
 ### Removed
 ### Deployment Changes
 
