@@ -12,7 +12,6 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Used ThisAssembly.AssemblyInfo to generate static version information
 - Dependencies - Updated SonarAnalyzer.CSharp to 9.12.0.78982
 - Dependencies - Updated TeamCity.VSTest.TestAdapter to 1.0.38
-- Dependencies - Updated FluentValidation to 11.8.0
 - Dependencies - Updated Philips.CodeAnalysis.MaintainabilityAnalyzers to 1.3.1
 - Dependencies - Updated Microsoft.NET.Test.Sdk to 17.8.0
 - Dependencies - Updated Roslynator.Analyzers to 4.6.2
@@ -29,6 +28,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated xunit.runner.visualstudio to 2.5.4
 - Dependencies - Updated Npgsql to 8.0.0
 - Dependencies - Updated Microsoft.CodeAnalysis.CSharp to 4.8.0
+- Dependencies - Updated FluentValidation to 11.8.1
 ### Removed
 ### Deployment Changes
 
