@@ -14,7 +14,6 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated TeamCity.VSTest.TestAdapter to 1.0.38
 - Dependencies - Updated Philips.CodeAnalysis.MaintainabilityAnalyzers to 1.3.1
 - Dependencies - Updated Microsoft.NET.Test.Sdk to 17.8.0
-- Dependencies - Updated Roslynator.Analyzers to 4.6.2
 - SDK - Updated DotNet SDK to 8.0.100
 - Dependencies - Updated Microsoft.Extensions to 8.0.0
 - Dependencies - Updated FunFair.CodeAnalysis to 7.0.4.198
@@ -29,6 +28,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Microsoft.CodeAnalysis.CSharp to 4.8.0
 - Dependencies - Updated FluentValidation to 11.8.1
 - Dependencies - Updated FunFair.Test.Common to 6.1.20.244
+- Dependencies - Updated Roslynator.Analyzers to 4.6.4
 ### Removed
 ### Deployment Changes
 
