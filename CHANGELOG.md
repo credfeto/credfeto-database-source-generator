@@ -9,16 +9,19 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Added
 ### Fixed
 ### Changed
-- Dependencies - Updated SonarAnalyzer.CSharp to 9.14.0.81108
-- Dependencies - Updated Roslynator.Analyzers to 4.7.0
-- Dependencies - Updated Meziantou.Analyzer to 2.0.119
-- Dependencies - Updated Npgsql to 8.0.1
 ### Removed
 ### Deployment Changes
 
 <!--
 Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
 -->
+## [1.2.3] - 2023-12-05
+### Changed
+- Dependencies - Updated SonarAnalyzer.CSharp to 9.14.0.81108
+- Dependencies - Updated Roslynator.Analyzers to 4.7.0
+- Dependencies - Updated Meziantou.Analyzer to 2.0.119
+- Dependencies - Updated Npgsql to 8.0.1
+
 ## [1.2.2] - 2023-11-25
 ### Changed
 - Used ThisAssembly.AssemblyInfo to generate static version information
