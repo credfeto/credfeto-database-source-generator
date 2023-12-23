@@ -355,6 +355,8 @@ internal static class DatabaseSourceCodeGenerator
 
     private static string BuildFunctionParameters(MethodGeneration method)
     {
+        return string.Join(separator: ", ", Build(parameters: method.Method.Parameters));
+
         static IEnumerable<string> Build(IReadOnlyList<MethodParameter> parameters)
         {
             foreach (MethodParameter parameter in parameters)
@@ -365,8 +367,6 @@ internal static class DatabaseSourceCodeGenerator
                 }
             }
         }
-
-        return string.Join(separator: ", ", Build(parameters: method.Method.Parameters));
     }
 
     private static IDisposable BuildFunctionSignature(CodeBuilder source, MethodGeneration method)
