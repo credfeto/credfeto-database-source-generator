@@ -9,7 +9,6 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Added
 ### Fixed
 ### Changed
-- Dependencies - Updated xunit to 2.6.3
 - Dependencies - Updated xunit.runner.visualstudio to 2.5.5
 - Dependencies - Updated FunFair.Test.Common to 6.1.23.276
 - Dependencies - Updated SmartAnalyzers.CSharpExtensions.Annotations to 4.2.9
@@ -20,6 +19,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated SonarAnalyzer.CSharp to 9.16.0.82469
 - Dependencies - Updated Nullable.Extended.Analyzer to 1.14.6129
 - Dependencies - Updated xunit.analyzers to 1.8.0
+- Dependencies - Updated xunit to 2.6.4
 ### Removed
 ### Deployment Changes
 
