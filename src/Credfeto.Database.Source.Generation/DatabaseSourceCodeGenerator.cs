@@ -147,8 +147,7 @@ internal static class DatabaseSourceCodeGenerator
                 : nameof(CommandBehavior.SingleRow);
 
             using (source.AppendBlankLine()
-                         .StartBlock(
-                             $"using (IDataReader reader = await command.ExecuteReaderAsync(behavior: CommandBehavior.{commandBehaviour}, cancellationToken: cancellationToken))"))
+                         .StartBlock($"using (IDataReader reader = await command.ExecuteReaderAsync(behavior: CommandBehavior.{commandBehaviour}, cancellationToken: cancellationToken))"))
             {
                 source.AppendLine(isCollection
                                       ? "return Extract(reader: reader).ToArray();"
@@ -238,6 +237,12 @@ internal static class DatabaseSourceCodeGenerator
 
     private static ImmutableArray<IParameterSymbol> ExtractColumnsFromConstructor(INamedTypeSymbol returnType)
     {
+        ImmutableArray<IParameterSymbol> columns = returnType.Constructors.Where(c => c.Parameters.Length > 0 && !IsSameType(c))
+                                                             .Select(selector: c => c.Parameters)
+                                                             .First();
+
+        return columns;
+
         bool IsSameType(IMethodSymbol constructor)
         {
             if (constructor.IsStatic)
@@ -253,12 +258,6 @@ internal static class DatabaseSourceCodeGenerator
             return constructor.Parameters.Length == 1 && constructor.Parameters[0]
                                                                     .Type.ToDisplayString() == returnType.ToDisplayString();
         }
-
-        ImmutableArray<IParameterSymbol> columns = returnType.Constructors.Where(c => c.Parameters.Length > 0 && !IsSameType(c))
-                                                             .Select(selector: c => c.Parameters)
-                                                             .First();
-
-        return columns;
     }
 
     private static void GenerateScalarFunctionMethod(MethodGeneration method, CodeBuilder source)
@@ -435,8 +434,7 @@ internal static class DatabaseSourceCodeGenerator
                     : nameof(CommandBehavior.SingleRow);
 
                 using (source.AppendBlankLine()
-                             .StartBlock(
-                                 $"using (IDataReader reader = await command.ExecuteReaderAsync(behavior: CommandBehavior.{commandBehaviour}, cancellationToken: cancellationToken))"))
+                             .StartBlock($"using (IDataReader reader = await command.ExecuteReaderAsync(behavior: CommandBehavior.{commandBehaviour}, cancellationToken: cancellationToken))"))
                 {
                     source.AppendLine(isCollection
                                           ? "return Extract(reader: reader).ToArray();"
