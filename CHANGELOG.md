@@ -19,6 +19,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Meziantou.Analyzer to 2.0.127
 - Dependencies - Updated FluentValidation to 11.9.0
 - Dependencies - Updated SonarAnalyzer.CSharp to 9.16.0.82469
+- Dependencies - Updated Nullable.Extended.Analyzer to 1.14.6129
 ### Removed
 ### Deployment Changes
 
