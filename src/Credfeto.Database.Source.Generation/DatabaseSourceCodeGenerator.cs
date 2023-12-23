@@ -125,15 +125,16 @@ internal static class DatabaseSourceCodeGenerator
     [SuppressMessage(category: "Meziantou.Analyzer", checkId: "MA0051:Method too long", Justification = "Test")]
     private static void GenerateTableFunctionMethod(MethodGeneration method, CodeBuilder source)
     {
-        bool isCollection = method.Method.ReturnType.CollectionReturnType is not null;
+        bool isCollection = IsMethodCollectionReturnType(method);
 
         using (BuildFunctionSignature(source: source, method: method))
         {
             string functionParameters = BuildFunctionParameters(method);
-            ImmutableArray<IParameterSymbol> columns = ExtractColumnsFromConstructor((INamedTypeSymbol)method.Method.ReturnType.ElementReturnType!);
+            INamedTypeSymbol elementReturnType = GetMethodElementReturnType(method);
+            ImmutableArray<IParameterSymbol> columns = ExtractColumnsFromConstructor(elementReturnType);
             string columnSelector = BuildFunctionColumns(columns: columns);
 
-            string returnType = method.Method.ReturnType.ElementReturnType!.ToDisplayString();
+            string returnType = elementReturnType.ToDisplayString();
 
             BuildExtractLocalMethod(source: source, returnType: returnType, columns: columns);
 
@@ -154,6 +155,16 @@ internal static class DatabaseSourceCodeGenerator
                                       : "return Extract(reader: reader).FirstOrDefault();");
             }
         }
+    }
+
+    private static bool IsMethodCollectionReturnType(MethodGeneration method)
+    {
+        return method.Method.ReturnType.CollectionReturnType is not null;
+    }
+
+    private static INamedTypeSymbol GetMethodElementReturnType(MethodGeneration method)
+    {
+        return method.Method.ReturnType.ElementReturnType as INamedTypeSymbol ?? throw new InvalidOperationException("Return type is null");
     }
 
     private static void BuildExtractLocalMethod(CodeBuilder source, string returnType, in ImmutableArray<IParameterSymbol> columns)
@@ -305,7 +316,8 @@ internal static class DatabaseSourceCodeGenerator
             }
             else
             {
-                string typeName = method.Method.ReturnType.ElementReturnType.ToDisplayString();
+                INamedTypeSymbol elementReturnType = GetMethodElementReturnType(method);
+                string typeName = elementReturnType.ToDisplayString();
                 string returnString = ExtractColumns.GenerateReturn(typeName: typeName, variable: "result") ??
                                       throw new InvalidModelException($"Unsupported C# data type {typeName} for return type, does it need a mapper?");
 
@@ -382,7 +394,8 @@ internal static class DatabaseSourceCodeGenerator
             : string.Empty;
 
         source.AppendLine($"[GeneratedCode(tool: \"{typeof(DatabaseCodeGenerator).FullName}\", version: \"{VersionInformation.Version()}\")]");
-        StringBuilder stringBuilder = new($"{method.AccessType.ToKeywords()} {methodStaticModifier}async partial {method.ReturnType.ReturnType.ToDisplayString()} {method.Name}(");
+        ISymbol methodReturnType = GetMethodReturnType(method);
+        StringBuilder stringBuilder = new($"{method.AccessType.ToKeywords()} {methodStaticModifier}async partial {methodReturnType.ToDisplayString()} {method.Name}(");
 
         bool first = true;
 
@@ -414,15 +427,21 @@ internal static class DatabaseSourceCodeGenerator
         return source.StartBlock(stringBuilder.ToString());
     }
 
+    private static ISymbol GetMethodReturnType(MethodToGenerate method)
+    {
+        return method.ReturnType.ReturnType;
+    }
+
     private static void GenerateStoredProcedureMethod(MethodGeneration method, CodeBuilder source)
     {
         using (BuildFunctionSignature(source: source, method: method))
         {
             if (method.Method.ReturnType.ElementReturnType is not null)
             {
-                ImmutableArray<IParameterSymbol> columns = ExtractColumnsFromConstructor((INamedTypeSymbol)method.Method.ReturnType.ElementReturnType!);
+                INamedTypeSymbol elementReturnType = GetMethodElementReturnType(method);
+                ImmutableArray<IParameterSymbol> columns = ExtractColumnsFromConstructor(elementReturnType);
 
-                string returnType = method.Method.ReturnType.ElementReturnType!.ToDisplayString();
+                string returnType = elementReturnType.ToDisplayString();
 
                 BuildExtractLocalMethod(source: source, returnType: returnType, columns: columns);
             }
@@ -438,7 +457,7 @@ internal static class DatabaseSourceCodeGenerator
             }
             else
             {
-                bool isCollection = method.Method.ReturnType.CollectionReturnType is not null;
+                bool isCollection = IsMethodCollectionReturnType(method);
                 string commandBehaviour = isCollection
                     ? nameof(CommandBehavior.Default)
                     : nameof(CommandBehavior.SingleRow);
