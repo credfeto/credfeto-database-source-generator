@@ -237,11 +237,16 @@ internal static class DatabaseSourceCodeGenerator
 
     private static ImmutableArray<IParameterSymbol> ExtractColumnsFromConstructor(INamedTypeSymbol returnType)
     {
-        ImmutableArray<IParameterSymbol> columns = returnType.Constructors.Where(c => c.Parameters.Length > 0 && !IsSameType(c))
-                                                             .Select(selector: c => c.Parameters)
-                                                             .First();
+        ImmutableArray<IParameterSymbol> columns = GetColumns(returnType);
 
         return columns;
+    }
+
+    private static ImmutableArray<IParameterSymbol> GetColumns(INamedTypeSymbol returnType)
+    {
+        return returnType.Constructors.Where(c => c.Parameters.Length > 0 && !IsSameType(c))
+                         .Select(selector: c => c.Parameters)
+                         .First();
 
         bool IsSameType(IMethodSymbol constructor)
         {
