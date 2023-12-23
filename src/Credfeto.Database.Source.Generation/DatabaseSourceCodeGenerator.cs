@@ -255,9 +255,14 @@ internal static class DatabaseSourceCodeGenerator
                 return false;
             }
 
-            return constructor.Parameters.Length == 1 && constructor.Parameters[0]
-                                                                    .Type.ToDisplayString() == returnType.ToDisplayString();
+            return constructor.Parameters.Length == 1 && GetParameter(constructor: constructor, index: 0) == returnType.ToDisplayString();
         }
+    }
+
+    private static string GetParameter(IMethodSymbol constructor, int index)
+    {
+        return constructor.Parameters[index]
+                          .Type.ToDisplayString();
     }
 
     private static void GenerateScalarFunctionMethod(MethodGeneration method, CodeBuilder source)

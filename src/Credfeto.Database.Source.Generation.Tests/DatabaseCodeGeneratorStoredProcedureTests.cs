@@ -48,7 +48,7 @@ namespace ConsoleApplication1
 }";
 
         (string filename, string generated)[] expected =
-        {
+        [
             (filename: "ConsoleApplication1.DatabaseWrapper.GetValuesAsync.Database.generated.cs", generated: @"using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
@@ -92,7 +92,7 @@ public static partial class DatabaseWrapper
     }
 }
 ")
-        };
+        ];
 
         return this.VerifyAsync(code: test, expected: expected, cancellationToken: CancellationToken.None);
     }
@@ -133,7 +133,7 @@ namespace ConsoleApplication1
 }";
 
         (string filename, string generated)[] expected =
-        {
+        [
             (filename: "ConsoleApplication1.DatabaseWrapper.InsertAsyncAsync.Database.generated.cs", generated: @"using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
@@ -168,7 +168,7 @@ public static partial class DatabaseWrapper
     }
 }
 ")
-        };
+        ];
 
         return this.VerifyAsync(code: test, expected: expected, cancellationToken: CancellationToken.None);
     }
