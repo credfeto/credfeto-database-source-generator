@@ -152,10 +152,8 @@ internal static class AttributeMappings
             return null;
         }
 
-        string objectName = attributeSyntax.ArgumentList.Arguments[0]
-                                           .Expression.ToString();
-        string type = attributeSyntax.ArgumentList.Arguments[1]
-                                     .Expression.ToString();
+        string objectName = GetArgumentListItem(attributeSyntax: attributeSyntax, item: 0);
+        string type = GetArgumentListItem(attributeSyntax: attributeSyntax, item: 1);
 
         string[] parts = type.Split('.');
 
@@ -165,6 +163,12 @@ internal static class AttributeMappings
         }
 
         return new(RemoveQuotes(objectName), (SqlObjectType)Enum.Parse(typeof(SqlObjectType), parts[1], ignoreCase: false));
+    }
+
+    private static string GetArgumentListItem(AttributeSyntax attributeSyntax, int item)
+    {
+        return attributeSyntax.ArgumentList?.Arguments[item]
+                              .Expression.ToString() ?? string.Empty;
     }
 
     private static string RemoveQuotes(string objectName)
