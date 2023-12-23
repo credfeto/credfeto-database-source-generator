@@ -20,6 +20,8 @@ public abstract class BaseDatabase : IDatabase
 
     public ValueTask<T> ExecuteAsync<T>(Func<DbConnection, CancellationToken, ValueTask<T>> action, CancellationToken cancellationToken)
     {
+        return this.ExecuteWithRetriesAsync(func: Exec, context: "ExecuteAsync");
+
         async ValueTask<T> Exec()
         {
             await using (DbConnection connection = await this.GetConnectionAsync(cancellationToken))
@@ -27,12 +29,12 @@ public abstract class BaseDatabase : IDatabase
                 return await action(arg1: connection, arg2: cancellationToken);
             }
         }
-
-        return this.ExecuteWithRetriesAsync(func: Exec, context: "ExecuteAsync");
     }
 
     public ValueTask ExecuteAsync(Func<DbConnection, CancellationToken, ValueTask> action, CancellationToken cancellationToken)
     {
+        return this.ExecuteWithRetriesAsync(func: Exec, context: "ExecuteAsync");
+
         async ValueTask Exec()
         {
             await using (DbConnection connection = await this.GetConnectionAsync(cancellationToken))
@@ -40,8 +42,6 @@ public abstract class BaseDatabase : IDatabase
                 await action(arg1: connection, arg2: cancellationToken);
             }
         }
-
-        return this.ExecuteWithRetriesAsync(func: Exec, context: "ExecuteAsync");
     }
 
     private AsyncRetryPolicy DefineAsyncPolicy()
@@ -51,11 +51,7 @@ public abstract class BaseDatabase : IDatabase
                                         sleepDurationProvider: RetryDelayCalculator.Calculate,
                                         onRetry: (exception, delay, retryCount, context) =>
                                                  {
-                                                     this.LogAndDispatchTransientExceptions(exception: exception,
-                                                                                            context: context,
-                                                                                            delay: delay,
-                                                                                            retryCount: retryCount,
-                                                                                            maxRetries: MAX_RETRIES);
+                                                     this.LogAndDispatchTransientExceptions(exception: exception, context: context, delay: delay, retryCount: retryCount, maxRetries: MAX_RETRIES);
                                                  });
     }
 
@@ -69,25 +65,27 @@ public abstract class BaseDatabase : IDatabase
     {
         Context loggingContext = new(context);
 
+        await this._retryPolicyAsync.ExecuteAsync(action: Wrapped, context: loggingContext);
+
+        return;
+
         Task Wrapped(Context c)
         {
             return func()
                 .AsTask();
         }
-
-        await this._retryPolicyAsync.ExecuteAsync(action: Wrapped, context: loggingContext);
     }
 
     private async ValueTask<TReturn> ExecuteWithRetriesAsync<TReturn>(Func<ValueTask<TReturn>> func, string context)
     {
         Context loggingContext = new(context);
 
+        return await this._retryPolicyAsync.ExecuteAsync(action: Wrapped, context: loggingContext);
+
         Task<TReturn> Wrapped(Context c)
         {
             return func()
                 .AsTask();
         }
-
-        return await this._retryPolicyAsync.ExecuteAsync(action: Wrapped, context: loggingContext);
     }
 }
