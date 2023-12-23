@@ -12,6 +12,9 @@ internal static class SqlErrorBuilder
 
         try
         {
+            return sqlException.Errors.OfType<SqlError>()
+                               .Aggregate(seed: sb, func: AppendError);
+
             StringBuilder AppendError(StringBuilder stringBuilder, SqlError sqlError)
             {
                 return stringBuilder.Append(++error)
@@ -22,9 +25,6 @@ internal static class SqlErrorBuilder
                                     .Append(": ")
                                     .AppendLine(sqlError.Message);
             }
-
-            return sqlException.Errors.OfType<SqlError>()
-                               .Aggregate(seed: sb, func: AppendError);
         }
         finally
         {
