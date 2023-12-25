@@ -92,7 +92,9 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
                                                  ClassDeclarationSyntax classDeclarationSyntax,
                                                  CancellationToken cancellationToken)
     {
-        SqlObject? sqlObject = AttributeMappings.GetSqlObject(semanticModel: context.SemanticModel, methodDeclarationSyntax: methodDeclarationSyntax, cancellationToken: cancellationToken);
+        SqlObject? sqlObject = AttributeMappings.GetSqlObject(semanticModel: context.SemanticModel,
+                                                              methodDeclarationSyntax: methodDeclarationSyntax,
+                                                              cancellationToken: cancellationToken);
 
         if (sqlObject is null)
         {
@@ -102,7 +104,11 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
         ClassInfo containingContext = GetClass(semanticModel: context.SemanticModel, classDeclarationSyntax: classDeclarationSyntax, cancellationToken: cancellationToken);
         MethodToGenerate methodToGenerate = GetMethod(semanticModel: context.SemanticModel, methodDeclarationSyntax: methodDeclarationSyntax, cancellationToken: cancellationToken);
 
-        return new(containingContext: containingContext, methodToGenerate: methodToGenerate, semanticModel: context.SemanticModel, sqlObject: sqlObject, methodDeclarationSyntax.GetLocation());
+        return new(containingContext: containingContext,
+                   methodToGenerate: methodToGenerate,
+                   semanticModel: context.SemanticModel,
+                   sqlObject: sqlObject,
+                   methodDeclarationSyntax.GetLocation());
     }
 
     private static MethodToGenerate GetMethod(SemanticModel semanticModel, MethodDeclarationSyntax methodDeclarationSyntax, CancellationToken cancellationToken)
@@ -111,25 +117,39 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
 
         TypeSyntax returnType = methodDeclarationSyntax.ReturnType;
 
-        MapperInfo? mapperInfo = AttributeMappings.GetMapperInfo(semanticModel: semanticModel, methodDeclarationSyntax: methodDeclarationSyntax, cancellationToken: cancellationToken);
+        MapperInfo? mapperInfo =
+            AttributeMappings.GetMapperInfo(semanticModel: semanticModel, methodDeclarationSyntax: methodDeclarationSyntax, cancellationToken: cancellationToken);
 
-        MethodReturnType methodReturnType = GetReturnType(semanticModel: semanticModel, returnType: returnType, mapperInfo: mapperInfo, name: name, cancellationToken: cancellationToken);
+        MethodReturnType methodReturnType =
+            GetReturnType(semanticModel: semanticModel, returnType: returnType, mapperInfo: mapperInfo, name: name, cancellationToken: cancellationToken);
 
         IReadOnlyList<MethodParameter> parameters = GetParameters(semanticModel: semanticModel, method: methodDeclarationSyntax, cancellationToken: cancellationToken);
 
-        return new(methodDeclarationSyntax.GetAccessType(), methodDeclarationSyntax.Modifiers.Any(SyntaxKind.StaticKeyword), name: name, returnType: methodReturnType, parameters: parameters);
+        return new(methodDeclarationSyntax.GetAccessType(),
+                   methodDeclarationSyntax.Modifiers.Any(SyntaxKind.StaticKeyword),
+                   name: name,
+                   returnType: methodReturnType,
+                   parameters: parameters);
     }
 
     private static MethodReturnType GetReturnType(SemanticModel semanticModel, TypeSyntax returnType, MapperInfo? mapperInfo, string name, CancellationToken cancellationToken)
     {
         if (returnType is GenericNameSyntax genericNameSyntax)
         {
-            return GetGenericTaskReturnType(semanticModel: semanticModel, mapperInfo: mapperInfo, name: name, genericNameSyntax: genericNameSyntax, cancellationToken: cancellationToken);
+            return GetGenericTaskReturnType(semanticModel: semanticModel,
+                                            mapperInfo: mapperInfo,
+                                            name: name,
+                                            genericNameSyntax: genericNameSyntax,
+                                            cancellationToken: cancellationToken);
         }
 
         if (returnType is IdentifierNameSyntax identifierNameSyntax)
         {
-            return GetNonGenericMethodReturnType(semanticModel: semanticModel, mapperInfo: mapperInfo, name: name, identifierNameSyntax: identifierNameSyntax, cancellationToken: cancellationToken);
+            return GetNonGenericMethodReturnType(semanticModel: semanticModel,
+                                                 mapperInfo: mapperInfo,
+                                                 name: name,
+                                                 identifierNameSyntax: identifierNameSyntax,
+                                                 cancellationToken: cancellationToken);
         }
 
         throw new InvalidModelException(message: $"Method {name} does not return a Task");
@@ -146,7 +166,8 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
             throw new InvalidModelException(message: $"Method {name} does not return a Task or ValueTask");
         }
 
-        ISymbol returnSymbol = ValidateSymbol(semanticModel.GetSymbol(node: identifierNameSyntax, cancellationToken: cancellationToken), $"Method {name} could not determine task type");
+        ISymbol returnSymbol = ValidateSymbol(semanticModel.GetSymbol(node: identifierNameSyntax, cancellationToken: cancellationToken),
+                                              $"Method {name} could not determine task type");
 
         return new(returnType: returnSymbol, collectionReturnType: null, elementReturnType: null, mapperInfo: mapperInfo, isNullable: false);
     }
@@ -166,14 +187,19 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
         return symbol;
     }
 
-    private static MethodReturnType GetGenericTaskReturnType(SemanticModel semanticModel, MapperInfo? mapperInfo, string name, GenericNameSyntax genericNameSyntax, CancellationToken cancellationToken)
+    private static MethodReturnType GetGenericTaskReturnType(SemanticModel semanticModel,
+                                                             MapperInfo? mapperInfo,
+                                                             string name,
+                                                             GenericNameSyntax genericNameSyntax,
+                                                             CancellationToken cancellationToken)
     {
         if (genericNameSyntax.Identifier.Text != "Task" && genericNameSyntax.Identifier.Text != "ValueTask")
         {
             throw new InvalidModelException(message: $"Method {name} does not return a Task or ValueTask");
         }
 
-        ISymbol returnSymbol = ValidateSymbol(semanticModel.GetSymbol(node: genericNameSyntax, cancellationToken: cancellationToken), $"Method {name} could not determine task type");
+        ISymbol returnSymbol = ValidateSymbol(semanticModel.GetSymbol(node: genericNameSyntax, cancellationToken: cancellationToken),
+                                              $"Method {name} could not determine task type");
 
         TypeSyntax taskReturnType = genericNameSyntax.TypeArgumentList.Arguments[0];
 
@@ -194,7 +220,11 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
             ISymbol taskIdentifierPredefinedTypeReturnSymbol = ValidateSymbol(semanticModel.GetSymbol(node: predefinedTypeSyntax, cancellationToken: cancellationToken),
                                                                               $"Method {name} could not determine task return element type");
 
-            return new(returnType: returnSymbol, collectionReturnType: null, elementReturnType: taskIdentifierPredefinedTypeReturnSymbol, mapperInfo: mapperInfo, isNullable: false);
+            return new(returnType: returnSymbol,
+                       collectionReturnType: null,
+                       elementReturnType: taskIdentifierPredefinedTypeReturnSymbol,
+                       mapperInfo: mapperInfo,
+                       isNullable: false);
         }
 
         if (taskReturnType is NullableTypeSyntax nullableTypeSyntax)
@@ -221,7 +251,10 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
         INamedTypeSymbol symbol = (INamedTypeSymbol)ValidateSymbol(semanticModel.GetSymbol(node: classDeclarationSyntax, cancellationToken: cancellationToken),
                                                                    $"Could not determine class type for {classDeclarationSyntax.Identifier.Text}");
 
-        return new(symbol.ContainingNamespace.ToDisplayString(), name: symbol.Name, classDeclarationSyntax.GetAccessType(), classDeclarationSyntax.Modifiers.Any(SyntaxKind.StaticKeyword));
+        return new(symbol.ContainingNamespace.ToDisplayString(),
+                   name: symbol.Name,
+                   classDeclarationSyntax.GetAccessType(),
+                   classDeclarationSyntax.Modifiers.Any(SyntaxKind.StaticKeyword));
     }
 
     private static IReadOnlyList<MethodParameter> GetParameters(SemanticModel semanticModel, MethodDeclarationSyntax method, CancellationToken cancellationToken)
