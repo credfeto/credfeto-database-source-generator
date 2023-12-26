@@ -15,11 +15,11 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Meziantou.Analyzer to 2.0.127
 - Dependencies - Updated FluentValidation to 11.9.0
 - Dependencies - Updated SonarAnalyzer.CSharp to 9.16.0.82469
-- Dependencies - Updated Nullable.Extended.Analyzer to 1.14.6129
 - Dependencies - Updated xunit.analyzers to 1.8.0
 - Dependencies - Updated xunit to 2.6.4
 - Dependencies - Updated xunit.runner.visualstudio to 2.5.6
 - Dependencies - Updated FunFair.Test.Common to 6.1.25.293
+- Dependencies - Updated Nullable.Extended.Analyzer to 1.15.6169
 ### Removed
 ### Deployment Changes
 
