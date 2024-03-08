@@ -17,7 +17,7 @@ public sealed class DependencyInjectionTests : DependencyInjectionTestsBase
     private static IServiceCollection Configure(IServiceCollection services)
     {
         return services.AddMockedService<IOptions<SqlServerConfiguration>>(x => x.Value.Returns(new SqlServerConfiguration("Database=Example;Server=.;Integrated Security=SSPI")))
-                       .AddSqlServerPostgresql();
+                       .AddSqlServer();
     }
 
     [Fact]
