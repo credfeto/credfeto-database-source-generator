@@ -151,17 +151,17 @@ internal static class ExtractColumns
 
     private static string ReturnDecimal(string variable)
     {
-        return $"return Convert.Decimal({variable});";
+        return $"return Convert.ToDecimal({variable});";
     }
 
     private static string ReturnDouble(string variable)
     {
-        return $"return Convert.Double({variable});";
+        return $"return Convert.ToDouble({variable});";
     }
 
     private static string ReturnFloat(string variable)
     {
-        return $"return Convert.Double({variable});";
+        return $"return Convert.ToDouble({variable});";
     }
 
     private static string ExtractBool(CodeBuilder source)
