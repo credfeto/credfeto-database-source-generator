@@ -77,7 +77,6 @@ Global
 		{A96CED07-7B69-4C40-B88C-63F1121E025C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A96CED07-7B69-4C40-B88C-63F1121E025C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A96CED07-7B69-4C40-B88C-63F1121E025C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A96CED07-7B69-4C40-B88C-63F1121E025C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{10F754ED-21F7-4B46-B026-602BCF464475}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{10F754ED-21F7-4B46-B026-602BCF464475}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10F754ED-21F7-4B46-B026-602BCF464475}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -85,7 +84,6 @@ Global
 		{CE823AAB-FE0D-4A66-81DC-A943C96CA893}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CE823AAB-FE0D-4A66-81DC-A943C96CA893}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE823AAB-FE0D-4A66-81DC-A943C96CA893}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CE823AAB-FE0D-4A66-81DC-A943C96CA893}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
