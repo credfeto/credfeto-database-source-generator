@@ -46,8 +46,6 @@
  - any: [ 'src/Credfeto.Database.Source.Generation.Example/**/*' ]
 "Example.Tests.Integration":
  - any: [ 'src/Credfeto.Database.Source.Generation.Example.Tests.Integration/**/*' ]
-"Tests":
- - any: [ 'src/Credfeto.Database.Source.Generation.Tests/**/*' ]
 "Credfeto.Database.SqlServer":
  - any: [ 'src/Credfeto.Database.SqlServer/**/*' ]
 "Credfeto.Database.SqlServer.Tests":
