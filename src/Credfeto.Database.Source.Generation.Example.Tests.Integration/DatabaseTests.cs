@@ -48,8 +48,7 @@ public sealed class DatabaseTests : TestBase
     {
         using (CancellationTokenSource cts = new(TimeSpan.FromSeconds(60)))
         {
-            Identity name = MakeFake<Identity>(rules: f => f.RuleFor(property: u => u.Name, setter: (faker, _) => faker.Name.FullName(faker.PickRandom<Name.Gender>())),
-                                               itemCount: 1)[0];
+            Identity name = MakeFake<Identity>(rules: f => f.RuleFor(property: u => u.Name, setter: (faker, _) => faker.Name.FullName(faker.PickRandom<Name.Gender>())), itemCount: 1)[0];
 
             await this._dataSource.InsertAsync(name: name.Name, new() { Value = "0x1234567890123456789012345678901234567890" }, cancellationToken: cts.Token);
         }
@@ -59,7 +58,7 @@ public sealed class DatabaseTests : TestBase
     [SuppressMessage(category: "ReSharper", checkId: "ClassNeverInstantiated.Local", Justification = "Unit test")]
     private sealed class Identity
     {
-        [SuppressMessage(category: "ReSharper", checkId: "AutoPropertyCanBeMadeGetOnly.Local", Justification = "Stops rider from disappearing the property setter")]
-        public string Name { get; set; } = default!;
+        [SuppressMessage(category: "ReSharper", checkId: "UnusedAutoPropertyAccessor.Local", Justification = "Unit test")]
+        public required string Name { get; init; }
     }
 }

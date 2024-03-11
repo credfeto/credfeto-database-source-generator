@@ -147,32 +147,56 @@ internal static class AttributeMappings
             return null;
         }
 
-        if (attributeSyntax.ArgumentList?.Arguments.Count != 2)
+        if (attributeSyntax.ArgumentList?.Arguments.Count != 3)
         {
             return null;
         }
 
         string objectName = GetArgumentListItem(attributeSyntax: attributeSyntax, item: 0);
         string type = GetArgumentListItem(attributeSyntax: attributeSyntax, item: 1);
+        string dialect = GetArgumentListItem(attributeSyntax: attributeSyntax, item: 2);
 
-        string[] parts = type.Split('.');
+        SqlObjectType? sqlObjectType = GetSqlObjectType(type);
 
-        if (parts.Length != 3)
+        if (sqlObjectType is null)
+        {
+            // TODO: Log error?
+            return null;
+        }
+
+        SqlDialect? sqlDialect = GetSqlDialect(dialect);
+
+        if (sqlDialect is null)
+        {
+            // TODO: Log error?
+            return null;
+        }
+
+        return new(RemoveQuotes(objectName), sqlObjectType: sqlObjectType.Value, sqlDialect: sqlDialect.Value);
+    }
+
+    private static SqlObjectType? GetSqlObjectType(string source)
+    {
+        string[] parts = source.Split('.');
+
+        if (parts.Length != 2)
         {
             return null;
         }
 
-        return new(RemoveQuotes(objectName), GetSqlObjectType(parts[1]), GetSqlDialect(parts[2]));
+        return (SqlObjectType)Enum.Parse(typeof(SqlObjectType), parts[1], ignoreCase: false);
     }
 
-    private static SqlObjectType GetSqlObjectType(string source)
+    private static SqlDialect? GetSqlDialect(string source)
     {
-        return (SqlObjectType)Enum.Parse(typeof(SqlObjectType), value: source, ignoreCase: false);
-    }
+        string[] parts = source.Split('.');
 
-    private static SqlDialect GetSqlDialect(string source)
-    {
-        return (SqlDialect)Enum.Parse(typeof(SqlDialect), value: source, ignoreCase: false);
+        if (parts.Length != 2)
+        {
+            return null;
+        }
+
+        return (SqlDialect)Enum.Parse(typeof(SqlDialect), parts[1], ignoreCase: false);
     }
 
     private static string GetArgumentListItem(AttributeSyntax attributeSyntax, int item)
