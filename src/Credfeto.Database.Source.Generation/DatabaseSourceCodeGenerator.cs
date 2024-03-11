@@ -447,8 +447,21 @@ internal static class DatabaseSourceCodeGenerator
             }
 
             string functionParameters = BuildFunctionParameters(method);
-            source.AppendLine("DbCommand command = connection.CreateCommand();")
-                  .AppendLine($"command.CommandText = \"CALL {method.SqlObject.Name}({functionParameters})\";");
+            source.AppendLine("DbCommand command = connection.CreateCommand();");
+
+            switch (method.SqlObject.SqlDialect)
+            {
+                case SqlDialect.GENERIC:
+                    source.AppendLine($"command.CommandText = \"CALL {method.SqlObject.Name}({functionParameters})\";");
+
+                    break;
+                case SqlDialect.MICROSOFT_SQL_SERVER:
+                    source.AppendLine($"command.CommandText = \"EXEC {method.SqlObject.Name} {functionParameters}\";");
+
+                    break;
+                default: throw new ArgumentOutOfRangeException(nameof(method), actualValue: method.SqlObject.SqlDialect, message: "Unsupported SQL dialect");
+            }
+
             AppendCommandParameters(source: source, method: method, command: "command");
 
             if (method.Method.ReturnType.ElementReturnType is null)

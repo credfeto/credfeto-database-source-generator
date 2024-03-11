@@ -157,12 +157,22 @@ internal static class AttributeMappings
 
         string[] parts = type.Split('.');
 
-        if (parts.Length != 2)
+        if (parts.Length != 3)
         {
             return null;
         }
 
-        return new(RemoveQuotes(objectName), (SqlObjectType)Enum.Parse(typeof(SqlObjectType), parts[1], ignoreCase: false));
+        return new(RemoveQuotes(objectName), GetSqlObjectType(parts[1]), GetSqlDialect(parts[2]));
+    }
+
+    private static SqlObjectType GetSqlObjectType(string source)
+    {
+        return (SqlObjectType)Enum.Parse(typeof(SqlObjectType), value: source, ignoreCase: false);
+    }
+
+    private static SqlDialect GetSqlDialect(string source)
+    {
+        return (SqlDialect)Enum.Parse(typeof(SqlDialect), value: source, ignoreCase: false);
     }
 
     private static string GetArgumentListItem(AttributeSyntax attributeSyntax, int item)
