@@ -12,6 +12,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Credfeto.Enumeration.Source.Generation to 1.1.4.303
 - Dependencies - Updated FunFair.CodeAnalysis to 7.0.10.303
 - Dependencies - Updated Meziantou.Analyzer to 2.0.145
+- Dependencies - Updated xunit.analyzers to 1.11.0
 ### Removed
 ### Deployment Changes
 
