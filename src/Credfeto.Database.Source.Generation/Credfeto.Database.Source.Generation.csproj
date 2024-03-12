@@ -62,7 +62,7 @@
   </PropertyGroup>
   <Import Project="$(SolutionDir)SourceGenerator.props" />
   <ItemGroup>
-    <PackageReference Include="Credfeto.Enumeration.Source.Generation.Attributes" Version="1.1.1.168" />
+    <PackageReference Include="Credfeto.Enumeration.Source.Generation.Attributes" Version="1.1.4.303" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AsyncFixer" Version="1.6.0" PrivateAssets="All" ExcludeAssets="runtime" />
