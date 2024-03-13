@@ -49,6 +49,12 @@ internal static partial class DatabaseWrapper
     [SqlObjectMap(name: "ethereum.datetime_get", sqlObjectType: SqlObjectType.SCALAR_FUNCTION, sqlDialect: SqlDialect.GENERIC)]
     public static partial ValueTask<DateTime> GetDateTimeAsync(DbConnection connection, DateTime value, CancellationToken cancellationToken);
 
+    [SqlObjectMap(name: "ethereum.datetimeoffset_get", sqlObjectType: SqlObjectType.SCALAR_FUNCTION, sqlDialect: SqlDialect.GENERIC)]
+    public static partial ValueTask<DateTimeOffset> GetDateTimeOffsetAsync(DbConnection connection, DateTimeOffset value, CancellationToken cancellationToken);
+
+    [SqlObjectMap(name: "ethereum.timespan_get", sqlObjectType: SqlObjectType.SCALAR_FUNCTION, sqlDialect: SqlDialect.GENERIC)]
+    public static partial ValueTask<TimeSpan> GetTimeSpanAsync(DbConnection connection, TimeSpan value, CancellationToken cancellationToken);
+
     [SqlObjectMap(name: "ethereum.double_get", sqlObjectType: SqlObjectType.SCALAR_FUNCTION, sqlDialect: SqlDialect.GENERIC)]
     public static partial ValueTask<double> GetDoubleAsync(DbConnection connection, double value, CancellationToken cancellationToken);
 

@@ -1,3 +1,4 @@
+using System;
 using System.Data;
 
 namespace Credfeto.Database.Source.Generation.Helpers;
@@ -22,10 +23,10 @@ internal static class TypeMapper
             "char" => DbType.String,
             "bool" => DbType.Boolean,
             "string" => DbType.String,
-            "System.DateTime" => DbType.DateTime,
-            "System.DateTimeOffset" => DbType.DateTimeOffset,
-            "System.TimeSpan" => DbType.Time,
-            "System.Guid" => DbType.Guid,
+            nameof(System) + "." + nameof(DateTime) => DbType.DateTime,
+            nameof(System) + "." + nameof(DateTimeOffset) => DbType.DateTimeOffset,
+            nameof(System) + "." + nameof(TimeSpan) => DbType.Time,
+            nameof(System) + "." + nameof(Guid) => DbType.Guid,
             "byte[]" => DbType.Binary,
             _ => null
         };

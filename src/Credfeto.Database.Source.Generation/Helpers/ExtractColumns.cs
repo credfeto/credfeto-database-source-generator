@@ -35,10 +35,14 @@ internal static class ExtractColumns
             "decimal?" => ExtractNullableDecimal(source: source),
             "string" => ExtractString(source: source),
             "string?" => ExtractNullableString(source: source),
-            "System.DateTime" => ExtractDateTime(source: source),
-            "System.DateTime?" => ExtractNullableDateTime(source: source),
-            "System.DateTimeOffset" => ExtractDateTimeOffset(source: source),
-            "System.DateTimeOffset?" => ExtractNullableDateTimeOffset(source: source),
+            nameof(System) + "." + nameof(DateTime) => ExtractDateTime(source: source),
+            nameof(System) + "." + nameof(DateTime) + "?" => ExtractNullableDateTime(source: source),
+            nameof(System) + "." + nameof(DateTimeOffset) => ExtractDateTimeOffset(source: source),
+            nameof(System) + "." + nameof(DateTimeOffset) + "?" => ExtractNullableDateTimeOffset(source: source),
+            nameof(System) + "." + nameof(TimeSpan) => ExtractTimeSpan(source: source),
+            nameof(System) + "." + nameof(TimeSpan) + "?" => ExtractNullableTimeSpan(source: source),
+            nameof(System) + "." + nameof(Guid) => ExtractGuid(source: source),
+            nameof(System) + "." + nameof(Guid) + "?" => ExtractNullableGuid(source: source),
             _ => null
         };
     }
@@ -60,7 +64,10 @@ internal static class ExtractColumns
             "double" => ReturnDouble(variable: variable),
             "decimal" => ReturnDecimal(variable: variable),
             "string" => ReturnString(variable: variable),
-            "System.DateTime" => ReturnDateTime(variable: variable),
+            nameof(System) + "." + nameof(DateTime) => ReturnDateTime(variable: variable),
+            nameof(System) + "." + nameof(DateTimeOffset) => ReturnDateTimeOffset(variable: variable),
+            nameof(System) + "." + nameof(TimeSpan) => ReturnTimeSpan(variable: variable),
+            nameof(System) + "." + nameof(Guid) => ReturnGuid(variable: variable),
             _ => null
         };
     }
@@ -142,6 +149,18 @@ internal static class ExtractColumns
     {
         // need to do a version of this that goes to datetime offset
         return $"return new(Convert.ToDateTime({variable}, CultureInfo.InvariantCulture));";
+    }
+
+    private static string ReturnTimeSpan(string variable)
+    {
+        // need to do a version of this that goes to datetime offset
+        return $"return (System.TimeSpan){variable};";
+    }
+
+    private static string ReturnGuid(string variable)
+    {
+        // need to do a version of this that goes to datetime offset
+        return $"return (System.Guid){variable};";
     }
 
     private static string ReturnString(string variable)
@@ -312,5 +331,25 @@ internal static class ExtractColumns
     private static string ExtractNullableDateTimeOffset(CodeBuilder source)
     {
         return ExtractCommon(source: source, typeName: "DateTimeOffset", nameof(ExtractNullableDateTimeOffset), isNullable: true, getReturnStatement: ReturnDateTimeOffset);
+    }
+
+    private static string ExtractTimeSpan(CodeBuilder source)
+    {
+        return ExtractCommon(source: source, typeName: "TimeSpan", nameof(ExtractTimeSpan), isNullable: false, getReturnStatement: ReturnTimeSpan);
+    }
+
+    private static string ExtractNullableTimeSpan(CodeBuilder source)
+    {
+        return ExtractCommon(source: source, typeName: "TimeSpan", nameof(ExtractNullableTimeSpan), isNullable: true, getReturnStatement: ReturnTimeSpan);
+    }
+
+    private static string ExtractGuid(CodeBuilder source)
+    {
+        return ExtractCommon(source: source, typeName: "Guid", nameof(ExtractGuid), isNullable: false, getReturnStatement: ReturnGuid);
+    }
+
+    private static string ExtractNullableGuid(CodeBuilder source)
+    {
+        return ExtractCommon(source: source, typeName: "Guid", nameof(ExtractNullableGuid), isNullable: true, getReturnStatement: ReturnGuid);
     }
 }
