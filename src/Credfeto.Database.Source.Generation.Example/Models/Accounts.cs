@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using Credfeto.Database.Interfaces;
 using Credfeto.Database.Source.Generation.Example.Mappers;
@@ -10,4 +11,5 @@ public sealed record Accounts(
     int Id,
     string Name,
     [SqlFieldMap<AccountAddressMapper, AccountAddress>]
-    AccountAddress Address);
+    AccountAddress Address,
+    DateTime LastModified);
