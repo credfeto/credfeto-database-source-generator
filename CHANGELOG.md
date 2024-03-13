@@ -8,17 +8,21 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ## [Unreleased]
 ### Added
 ### Fixed
-- Missing handlers for System.DateTime
 ### Changed
-- Dependencies - Updated Credfeto.Enumeration.Source.Generation to 1.1.4.303
-- Dependencies - Updated FunFair.CodeAnalysis to 7.0.10.303
-- Dependencies - Updated Meziantou.Analyzer to 2.0.145
 ### Removed
 ### Deployment Changes
 
 <!--
 Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
 -->
+## [1.2.5] - 2024-03-13
+### Fixed
+- Missing handlers for System.DateTime
+### Changed
+- Dependencies - Updated Credfeto.Enumeration.Source.Generation to 1.1.4.303
+- Dependencies - Updated FunFair.CodeAnalysis to 7.0.10.303
+- Dependencies - Updated Meziantou.Analyzer to 2.0.145
+
 ## [1.2.4] - 2024-03-08
 ### Fixed
 - Convert.ToDouble and Convert.ToDecimal typos
