@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Threading;
@@ -41,4 +42,22 @@ internal static partial class DatabaseWrapper
     [SqlObjectMap(name: "ethereum.get_meaning_of_life_universe_and_everything", sqlObjectType: SqlObjectType.SCALAR_FUNCTION, sqlDialect: SqlDialect.GENERIC)]
     [return: SqlFieldMap<AccountAddressMapper, AccountAddress>]
     public static partial ValueTask<AccountAddress?> GetOptionalAddressMeaningOfLifeAsync(DbConnection connection, CancellationToken cancellationToken);
+
+    [SqlObjectMap(name: "ethereum.decimal_get", sqlObjectType: SqlObjectType.SCALAR_FUNCTION, sqlDialect: SqlDialect.GENERIC)]
+    public static partial ValueTask<decimal> GetDecimalAsync(DbConnection connection, decimal value, CancellationToken cancellationToken);
+
+    [SqlObjectMap(name: "ethereum.datetime_get", sqlObjectType: SqlObjectType.SCALAR_FUNCTION, sqlDialect: SqlDialect.GENERIC)]
+    public static partial ValueTask<DateTime> GetDateTimeAsync(DbConnection connection, DateTime value, CancellationToken cancellationToken);
+
+    [SqlObjectMap(name: "ethereum.double_get", sqlObjectType: SqlObjectType.SCALAR_FUNCTION, sqlDialect: SqlDialect.GENERIC)]
+    public static partial ValueTask<double> GetDoubleAsync(DbConnection connection, double value, CancellationToken cancellationToken);
+
+    [SqlObjectMap(name: "ethereum.int_get", sqlObjectType: SqlObjectType.SCALAR_FUNCTION, sqlDialect: SqlDialect.GENERIC)]
+    public static partial ValueTask<int> GetIntAsync(DbConnection connection, int value, CancellationToken cancellationToken);
+
+    [SqlObjectMap(name: "ethereum.long_get", sqlObjectType: SqlObjectType.SCALAR_FUNCTION, sqlDialect: SqlDialect.GENERIC)]
+    public static partial ValueTask<long> GetLongAsync(DbConnection connection, long value, CancellationToken cancellationToken);
+
+    [SqlObjectMap(name: "ethereum.short_get", sqlObjectType: SqlObjectType.SCALAR_FUNCTION, sqlDialect: SqlDialect.GENERIC)]
+    public static partial ValueTask<short> GetShortAsync(DbConnection connection, short value, CancellationToken cancellationToken);
 }

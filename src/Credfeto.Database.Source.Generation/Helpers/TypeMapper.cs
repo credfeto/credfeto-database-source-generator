@@ -22,10 +22,10 @@ internal static class TypeMapper
             "char" => DbType.String,
             "bool" => DbType.Boolean,
             "string" => DbType.String,
-            "DateTime" => DbType.DateTime,
-            "DateTimeOffset" => DbType.DateTimeOffset,
-            "TimeSpan" => DbType.Time,
-            "Guid" => DbType.Guid,
+            "System.DateTime" => DbType.DateTime,
+            "System.DateTimeOffset" => DbType.DateTimeOffset,
+            "System.TimeSpan" => DbType.Time,
+            "System.Guid" => DbType.Guid,
             "byte[]" => DbType.Binary,
             _ => null
         };
