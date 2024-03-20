@@ -11,6 +11,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Changed
 - SDK - Updated DotNet SDK to 8.0.203
 - Dependencies - Updated Meziantou.Analyzer to 2.0.146
+- Dependencies - Updated Roslynator.Analyzers to 4.12.0
 ### Removed
 ### Deployment Changes
 
