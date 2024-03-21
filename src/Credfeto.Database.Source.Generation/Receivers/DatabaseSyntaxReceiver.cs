@@ -142,7 +142,7 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
                                                                   IdentifierNameSyntax identifierNameSyntax,
                                                                   CancellationToken cancellationToken)
     {
-        if (!StringComparer.Ordinal.Equals(identifierNameSyntax.Identifier.Text, "Task") && !StringComparer.Ordinal.Equals(identifierNameSyntax.Identifier.Text, "ValueTask"))
+        if (!StringComparer.Ordinal.Equals(x: identifierNameSyntax.Identifier.Text, y: "Task") && !StringComparer.Ordinal.Equals(x: identifierNameSyntax.Identifier.Text, y: "ValueTask"))
         {
             throw new InvalidModelException(message: $"Method {name} does not return a Task or ValueTask");
         }
@@ -169,7 +169,7 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
 
     private static MethodReturnType GetGenericTaskReturnType(SemanticModel semanticModel, MapperInfo? mapperInfo, string name, GenericNameSyntax genericNameSyntax, CancellationToken cancellationToken)
     {
-        if (!StringComparer.Ordinal.Equals(genericNameSyntax.Identifier.Text, "Task") && !StringComparer.Ordinal.Equals(genericNameSyntax.Identifier.Text, "ValueTask"))
+        if (!StringComparer.Ordinal.Equals(x: genericNameSyntax.Identifier.Text, y: "Task") && !StringComparer.Ordinal.Equals(x: genericNameSyntax.Identifier.Text, y: "ValueTask"))
         {
             throw new InvalidModelException(message: $"Method {name} does not return a Task or ValueTask");
         }
@@ -248,9 +248,11 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
 
         string displayType = GetParameterType(pType: pType);
 
+        bool nullable = displayType.EndsWith(value: "?", comparisonType: StringComparison.Ordinal);
+
         return IsContextParameter(displayType)
-            ? new(name: parameterName, type: pType, usage: MethodParameterUsage.CONTEXT, mapperInfo: null)
-            : new(name: parameterName, type: pType, usage: MethodParameterUsage.DB, mapperInfo: mapperInfo);
+            ? new(name: parameterName, type: pType, usage: MethodParameterUsage.CONTEXT, nullable: nullable, mapperInfo: null)
+            : new(name: parameterName, type: pType, usage: MethodParameterUsage.DB, nullable: nullable, mapperInfo: mapperInfo);
     }
 
     private static string GetParameterType(ISymbol pType)
@@ -265,6 +267,6 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
 
     private static bool IsContextParameter(string displayType)
     {
-        return StringComparer.Ordinal.Equals(displayType, typeof(DbConnection).FullName) || StringComparer.Ordinal.Equals(displayType, typeof(CancellationToken).FullName);
+        return StringComparer.Ordinal.Equals(x: displayType, y: typeof(DbConnection).FullName) || StringComparer.Ordinal.Equals(x: displayType, y: typeof(CancellationToken).FullName);
     }
 }

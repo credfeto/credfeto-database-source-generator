@@ -347,7 +347,22 @@ internal static class DatabaseSourceCodeGenerator
 
         if (parameter.MapperInfo is not null)
         {
-            source.AppendLine($"{parameter.MapperInfo.MapperSymbol.ToDisplayString()}.MapToDb({parameter.Name}, p{parameterIndex});");
+            if (parameter.Nullable)
+            {
+                using (source.StartBlock($"if({parameter.Name} is null)"))
+                {
+                    source.AppendLine($"p{parameterIndex}.Value = DBNull.Value;");
+                }
+
+                using (source.StartBlock("else"))
+                {
+                    source.AppendLine($"{parameter.MapperInfo.MapperSymbol.ToDisplayString()}.MapToDb({parameter.Name}, p{parameterIndex});");
+                }
+            }
+            else
+            {
+                source.AppendLine($"{parameter.MapperInfo.MapperSymbol.ToDisplayString()}.MapToDb({parameter.Name}, p{parameterIndex});");
+            }
         }
         else
         {
