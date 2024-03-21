@@ -17,6 +17,11 @@ internal static partial class DatabaseWrapper
                                                                          [SqlFieldMap<AccountAddressMapper, AccountAddress>] AccountAddress address,
                                                                          CancellationToken cancellationToken);
 
+    [SqlObjectMap(name: "ethereum.account_getall", sqlObjectType: SqlObjectType.TABLE_FUNCTION, sqlDialect: SqlDialect.GENERIC)]
+    public static partial ValueTask<IReadOnlyList<Accounts>> GetAllOptionalAsync(DbConnection connection,
+                                                                                 [SqlFieldMap<AccountAddressMapper, AccountAddress>] AccountAddress? address,
+                                                                                 CancellationToken cancellationToken);
+
     [SqlObjectMap(name: "ethereum.account_get", sqlObjectType: SqlObjectType.TABLE_FUNCTION, sqlDialect: SqlDialect.GENERIC)]
     public static partial ValueTask<Accounts?> GetAsync(DbConnection connection, int id, CancellationToken cancellationToken);
 
