@@ -16,15 +16,14 @@ namespace Credfeto.Database.SqlServer;
 
 public sealed class SqlServerDatabase : BaseDatabase
 {
-    private readonly SqlConnectionStringBuilder _conectionStringBuilder;
-    private readonly SqlServerConfiguration _configuration;
+    private readonly SqlConnectionStringBuilder _connectionStringBuilder;
     private readonly ILogger<SqlServerDatabase> _logger;
 
     public SqlServerDatabase(IOptions<SqlServerConfiguration> configuration, ILogger<SqlServerDatabase> logger)
     {
         this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        this._configuration = configuration.Value ?? throw new ArgumentNullException(nameof(configuration));
-        this._conectionStringBuilder = new(this._configuration.ConnectionString);
+        SqlServerConfiguration cfg = configuration.Value ?? throw new ArgumentNullException(nameof(configuration));
+        this._connectionStringBuilder = new(cfg.ConnectionString);
     }
 
     protected override bool IsTransientException(Exception exception)
@@ -160,7 +159,7 @@ public sealed class SqlServerDatabase : BaseDatabase
 
     protected override async ValueTask<DbConnection> GetConnectionAsync(CancellationToken cancellationToken)
     {
-        SqlConnection connection = new(this._conectionStringBuilder.ConnectionString);
+        SqlConnection connection = new(this._connectionStringBuilder.ConnectionString);
 
         await connection.OpenAsync(cancellationToken);
 
