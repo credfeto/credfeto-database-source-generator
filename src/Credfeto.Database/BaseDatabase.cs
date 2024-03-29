@@ -65,11 +65,11 @@ public abstract class BaseDatabase : IDatabase
     {
         Context loggingContext = new(context);
 
-        await this._retryPolicyAsync.ExecuteAsync(action: Wrapped, context: loggingContext);
+        await this._retryPolicyAsync.ExecuteAsync(action: WrappedAsync, context: loggingContext);
 
         return;
 
-        Task Wrapped(Context c)
+        Task WrappedAsync(Context c)
         {
             return func()
                 .AsTask();
@@ -80,9 +80,9 @@ public abstract class BaseDatabase : IDatabase
     {
         Context loggingContext = new(context);
 
-        return await this._retryPolicyAsync.ExecuteAsync(action: Wrapped, context: loggingContext);
+        return await this._retryPolicyAsync.ExecuteAsync(action: WrappedAsync, context: loggingContext);
 
-        Task<TReturn> Wrapped(Context c)
+        Task<TReturn> WrappedAsync(Context c)
         {
             return func()
                 .AsTask();
