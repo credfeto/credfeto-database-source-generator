@@ -20,9 +20,9 @@ public abstract class BaseDatabase : IDatabase
 
     public ValueTask<T> ExecuteAsync<T>(Func<DbConnection, CancellationToken, ValueTask<T>> action, CancellationToken cancellationToken)
     {
-        return this.ExecuteWithRetriesAsync(func: Exec, context: "ExecuteAsync");
+        return this.ExecuteWithRetriesAsync(func: ExecAsync, context: "ExecuteAsync");
 
-        async ValueTask<T> Exec()
+        async ValueTask<T> ExecAsync()
         {
             await using (DbConnection connection = await this.GetConnectionAsync(cancellationToken))
             {
@@ -33,9 +33,9 @@ public abstract class BaseDatabase : IDatabase
 
     public ValueTask ExecuteAsync(Func<DbConnection, CancellationToken, ValueTask> action, CancellationToken cancellationToken)
     {
-        return this.ExecuteWithRetriesAsync(func: Exec, context: "ExecuteAsync");
+        return this.ExecuteWithRetriesAsync(func: ExecAsync, context: "ExecuteAsync");
 
-        async ValueTask Exec()
+        async ValueTask ExecAsync()
         {
             await using (DbConnection connection = await this.GetConnectionAsync(cancellationToken))
             {
@@ -51,11 +51,7 @@ public abstract class BaseDatabase : IDatabase
                                         sleepDurationProvider: RetryDelayCalculator.Calculate,
                                         onRetry: (exception, delay, retryCount, context) =>
                                                  {
-                                                     this.LogAndDispatchTransientExceptions(exception: exception,
-                                                                                            context: context,
-                                                                                            delay: delay,
-                                                                                            retryCount: retryCount,
-                                                                                            maxRetries: MAX_RETRIES);
+                                                     this.LogAndDispatchTransientExceptions(exception: exception, context: context, delay: delay, retryCount: retryCount, maxRetries: MAX_RETRIES);
                                                  });
     }
 
