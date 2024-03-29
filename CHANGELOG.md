@@ -15,6 +15,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated xunit.runner.visualstudio to 2.5.7
 - Dependencies - Updated Microsoft.Extensions to 8.0.2
 - Dependencies - Updated Microsoft.NET.Test.Sdk to 17.9.0
+- Dependencies - Updated coverlet to 6.0.2
 ### Removed
 ### Deployment Changes
 
