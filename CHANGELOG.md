@@ -11,6 +11,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Changed
 - Dependencies - Updated Roslynator.Analyzers to 4.12.0
 - Dependencies - Updated xunit.analyzers to 1.11.0
+- Dependencies - Updated SonarAnalyzer.CSharp to 9.23.0.88079
 ### Removed
 ### Deployment Changes
 
