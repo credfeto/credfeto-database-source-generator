@@ -9,6 +9,14 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Added
 ### Fixed
 ### Changed
+### Removed
+### Deployment Changes
+
+<!--
+Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
+-->
+## [1.2.7] - 2024-03-30
+### Changed
 - Dependencies - Updated Roslynator.Analyzers to 4.12.0
 - Dependencies - Updated xunit.analyzers to 1.11.0
 - Dependencies - Updated SonarAnalyzer.CSharp to 9.23.0.88079
@@ -18,12 +26,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated coverlet to 6.0.2
 - Dependencies - Updated xunit to 2.7.0
 - Dependencies - Updated TeamCity.VSTest.TestAdapter to 1.0.40
-### Removed
-### Deployment Changes
 
-<!--
-Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
--->
 ## [1.2.6] - 2024-03-26
 ### Fixed
 - Mapped nullable parameters should be handled by DBNull rather than through mapper
