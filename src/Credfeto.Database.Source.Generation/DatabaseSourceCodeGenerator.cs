@@ -35,7 +35,7 @@ internal static class DatabaseSourceCodeGenerator
     {
         foreach (IGrouping<string, MethodGeneration> methodGroup in receiver.Methods.GroupBy(keySelector: m => m.MethodGrouping, comparer: StringComparer.OrdinalIgnoreCase))
         {
-            IReadOnlyList<MethodGeneration> methods = methodGroup.ToArray();
+            IReadOnlyList<MethodGeneration> methods = [..methodGroup];
 
             try
             {

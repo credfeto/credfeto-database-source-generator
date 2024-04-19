@@ -17,8 +17,7 @@ public sealed class TestDatabase : ITestDatabase
 
     public ValueTask<IReadOnlyList<Accounts>> GetAllAsync(AccountAddress accountAddress, CancellationToken cancellationToken)
     {
-        return this._database.ExecuteAsync(action: (c, ct) => DatabaseWrapper.GetAllAsync(connection: c, address: accountAddress, cancellationToken: ct),
-                                           cancellationToken: cancellationToken);
+        return this._database.ExecuteAsync(action: (c, ct) => DatabaseWrapper.GetAllAsync(connection: c, address: accountAddress, cancellationToken: ct), cancellationToken: cancellationToken);
     }
 
     public ValueTask<Accounts?> GetAsync(int id, CancellationToken cancellationToken)
@@ -28,36 +27,31 @@ public sealed class TestDatabase : ITestDatabase
 
     public ValueTask InsertAsync(string name, AccountAddress address, CancellationToken cancellationToken)
     {
-        return this._database.ExecuteAsync(action: (c, ct) => DatabaseWrapper.InsertAsync(connection: c, name: name, address: address, cancellationToken: ct),
-                                           cancellationToken: cancellationToken);
+        return this._database.ExecuteAsync(action: (c, ct) => DatabaseWrapper.InsertAsync(connection: c, name: name, address: address, cancellationToken: ct), cancellationToken: cancellationToken);
     }
 
     public ValueTask<int> GetMeaningOfLifeAsync(CancellationToken cancellationToken)
     {
-        return this._database.ExecuteAsync(action: (c, ct) => DatabaseWrapper.GetMeaningOfLifeAsync(connection: c, cancellationToken: ct), cancellationToken: cancellationToken);
+        return this._database.ExecuteAsync(action: DatabaseWrapper.GetMeaningOfLifeAsync, cancellationToken: cancellationToken);
     }
 
     public ValueTask<int?> GetOptionalMeaningOfLifeAsync(CancellationToken cancellationToken)
     {
-        return this._database.ExecuteAsync(action: (c, ct) => DatabaseWrapper.GetOptionalMeaningOfLifeAsync(connection: c, cancellationToken: ct),
-                                           cancellationToken: cancellationToken);
+        return this._database.ExecuteAsync(action: DatabaseWrapper.GetOptionalMeaningOfLifeAsync, cancellationToken: cancellationToken);
     }
 
     public ValueTask<string> GetStringMeaningOfLifeAsync(CancellationToken cancellationToken)
     {
-        return this._database.ExecuteAsync(action: (c, ct) => DatabaseWrapper.GetStringMeaningOfLifeAsync(connection: c, cancellationToken: ct),
-                                           cancellationToken: cancellationToken);
+        return this._database.ExecuteAsync(action: DatabaseWrapper.GetStringMeaningOfLifeAsync, cancellationToken: cancellationToken);
     }
 
     public ValueTask<AccountAddress> GetAddressMeaningOfLifeAsync(CancellationToken cancellationToken)
     {
-        return this._database.ExecuteAsync(action: (c, ct) => DatabaseWrapper.GetAddressMeaningOfLifeAsync(connection: c, cancellationToken: ct),
-                                           cancellationToken: cancellationToken);
+        return this._database.ExecuteAsync(action: DatabaseWrapper.GetAddressMeaningOfLifeAsync, cancellationToken: cancellationToken);
     }
 
     public ValueTask<AccountAddress?> GetOptionalAddressMeaningOfLifeAsync(CancellationToken cancellationToken)
     {
-        return this._database.ExecuteAsync(action: (c, ct) => DatabaseWrapper.GetOptionalAddressMeaningOfLifeAsync(connection: c, cancellationToken: ct),
-                                           cancellationToken: cancellationToken);
+        return this._database.ExecuteAsync(action: DatabaseWrapper.GetOptionalAddressMeaningOfLifeAsync, cancellationToken: cancellationToken);
     }
 }
