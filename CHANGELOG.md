@@ -11,6 +11,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Changed
 - Dependencies - Updated Credfeto.Enumeration to 1.1.6.354
 - Dependencies - Updated SmartAnalyzers.CSharpExtensions.Annotations to 4.2.11
+- Dependencies - Updated FunFair.CodeAnalysis to 7.0.14.369
 ### Removed
 ### Deployment Changes
 
