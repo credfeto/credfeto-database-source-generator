@@ -9,16 +9,19 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Added
 ### Fixed
 ### Changed
-- Dependencies - Updated Credfeto.Enumeration to 1.1.6.354
-- Dependencies - Updated SmartAnalyzers.CSharpExtensions.Annotations to 4.2.11
-- Dependencies - Updated FunFair.CodeAnalysis to 7.0.14.369
-- Dependencies - Updated FunFair.Test.Common to 6.1.51.455
 ### Removed
 ### Deployment Changes
 
 <!--
 Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
 -->
+## [1.2.9] - 2024-04-21
+### Changed
+- Dependencies - Updated Credfeto.Enumeration to 1.1.6.354
+- Dependencies - Updated SmartAnalyzers.CSharpExtensions.Annotations to 4.2.11
+- Dependencies - Updated FunFair.CodeAnalysis to 7.0.14.369
+- Dependencies - Updated FunFair.Test.Common to 6.1.51.455
+
 ## [1.2.8] - 2024-04-20
 ### Changed
 - SDK - Updated DotNet SDK to 8.0.204
