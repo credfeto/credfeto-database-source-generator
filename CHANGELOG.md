@@ -9,15 +9,18 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Added
 ### Fixed
 ### Changed
-- Dependencies - Updated FluentValidation to 11.9.1
-- Dependencies - Updated SonarAnalyzer.CSharp to 9.24.0.89429
-- Dependencies - Updated Roslynator.Analyzers to 4.12.2
 ### Removed
 ### Deployment Changes
 
 <!--
 Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
 -->
+## [1.2.10] - 2024-04-24
+### Changed
+- Dependencies - Updated FluentValidation to 11.9.1
+- Dependencies - Updated SonarAnalyzer.CSharp to 9.24.0.89429
+- Dependencies - Updated Roslynator.Analyzers to 4.12.2
+
 ## [1.2.9] - 2024-04-21
 ### Changed
 - Dependencies - Updated Credfeto.Enumeration to 1.1.6.354
