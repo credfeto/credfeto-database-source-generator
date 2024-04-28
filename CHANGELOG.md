@@ -9,11 +9,11 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Added
 ### Fixed
 ### Changed
-- Dependencies - Updated FunFair.Test.Common to 6.1.52.465
 - Dependencies - Updated xunit.analyzers to 1.13.0
 - Dependencies - Updated xunit.runner.visualstudio to 2.8.0
 - Dependencies - Updated xunit to 2.8.0
 - Dependencies - Updated Meziantou.Analyzer to 2.0.150
+- Dependencies - Updated FunFair.Test.Common to 6.1.53.472
 ### Removed
 ### Deployment Changes
 
