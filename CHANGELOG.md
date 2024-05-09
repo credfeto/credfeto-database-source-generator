@@ -16,6 +16,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated FunFair.Test.Common to 6.1.53.472
 - Dependencies - Updated Microsoft.VisualStudio.Threading.Analyzers to 17.10.48
 - Dependencies - Updated SonarAnalyzer.CSharp to 9.25.0.90414
+- Dependencies - Updated Npgsql to 8.0.3
 ### Removed
 ### Deployment Changes
 
