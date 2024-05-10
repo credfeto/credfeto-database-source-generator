@@ -17,6 +17,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Microsoft.VisualStudio.Threading.Analyzers to 17.10.48
 - Dependencies - Updated SonarAnalyzer.CSharp to 9.25.0.90414
 - Dependencies - Updated Npgsql to 8.0.3
+- Dependencies - Updated Polly to 8.4.0
 ### Removed
 ### Deployment Changes
 
