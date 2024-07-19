@@ -20,8 +20,8 @@ internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
 
     public DatabaseSyntaxReceiver()
     {
-        this._methods = new();
-        this._errors = new();
+        this._methods = [];
+        this._errors = [];
     }
 
     public IReadOnlyList<MethodGeneration> Methods => this._methods;
