@@ -54,14 +54,15 @@ internal static class ParameterSetter
 
     private static void SetParameterLength(CodeBuilder source, string parameterObject, string parameterName, DbType dbType)
     {
-        if (dbType == DbType.String)
+        if (HasLength(dbType))
         {
             source.AppendLine($"{parameterObject}.Size = {parameterName}.Length;");
         }
-        else if (dbType == DbType.Binary)
-        {
-            source.AppendLine($"{parameterObject}.Size = {parameterName}.Length;");
-        }
+    }
+
+    private static bool HasLength(DbType dbType)
+    {
+        return dbType is DbType.String or DbType.Binary;
     }
 
     private static DbType ThrowInvalidDbType(string parameterName, string typeName)
