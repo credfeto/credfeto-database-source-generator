@@ -9,6 +9,14 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Added
 ### Fixed
 ### Changed
+### Removed
+### Deployment Changes
+
+<!--
+Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
+-->
+## [1.2.13] - 2024-08-01
+### Changed
 - SDK - Updated DotNet SDK to 8.0.303
 - Dependencies - Updated CSharpIsNullAnalyzer to 0.1.593
 - Dependencies - Updated Microsoft.CodeAnalysis.CSharp to 4.10.0
@@ -19,12 +27,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Microsoft.Data.SqlClient to 5.2.1
 - Dependencies - Updated Microsoft.NET.Test.Sdk to 17.10.0
 - Dependencies - Updated Polly to 8.4.1
-### Removed
-### Deployment Changes
 
-<!--
-Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
--->
 ## [1.2.12] - 2024-05-16
 ### Changed
 - Dependencies - Updated Roslynator.Analyzers to 4.12.3
