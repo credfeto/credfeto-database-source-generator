@@ -11,6 +11,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Changed
 - Dependencies - Updated FunFair.CodeAnalysis to 7.0.22.521
 - Dependencies - Updated FunFair.Test.Common to 6.1.67.620
+- Dependencies - Updated Microsoft.Data.SqlClient to 5.2.2
 ### Removed
 ### Deployment Changes
 
