@@ -9,15 +9,18 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Added
 ### Fixed
 ### Changed
-- Dependencies - Updated FunFair.CodeAnalysis to 7.0.22.521
-- Dependencies - Updated FunFair.Test.Common to 6.1.67.620
-- Dependencies - Updated Microsoft.Data.SqlClient to 5.2.2
 ### Removed
 ### Deployment Changes
 
 <!--
 Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
 -->
+## [1.2.16] - 2024-09-01
+### Changed
+- Dependencies - Updated FunFair.CodeAnalysis to 7.0.22.521
+- Dependencies - Updated FunFair.Test.Common to 6.1.67.620
+- Dependencies - Updated Microsoft.Data.SqlClient to 5.2.2
+
 ## [1.2.15] - 2024-08-20
 ### Changed
 - Dependencies - Updated Microsoft.CodeAnalysis.CSharp to 4.11.0
