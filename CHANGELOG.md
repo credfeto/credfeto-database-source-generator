@@ -9,15 +9,18 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Added
 ### Fixed
 ### Changed
-- Dependencies - Updated Microsoft.NET.Test.Sdk to 17.11.1
-- Dependencies - Updated FunFair.CodeAnalysis to 7.0.23.533
-- Dependencies - Updated FunFair.Test.Common to 6.1.69.630
 ### Removed
 ### Deployment Changes
 
 <!--
 Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
 -->
+## [1.2.17] - 2024-09-06
+### Changed
+- Dependencies - Updated Microsoft.NET.Test.Sdk to 17.11.1
+- Dependencies - Updated FunFair.CodeAnalysis to 7.0.23.533
+- Dependencies - Updated FunFair.Test.Common to 6.1.69.630
+
 ## [1.2.16] - 2024-09-01
 ### Changed
 - Dependencies - Updated FunFair.CodeAnalysis to 7.0.22.521
