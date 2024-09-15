@@ -10,6 +10,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Fixed
 ### Changed
 - Dependencies - Updated Roslynator.Analyzers to 4.12.5
+- Dependencies - Updated FluentValidation to 11.10.0
 ### Removed
 ### Deployment Changes
 
