@@ -9,14 +9,17 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Added
 ### Fixed
 ### Changed
-- Dependencies - Updated Roslynator.Analyzers to 4.12.5
-- Dependencies - Updated FluentValidation to 11.10.0
 ### Removed
 ### Deployment Changes
 
 <!--
 Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
 -->
+## [1.2.19] - 2024-09-16
+### Changed
+- Dependencies - Updated Roslynator.Analyzers to 4.12.5
+- Dependencies - Updated FluentValidation to 11.10.0
+
 ## [1.2.18] - 2024-09-12
 ### Changed
 - Dependencies - Updated Npgsql to 8.0.4
