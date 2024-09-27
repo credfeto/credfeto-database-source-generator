@@ -10,6 +10,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Fixed
 ### Changed
 - Dependencies - Updated xunit to 2.9.2
+- Dependencies - Updated Polly to 8.4.2
 ### Removed
 ### Deployment Changes
 
