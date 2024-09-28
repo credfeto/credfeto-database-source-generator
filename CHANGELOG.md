@@ -9,6 +9,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Added
 ### Fixed
 ### Changed
+- SDK - Updated Dotnet to 9.0 RC1
 ### Removed
 ### Deployment Changes
 
