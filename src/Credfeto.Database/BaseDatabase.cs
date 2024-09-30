@@ -51,7 +51,11 @@ public abstract class BaseDatabase : IDatabase
                                         sleepDurationProvider: RetryDelayCalculator.Calculate,
                                         onRetry: (exception, delay, retryCount, context) =>
                                                  {
-                                                     this.LogAndDispatchTransientExceptions(exception: exception, context: context, delay: delay, retryCount: retryCount, maxRetries: MAX_RETRIES);
+                                                     this.LogAndDispatchTransientExceptions(exception: exception,
+                                                                                            context: context,
+                                                                                            delay: delay,
+                                                                                            retryCount: retryCount,
+                                                                                            maxRetries: MAX_RETRIES);
                                                  });
     }
 

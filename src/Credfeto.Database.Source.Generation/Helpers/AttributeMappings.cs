@@ -104,7 +104,7 @@ internal static class AttributeMappings
 
         string name = containingType.OriginalDefinition.ToDisplayString();
 
-        if (!StringComparer.Ordinal.Equals(name, "Credfeto.Database.Interfaces.SqlFieldMapAttribute<TMapper, TDataType>"))
+        if (!StringComparer.Ordinal.Equals(x: name, y: "Credfeto.Database.Interfaces.SqlFieldMapAttribute<TMapper, TDataType>"))
         {
             return null;
         }
@@ -142,7 +142,7 @@ internal static class AttributeMappings
 
         string name = symbol.ContainingType.ToDisplayString();
 
-        if (!StringComparer.Ordinal.Equals(name, "Credfeto.Database.Interfaces.SqlObjectMapAttribute"))
+        if (!StringComparer.Ordinal.Equals(x: name, y: "Credfeto.Database.Interfaces.SqlObjectMapAttribute"))
         {
             return null;
         }

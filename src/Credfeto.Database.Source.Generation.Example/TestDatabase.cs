@@ -17,7 +17,8 @@ public sealed class TestDatabase : ITestDatabase
 
     public ValueTask<IReadOnlyList<Accounts>> GetAllAsync(AccountAddress accountAddress, CancellationToken cancellationToken)
     {
-        return this._database.ExecuteAsync(action: (c, ct) => DatabaseWrapper.GetAllAsync(connection: c, address: accountAddress, cancellationToken: ct), cancellationToken: cancellationToken);
+        return this._database.ExecuteAsync(action: (c, ct) => DatabaseWrapper.GetAllAsync(connection: c, address: accountAddress, cancellationToken: ct),
+                                           cancellationToken: cancellationToken);
     }
 
     public ValueTask<Accounts?> GetAsync(int id, CancellationToken cancellationToken)
@@ -27,7 +28,8 @@ public sealed class TestDatabase : ITestDatabase
 
     public ValueTask InsertAsync(string name, AccountAddress address, CancellationToken cancellationToken)
     {
-        return this._database.ExecuteAsync(action: (c, ct) => DatabaseWrapper.InsertAsync(connection: c, name: name, address: address, cancellationToken: ct), cancellationToken: cancellationToken);
+        return this._database.ExecuteAsync(action: (c, ct) => DatabaseWrapper.InsertAsync(connection: c, name: name, address: address, cancellationToken: ct),
+                                           cancellationToken: cancellationToken);
     }
 
     public ValueTask<int> GetMeaningOfLifeAsync(CancellationToken cancellationToken)
