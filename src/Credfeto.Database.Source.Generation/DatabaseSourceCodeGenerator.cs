@@ -409,7 +409,7 @@ internal static class DatabaseSourceCodeGenerator
             ? "static "
             : string.Empty;
 
-        source.AppendLine($"[GeneratedCode(tool: \"{typeof(DatabaseCodeGenerator).FullName}\", version: \"{VersionInformation.Version()}\")]");
+        source.AppendLine($"[GeneratedCode(tool: \"{typeof(DatabaseCodeGenerator).FullName}\", version: \"{VersionInformation.FileVersion}\")]");
         ISymbol methodReturnType = GetMethodReturnType(method);
         StringBuilder stringBuilder = new($"{method.AccessType.ToKeywords()} {methodStaticModifier}async partial {methodReturnType.ToDisplayString()} {method.Name}(");
 
