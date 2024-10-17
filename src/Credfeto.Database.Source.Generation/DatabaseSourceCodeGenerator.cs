@@ -66,7 +66,8 @@ internal static class DatabaseSourceCodeGenerator
             ? "static "
             : string.Empty;
 
-        using (source.AppendLine("using System;")
+        using (source.AppendFileHeader()
+                     .AppendLine("using System;")
                      .AppendLine("using System.CodeDom.Compiler;")
                      .AppendLine("using System.Collections.Generic;")
                      .AppendLine("using System.Data;")
