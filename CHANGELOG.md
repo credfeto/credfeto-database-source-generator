@@ -13,6 +13,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - SDK - Updated DotNet SDK to 9.0.100-rc.2.24474.11
 - Dependencies - Updated Credfeto.Version.Information.Generator to 1.0.2.16
 - Dependencies - Updated Meziantou.Analyzer to 2.0.172
+- Dependencies - Updated Credfeto.Enumeration to 1.1.14.596
 ### Removed
 ### Deployment Changes
 
