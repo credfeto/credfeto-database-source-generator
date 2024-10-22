@@ -16,6 +16,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Microsoft.CodeAnalysis.Analyzers to 3.11.0
 - Dependencies - Updated FunFair.CodeAnalysis to 7.0.24.635
 - Dependencies - Updated Meziantou.Analyzer to 2.0.173
+- Dependencies - Updated FunFair.Test.Common to 6.1.228.895
 ### Removed
 ### Deployment Changes
 
