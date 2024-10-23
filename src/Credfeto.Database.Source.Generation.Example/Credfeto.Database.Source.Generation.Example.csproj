@@ -1,10 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+    <AssemblyTitle>Database interfaces</AssemblyTitle>
+    <Authors>Mark Ridgwell</Authors>
+    <CodeAnalysisRuleSet>$(SolutionDir)\CodeAnalysis.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
+    <Company>Mark Ridgwell</Company>
+    <Copyright>Mark Ridgwell</Copyright>
     <DebuggerSupport>true</DebuggerSupport>
+    <Description>Database interfaces</Description>
     <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
     <EnableMicrosoftExtensionsConfigurationBinderSourceGenerator>true</EnableMicrosoftExtensionsConfigurationBinderSourceGenerator>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <EnablePackageValidation>true</EnablePackageValidation>
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <EnforceExtendedAnalyzerRules>false</EnforceExtendedAnalyzerRules>
     <Features>strict;flow-analysis</Features>
     <GenerateNeutralResourcesLanguageAttribute>true</GenerateNeutralResourcesLanguageAttribute>
     <IlcGenerateStackTraceData>false</IlcGenerateStackTraceData>
@@ -16,6 +28,7 @@
     <IsTrimmable Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net6.0'))">true</IsTrimmable>
     <JsonSerializerIsReflectionEnabledByDefault>false</JsonSerializerIsReflectionEnabledByDefault>
     <LangVersion>latest</LangVersion>
+    <NeutralLanguage>en-GB</NeutralLanguage>
     <NoWarn />
     <NuGetAudit>true</NuGetAudit>
     <NuGetAuditLevel>low</NuGetAuditLevel>
@@ -23,6 +36,11 @@
     <Nullable>enable</Nullable>
     <OptimizationPreference>speed</OptimizationPreference>
     <OutputType>Library</OutputType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReleaseNotes>$(ReleaseNotes)</PackageReleaseNotes>
+    <PackageTags>Database wrapper.</PackageTags>
+    <Product>Database wrapper</Product>
+    <RepositoryUrl>https://github.com/credfeto/credfeto-database-source-generation</RepositoryUrl>
     <RunAOTCompilation>false</RunAOTCompilation>
     <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     <TieredCompilation>true</TieredCompilation>
@@ -31,30 +49,6 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <UseSystemResourceKeys>true</UseSystemResourceKeys>
     <WarningsAsErrors />
-  </PropertyGroup>
-  <PropertyGroup>
-    <AnalysisLevel>latest</AnalysisLevel>
-    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
-    <CodeAnalysisRuleSet>$(SolutionDir)\CodeAnalysis.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
-    <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    <EnforceExtendedAnalyzerRules>false</EnforceExtendedAnalyzerRules>
-  </PropertyGroup>
-  <PropertyGroup>
-    <Authors>Mark Ridgwell</Authors>
-    <Company>Mark Ridgwell</Company>
-    <Copyright>Mark Ridgwell</Copyright>
-    <NeutralLanguage>en-GB</NeutralLanguage>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>$(ReleaseNotes)</PackageReleaseNotes>
-    <PackageTags>Database wrapper.</PackageTags>
-    <Product>Database wrapper</Product>
-    <RepositoryUrl>https://github.com/credfeto/credfeto-database-source-generation</RepositoryUrl>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyTitle>Database interfaces</AssemblyTitle>
-    <Description>Database interfaces</Description>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Generated\Credfeto.Database.Source.Generation\Credfeto.Database.Source.Generation.DatabaseCodeGenerator\Credfeto.Database.Source.Generation.Example.DatabaseWrapper.GetAddressMeaningOfLifeAsync.Database.generated.cs" />
