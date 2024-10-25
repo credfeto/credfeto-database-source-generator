@@ -17,10 +17,10 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Credfeto.Version.Information.Generator to 1.0.4.57
 - Changed to use the incremental source generator
 - Dependencies - Updated Microsoft.CodeAnalysis.Analyzers to 3.11.0
-- Dependencies - Updated Roslynator.Analyzers to 4.12.8
 - Dependencies - Updated FunFair.Test.Common to 6.1.229.911
 - Dependencies - Updated Microsoft.Extensions to 8.0.2
 - Dependencies - Updated Npgsql to 8.0.5
+- Dependencies - Updated Roslynator.Analyzers to 4.12.9
 ### Removed
 ### Deployment Changes
 
