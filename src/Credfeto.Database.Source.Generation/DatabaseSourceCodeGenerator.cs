@@ -4,6 +4,8 @@ using System.Collections.Immutable;
 using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 using System.Text;
 using Credfeto.Database.Source.Generation.Builders;
 using Credfeto.Database.Source.Generation.Exceptions;
@@ -16,13 +18,11 @@ namespace Credfeto.Database.Source.Generation;
 
 internal static class DatabaseSourceCodeGenerator
 {
-    public static void GenerateOneMethodGroup(in SourceProductionContext context, IReadOnlyList<MethodGeneration> methods, string fullName)
+    public static void GenerateOneMethodGroup(in SourceProductionContext context, MethodGeneration method)
     {
-        MethodGeneration firstMethod = methods[0];
-
         CodeBuilder source = new();
 
-        string classStaticModifier = firstMethod.ContainingContext.IsStatic
+        string classStaticModifier = method.ContainingContext.IsStatic
             ? "static "
             : string.Empty;
 
@@ -39,28 +39,36 @@ internal static class DatabaseSourceCodeGenerator
                      .AppendBlankLine()
                      .AppendLine("#nullable enable")
                      .AppendBlankLine()
-                     .AppendLine($"namespace {firstMethod.ContainingContext.Namespace};")
+                     .AppendLine($"namespace {method.ContainingContext.Namespace};")
                      .AppendBlankLine()
-                     .StartBlock($"{firstMethod.ContainingContext.AccessType.ToKeywords()} {classStaticModifier}partial class {firstMethod.ContainingContext.Name}"))
+                     .StartBlock($"{method.ContainingContext.AccessType.ToKeywords()} {classStaticModifier}partial class {method.ContainingContext.Name}"))
         {
-            bool isFirst = true;
-
-            foreach (MethodGeneration method in methods)
-            {
-                if (isFirst)
-                {
-                    isFirst = false;
-                }
-                else
-                {
-                    source.AppendBlankLine();
-                }
-
-                GenerateMethod(method: method, source: source);
-            }
+            GenerateMethod(method: method, source: source);
         }
 
-        context.AddSource($"{fullName}.Database.generated.cs", sourceText: source.Text);
+        string hash = GenerateParameterHash(method.Method.Parameters);
+
+        context.AddSource($"{method.FullName}.Database.{hash}.generated.cs", sourceText: source.Text);
+    }
+
+    private static string GenerateParameterHash(IReadOnlyList<MethodParameter> methodParameters)
+    {
+        string parameters = string.Join(separator: ",", methodParameters.Select(p => p.Type.ToDisplayString()));
+
+        using (SHA256 hasher = SHA256.Create())
+        {
+            return Base64UrlEncodeCommon(hasher.ComputeHash(Encoding.UTF8.GetBytes(parameters)));
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static string Base64UrlEncodeCommon(byte[] inputBytes)
+    {
+        // Special "url-safe" base64 encode.
+        return Convert.ToBase64String(inputBytes)
+                      .Replace(oldChar: '+', newChar: '-')
+                      .Replace(oldChar: '/', newChar: '_')
+                      .Replace(oldValue: "=", newValue: string.Empty);
     }
 
     private static void GenerateMethod(MethodGeneration method, CodeBuilder source)
