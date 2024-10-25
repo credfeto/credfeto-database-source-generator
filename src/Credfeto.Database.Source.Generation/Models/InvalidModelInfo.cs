@@ -4,7 +4,7 @@ using Microsoft.CodeAnalysis;
 namespace Credfeto.Database.Source.Generation.Models;
 
 [DebuggerDisplay("{Location} {Message}")]
-internal sealed class InvalidModelInfo
+internal readonly record struct InvalidModelInfo
 {
     public InvalidModelInfo(Location location, string message)
     {
