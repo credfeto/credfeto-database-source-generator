@@ -17,6 +17,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Credfeto.Version.Information.Generator to 1.0.4.57
 - Changed to use the incremental source generator
 - Dependencies - Updated Microsoft.CodeAnalysis.Analyzers to 3.11.0
+- Dependencies - Updated Roslynator.Analyzers to 4.12.8
 ### Removed
 ### Deployment Changes
 
