@@ -13,82 +13,16 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Credfeto.Database.Source.Generation.Receivers;
 
-internal sealed class DatabaseSyntaxReceiver : ISyntaxContextReceiver
+internal static class DatabaseSyntaxReceiver
 {
-    private readonly List<InvalidModelInfo> _errors;
-    private readonly List<MethodGeneration> _methods;
-
-    public DatabaseSyntaxReceiver()
-    {
-        this._methods = [];
-        this._errors = [];
-    }
-
-    public IReadOnlyList<MethodGeneration> Methods => this._methods;
-
-    public IReadOnlyList<InvalidModelInfo> Errors => this._errors;
-
-    public void OnVisitSyntaxNode(GeneratorSyntaxContext context)
-    {
-        CancellationToken cancellationToken = CancellationToken.None;
-
-        if (context.Node is not MethodDeclarationSyntax methodDeclarationSyntax)
-        {
-            return;
-        }
-
-        if (methodDeclarationSyntax.AttributeLists.Count == 0)
-        {
-            return;
-        }
-
-        if (!methodDeclarationSyntax.Modifiers.Any(SyntaxKind.PartialKeyword))
-        {
-            return;
-        }
-
-        ClassDeclarationSyntax? classDeclarationSyntax = GetClassDeclarationSyntax(methodDeclarationSyntax);
-
-        if (classDeclarationSyntax is null)
-        {
-            return;
-        }
-
-        if (!classDeclarationSyntax.Modifiers.Any(SyntaxKind.PartialKeyword))
-        {
-            return;
-        }
-
-        Location location = context.Node.GetLocation();
-
-        try
-        {
-            MethodGeneration? method = BuildMethod(context: context,
-                                                   methodDeclarationSyntax: methodDeclarationSyntax,
-                                                   classDeclarationSyntax: classDeclarationSyntax,
-                                                   cancellationToken: cancellationToken);
-
-            if (method is null)
-            {
-                return;
-            }
-
-            this._methods.Add(item: method);
-        }
-        catch (InvalidModelException exception)
-        {
-            this._errors.Add(new(location: location, message: exception.Message));
-        }
-    }
-
-    private static ClassDeclarationSyntax? GetClassDeclarationSyntax(MethodDeclarationSyntax methodDeclarationSyntax)
+    public static ClassDeclarationSyntax? GetClassDeclarationSyntax(MethodDeclarationSyntax methodDeclarationSyntax)
     {
         return methodDeclarationSyntax.Ancestors()
                                       .OfType<ClassDeclarationSyntax>()
                                       .FirstOrDefault();
     }
 
-    private static MethodGeneration? BuildMethod(in GeneratorSyntaxContext context,
+    public static MethodGeneration? BuildMethod(in GeneratorSyntaxContext context,
                                                  MethodDeclarationSyntax methodDeclarationSyntax,
                                                  ClassDeclarationSyntax classDeclarationSyntax,
                                                  CancellationToken cancellationToken)

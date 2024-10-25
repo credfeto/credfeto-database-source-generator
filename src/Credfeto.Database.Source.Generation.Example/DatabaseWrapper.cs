@@ -25,6 +25,9 @@ internal static partial class DatabaseWrapper
     [SqlObjectMap(name: "ethereum.account_get", sqlObjectType: SqlObjectType.TABLE_FUNCTION, sqlDialect: SqlDialect.GENERIC)]
     public static partial ValueTask<Accounts?> GetAsync(DbConnection connection, int id, CancellationToken cancellationToken);
 
+    [SqlObjectMap(name: "ethereum.account_get2", sqlObjectType: SqlObjectType.TABLE_FUNCTION, sqlDialect: SqlDialect.GENERIC)]
+    public static partial ValueTask<Accounts?> GetAsync(DbConnection connection, string id, CancellationToken cancellationToken);
+
     [SqlObjectMap(name: "ethereum.account_get", sqlObjectType: SqlObjectType.STORED_PROCEDURE, sqlDialect: SqlDialect.MICROSOFT_SQL_SERVER)]
     public static partial ValueTask<Accounts?> GetMssqlAsync(DbConnection connection, int id, CancellationToken cancellationToken);
 

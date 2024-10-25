@@ -10,53 +10,13 @@ using Credfeto.Database.Source.Generation.Exceptions;
 using Credfeto.Database.Source.Generation.Extensions;
 using Credfeto.Database.Source.Generation.Helpers;
 using Credfeto.Database.Source.Generation.Models;
-using Credfeto.Database.Source.Generation.Receivers;
 using Microsoft.CodeAnalysis;
 
 namespace Credfeto.Database.Source.Generation;
 
 internal static class DatabaseSourceCodeGenerator
 {
-    public static void ReportErrors(in GeneratorExecutionContext context, DatabaseSyntaxReceiver receiver)
-    {
-        foreach (InvalidModelInfo invalidModel in receiver.Errors)
-        {
-            context.ReportDiagnostic(diagnostic: Diagnostic.Create(new(id: "CDSG001",
-                                                                       title: "Invalid model",
-                                                                       messageFormat: invalidModel.Message,
-                                                                       category: "Credfeto.Database.Source.Generation",
-                                                                       defaultSeverity: DiagnosticSeverity.Error,
-                                                                       isEnabledByDefault: true),
-                                                                   location: invalidModel.Location));
-        }
-    }
-
-    public static void GenerateMethods(in GeneratorExecutionContext context, DatabaseSyntaxReceiver receiver)
-    {
-        foreach (IGrouping<string, MethodGeneration> methodGroup in receiver.Methods.GroupBy(keySelector: m => m.MethodGrouping, comparer: StringComparer.OrdinalIgnoreCase))
-        {
-            IReadOnlyList<MethodGeneration> methods = [..methodGroup];
-
-            try
-            {
-                string fullName = methodGroup.Key;
-                GenerateOneMethodGroup(context: context, methods: methods, fullName: fullName);
-            }
-            catch (Exception exception)
-            {
-                context.ReportDiagnostic(diagnostic: Diagnostic.Create(new(id: "CDSG002",
-                                                                           title: "Unhandled exception",
-                                                                           messageFormat: exception.Message,
-                                                                           category: "Credfeto.Database.Source.Generation",
-                                                                           defaultSeverity: DiagnosticSeverity.Error,
-                                                                           isEnabledByDefault: true),
-                                                                       location: methodGroup.First()
-                                                                                            .Location));
-            }
-        }
-    }
-
-    private static void GenerateOneMethodGroup(in GeneratorExecutionContext context, IReadOnlyList<MethodGeneration> methods, string fullName)
+    public static void GenerateOneMethodGroup(in SourceProductionContext context, IReadOnlyList<MethodGeneration> methods, string fullName)
     {
         MethodGeneration firstMethod = methods[0];
 
@@ -149,8 +109,7 @@ internal static class DatabaseSourceCodeGenerator
                 : nameof(CommandBehavior.SingleRow);
 
             using (source.AppendBlankLine()
-                         .StartBlock(
-                             $"using (IDataReader reader = await command.ExecuteReaderAsync(behavior: CommandBehavior.{commandBehaviour}, cancellationToken: cancellationToken))"))
+                         .StartBlock($"using (IDataReader reader = await command.ExecuteReaderAsync(behavior: CommandBehavior.{commandBehaviour}, cancellationToken: cancellationToken))"))
             {
                 source.AppendLine(isCollection
                                       ? "return Extract(reader: reader).ToArray();"
@@ -493,8 +452,7 @@ internal static class DatabaseSourceCodeGenerator
                     : nameof(CommandBehavior.SingleRow);
 
                 using (source.AppendBlankLine()
-                             .StartBlock(
-                                 $"using (IDataReader reader = await command.ExecuteReaderAsync(behavior: CommandBehavior.{commandBehaviour}, cancellationToken: cancellationToken))"))
+                             .StartBlock($"using (IDataReader reader = await command.ExecuteReaderAsync(behavior: CommandBehavior.{commandBehaviour}, cancellationToken: cancellationToken))"))
                 {
                     source.AppendLine(isCollection
                                           ? "return Extract(reader: reader).ToArray();"
