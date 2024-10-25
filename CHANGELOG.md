@@ -20,6 +20,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Roslynator.Analyzers to 4.12.8
 - Dependencies - Updated FunFair.Test.Common to 6.1.229.911
 - Dependencies - Updated Microsoft.Extensions to 8.0.2
+- Dependencies - Updated Npgsql to 8.0.5
 ### Removed
 ### Deployment Changes
 
