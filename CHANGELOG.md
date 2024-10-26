@@ -9,6 +9,14 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Added
 ### Fixed
 ### Changed
+### Removed
+### Deployment Changes
+
+<!--
+Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
+-->
+## [1.2.22] - 2024-10-26
+### Changed
 - SDK - Updated Dotnet to 9.0 RC1
 - SDK - Updated DotNet SDK to 9.0.100-rc.2.24474.11
 - Dependencies - Updated FunFair.CodeAnalysis to 7.0.24.635
@@ -21,12 +29,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Microsoft.Extensions to 8.0.2
 - Dependencies - Updated Npgsql to 8.0.5
 - Dependencies - Updated Roslynator.Analyzers to 4.12.9
-### Removed
-### Deployment Changes
 
-<!--
-Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
--->
 ## [1.2.21] - 2024-09-27
 ### Changed
 - Dependencies - Updated xunit to 2.9.2
