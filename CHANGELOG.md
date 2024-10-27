@@ -9,13 +9,16 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Added
 ### Fixed
 ### Changed
-- Dependencies - Updated Credfeto.Version.Information.Generator to 1.0.5.65
 ### Removed
 ### Deployment Changes
 
 <!--
 Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
 -->
+## [1.2.24] - 2024-10-27
+### Changed
+- Dependencies - Updated Credfeto.Version.Information.Generator to 1.0.5.65
+
 ## [1.2.23] - 2024-10-27
 ### Changed
 - Dependencies - Updated Credfeto.Enumeration to 1.1.16.631
