@@ -12,6 +12,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Microsoft.Extensions to 9.0.0
 - Dependencies - Updated Credfeto.Enumeration to 1.1.23.685
 - Dependencies - Updated Polly to 8.5.0
+- Dependencies - Updated Microsoft.VisualStudio.Threading.Analyzers to 17.12.19
 ### Removed
 ### Deployment Changes
 
