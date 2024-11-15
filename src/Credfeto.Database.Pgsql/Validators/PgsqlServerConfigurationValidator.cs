@@ -6,7 +6,7 @@ public sealed class PgsqlServerConfigurationValidator : AbstractValidator<PgsqlS
 {
     public PgsqlServerConfigurationValidator()
     {
-        this.RuleFor(x => x.ConnectionString)
+        this.RuleFor(static x => x.ConnectionString)
             .NotEmpty()
             .SetValidator(new PostgresqlConnectionStringValidator());
     }

@@ -6,7 +6,7 @@ public sealed class SqlServerConfigurationValidator : AbstractValidator<SqlServe
 {
     public SqlServerConfigurationValidator()
     {
-        this.RuleFor(x => x.ConnectionString)
+        this.RuleFor(static x => x.ConnectionString)
             .NotEmpty()
             .SetValidator(new SqlConnectionStringValidator());
     }

@@ -53,7 +53,7 @@ internal static class DatabaseSourceCodeGenerator
 
     private static string GenerateParameterHash(IReadOnlyList<MethodParameter> methodParameters)
     {
-        string parameters = string.Join(separator: ",", methodParameters.Select(p => p.Type.ToDisplayString()));
+        string parameters = string.Join(separator: ",", methodParameters.Select(static p => p.Type.ToDisplayString()));
 
         using (SHA256 hasher = SHA256.Create())
         {
@@ -165,7 +165,7 @@ internal static class DatabaseSourceCodeGenerator
 
         using (source.StartBlock($"static IEnumerable<{returnType}> Extract(IDataReader reader)"))
         {
-            foreach (string column in columns.Select(selector: column => column.Name))
+            foreach (string column in columns.Select(selector: static column => column.Name))
             {
                 source.AppendLine($"int ordinal{column} = reader.GetOrdinal(name: nameof({returnType}.{column}));");
             }
@@ -212,7 +212,7 @@ internal static class DatabaseSourceCodeGenerator
 
     private static string BuildFunctionColumns(in ImmutableArray<IParameterSymbol> columns)
     {
-        return string.Join(separator: ", ", columns.Select(selector: p => p.Name));
+        return string.Join(separator: ", ", columns.Select(selector: static p => p.Name));
     }
 
     private static ImmutableArray<IParameterSymbol> ExtractColumnsFromConstructor(INamedTypeSymbol returnType)

@@ -16,7 +16,7 @@ public sealed class DependencyInjectionTests : DependencyInjectionTestsBase
 
     private static IServiceCollection Configure(IServiceCollection services)
     {
-        return services.AddMockedService<IOptions<PgsqlServerConfiguration>>(x => x.Value.Returns(new PgsqlServerConfiguration("Host=localhost;Database=test")))
+        return services.AddMockedService<IOptions<PgsqlServerConfiguration>>(static x => x.Value.Returns(new PgsqlServerConfiguration("Host=localhost;Database=test")))
                        .AddPostgresql();
     }
 

@@ -27,7 +27,7 @@ internal static class AttributeMappings
     public static MapperInfo? GetMapperInfo(this IParameterSymbol parameterSymbol)
     {
         return parameterSymbol.GetAttributes()
-                              .Select(x => x.AttributeClass)
+                              .Select(static x => x.AttributeClass)
                               .RemoveNulls()
                               .Select(CreateMapperInfo2)
                               .FirstOrDefault();
