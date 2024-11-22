@@ -9,18 +9,21 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Added
 ### Fixed
 ### Changed
-- Dependencies - Updated Credfeto.Enumeration to 1.2.28.714
-- Dependencies - Updated Credfeto.Version.Information.Generator to 1.0.15.141
-- Dependencies - Updated Meziantou.Analyzer to 2.0.180
-- Dependencies - Updated FluentValidation to 11.11.0
-- Dependencies - Updated Microsoft.NET.Test.Sdk to 17.12.0
-- Dependencies - Updated Npgsql to 9.0.1
 ### Removed
 ### Deployment Changes
 
 <!--
 Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
 -->
+## [1.2.36] - 2024-11-22
+### Changed
+- Dependencies - Updated Credfeto.Enumeration to 1.2.28.714
+- Dependencies - Updated Credfeto.Version.Information.Generator to 1.0.15.141
+- Dependencies - Updated Meziantou.Analyzer to 2.0.180
+- Dependencies - Updated FluentValidation to 11.11.0
+- Dependencies - Updated Microsoft.NET.Test.Sdk to 17.12.0
+- Dependencies - Updated Npgsql to 9.0.1
+
 ## [1.2.35] - 2024-11-15
 ### Changed
 - Dependencies - Updated Microsoft.Extensions to 9.0.0
