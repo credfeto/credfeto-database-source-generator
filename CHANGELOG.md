@@ -14,6 +14,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Meziantou.Analyzer to 2.0.180
 - Dependencies - Updated FluentValidation to 11.11.0
 - Dependencies - Updated Microsoft.NET.Test.Sdk to 17.12.0
+- Dependencies - Updated Npgsql to 9.0.1
 ### Removed
 ### Deployment Changes
 
