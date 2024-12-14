@@ -12,6 +12,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Credfeto.Version.Information.Generator to 1.0.28.176
 - Dependencies - Updated Microsoft.CodeAnalysis.CSharp to 4.12.0
 - Dependencies - Updated Npgsql to 9.0.2
+- SDK - Updated DotNet SDK to 9.0.101
 ### Removed
 ### Deployment Changes
 
