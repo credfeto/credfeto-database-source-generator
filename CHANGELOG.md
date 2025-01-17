@@ -19,6 +19,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated FunFair.Test.Common to 6.1.245.1069
 - Dependencies - Updated Microsoft.Data.SqlClient to 6.0.0
 - Dependencies - Updated Microsoft.Extensions to 9.0.1
+- Dependencies - Updated Polly to 8.5.1
 ### Removed
 ### Deployment Changes
 
