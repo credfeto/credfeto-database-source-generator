@@ -15,11 +15,11 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Meziantou.Analyzer to 2.0.186
 - Dependencies - Updated SonarAnalyzer.CSharp to 10.5.0.109200
 - SDK - Updated DotNet SDK to 9.0.102
-- Dependencies - Updated FunFair.Test.Common to 6.1.245.1069
 - Dependencies - Updated Microsoft.Data.SqlClient to 6.0.0
 - Dependencies - Updated Microsoft.Extensions to 9.0.1
 - Dependencies - Updated Polly to 8.5.1
 - Dependencies - Updated FunFair.CodeAnalysis to 7.0.56.855
+- Dependencies - Updated FunFair.Test.Common to 6.1.246.1079
 ### Removed
 ### Deployment Changes
 
