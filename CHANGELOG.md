@@ -9,6 +9,14 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Added
 ### Fixed
 ### Changed
+### Removed
+### Deployment Changes
+
+<!--
+Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
+-->
+## [1.2.83] - 2025-01-18
+### Changed
 - Dependencies - Updated Credfeto.Enumeration to 1.2.53.824
 - Dependencies - Updated xunit.analyzers to 1.19.0
 - Dependencies - Updated xunit.runner.visualstudio to 3.0.1
@@ -20,12 +28,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Microsoft.Extensions to 9.0.1
 - Dependencies - Updated Polly to 8.5.1
 - Dependencies - Updated FunFair.CodeAnalysis to 7.0.56.855
-### Removed
-### Deployment Changes
 
-<!--
-Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
--->
 ## [1.2.81] - 2025-01-09
 ### Changed
 - Dependencies - Updated Credfeto.Version.Information.Generator to 1.0.41.250
