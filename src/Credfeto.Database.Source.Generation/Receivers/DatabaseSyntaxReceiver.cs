@@ -164,8 +164,7 @@ internal static class DatabaseSyntaxReceiver
 
     private static IReadOnlyList<MethodParameter> GetParameters(SemanticModel semanticModel, MethodDeclarationSyntax method, CancellationToken cancellationToken)
     {
-        return Build(model: semanticModel, parameters: method.ParameterList.Parameters, ct: cancellationToken)
-            .ToArray();
+        return [..Build(model: semanticModel, parameters: method.ParameterList.Parameters, ct: cancellationToken)];
 
         static IEnumerable<MethodParameter> Build(SemanticModel model, SeparatedSyntaxList<ParameterSyntax> parameters, CancellationToken ct)
         {
