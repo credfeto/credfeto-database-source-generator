@@ -8,9 +8,7 @@ internal static class RetryDelayCalculator
     public static TimeSpan Calculate(int attempts)
     {
         // do a fast first retry, then exponential backoff
-        return attempts <= 1
-            ? TimeSpan.Zero
-            : TimeSpan.FromSeconds(CalculateBackoff(attempts));
+        return attempts <= 1 ? TimeSpan.Zero : TimeSpan.FromSeconds(CalculateBackoff(attempts));
     }
 
     public static TimeSpan CalculateWithJitter(int attempts, int maxJitterSeconds)
@@ -18,7 +16,9 @@ internal static class RetryDelayCalculator
         // do a fast first retry, then exponential backoff
         return attempts <= 1
             ? TimeSpan.Zero
-            : TimeSpan.FromSeconds(WithJitter(CalculateBackoff(attempts), maxSeconds: maxJitterSeconds));
+            : TimeSpan.FromSeconds(
+                WithJitter(CalculateBackoff(attempts), maxSeconds: maxJitterSeconds)
+            );
     }
 
     private static double CalculateBackoff(int attempts)

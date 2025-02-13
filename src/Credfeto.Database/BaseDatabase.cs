@@ -18,7 +18,10 @@ public abstract class BaseDatabase : IDatabase
         this._retryPolicyAsync = this.DefineAsyncPolicy();
     }
 
-    public ValueTask<T> ExecuteAsync<T>(Func<DbConnection, CancellationToken, ValueTask<T>> action, CancellationToken cancellationToken)
+    public ValueTask<T> ExecuteAsync<T>(
+        Func<DbConnection, CancellationToken, ValueTask<T>> action,
+        CancellationToken cancellationToken
+    )
     {
         return this.ExecuteWithRetriesAsync(func: ExecAsync, context: "ExecuteAsync");
 
@@ -31,7 +34,10 @@ public abstract class BaseDatabase : IDatabase
         }
     }
 
-    public ValueTask ExecuteAsync(Func<DbConnection, CancellationToken, ValueTask> action, CancellationToken cancellationToken)
+    public ValueTask ExecuteAsync(
+        Func<DbConnection, CancellationToken, ValueTask> action,
+        CancellationToken cancellationToken
+    )
     {
         return this.ExecuteWithRetriesAsync(func: ExecAsync, context: "ExecuteAsync");
 
@@ -46,24 +52,37 @@ public abstract class BaseDatabase : IDatabase
 
     private AsyncRetryPolicy DefineAsyncPolicy()
     {
-        return Policy.Handle((Func<Exception, bool>)this.IsTransientException)
-                     .WaitAndRetryAsync(retryCount: MAX_RETRIES,
-                                        sleepDurationProvider: RetryDelayCalculator.Calculate,
-                                        onRetry: (exception, delay, retryCount, context) =>
-                                                 {
-                                                     this.LogAndDispatchTransientExceptions(exception: exception,
-                                                                                            context: context,
-                                                                                            delay: delay,
-                                                                                            retryCount: retryCount,
-                                                                                            maxRetries: MAX_RETRIES);
-                                                 });
+        return Policy
+            .Handle((Func<Exception, bool>)this.IsTransientException)
+            .WaitAndRetryAsync(
+                retryCount: MAX_RETRIES,
+                sleepDurationProvider: RetryDelayCalculator.Calculate,
+                onRetry: (exception, delay, retryCount, context) =>
+                {
+                    this.LogAndDispatchTransientExceptions(
+                        exception: exception,
+                        context: context,
+                        delay: delay,
+                        retryCount: retryCount,
+                        maxRetries: MAX_RETRIES
+                    );
+                }
+            );
     }
 
     protected abstract bool IsTransientException(Exception exception);
 
-    protected abstract void LogAndDispatchTransientExceptions(Exception exception, Context context, in TimeSpan delay, int retryCount, int maxRetries);
+    protected abstract void LogAndDispatchTransientExceptions(
+        Exception exception,
+        Context context,
+        in TimeSpan delay,
+        int retryCount,
+        int maxRetries
+    );
 
-    protected abstract ValueTask<DbConnection> GetConnectionAsync(CancellationToken cancellationToken);
+    protected abstract ValueTask<DbConnection> GetConnectionAsync(
+        CancellationToken cancellationToken
+    );
 
     private async ValueTask ExecuteWithRetriesAsync(Func<ValueTask> func, string context)
     {
@@ -75,21 +94,25 @@ public abstract class BaseDatabase : IDatabase
 
         Task WrappedAsync(Context c)
         {
-            return func()
-                .AsTask();
+            return func().AsTask();
         }
     }
 
-    private async ValueTask<TReturn> ExecuteWithRetriesAsync<TReturn>(Func<ValueTask<TReturn>> func, string context)
+    private async ValueTask<TReturn> ExecuteWithRetriesAsync<TReturn>(
+        Func<ValueTask<TReturn>> func,
+        string context
+    )
     {
         Context loggingContext = new(context);
 
-        return await this._retryPolicyAsync.ExecuteAsync(action: WrappedAsync, context: loggingContext);
+        return await this._retryPolicyAsync.ExecuteAsync(
+            action: WrappedAsync,
+            context: loggingContext
+        );
 
         Task<TReturn> WrappedAsync(Context c)
         {
-            return func()
-                .AsTask();
+            return func().AsTask();
         }
     }
 }
