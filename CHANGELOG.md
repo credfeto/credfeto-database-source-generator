@@ -10,7 +10,6 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Fixed
 ### Changed
 - Dependencies - Updated Credfeto.Enumeration to 1.2.66.909
-- Dependencies - Updated FunFair.CodeAnalysis to 7.0.67.907
 - Dependencies - Updated Microsoft.Sbom.Targets to 3.1.0
 - Dependencies - Updated Polly to 8.5.2
 - Dependencies - Updated Credfeto.Version.Information.Generator to 1.0.53.337
@@ -18,6 +17,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated xunit.runner.visualstudio to 3.0.2
 - Dependencies - Updated FunFair.Test.Common to 6.1.257.1137
 - SDK - Updated DotNet SDK to 9.0.200
+- Dependencies - Updated FunFair.CodeAnalysis to 7.0.67.921
 ### Removed
 ### Deployment Changes
 
