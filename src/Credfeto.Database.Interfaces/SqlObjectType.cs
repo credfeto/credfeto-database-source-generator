@@ -4,5 +4,5 @@ public enum SqlObjectType
 {
     SCALAR_FUNCTION = 0,
     TABLE_FUNCTION = 1,
-    STORED_PROCEDURE = 2
+    STORED_PROCEDURE = 2,
 }
