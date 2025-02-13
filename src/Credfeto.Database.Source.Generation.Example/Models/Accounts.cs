@@ -10,6 +10,6 @@ namespace Credfeto.Database.Source.Generation.Example.Models;
 public sealed record Accounts(
     int Id,
     string Name,
-    [SqlFieldMap<AccountAddressMapper, AccountAddress>]
-    AccountAddress Address,
-    DateTime LastModified);
+    [SqlFieldMap<AccountAddressMapper, AccountAddress>] AccountAddress Address,
+    DateTime LastModified
+);
