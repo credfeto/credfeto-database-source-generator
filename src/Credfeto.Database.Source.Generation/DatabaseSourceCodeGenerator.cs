@@ -18,42 +18,54 @@ namespace Credfeto.Database.Source.Generation;
 
 internal static class DatabaseSourceCodeGenerator
 {
-    public static void GenerateOneMethodGroup(in SourceProductionContext context, MethodGeneration method)
+    public static void GenerateOneMethodGroup(
+        in SourceProductionContext context,
+        MethodGeneration method
+    )
     {
         CodeBuilder source = new();
 
-        string classStaticModifier = method.ContainingContext.IsStatic
-            ? "static "
-            : string.Empty;
+        string classStaticModifier = method.ContainingContext.IsStatic ? "static " : string.Empty;
 
-        using (source.AppendFileHeader()
-                     .AppendLine("using System;")
-                     .AppendLine("using System.CodeDom.Compiler;")
-                     .AppendLine("using System.Collections.Generic;")
-                     .AppendLine("using System.Data;")
-                     .AppendLine("using System.Data.Common;")
-                     .AppendLine("using System.Globalization;")
-                     .AppendLine("using System.Linq;")
-                     .AppendLine("using System.Threading;")
-                     .AppendLine("using System.Threading.Tasks;")
-                     .AppendBlankLine()
-                     .AppendLine("#nullable enable")
-                     .AppendBlankLine()
-                     .AppendLine($"namespace {method.ContainingContext.Namespace};")
-                     .AppendBlankLine()
-                     .StartBlock($"{method.ContainingContext.AccessType.ToKeywords()} {classStaticModifier}partial class {method.ContainingContext.Name}"))
+        using (
+            source
+                .AppendFileHeader()
+                .AppendLine("using System;")
+                .AppendLine("using System.CodeDom.Compiler;")
+                .AppendLine("using System.Collections.Generic;")
+                .AppendLine("using System.Data;")
+                .AppendLine("using System.Data.Common;")
+                .AppendLine("using System.Globalization;")
+                .AppendLine("using System.Linq;")
+                .AppendLine("using System.Threading;")
+                .AppendLine("using System.Threading.Tasks;")
+                .AppendBlankLine()
+                .AppendLine("#nullable enable")
+                .AppendBlankLine()
+                .AppendLine($"namespace {method.ContainingContext.Namespace};")
+                .AppendBlankLine()
+                .StartBlock(
+                    $"{method.ContainingContext.AccessType.ToKeywords()} {classStaticModifier}partial class {method.ContainingContext.Name}"
+                )
+        )
         {
             GenerateMethod(method: method, source: source);
         }
 
         string hash = GenerateParameterHash(method.Method.Parameters);
 
-        context.AddSource($"{method.FullName}.Database.{hash}.generated.cs", sourceText: source.Text);
+        context.AddSource(
+            $"{method.FullName}.Database.{hash}.generated.cs",
+            sourceText: source.Text
+        );
     }
 
     private static string GenerateParameterHash(IReadOnlyList<MethodParameter> methodParameters)
     {
-        string parameters = string.Join(separator: ",", methodParameters.Select(static p => p.Type.ToDisplayString()));
+        string parameters = string.Join(
+            separator: ",",
+            methodParameters.Select(static p => p.Type.ToDisplayString())
+        );
 
         using (SHA256 hasher = SHA256.Create())
         {
@@ -65,10 +77,11 @@ internal static class DatabaseSourceCodeGenerator
     private static string Base64UrlEncodeCommon(byte[] inputBytes)
     {
         // Special "url-safe" base64 encode.
-        return Convert.ToBase64String(inputBytes)
-                      .Replace(oldChar: '+', newChar: '-')
-                      .Replace(oldChar: '/', newChar: '_')
-                      .Replace(oldValue: "=", newValue: string.Empty);
+        return Convert
+            .ToBase64String(inputBytes)
+            .Replace(oldChar: '+', newChar: '-')
+            .Replace(oldChar: '/', newChar: '_')
+            .Replace(oldValue: "=", newValue: string.Empty);
     }
 
     private static void GenerateMethod(MethodGeneration method, CodeBuilder source)
@@ -87,11 +100,20 @@ internal static class DatabaseSourceCodeGenerator
                 GenerateStoredProcedureMethod(method: method, source: source);
 
                 break;
-            default: throw new ArgumentOutOfRangeException(nameof(method), actualValue: method.SqlObject.SqlObjectType, message: "Unsupported SQL object type");
+            default:
+                throw new ArgumentOutOfRangeException(
+                    nameof(method),
+                    actualValue: method.SqlObject.SqlObjectType,
+                    message: "Unsupported SQL object type"
+                );
         }
     }
 
-    [SuppressMessage(category: "Meziantou.Analyzer", checkId: "MA0051:Method too long", Justification = "Test")]
+    [SuppressMessage(
+        category: "Meziantou.Analyzer",
+        checkId: "MA0051:Method too long",
+        Justification = "Test"
+    )]
     private static void GenerateTableFunctionMethod(MethodGeneration method, CodeBuilder source)
     {
         bool isCollection = IsMethodCollectionReturnType(method);
@@ -100,28 +122,40 @@ internal static class DatabaseSourceCodeGenerator
         {
             string functionParameters = BuildFunctionParameters(method);
             INamedTypeSymbol elementReturnType = GetMethodElementReturnType(method);
-            ImmutableArray<IParameterSymbol> columns = ExtractColumnsFromConstructor(elementReturnType);
+            ImmutableArray<IParameterSymbol> columns = ExtractColumnsFromConstructor(
+                elementReturnType
+            );
             string columnSelector = BuildFunctionColumns(columns: columns);
 
             string returnType = elementReturnType.ToDisplayString();
 
             BuildExtractLocalMethod(source: source, returnType: returnType, columns: columns);
 
-            source.AppendBlankLine()
-                  .AppendLine("DbCommand command = connection.CreateCommand();")
-                  .AppendLine($"command.CommandText = \"select {columnSelector} from {method.SqlObject.Name}({functionParameters})\";");
+            source
+                .AppendBlankLine()
+                .AppendLine("DbCommand command = connection.CreateCommand();")
+                .AppendLine(
+                    $"command.CommandText = \"select {columnSelector} from {method.SqlObject.Name}({functionParameters})\";"
+                );
             AppendCommandParameters(source: source, method: method, command: "command");
 
             string commandBehaviour = isCollection
                 ? nameof(CommandBehavior.Default)
                 : nameof(CommandBehavior.SingleRow);
 
-            using (source.AppendBlankLine()
-                         .StartBlock($"using (IDataReader reader = await command.ExecuteReaderAsync(behavior: CommandBehavior.{commandBehaviour}, cancellationToken: cancellationToken))"))
+            using (
+                source
+                    .AppendBlankLine()
+                    .StartBlock(
+                        $"using (IDataReader reader = await command.ExecuteReaderAsync(behavior: CommandBehavior.{commandBehaviour}, cancellationToken: cancellationToken))"
+                    )
+            )
             {
-                source.AppendLine(isCollection
-                                      ? "return Extract(reader: reader).ToArray();"
-                                      : "return Extract(reader: reader).FirstOrDefault();");
+                source.AppendLine(
+                    isCollection
+                        ? "return Extract(reader: reader).ToArray();"
+                        : "return Extract(reader: reader).FirstOrDefault();"
+                );
             }
         }
     }
@@ -133,10 +167,15 @@ internal static class DatabaseSourceCodeGenerator
 
     private static INamedTypeSymbol GetMethodElementReturnType(MethodGeneration method)
     {
-        return method.Method.ReturnType.ElementReturnType as INamedTypeSymbol ?? throw new InvalidOperationException("Return type is null");
+        return method.Method.ReturnType.ElementReturnType as INamedTypeSymbol
+            ?? throw new InvalidOperationException("Return type is null");
     }
 
-    private static void BuildExtractLocalMethod(CodeBuilder source, string returnType, in ImmutableArray<IParameterSymbol> columns)
+    private static void BuildExtractLocalMethod(
+        CodeBuilder source,
+        string returnType,
+        in ImmutableArray<IParameterSymbol> columns
+    )
     {
         Dictionary<string, string> generated = new(StringComparer.Ordinal);
 
@@ -156,8 +195,11 @@ internal static class DatabaseSourceCodeGenerator
                 continue;
             }
 
-            string methodName = ExtractColumns.GenerateExtractColumnMapper(source: source, typeName: typeName) ??
-                                throw new InvalidModelException($"Unsupported C# data type {typeName} for column {column.Name}, does it need a mapper?");
+            string methodName =
+                ExtractColumns.GenerateExtractColumnMapper(source: source, typeName: typeName)
+                ?? throw new InvalidModelException(
+                    $"Unsupported C# data type {typeName} for column {column.Name}, does it need a mapper?"
+                );
 
             generated.Add(key: typeName, value: methodName);
             source.AppendBlankLine();
@@ -167,7 +209,9 @@ internal static class DatabaseSourceCodeGenerator
         {
             foreach (string column in columns.Select(selector: static column => column.Name))
             {
-                source.AppendLine($"int ordinal{column} = reader.GetOrdinal(name: nameof({returnType}.{column}));");
+                source.AppendLine(
+                    $"int ordinal{column} = reader.GetOrdinal(name: nameof({returnType}.{column}));"
+                );
             }
 
             using (source.StartBlock("while (reader.Read())"))
@@ -177,25 +221,35 @@ internal static class DatabaseSourceCodeGenerator
                 for (int columnIndex = 0; columnIndex < columns.Length; columnIndex++)
                 {
                     bool isLast = columnIndex == columns.Length - 1;
-                    string end = isLast
-                        ? ");"
-                        : ",";
+                    string end = isLast ? ");" : ",";
 
                     IParameterSymbol column = columns[columnIndex];
 
-                    AppendConstructorParameter(source: source, column: column, end: end, generated: generated);
+                    AppendConstructorParameter(
+                        source: source,
+                        column: column,
+                        end: end,
+                        generated: generated
+                    );
                 }
             }
         }
     }
 
-    private static void AppendConstructorParameter(CodeBuilder source, IParameterSymbol column, string end, Dictionary<string, string> generated)
+    private static void AppendConstructorParameter(
+        CodeBuilder source,
+        IParameterSymbol column,
+        string end,
+        Dictionary<string, string> generated
+    )
     {
         MapperInfo? mapperInfo = column.GetMapperInfo();
 
         if (mapperInfo is not null)
         {
-            source.AppendLine($"                         {column.Name}: {mapperInfo.MapperSymbol.ToDisplayString()}.MapFromDb(reader.GetValue(ordinal{column.Name})){end}");
+            source.AppendLine(
+                $"                         {column.Name}: {mapperInfo.MapperSymbol.ToDisplayString()}.MapFromDb(reader.GetValue(ordinal{column.Name})){end}"
+            );
         }
         else
         {
@@ -203,10 +257,14 @@ internal static class DatabaseSourceCodeGenerator
 
             if (!generated.TryGetValue(key: typeName, out string? mapper))
             {
-                throw new InvalidModelException($"Unsupported C# data type {typeName} for column {column.Name}, does it need a mapper?");
+                throw new InvalidModelException(
+                    $"Unsupported C# data type {typeName} for column {column.Name}, does it need a mapper?"
+                );
             }
 
-            source.AppendLine($"                         {column.Name}: {mapper}(reader.GetValue(ordinal{column.Name}), @\"{column.Name}\"){end}");
+            source.AppendLine(
+                $"                         {column.Name}: {mapper}(reader.GetValue(ordinal{column.Name}), @\"{column.Name}\"){end}"
+            );
         }
     }
 
@@ -215,7 +273,9 @@ internal static class DatabaseSourceCodeGenerator
         return string.Join(separator: ", ", columns.Select(selector: static p => p.Name));
     }
 
-    private static ImmutableArray<IParameterSymbol> ExtractColumnsFromConstructor(INamedTypeSymbol returnType)
+    private static ImmutableArray<IParameterSymbol> ExtractColumnsFromConstructor(
+        INamedTypeSymbol returnType
+    )
     {
         ImmutableArray<IParameterSymbol> columns = GetColumns(returnType);
 
@@ -224,9 +284,10 @@ internal static class DatabaseSourceCodeGenerator
 
     private static ImmutableArray<IParameterSymbol> GetColumns(INamedTypeSymbol returnType)
     {
-        return returnType.Constructors.Where(c => c.Parameters.Length > 0 && !IsSameType(c))
-                         .Select(selector: c => c.Parameters)
-                         .First();
+        return returnType
+            .Constructors.Where(c => c.Parameters.Length > 0 && !IsSameType(c))
+            .Select(selector: c => c.Parameters)
+            .First();
 
         bool IsSameType(IMethodSymbol constructor)
         {
@@ -240,14 +301,17 @@ internal static class DatabaseSourceCodeGenerator
                 return false;
             }
 
-            return constructor.Parameters.Length == 1 && StringComparer.Ordinal.Equals(GetParameter(constructor: constructor, index: 0), returnType.ToDisplayString());
+            return constructor.Parameters.Length == 1
+                && StringComparer.Ordinal.Equals(
+                    GetParameter(constructor: constructor, index: 0),
+                    returnType.ToDisplayString()
+                );
         }
     }
 
     private static string GetParameter(IMethodSymbol constructor, int index)
     {
-        return constructor.Parameters[index]
-                          .Type.ToDisplayString();
+        return constructor.Parameters[index].Type.ToDisplayString();
     }
 
     private static void GenerateScalarFunctionMethod(MethodGeneration method, CodeBuilder source)
@@ -256,13 +320,19 @@ internal static class DatabaseSourceCodeGenerator
         {
             string functionParameters = BuildFunctionParameters(method);
 
-            source.AppendLine("DbCommand command = connection.CreateCommand();")
-                  .AppendLine($"command.CommandText = \"select {method.SqlObject.Name}({functionParameters})\";");
+            source
+                .AppendLine("DbCommand command = connection.CreateCommand();")
+                .AppendLine(
+                    $"command.CommandText = \"select {method.SqlObject.Name}({functionParameters})\";"
+                );
             AppendCommandParameters(source: source, method: method, command: "command");
 
-            source.AppendBlankLine()
-                  .AppendLine("object? result = await command.ExecuteScalarAsync(cancellationToken: cancellationToken);")
-                  .AppendBlankLine();
+            source
+                .AppendBlankLine()
+                .AppendLine(
+                    "object? result = await command.ExecuteScalarAsync(cancellationToken: cancellationToken);"
+                )
+                .AppendBlankLine();
 
             if (method.Method.ReturnType.ElementReturnType is null)
             {
@@ -272,30 +342,41 @@ internal static class DatabaseSourceCodeGenerator
             using (source.StartBlock(text: "if (result is null || Convert.IsDBNull(result))"))
             {
                 // TODO: find a way to move the exception out
-                source.AppendLine(method.Method.ReturnType.IsNullable
-                                      ? "return null;"
-                                      : "throw new InvalidOperationException(\"No result returned.\");");
+                source.AppendLine(
+                    method.Method.ReturnType.IsNullable
+                        ? "return null;"
+                        : "throw new InvalidOperationException(\"No result returned.\");"
+                );
             }
 
             source.AppendBlankLine();
 
             if (method.Method.ReturnType.MapperInfo is not null)
             {
-                source.AppendLine($"return {method.Method.ReturnType.MapperInfo.MapperSymbol.ToDisplayString()}.MapFromDb(value: result);");
+                source.AppendLine(
+                    $"return {method.Method.ReturnType.MapperInfo.MapperSymbol.ToDisplayString()}.MapFromDb(value: result);"
+                );
             }
             else
             {
                 INamedTypeSymbol elementReturnType = GetMethodElementReturnType(method);
                 string typeName = elementReturnType.ToDisplayString();
-                string returnString = ExtractColumns.GenerateReturn(typeName: typeName, variable: "result") ??
-                                      throw new InvalidModelException($"Unsupported C# data type {typeName} for return type, does it need a mapper?");
+                string returnString =
+                    ExtractColumns.GenerateReturn(typeName: typeName, variable: "result")
+                    ?? throw new InvalidModelException(
+                        $"Unsupported C# data type {typeName} for return type, does it need a mapper?"
+                    );
 
                 source.AppendLine(returnString);
             }
         }
     }
 
-    private static void AppendCommandParameters(CodeBuilder source, MethodGeneration method, string command)
+    private static void AppendCommandParameters(
+        CodeBuilder source,
+        MethodGeneration method,
+        string command
+    )
     {
         int parameterIndex = 0;
 
@@ -303,14 +384,24 @@ internal static class DatabaseSourceCodeGenerator
         {
             if (parameter.Usage == MethodParameterUsage.DB)
             {
-                CreateParameter(source: source, command: command, parameterIndex: parameterIndex, parameter: parameter);
+                CreateParameter(
+                    source: source,
+                    command: command,
+                    parameterIndex: parameterIndex,
+                    parameter: parameter
+                );
 
                 ++parameterIndex;
             }
         }
     }
 
-    private static void CreateParameter(CodeBuilder source, string command, int parameterIndex, MethodParameter parameter)
+    private static void CreateParameter(
+        CodeBuilder source,
+        string command,
+        int parameterIndex,
+        MethodParameter parameter
+    )
     {
         source.AppendLine($"DbParameter p{parameterIndex} = command.CreateParameter();");
 
@@ -325,28 +416,43 @@ internal static class DatabaseSourceCodeGenerator
 
                 using (source.StartBlock("else"))
                 {
-                    source.AppendLine($"{parameter.MapperInfo.MapperSymbol.ToDisplayString()}.MapToDb({parameter.Name}, p{parameterIndex});");
+                    source.AppendLine(
+                        $"{parameter.MapperInfo.MapperSymbol.ToDisplayString()}.MapToDb({parameter.Name}, p{parameterIndex});"
+                    );
                 }
             }
             else
             {
-                source.AppendLine($"{parameter.MapperInfo.MapperSymbol.ToDisplayString()}.MapToDb({parameter.Name}, p{parameterIndex});");
+                source.AppendLine(
+                    $"{parameter.MapperInfo.MapperSymbol.ToDisplayString()}.MapToDb({parameter.Name}, p{parameterIndex});"
+                );
             }
         }
         else
         {
             if (parameter.Type is IParameterSymbol ps)
             {
-                ParameterSetter.SetParamerterInfo(source: source, $"p{parameterIndex}", parameterName: parameter.Name, ps.Type.ToDisplayString());
+                ParameterSetter.SetParamerterInfo(
+                    source: source,
+                    $"p{parameterIndex}",
+                    parameterName: parameter.Name,
+                    ps.Type.ToDisplayString()
+                );
             }
             else
             {
-                ParameterSetter.SetParamerterInfo(source: source, $"p{parameterIndex}", parameterName: parameter.Name, parameter.Type.ToDisplayString());
+                ParameterSetter.SetParamerterInfo(
+                    source: source,
+                    $"p{parameterIndex}",
+                    parameterName: parameter.Name,
+                    parameter.Type.ToDisplayString()
+                );
             }
         }
 
-        source.AppendLine($"p{parameterIndex}.ParameterName = \"@{parameter.Name}\";")
-              .AppendLine($"{command}.Parameters.Add(p{parameterIndex});");
+        source
+            .AppendLine($"p{parameterIndex}.ParameterName = \"@{parameter.Name}\";")
+            .AppendLine($"{command}.Parameters.Add(p{parameterIndex});");
     }
 
     private static string BuildFunctionParameters(MethodGeneration method)
@@ -373,13 +479,13 @@ internal static class DatabaseSourceCodeGenerator
     [SuppressMessage(category: "", checkId: "ENUM001", Justification = "Temp code")]
     private static IDisposable BuildFunctionSignature(CodeBuilder source, MethodToGenerate method)
     {
-        string methodStaticModifier = method.IsStatic
-            ? "static "
-            : string.Empty;
+        string methodStaticModifier = method.IsStatic ? "static " : string.Empty;
 
         source.AppendGeneratedCodeAttribute();
         ISymbol methodReturnType = GetMethodReturnType(method);
-        StringBuilder stringBuilder = new($"{method.AccessType.ToKeywords()} {methodStaticModifier}async partial {methodReturnType.ToDisplayString()} {method.Name}(");
+        StringBuilder stringBuilder = new(
+            $"{method.AccessType.ToKeywords()} {methodStaticModifier}async partial {methodReturnType.ToDisplayString()} {method.Name}("
+        );
 
         bool first = true;
 
@@ -396,9 +502,7 @@ internal static class DatabaseSourceCodeGenerator
 
             if (parameter.Type is IParameterSymbol ps)
             {
-                stringBuilder.Append(ps.Type.ToDisplayString())
-                             .Append(' ')
-                             .Append(parameter.Name);
+                stringBuilder.Append(ps.Type.ToDisplayString()).Append(' ').Append(parameter.Name);
             }
             else
             {
@@ -416,6 +520,11 @@ internal static class DatabaseSourceCodeGenerator
         return method.ReturnType.ReturnType;
     }
 
+    [SuppressMessage(
+        "Meziantou.Analyzer",
+        "MA0051: Method is too long",
+        Justification = "To refactor"
+    )]
     private static void GenerateStoredProcedureMethod(MethodGeneration method, CodeBuilder source)
     {
         using (BuildFunctionSignature(source: source, method: method))
@@ -423,7 +532,9 @@ internal static class DatabaseSourceCodeGenerator
             if (method.Method.ReturnType.ElementReturnType is not null)
             {
                 INamedTypeSymbol elementReturnType = GetMethodElementReturnType(method);
-                ImmutableArray<IParameterSymbol> columns = ExtractColumnsFromConstructor(elementReturnType);
+                ImmutableArray<IParameterSymbol> columns = ExtractColumnsFromConstructor(
+                    elementReturnType
+                );
 
                 string returnType = elementReturnType.ToDisplayString();
 
@@ -436,14 +547,23 @@ internal static class DatabaseSourceCodeGenerator
             switch (method.SqlObject.SqlDialect)
             {
                 case SqlDialect.GENERIC:
-                    source.AppendLine($"command.CommandText = \"CALL {method.SqlObject.Name}({functionParameters})\";");
+                    source.AppendLine(
+                        $"command.CommandText = \"CALL {method.SqlObject.Name}({functionParameters})\";"
+                    );
 
                     break;
                 case SqlDialect.MICROSOFT_SQL_SERVER:
-                    source.AppendLine($"command.CommandText = \"EXEC {method.SqlObject.Name} {functionParameters}\";");
+                    source.AppendLine(
+                        $"command.CommandText = \"EXEC {method.SqlObject.Name} {functionParameters}\";"
+                    );
 
                     break;
-                default: throw new ArgumentOutOfRangeException(nameof(method), actualValue: method.SqlObject.SqlDialect, message: "Unsupported SQL dialect");
+                default:
+                    throw new ArgumentOutOfRangeException(
+                        nameof(method),
+                        actualValue: method.SqlObject.SqlDialect,
+                        message: "Unsupported SQL dialect"
+                    );
             }
 
             AppendCommandParameters(source: source, method: method, command: "command");
@@ -459,12 +579,19 @@ internal static class DatabaseSourceCodeGenerator
                     ? nameof(CommandBehavior.Default)
                     : nameof(CommandBehavior.SingleRow);
 
-                using (source.AppendBlankLine()
-                             .StartBlock($"using (IDataReader reader = await command.ExecuteReaderAsync(behavior: CommandBehavior.{commandBehaviour}, cancellationToken: cancellationToken))"))
+                using (
+                    source
+                        .AppendBlankLine()
+                        .StartBlock(
+                            $"using (IDataReader reader = await command.ExecuteReaderAsync(behavior: CommandBehavior.{commandBehaviour}, cancellationToken: cancellationToken))"
+                        )
+                )
                 {
-                    source.AppendLine(isCollection
-                                          ? "return Extract(reader: reader).ToArray();"
-                                          : "return Extract(reader: reader).FirstOrDefault();");
+                    source.AppendLine(
+                        isCollection
+                            ? "return Extract(reader: reader).ToArray();"
+                            : "return Extract(reader: reader).FirstOrDefault();"
+                    );
                 }
             }
         }

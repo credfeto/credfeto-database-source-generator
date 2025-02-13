@@ -4,7 +4,13 @@ namespace Credfeto.Database.Source.Generation.Models;
 
 internal sealed class MethodReturnType
 {
-    public MethodReturnType(ISymbol returnType, ISymbol? collectionReturnType, ISymbol? elementReturnType, MapperInfo? mapperInfo, bool isNullable)
+    public MethodReturnType(
+        ISymbol returnType,
+        ISymbol? collectionReturnType,
+        ISymbol? elementReturnType,
+        MapperInfo? mapperInfo,
+        bool isNullable
+    )
     {
         this.ReturnType = returnType;
         this.CollectionReturnType = collectionReturnType;

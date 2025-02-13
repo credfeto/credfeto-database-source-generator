@@ -4,7 +4,13 @@ namespace Credfeto.Database.Source.Generation.Models;
 
 internal sealed class MethodToGenerate
 {
-    public MethodToGenerate(AccessType accessType, bool isStatic, string name, MethodReturnType returnType, IReadOnlyList<MethodParameter> parameters)
+    public MethodToGenerate(
+        AccessType accessType,
+        bool isStatic,
+        string name,
+        MethodReturnType returnType,
+        IReadOnlyList<MethodParameter> parameters
+    )
     {
         this.AccessType = accessType;
         this.IsStatic = isStatic;

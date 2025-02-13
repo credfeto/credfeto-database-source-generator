@@ -11,44 +11,90 @@ namespace Credfeto.Database.Source.Generation.Helpers;
 
 internal static class AttributeMappings
 {
-    public static SqlObject? GetSqlObject(SemanticModel semanticModel, MethodDeclarationSyntax methodDeclarationSyntax, CancellationToken cancellationToken)
+    public static SqlObject? GetSqlObject(
+        SemanticModel semanticModel,
+        MethodDeclarationSyntax methodDeclarationSyntax,
+        CancellationToken cancellationToken
+    )
     {
-        return methodDeclarationSyntax.AttributeLists.SelectMany(selector: x => x.Attributes)
-                                      .Select(x => CreateSqlObject(semanticModel: semanticModel, attributeSyntax: x, cancellationToken: cancellationToken))
-                                      .RemoveNulls()
-                                      .FirstOrDefault();
+        return methodDeclarationSyntax
+            .AttributeLists.SelectMany(selector: x => x.Attributes)
+            .Select(x =>
+                CreateSqlObject(
+                    semanticModel: semanticModel,
+                    attributeSyntax: x,
+                    cancellationToken: cancellationToken
+                )
+            )
+            .RemoveNulls()
+            .FirstOrDefault();
     }
 
-    public static MapperInfo? GetMapperInfo(SemanticModel semanticModel, MethodDeclarationSyntax methodDeclarationSyntax, CancellationToken cancellationToken)
+    public static MapperInfo? GetMapperInfo(
+        SemanticModel semanticModel,
+        MethodDeclarationSyntax methodDeclarationSyntax,
+        CancellationToken cancellationToken
+    )
     {
-        return GetMapperInfo(semanticModel: semanticModel, attributeLists: methodDeclarationSyntax.AttributeLists, cancellationToken: cancellationToken);
+        return GetMapperInfo(
+            semanticModel: semanticModel,
+            attributeLists: methodDeclarationSyntax.AttributeLists,
+            cancellationToken: cancellationToken
+        );
     }
 
     public static MapperInfo? GetMapperInfo(this IParameterSymbol parameterSymbol)
     {
-        return parameterSymbol.GetAttributes()
-                              .Select(static x => x.AttributeClass)
-                              .RemoveNulls()
-                              .Select(CreateMapperInfo2)
-                              .FirstOrDefault();
+        return parameterSymbol
+            .GetAttributes()
+            .Select(static x => x.AttributeClass)
+            .RemoveNulls()
+            .Select(CreateMapperInfo2)
+            .FirstOrDefault();
     }
 
-    public static MapperInfo? GetMapperInfo(SemanticModel semanticModel, ParameterSyntax parameterSyntax, CancellationToken cancellationToken)
+    public static MapperInfo? GetMapperInfo(
+        SemanticModel semanticModel,
+        ParameterSyntax parameterSyntax,
+        CancellationToken cancellationToken
+    )
     {
-        return GetMapperInfo(semanticModel: semanticModel, attributeLists: parameterSyntax.AttributeLists, cancellationToken: cancellationToken);
+        return GetMapperInfo(
+            semanticModel: semanticModel,
+            attributeLists: parameterSyntax.AttributeLists,
+            cancellationToken: cancellationToken
+        );
     }
 
-    private static MapperInfo? GetMapperInfo(SemanticModel semanticModel, in SyntaxList<AttributeListSyntax> attributeLists, CancellationToken cancellationToken)
+    private static MapperInfo? GetMapperInfo(
+        SemanticModel semanticModel,
+        in SyntaxList<AttributeListSyntax> attributeLists,
+        CancellationToken cancellationToken
+    )
     {
-        return attributeLists.SelectMany(selector: x => x.Attributes)
-                             .Select(x => CreateMapperInfo(semanticModel: semanticModel, attributeSyntax: x, cancellationToken: cancellationToken))
-                             .RemoveNulls()
-                             .FirstOrDefault();
+        return attributeLists
+            .SelectMany(selector: x => x.Attributes)
+            .Select(x =>
+                CreateMapperInfo(
+                    semanticModel: semanticModel,
+                    attributeSyntax: x,
+                    cancellationToken: cancellationToken
+                )
+            )
+            .RemoveNulls()
+            .FirstOrDefault();
     }
 
-    private static MapperInfo? CreateMapperInfo(SemanticModel semanticModel, AttributeSyntax attributeSyntax, CancellationToken cancellationToken)
+    private static MapperInfo? CreateMapperInfo(
+        SemanticModel semanticModel,
+        AttributeSyntax attributeSyntax,
+        CancellationToken cancellationToken
+    )
     {
-        ISymbol? symbol = semanticModel.GetSymbol(node: attributeSyntax, cancellationToken: cancellationToken);
+        ISymbol? symbol = semanticModel.GetSymbol(
+            node: attributeSyntax,
+            cancellationToken: cancellationToken
+        );
 
         return CreateMapperInfo(symbol);
     }
@@ -104,7 +150,12 @@ internal static class AttributeMappings
 
         string name = containingType.OriginalDefinition.ToDisplayString();
 
-        if (!StringComparer.Ordinal.Equals(x: name, y: "Credfeto.Database.Interfaces.SqlFieldMapAttribute<TMapper, TDataType>"))
+        if (
+            !StringComparer.Ordinal.Equals(
+                x: name,
+                y: "Credfeto.Database.Interfaces.SqlFieldMapAttribute<TMapper, TDataType>"
+            )
+        )
         {
             return null;
         }
@@ -113,22 +164,33 @@ internal static class AttributeMappings
 
         if (mapperSymbol.Kind == SymbolKind.ErrorType)
         {
-            throw new InvalidModelException($"Unable to determine the mapped type for {mapperSymbol.ToDisplayString()}");
+            throw new InvalidModelException(
+                $"Unable to determine the mapped type for {mapperSymbol.ToDisplayString()}"
+            );
         }
 
         ISymbol mappedSymbol = containingType.TypeArguments[1];
 
         if (mappedSymbol.Kind == SymbolKind.ErrorType)
         {
-            throw new InvalidModelException($"Unable to determine the mapped type for {mappedSymbol.ToDisplayString()}");
+            throw new InvalidModelException(
+                $"Unable to determine the mapped type for {mappedSymbol.ToDisplayString()}"
+            );
         }
 
         return new(mapperSymbol: mapperSymbol, mappedSymbol: mappedSymbol);
     }
 
-    private static SqlObject? CreateSqlObject(SemanticModel semanticModel, AttributeSyntax attributeSyntax, CancellationToken cancellationToken)
+    private static SqlObject? CreateSqlObject(
+        SemanticModel semanticModel,
+        AttributeSyntax attributeSyntax,
+        CancellationToken cancellationToken
+    )
     {
-        ISymbol? symbol = semanticModel.GetSymbol(node: attributeSyntax, cancellationToken: cancellationToken);
+        ISymbol? symbol = semanticModel.GetSymbol(
+            node: attributeSyntax,
+            cancellationToken: cancellationToken
+        );
 
         if (symbol is null)
         {
@@ -142,7 +204,12 @@ internal static class AttributeMappings
 
         string name = symbol.ContainingType.ToDisplayString();
 
-        if (!StringComparer.Ordinal.Equals(x: name, y: "Credfeto.Database.Interfaces.SqlObjectMapAttribute"))
+        if (
+            !StringComparer.Ordinal.Equals(
+                x: name,
+                y: "Credfeto.Database.Interfaces.SqlObjectMapAttribute"
+            )
+        )
         {
             return null;
         }
@@ -172,7 +239,11 @@ internal static class AttributeMappings
             return null;
         }
 
-        return new(RemoveQuotes(objectName), sqlObjectType: sqlObjectType.Value, sqlDialect: sqlDialect.Value);
+        return new(
+            RemoveQuotes(objectName),
+            sqlObjectType: sqlObjectType.Value,
+            sqlDialect: sqlDialect.Value
+        );
     }
 
     private static SqlObjectType? GetSqlObjectType(string source)
@@ -201,13 +272,15 @@ internal static class AttributeMappings
 
     private static string GetArgumentListItem(AttributeSyntax attributeSyntax, int item)
     {
-        return attributeSyntax.ArgumentList?.Arguments[item]
-                              .Expression.ToString() ?? string.Empty;
+        return attributeSyntax.ArgumentList?.Arguments[item].Expression.ToString() ?? string.Empty;
     }
 
     private static string RemoveQuotes(string objectName)
     {
-        if (objectName.StartsWith(value: "\"", comparisonType: StringComparison.Ordinal) && objectName.EndsWith(value: "\"", comparisonType: StringComparison.Ordinal))
+        if (
+            objectName.StartsWith(value: "\"", comparisonType: StringComparison.Ordinal)
+            && objectName.EndsWith(value: "\"", comparisonType: StringComparison.Ordinal)
+        )
         {
             return objectName.Substring(startIndex: 1, objectName.Length - 2);
         }

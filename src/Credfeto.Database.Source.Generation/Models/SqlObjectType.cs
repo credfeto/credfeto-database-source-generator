@@ -4,5 +4,5 @@ internal enum SqlObjectType
 {
     SCALAR_FUNCTION,
     TABLE_FUNCTION,
-    STORED_PROCEDURE
+    STORED_PROCEDURE,
 }

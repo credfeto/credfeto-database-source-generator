@@ -36,14 +36,20 @@ internal static class ExtractColumns
             "string" => ExtractString(source: source),
             "string?" => ExtractNullableString(source: source),
             nameof(System) + "." + nameof(DateTime) => ExtractDateTime(source: source),
-            nameof(System) + "." + nameof(DateTime) + "?" => ExtractNullableDateTime(source: source),
+            nameof(System) + "." + nameof(DateTime) + "?" => ExtractNullableDateTime(
+                source: source
+            ),
             nameof(System) + "." + nameof(DateTimeOffset) => ExtractDateTimeOffset(source: source),
-            nameof(System) + "." + nameof(DateTimeOffset) + "?" => ExtractNullableDateTimeOffset(source: source),
+            nameof(System) + "." + nameof(DateTimeOffset) + "?" => ExtractNullableDateTimeOffset(
+                source: source
+            ),
             nameof(System) + "." + nameof(TimeSpan) => ExtractTimeSpan(source: source),
-            nameof(System) + "." + nameof(TimeSpan) + "?" => ExtractNullableTimeSpan(source: source),
+            nameof(System) + "." + nameof(TimeSpan) + "?" => ExtractNullableTimeSpan(
+                source: source
+            ),
             nameof(System) + "." + nameof(Guid) => ExtractGuid(source: source),
             nameof(System) + "." + nameof(Guid) + "?" => ExtractNullableGuid(source: source),
-            _ => null
+            _ => null,
         };
     }
 
@@ -65,31 +71,42 @@ internal static class ExtractColumns
             "decimal" => ReturnDecimal(variable: variable),
             "string" => ReturnString(variable: variable),
             nameof(System) + "." + nameof(DateTime) => ReturnDateTime(variable: variable),
-            nameof(System) + "." + nameof(DateTimeOffset) => ReturnDateTimeOffset(variable: variable),
+            nameof(System) + "." + nameof(DateTimeOffset) => ReturnDateTimeOffset(
+                variable: variable
+            ),
             nameof(System) + "." + nameof(TimeSpan) => ReturnTimeSpan(variable: variable),
             nameof(System) + "." + nameof(Guid) => ReturnGuid(variable: variable),
-            _ => null
+            _ => null,
         };
     }
 
-    private static string ExtractCommon(CodeBuilder source, string typeName, string methodName, bool isNullable, Func<string, string> getReturnStatement)
+    private static string ExtractCommon(
+        CodeBuilder source,
+        string typeName,
+        string methodName,
+        bool isNullable,
+        Func<string, string> getReturnStatement
+    )
     {
         const string valueParameter = "value";
-        string nullableMarker = isNullable
-            ? "?"
-            : string.Empty;
+        string nullableMarker = isNullable ? "?" : string.Empty;
 
-        using (source.StartBlock($"static {typeName}{nullableMarker} {methodName}(object {valueParameter}, string columName)"))
+        using (
+            source.StartBlock(
+                $"static {typeName}{nullableMarker} {methodName}(object {valueParameter}, string columName)"
+            )
+        )
         {
             using (source.StartBlock("if (value is null || Convert.IsDBNull(value))"))
             {
-                source.AppendLine(isNullable
-                                      ? "return null;"
-                                      : "throw new DataException($\"Column {columName} is not nullable\");");
+                source.AppendLine(
+                    isNullable
+                        ? "return null;"
+                        : "throw new DataException($\"Column {columName} is not nullable\");"
+                );
             }
 
-            source.AppendBlankLine()
-                  .AppendLine(getReturnStatement(valueParameter));
+            source.AppendBlankLine().AppendLine(getReturnStatement(valueParameter));
         }
 
         return methodName;
@@ -185,171 +202,375 @@ internal static class ExtractColumns
 
     private static string ExtractBool(CodeBuilder source)
     {
-        return ExtractCommon(source: source, typeName: "bool", nameof(ExtractBool), isNullable: false, getReturnStatement: ReturnBool);
+        return ExtractCommon(
+            source: source,
+            typeName: "bool",
+            nameof(ExtractBool),
+            isNullable: false,
+            getReturnStatement: ReturnBool
+        );
     }
 
     private static string ExtractNullableBool(CodeBuilder source)
     {
-        return ExtractCommon(source: source, typeName: "bool", nameof(ExtractNullableBool), isNullable: true, getReturnStatement: ReturnBool);
+        return ExtractCommon(
+            source: source,
+            typeName: "bool",
+            nameof(ExtractNullableBool),
+            isNullable: true,
+            getReturnStatement: ReturnBool
+        );
     }
 
     private static string ExtractInt8(CodeBuilder source)
     {
-        return ExtractCommon(source: source, typeName: "sbyte", nameof(ExtractInt8), isNullable: false, getReturnStatement: ReturnInt8);
+        return ExtractCommon(
+            source: source,
+            typeName: "sbyte",
+            nameof(ExtractInt8),
+            isNullable: false,
+            getReturnStatement: ReturnInt8
+        );
     }
 
     private static string ExtractNullableInt8(CodeBuilder source)
     {
-        return ExtractCommon(source: source, typeName: "sbyte", nameof(ExtractNullableInt8), isNullable: true, getReturnStatement: ReturnInt8);
+        return ExtractCommon(
+            source: source,
+            typeName: "sbyte",
+            nameof(ExtractNullableInt8),
+            isNullable: true,
+            getReturnStatement: ReturnInt8
+        );
     }
 
     private static string ExtractUInt8(CodeBuilder source)
     {
-        return ExtractCommon(source: source, typeName: "byte", nameof(ExtractUInt8), isNullable: false, getReturnStatement: ReturnUInt8);
+        return ExtractCommon(
+            source: source,
+            typeName: "byte",
+            nameof(ExtractUInt8),
+            isNullable: false,
+            getReturnStatement: ReturnUInt8
+        );
     }
 
     private static string ExtractNullableUInt8(CodeBuilder source)
     {
-        return ExtractCommon(source: source, typeName: "byte", nameof(ExtractNullableUInt8), isNullable: true, getReturnStatement: ReturnUInt8);
+        return ExtractCommon(
+            source: source,
+            typeName: "byte",
+            nameof(ExtractNullableUInt8),
+            isNullable: true,
+            getReturnStatement: ReturnUInt8
+        );
     }
 
     private static string ExtractInt16(CodeBuilder source)
     {
-        return ExtractCommon(source: source, typeName: "short", nameof(ExtractInt16), isNullable: false, getReturnStatement: ReturnInt16);
+        return ExtractCommon(
+            source: source,
+            typeName: "short",
+            nameof(ExtractInt16),
+            isNullable: false,
+            getReturnStatement: ReturnInt16
+        );
     }
 
     private static string ExtractNullableInt16(CodeBuilder source)
     {
-        return ExtractCommon(source: source, typeName: "short", nameof(ExtractNullableInt16), isNullable: true, getReturnStatement: ReturnInt16);
+        return ExtractCommon(
+            source: source,
+            typeName: "short",
+            nameof(ExtractNullableInt16),
+            isNullable: true,
+            getReturnStatement: ReturnInt16
+        );
     }
 
     private static string ExtractUInt16(CodeBuilder source)
     {
-        return ExtractCommon(source: source, typeName: "ushort", nameof(ExtractUInt16), isNullable: false, getReturnStatement: ReturnUInt16);
+        return ExtractCommon(
+            source: source,
+            typeName: "ushort",
+            nameof(ExtractUInt16),
+            isNullable: false,
+            getReturnStatement: ReturnUInt16
+        );
     }
 
     private static string ExtractNullableUInt16(CodeBuilder source)
     {
-        return ExtractCommon(source: source, typeName: "ushort", nameof(ExtractNullableUInt16), isNullable: true, getReturnStatement: ReturnUInt16);
+        return ExtractCommon(
+            source: source,
+            typeName: "ushort",
+            nameof(ExtractNullableUInt16),
+            isNullable: true,
+            getReturnStatement: ReturnUInt16
+        );
     }
 
     private static string ExtractInt32(CodeBuilder source)
     {
-        return ExtractCommon(source: source, typeName: "int", nameof(ExtractInt32), isNullable: false, getReturnStatement: ReturnInt32);
+        return ExtractCommon(
+            source: source,
+            typeName: "int",
+            nameof(ExtractInt32),
+            isNullable: false,
+            getReturnStatement: ReturnInt32
+        );
     }
 
     private static string ExtractNullableInt32(CodeBuilder source)
     {
-        return ExtractCommon(source: source, typeName: "int", nameof(ExtractNullableInt32), isNullable: true, getReturnStatement: ReturnInt32);
+        return ExtractCommon(
+            source: source,
+            typeName: "int",
+            nameof(ExtractNullableInt32),
+            isNullable: true,
+            getReturnStatement: ReturnInt32
+        );
     }
 
     private static string ExtractUInt32(CodeBuilder source)
     {
-        return ExtractCommon(source: source, typeName: "uint", nameof(ExtractUInt32), isNullable: false, getReturnStatement: ReturnUInt32);
+        return ExtractCommon(
+            source: source,
+            typeName: "uint",
+            nameof(ExtractUInt32),
+            isNullable: false,
+            getReturnStatement: ReturnUInt32
+        );
     }
 
     private static string ExtractNullableUInt32(CodeBuilder source)
     {
-        return ExtractCommon(source: source, typeName: "uint", nameof(ExtractNullableUInt32), isNullable: true, getReturnStatement: ReturnUInt32);
+        return ExtractCommon(
+            source: source,
+            typeName: "uint",
+            nameof(ExtractNullableUInt32),
+            isNullable: true,
+            getReturnStatement: ReturnUInt32
+        );
     }
 
     private static string ExtractInt64(CodeBuilder source)
     {
-        return ExtractCommon(source: source, typeName: "long", nameof(ExtractInt64), isNullable: false, getReturnStatement: ReturnInt64);
+        return ExtractCommon(
+            source: source,
+            typeName: "long",
+            nameof(ExtractInt64),
+            isNullable: false,
+            getReturnStatement: ReturnInt64
+        );
     }
 
     private static string ExtractNullableInt64(CodeBuilder source)
     {
-        return ExtractCommon(source: source, typeName: "long", nameof(ExtractInt64), isNullable: true, getReturnStatement: ReturnInt64);
+        return ExtractCommon(
+            source: source,
+            typeName: "long",
+            nameof(ExtractInt64),
+            isNullable: true,
+            getReturnStatement: ReturnInt64
+        );
     }
 
     private static string ExtractUInt64(CodeBuilder source)
     {
-        return ExtractCommon(source: source, typeName: "ulong", nameof(ExtractUInt64), isNullable: false, getReturnStatement: ReturnUInt64);
+        return ExtractCommon(
+            source: source,
+            typeName: "ulong",
+            nameof(ExtractUInt64),
+            isNullable: false,
+            getReturnStatement: ReturnUInt64
+        );
     }
 
     private static string ExtractNullableUInt64(CodeBuilder source)
     {
-        return ExtractCommon(source: source, typeName: "ulong", nameof(ExtractUInt64), isNullable: true, getReturnStatement: ReturnUInt64);
+        return ExtractCommon(
+            source: source,
+            typeName: "ulong",
+            nameof(ExtractUInt64),
+            isNullable: true,
+            getReturnStatement: ReturnUInt64
+        );
     }
 
     private static string ExtractFloat(CodeBuilder source)
     {
-        return ExtractCommon(source: source, typeName: "float", nameof(ExtractFloat), isNullable: false, getReturnStatement: ReturnFloat);
+        return ExtractCommon(
+            source: source,
+            typeName: "float",
+            nameof(ExtractFloat),
+            isNullable: false,
+            getReturnStatement: ReturnFloat
+        );
     }
 
     private static string ExtractNullableFloat(CodeBuilder source)
     {
-        return ExtractCommon(source: source, typeName: "float", nameof(ExtractNullableFloat), isNullable: true, getReturnStatement: ReturnFloat);
+        return ExtractCommon(
+            source: source,
+            typeName: "float",
+            nameof(ExtractNullableFloat),
+            isNullable: true,
+            getReturnStatement: ReturnFloat
+        );
     }
 
     private static string ExtractDouble(CodeBuilder source)
     {
-        return ExtractCommon(source: source, typeName: "double", nameof(ExtractDouble), isNullable: false, getReturnStatement: ReturnDouble);
+        return ExtractCommon(
+            source: source,
+            typeName: "double",
+            nameof(ExtractDouble),
+            isNullable: false,
+            getReturnStatement: ReturnDouble
+        );
     }
 
     private static string ExtractNullableDouble(CodeBuilder source)
     {
-        return ExtractCommon(source: source, typeName: "double", nameof(ExtractNullableDouble), isNullable: true, getReturnStatement: ReturnDouble);
+        return ExtractCommon(
+            source: source,
+            typeName: "double",
+            nameof(ExtractNullableDouble),
+            isNullable: true,
+            getReturnStatement: ReturnDouble
+        );
     }
 
     private static string ExtractDecimal(CodeBuilder source)
     {
-        return ExtractCommon(source: source, typeName: "decimal", nameof(ExtractDecimal), isNullable: false, getReturnStatement: ReturnDecimal);
+        return ExtractCommon(
+            source: source,
+            typeName: "decimal",
+            nameof(ExtractDecimal),
+            isNullable: false,
+            getReturnStatement: ReturnDecimal
+        );
     }
 
     private static string ExtractNullableDecimal(CodeBuilder source)
     {
-        return ExtractCommon(source: source, typeName: "decimal", nameof(ExtractNullableDecimal), isNullable: true, getReturnStatement: ReturnDecimal);
+        return ExtractCommon(
+            source: source,
+            typeName: "decimal",
+            nameof(ExtractNullableDecimal),
+            isNullable: true,
+            getReturnStatement: ReturnDecimal
+        );
     }
 
     private static string ExtractString(CodeBuilder source)
     {
-        return ExtractCommon(source: source, typeName: "string", nameof(ExtractString), isNullable: false, getReturnStatement: ReturnString);
+        return ExtractCommon(
+            source: source,
+            typeName: "string",
+            nameof(ExtractString),
+            isNullable: false,
+            getReturnStatement: ReturnString
+        );
     }
 
     private static string ExtractNullableString(CodeBuilder source)
     {
-        return ExtractCommon(source: source, typeName: "string", nameof(ExtractNullableString), isNullable: true, getReturnStatement: ReturnString);
+        return ExtractCommon(
+            source: source,
+            typeName: "string",
+            nameof(ExtractNullableString),
+            isNullable: true,
+            getReturnStatement: ReturnString
+        );
     }
 
     private static string ExtractDateTime(CodeBuilder source)
     {
-        return ExtractCommon(source: source, typeName: "DateTime", nameof(ExtractDateTime), isNullable: false, getReturnStatement: ReturnDateTime);
+        return ExtractCommon(
+            source: source,
+            typeName: "DateTime",
+            nameof(ExtractDateTime),
+            isNullable: false,
+            getReturnStatement: ReturnDateTime
+        );
     }
 
     private static string ExtractNullableDateTime(CodeBuilder source)
     {
-        return ExtractCommon(source: source, typeName: "DateTime", nameof(ExtractNullableDateTime), isNullable: true, getReturnStatement: ReturnDateTime);
+        return ExtractCommon(
+            source: source,
+            typeName: "DateTime",
+            nameof(ExtractNullableDateTime),
+            isNullable: true,
+            getReturnStatement: ReturnDateTime
+        );
     }
 
     private static string ExtractDateTimeOffset(CodeBuilder source)
     {
-        return ExtractCommon(source: source, typeName: "DateTimeOffset", nameof(ExtractDateTimeOffset), isNullable: false, getReturnStatement: ReturnDateTimeOffset);
+        return ExtractCommon(
+            source: source,
+            typeName: "DateTimeOffset",
+            nameof(ExtractDateTimeOffset),
+            isNullable: false,
+            getReturnStatement: ReturnDateTimeOffset
+        );
     }
 
     private static string ExtractNullableDateTimeOffset(CodeBuilder source)
     {
-        return ExtractCommon(source: source, typeName: "DateTimeOffset", nameof(ExtractNullableDateTimeOffset), isNullable: true, getReturnStatement: ReturnDateTimeOffset);
+        return ExtractCommon(
+            source: source,
+            typeName: "DateTimeOffset",
+            nameof(ExtractNullableDateTimeOffset),
+            isNullable: true,
+            getReturnStatement: ReturnDateTimeOffset
+        );
     }
 
     private static string ExtractTimeSpan(CodeBuilder source)
     {
-        return ExtractCommon(source: source, typeName: "TimeSpan", nameof(ExtractTimeSpan), isNullable: false, getReturnStatement: ReturnTimeSpan);
+        return ExtractCommon(
+            source: source,
+            typeName: "TimeSpan",
+            nameof(ExtractTimeSpan),
+            isNullable: false,
+            getReturnStatement: ReturnTimeSpan
+        );
     }
 
     private static string ExtractNullableTimeSpan(CodeBuilder source)
     {
-        return ExtractCommon(source: source, typeName: "TimeSpan", nameof(ExtractNullableTimeSpan), isNullable: true, getReturnStatement: ReturnTimeSpan);
+        return ExtractCommon(
+            source: source,
+            typeName: "TimeSpan",
+            nameof(ExtractNullableTimeSpan),
+            isNullable: true,
+            getReturnStatement: ReturnTimeSpan
+        );
     }
 
     private static string ExtractGuid(CodeBuilder source)
     {
-        return ExtractCommon(source: source, typeName: "Guid", nameof(ExtractGuid), isNullable: false, getReturnStatement: ReturnGuid);
+        return ExtractCommon(
+            source: source,
+            typeName: "Guid",
+            nameof(ExtractGuid),
+            isNullable: false,
+            getReturnStatement: ReturnGuid
+        );
     }
 
     private static string ExtractNullableGuid(CodeBuilder source)
     {
-        return ExtractCommon(source: source, typeName: "Guid", nameof(ExtractNullableGuid), isNullable: true, getReturnStatement: ReturnGuid);
+        return ExtractCommon(
+            source: source,
+            typeName: "Guid",
+            nameof(ExtractNullableGuid),
+            isNullable: true,
+            getReturnStatement: ReturnGuid
+        );
     }
 }

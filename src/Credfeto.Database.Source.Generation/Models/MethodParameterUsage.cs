@@ -4,5 +4,5 @@ internal enum MethodParameterUsage
 {
     CONTEXT = 0,
 
-    DB = 1
+    DB = 1,
 }

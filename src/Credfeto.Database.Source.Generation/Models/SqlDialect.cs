@@ -4,5 +4,5 @@ internal enum SqlDialect
 {
     GENERIC = 0,
 
-    MICROSOFT_SQL_SERVER = 1
+    MICROSOFT_SQL_SERVER = 1,
 }

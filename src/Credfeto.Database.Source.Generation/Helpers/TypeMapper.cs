@@ -28,7 +28,7 @@ internal static class TypeMapper
             nameof(System) + "." + nameof(TimeSpan) => DbType.Time,
             nameof(System) + "." + nameof(Guid) => DbType.Guid,
             "byte[]" => DbType.Binary,
-            _ => null
+            _ => null,
         };
     }
 }

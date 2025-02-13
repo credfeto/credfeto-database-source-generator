@@ -14,17 +14,33 @@ public sealed class DatabaseCodeGenerator : IIncrementalGenerator
         context.RegisterSourceOutput(ExtractMethods(context), action: GenerateMethods);
     }
 
-    private static IncrementalValuesProvider<(MethodGeneration? methodGeneration, InvalidModelInfo? invalidModel, ErrorInfo? errorInfo)> ExtractMethods(
-        in IncrementalGeneratorInitializationContext context)
+    private static IncrementalValuesProvider<(
+        MethodGeneration? methodGeneration,
+        InvalidModelInfo? invalidModel,
+        ErrorInfo? errorInfo
+    )> ExtractMethods(in IncrementalGeneratorInitializationContext context)
     {
-        return context.SyntaxProvider.CreateSyntaxProvider(predicate: static (n, _) => n is MethodDeclarationSyntax, transform: DatabaseSyntaxReceiver.GetMethodDetails);
+        return context.SyntaxProvider.CreateSyntaxProvider(
+            predicate: static (n, _) => n is MethodDeclarationSyntax,
+            transform: DatabaseSyntaxReceiver.GetMethodDetails
+        );
     }
 
-    private static void GenerateMethods(SourceProductionContext sourceProductionContext, (MethodGeneration? methodGeneration, InvalidModelInfo? invalidModel, ErrorInfo? errorInfo) generation)
+    private static void GenerateMethods(
+        SourceProductionContext sourceProductionContext,
+        (
+            MethodGeneration? methodGeneration,
+            InvalidModelInfo? invalidModel,
+            ErrorInfo? errorInfo
+        ) generation
+    )
     {
         if (generation.invalidModel is not null)
         {
-            ReportInvalidModelError(context: sourceProductionContext, invalidModel: generation.invalidModel.Value);
+            ReportInvalidModelError(
+                context: sourceProductionContext,
+                invalidModel: generation.invalidModel.Value
+            );
 
             return;
         }
@@ -32,36 +48,62 @@ public sealed class DatabaseCodeGenerator : IIncrementalGenerator
         if (generation.errorInfo is not null)
         {
             ErrorInfo errorInfo = generation.errorInfo.Value;
-            ReportException(location: errorInfo.Location, context: sourceProductionContext, exception: errorInfo.Exception);
+            ReportException(
+                location: errorInfo.Location,
+                context: sourceProductionContext,
+                exception: errorInfo.Exception
+            );
 
             return;
         }
 
         if (generation.methodGeneration is not null)
         {
-            DatabaseSourceCodeGenerator.GenerateOneMethodGroup(context: sourceProductionContext, generation.methodGeneration);
+            DatabaseSourceCodeGenerator.GenerateOneMethodGroup(
+                context: sourceProductionContext,
+                generation.methodGeneration
+            );
         }
     }
 
-    private static void ReportException(Location location, in SourceProductionContext context, Exception exception)
+    private static void ReportException(
+        Location location,
+        in SourceProductionContext context,
+        Exception exception
+    )
     {
-        context.ReportDiagnostic(diagnostic: Diagnostic.Create(new(id: "CDSG002",
-                                                                   title: "Unhandled Exception",
-                                                                   exception.Message + ' ' + exception.StackTrace,
-                                                                   category: VersionInformation.Product,
-                                                                   defaultSeverity: DiagnosticSeverity.Error,
-                                                                   isEnabledByDefault: true),
-                                                               location: location));
+        context.ReportDiagnostic(
+            diagnostic: Diagnostic.Create(
+                new(
+                    id: "CDSG002",
+                    title: "Unhandled Exception",
+                    exception.Message + ' ' + exception.StackTrace,
+                    category: VersionInformation.Product,
+                    defaultSeverity: DiagnosticSeverity.Error,
+                    isEnabledByDefault: true
+                ),
+                location: location
+            )
+        );
     }
 
-    private static void ReportInvalidModelError(in SourceProductionContext context, in InvalidModelInfo invalidModel)
+    private static void ReportInvalidModelError(
+        in SourceProductionContext context,
+        in InvalidModelInfo invalidModel
+    )
     {
-        context.ReportDiagnostic(diagnostic: Diagnostic.Create(new(id: "CDSG001",
-                                                                   title: "Invalid model",
-                                                                   messageFormat: invalidModel.Message,
-                                                                   category: VersionInformation.Product,
-                                                                   defaultSeverity: DiagnosticSeverity.Error,
-                                                                   isEnabledByDefault: true),
-                                                               location: invalidModel.Location));
+        context.ReportDiagnostic(
+            diagnostic: Diagnostic.Create(
+                new(
+                    id: "CDSG001",
+                    title: "Invalid model",
+                    messageFormat: invalidModel.Message,
+                    category: VersionInformation.Product,
+                    defaultSeverity: DiagnosticSeverity.Error,
+                    isEnabledByDefault: true
+                ),
+                location: invalidModel.Location
+            )
+        );
     }
 }

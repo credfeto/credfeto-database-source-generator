@@ -8,34 +8,67 @@ namespace Credfeto.Database.Source.Generation.Helpers;
 
 internal static class ParameterSetter
 {
-    public static void SetParamerterInfo(CodeBuilder source, string parameterObject, string parameterName, string typeName)
+    public static void SetParamerterInfo(
+        CodeBuilder source,
+        string parameterObject,
+        string parameterName,
+        string typeName
+    )
     {
         bool isNullable = typeName.EndsWith(value: "?", comparisonType: StringComparison.Ordinal);
         string nonNullableType = isNullable
             ? typeName.Substring(startIndex: 0, typeName.Length - 1)
             : typeName;
 
-        DbType dbType = TypeMapper.Map(nonNullableType) ?? ThrowInvalidDbType(parameterName: parameterName, typeName: nonNullableType);
+        DbType dbType =
+            TypeMapper.Map(nonNullableType)
+            ?? ThrowInvalidDbType(parameterName: parameterName, typeName: nonNullableType);
 
         if (isNullable)
         {
-            AddNullableParameter(source: source, parameterObject: parameterObject, parameterName: parameterName, dbType: dbType);
+            AddNullableParameter(
+                source: source,
+                parameterObject: parameterObject,
+                parameterName: parameterName,
+                dbType: dbType
+            );
         }
         else
         {
-            AddNonNullableParameter(source: source, parameterObject: parameterObject, parameterName: parameterName, dbType: dbType);
+            AddNonNullableParameter(
+                source: source,
+                parameterObject: parameterObject,
+                parameterName: parameterName,
+                dbType: dbType
+            );
         }
     }
 
-    private static void AddNonNullableParameter(CodeBuilder source, string parameterObject, string parameterName, DbType dbType)
+    private static void AddNonNullableParameter(
+        CodeBuilder source,
+        string parameterObject,
+        string parameterName,
+        DbType dbType
+    )
     {
-        source.AppendLine($"{parameterObject}.DbType = {nameof(DbType)}.{dbType.GetName()};")
-              .AppendLine($"{parameterObject}.Value = {parameterName};");
+        source
+            .AppendLine($"{parameterObject}.DbType = {nameof(DbType)}.{dbType.GetName()};")
+            .AppendLine($"{parameterObject}.Value = {parameterName};");
 
-        SetParameterLength(source: source, parameterObject: parameterObject, parameterName: parameterName, dbType: dbType);
+        SetParameterLength(
+            source: source,
+            parameterObject: parameterObject,
+            parameterName: parameterName,
+            dbType: dbType
+        );
     }
 
-    private static void AddNullableParameter(CodeBuilder source, string parameterObject, string parameterName, DbType dbType)
+    private static void AddNullableParameter(
+        CodeBuilder source,
+        string parameterObject,
+        string parameterName,
+        DbType dbType
+    )
     {
         source.AppendLine($"{parameterObject}.DbType = {nameof(DbType)}.{dbType.GetName()};");
 
@@ -48,11 +81,21 @@ internal static class ParameterSetter
         {
             source.AppendLine($"{parameterObject}.Value = {parameterName};");
 
-            SetParameterLength(source: source, parameterObject: parameterObject, parameterName: parameterName, dbType: dbType);
+            SetParameterLength(
+                source: source,
+                parameterObject: parameterObject,
+                parameterName: parameterName,
+                dbType: dbType
+            );
         }
     }
 
-    private static void SetParameterLength(CodeBuilder source, string parameterObject, string parameterName, DbType dbType)
+    private static void SetParameterLength(
+        CodeBuilder source,
+        string parameterObject,
+        string parameterName,
+        DbType dbType
+    )
     {
         if (HasLength(dbType))
         {
@@ -67,6 +110,8 @@ internal static class ParameterSetter
 
     private static DbType ThrowInvalidDbType(string parameterName, string typeName)
     {
-        throw new InvalidModelException($"Cannot determine DbType for type {typeName} for parameter {parameterName}. Does it need a mapper?");
+        throw new InvalidModelException(
+            $"Cannot determine DbType for type {typeName} for parameter {parameterName}. Does it need a mapper?"
+        );
     }
 }

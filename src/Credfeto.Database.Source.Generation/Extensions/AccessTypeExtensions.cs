@@ -14,7 +14,11 @@ internal static class AccessTypeExtensions
             AccessType.PROTECTED => "protected",
             AccessType.PROTECTED_INTERNAL => "protected internal",
             AccessType.INTERNAL => "internal",
-            _ => throw new ArgumentOutOfRangeException(nameof(accessType), actualValue: accessType, message: null)
+            _ => throw new ArgumentOutOfRangeException(
+                nameof(accessType),
+                actualValue: accessType,
+                message: null
+            ),
         };
 
         return accessTypeString;

@@ -5,7 +5,11 @@ namespace Credfeto.Database.Source.Generation.Extensions;
 
 public static class EnumerableExtensions
 {
-    [SuppressMessage(category: "SonarAnalyzer.CSharp", checkId: "S3267:Loops should be simplified with LINQ", Justification = "For performance reasons")]
+    [SuppressMessage(
+        category: "SonarAnalyzer.CSharp",
+        checkId: "S3267:Loops should be simplified with LINQ",
+        Justification = "For performance reasons"
+    )]
     public static IEnumerable<TItemType> RemoveNulls<TItemType>(this IEnumerable<TItemType?> source)
         where TItemType : class
     {
