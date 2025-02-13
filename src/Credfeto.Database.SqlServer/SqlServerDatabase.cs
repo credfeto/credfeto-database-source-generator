@@ -19,10 +19,14 @@ public sealed class SqlServerDatabase : BaseDatabase
     private readonly SqlConnectionStringBuilder _connectionStringBuilder;
     private readonly ILogger<SqlServerDatabase> _logger;
 
-    public SqlServerDatabase(IOptions<SqlServerConfiguration> configuration, ILogger<SqlServerDatabase> logger)
+    public SqlServerDatabase(
+        IOptions<SqlServerConfiguration> configuration,
+        ILogger<SqlServerDatabase> logger
+    )
     {
         this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        SqlServerConfiguration cfg = configuration.Value ?? throw new ArgumentNullException(nameof(configuration));
+        SqlServerConfiguration cfg =
+            configuration.Value ?? throw new ArgumentNullException(nameof(configuration));
         this._connectionStringBuilder = new(cfg.ConnectionString);
     }
 
@@ -30,14 +34,17 @@ public sealed class SqlServerDatabase : BaseDatabase
     {
         if (exception is SqlException sqlException)
         {
-            return sqlException.Errors.OfType<SqlError>()
-                               .Any(IsTransientError);
+            return sqlException.Errors.OfType<SqlError>().Any(IsTransientError);
         }
 
         return false;
     }
 
-    [SuppressMessage(category: "Meziantou.Analyzer", checkId: "MA0051: Method is too long", Justification = "Needed in this case")]
+    [SuppressMessage(
+        category: "Meziantou.Analyzer",
+        checkId: "MA0051: Method is too long",
+        Justification = "Needed in this case"
+    )]
     private static bool IsTransientError(SqlError err)
     {
         return err.Number switch
@@ -117,47 +124,57 @@ public sealed class SqlServerDatabase : BaseDatabase
             // DBNETLIB Error Code: -2
             // Timeout expired. The timeout period elapsed prior to completion of the operation or the server is not responding.
             -2 => true,
-            _ => false
+            _ => false,
         };
     }
 
-    protected override void LogAndDispatchTransientExceptions(Exception exception, Context context, in TimeSpan delay, int retryCount, int maxRetries)
+    protected override void LogAndDispatchTransientExceptions(
+        Exception exception,
+        Context context,
+        in TimeSpan delay,
+        int retryCount,
+        int maxRetries
+    )
     {
-        this._logger.LogAndDispatchTransientException(typeName: exception.GetType()
-                                                                         .Name,
-                                                      retryCount: retryCount,
-                                                      maxRetries: maxRetries,
-                                                      delay: delay,
-                                                      FormatException(exception: exception, context: context.OperationKey),
-                                                      exception: exception);
+        this._logger.LogAndDispatchTransientException(
+            typeName: exception.GetType().Name,
+            retryCount: retryCount,
+            maxRetries: maxRetries,
+            delay: delay,
+            FormatException(exception: exception, context: context.OperationKey),
+            exception: exception
+        );
     }
 
     private static string FormatException(Exception exception, string context)
     {
         int error = 0;
 
-        StringBuilder sb = new StringBuilder().Append("Calling Stored Procedure: ")
-                                              .AppendLine(context)
-                                              .Append(++error);
+        StringBuilder sb = new StringBuilder()
+            .Append("Calling Stored Procedure: ")
+            .AppendLine(context)
+            .Append(++error);
 
         if (exception is SqlException sqlException)
         {
             sb = sb.Append("Calling Stored Procedure: ")
-                   .AppendLine(context)
-                   .Append(++error)
-                   .Append(": Error ")
-                   .Append(sqlException.Number)
-                   .Append(". Proc: ")
-                   .Append(sqlException.Procedure)
-                   .Append(": ")
-                   .AppendLine(sqlException.Message)
-                   .AppendErrorsFromException(sqlException: sqlException, initialError: ref error);
+                .AppendLine(context)
+                .Append(++error)
+                .Append(": Error ")
+                .Append(sqlException.Number)
+                .Append(". Proc: ")
+                .Append(sqlException.Procedure)
+                .Append(": ")
+                .AppendLine(sqlException.Message)
+                .AppendErrorsFromException(sqlException: sqlException, initialError: ref error);
         }
 
         return sb.ToString();
     }
 
-    protected override async ValueTask<DbConnection> GetConnectionAsync(CancellationToken cancellationToken)
+    protected override async ValueTask<DbConnection> GetConnectionAsync(
+        CancellationToken cancellationToken
+    )
     {
         SqlConnection connection = new(this._connectionStringBuilder.ConnectionString);
 

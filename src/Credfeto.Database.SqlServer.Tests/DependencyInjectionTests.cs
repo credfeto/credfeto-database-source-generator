@@ -10,14 +10,17 @@ namespace Credfeto.Database.SqlServer.Tests;
 public sealed class DependencyInjectionTests : DependencyInjectionTestsBase
 {
     public DependencyInjectionTests(ITestOutputHelper output)
-        : base(output: output, dependencyInjectionRegistration: Configure)
-    {
-    }
+        : base(output: output, dependencyInjectionRegistration: Configure) { }
 
     private static IServiceCollection Configure(IServiceCollection services)
     {
-        return services.AddMockedService<IOptions<SqlServerConfiguration>>(static x => x.Value.Returns(new SqlServerConfiguration("Database=Example;Server=.;Integrated Security=SSPI")))
-                       .AddSqlServer();
+        return services
+            .AddMockedService<IOptions<SqlServerConfiguration>>(static x =>
+                x.Value.Returns(
+                    new SqlServerConfiguration("Database=Example;Server=.;Integrated Security=SSPI")
+                )
+            )
+            .AddSqlServer();
     }
 
     [Fact]

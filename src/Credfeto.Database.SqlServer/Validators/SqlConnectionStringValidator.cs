@@ -6,7 +6,8 @@ using Microsoft.Data.SqlClient;
 
 namespace Credfeto.Database.SqlServer.Validators;
 
-public sealed class SqlConnectionStringValidator : IPropertyValidator<SqlServerConfiguration, string>
+public sealed class SqlConnectionStringValidator
+    : IPropertyValidator<SqlServerConfiguration, string>
 {
     public bool IsValid(ValidationContext<SqlServerConfiguration> context, string value)
     {

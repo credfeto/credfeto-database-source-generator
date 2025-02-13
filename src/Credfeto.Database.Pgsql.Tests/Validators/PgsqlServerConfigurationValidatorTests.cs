@@ -5,16 +5,17 @@ using Xunit.Abstractions;
 
 namespace Credfeto.Database.Pgsql.Tests.Validators;
 
-public sealed class PgsqlServerConfigurationValidatorTests : ValidatorTestBase<PgsqlServerConfigurationValidator, PgsqlServerConfiguration>
+public sealed class PgsqlServerConfigurationValidatorTests
+    : ValidatorTestBase<PgsqlServerConfigurationValidator, PgsqlServerConfiguration>
 {
     public PgsqlServerConfigurationValidatorTests(ITestOutputHelper output)
-        : base(output)
-    {
-    }
+        : base(output) { }
 
     protected override PgsqlServerConfiguration CreateAValidObject()
     {
-        return new("Server=localhost;Port=5432;Database=postgres;User Id=postgres;Password=NotTellingYou");
+        return new(
+            "Server=localhost;Port=5432;Database=postgres;User Id=postgres;Password=NotTellingYou"
+        );
     }
 
     protected override void EverythingValid()
@@ -27,7 +28,11 @@ public sealed class PgsqlServerConfigurationValidatorTests : ValidatorTestBase<P
     {
         PgsqlServerConfiguration options = new(string.Empty);
 
-        this.Validate(instance: options, expectedErrorCount: 1, nameof(PgsqlServerConfiguration.ConnectionString));
+        this.Validate(
+            instance: options,
+            expectedErrorCount: 1,
+            nameof(PgsqlServerConfiguration.ConnectionString)
+        );
     }
 
     [Fact]
@@ -35,6 +40,10 @@ public sealed class PgsqlServerConfigurationValidatorTests : ValidatorTestBase<P
     {
         PgsqlServerConfiguration options = new("Qwertyuiop");
 
-        this.Validate(instance: options, expectedErrorCount: 1, nameof(PgsqlServerConfiguration.ConnectionString));
+        this.Validate(
+            instance: options,
+            expectedErrorCount: 1,
+            nameof(PgsqlServerConfiguration.ConnectionString)
+        );
     }
 }

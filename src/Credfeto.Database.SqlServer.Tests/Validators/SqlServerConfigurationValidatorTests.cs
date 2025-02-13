@@ -5,12 +5,11 @@ using Xunit.Abstractions;
 
 namespace Credfeto.Database.SqlServer.Tests.Validators;
 
-public sealed class SqlServerConfigurationValidatorTests : ValidatorTestBase<SqlServerConfigurationValidator, SqlServerConfiguration>
+public sealed class SqlServerConfigurationValidatorTests
+    : ValidatorTestBase<SqlServerConfigurationValidator, SqlServerConfiguration>
 {
     public SqlServerConfigurationValidatorTests(ITestOutputHelper output)
-        : base(output)
-    {
-    }
+        : base(output) { }
 
     protected override SqlServerConfiguration CreateAValidObject()
     {
@@ -27,7 +26,11 @@ public sealed class SqlServerConfigurationValidatorTests : ValidatorTestBase<Sql
     {
         SqlServerConfiguration options = new(string.Empty);
 
-        this.Validate(instance: options, expectedErrorCount: 1, nameof(SqlServerConfiguration.ConnectionString));
+        this.Validate(
+            instance: options,
+            expectedErrorCount: 1,
+            nameof(SqlServerConfiguration.ConnectionString)
+        );
     }
 
     [Fact]
@@ -35,6 +38,10 @@ public sealed class SqlServerConfigurationValidatorTests : ValidatorTestBase<Sql
     {
         SqlServerConfiguration options = new("Qwertyuiop");
 
-        this.Validate(instance: options, expectedErrorCount: 1, nameof(SqlServerConfiguration.ConnectionString));
+        this.Validate(
+            instance: options,
+            expectedErrorCount: 1,
+            nameof(SqlServerConfiguration.ConnectionString)
+        );
     }
 }
