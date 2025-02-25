@@ -9,6 +9,14 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Added
 ### Fixed
 ### Changed
+### Removed
+### Deployment Changes
+
+<!--
+Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
+-->
+## [1.2.99] - 2025-02-25
+### Changed
 - Dependencies - Updated FunFair.CodeAnalysis to 7.0.68.928
 - Dependencies - Updated Meziantou.Analyzer to 2.0.188
 - Dependencies - Updated FunFair.Test.Common to 6.1.259.1162
@@ -16,12 +24,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Credfeto.Version.Information.Generator to 1.0.55.367
 - Dependencies - Updated Microsoft.CodeAnalysis.CSharp to 4.13.0
 - Dependencies - Updated Npgsql to 9.0.3
-### Removed
-### Deployment Changes
 
-<!--
-Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
--->
 ## [1.2.98] - 2025-02-14
 ### Changed
 - Dependencies - Updated Credfeto.Enumeration to 1.2.66.909
