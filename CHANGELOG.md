@@ -17,6 +17,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Npgsql to 9.0.3
 - Dependencies - Updated SonarAnalyzer.CSharp to 10.7.0.110445
 - Dependencies - Updated FunFair.Test.Common to 6.1.261.1171
+- Dependencies - Updated Credfeto.Enumeration to 1.2.67.955
 ### Removed
 ### Deployment Changes
 
