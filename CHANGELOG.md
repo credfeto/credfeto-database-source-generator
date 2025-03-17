@@ -13,6 +13,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Credfeto.Version.Information.Generator to 1.0.56.380
 - Dependencies - Updated Microsoft.VisualStudio.Threading.Analyzers to 17.13.61
 - Dependencies - Updated Microsoft.Extensions to 9.0.3
+- Dependencies - Updated Credfeto.Enumeration to 1.2.68.969
 ### Removed
 ### Deployment Changes
 
