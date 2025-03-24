@@ -1,7 +1,6 @@
 using Credfeto.Database.SqlServer.Validators;
 using FunFair.Test.Common;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Credfeto.Database.SqlServer.Tests.Validators;
 
