@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NSubstitute;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Credfeto.Database.SqlServer.Tests;
 
