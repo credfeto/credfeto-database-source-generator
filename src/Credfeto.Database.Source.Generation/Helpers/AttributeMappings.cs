@@ -20,11 +20,7 @@ internal static class AttributeMappings
         return methodDeclarationSyntax
             .AttributeLists.SelectMany(selector: x => x.Attributes)
             .Select(x =>
-                CreateSqlObject(
-                    semanticModel: semanticModel,
-                    attributeSyntax: x,
-                    cancellationToken: cancellationToken
-                )
+                CreateSqlObject(semanticModel: semanticModel, attributeSyntax: x, cancellationToken: cancellationToken)
             )
             .RemoveNulls()
             .FirstOrDefault();
@@ -75,11 +71,7 @@ internal static class AttributeMappings
         return attributeLists
             .SelectMany(selector: x => x.Attributes)
             .Select(x =>
-                CreateMapperInfo(
-                    semanticModel: semanticModel,
-                    attributeSyntax: x,
-                    cancellationToken: cancellationToken
-                )
+                CreateMapperInfo(semanticModel: semanticModel, attributeSyntax: x, cancellationToken: cancellationToken)
             )
             .RemoveNulls()
             .FirstOrDefault();
@@ -91,10 +83,7 @@ internal static class AttributeMappings
         CancellationToken cancellationToken
     )
     {
-        ISymbol? symbol = semanticModel.GetSymbol(
-            node: attributeSyntax,
-            cancellationToken: cancellationToken
-        );
+        ISymbol? symbol = semanticModel.GetSymbol(node: attributeSyntax, cancellationToken: cancellationToken);
 
         return CreateMapperInfo(symbol);
     }
@@ -187,10 +176,7 @@ internal static class AttributeMappings
         CancellationToken cancellationToken
     )
     {
-        ISymbol? symbol = semanticModel.GetSymbol(
-            node: attributeSyntax,
-            cancellationToken: cancellationToken
-        );
+        ISymbol? symbol = semanticModel.GetSymbol(node: attributeSyntax, cancellationToken: cancellationToken);
 
         if (symbol is null)
         {
@@ -204,12 +190,7 @@ internal static class AttributeMappings
 
         string name = symbol.ContainingType.ToDisplayString();
 
-        if (
-            !StringComparer.Ordinal.Equals(
-                x: name,
-                y: "Credfeto.Database.Interfaces.SqlObjectMapAttribute"
-            )
-        )
+        if (!StringComparer.Ordinal.Equals(x: name, y: "Credfeto.Database.Interfaces.SqlObjectMapAttribute"))
         {
             return null;
         }
@@ -239,11 +220,7 @@ internal static class AttributeMappings
             return null;
         }
 
-        return new(
-            RemoveQuotes(objectName),
-            sqlObjectType: sqlObjectType.Value,
-            sqlDialect: sqlDialect.Value
-        );
+        return new(RemoveQuotes(objectName), sqlObjectType: sqlObjectType.Value, sqlDialect: sqlDialect.Value);
     }
 
     private static SqlObjectType? GetSqlObjectType(string source)
