@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Credfeto.Database.Source.Generation.Models;
 using Credfeto.Database.Source.Generation.Receivers;
 using Microsoft.CodeAnalysis;
@@ -28,19 +28,12 @@ public sealed class DatabaseCodeGenerator : IIncrementalGenerator
 
     private static void GenerateMethods(
         SourceProductionContext sourceProductionContext,
-        (
-            MethodGeneration? methodGeneration,
-            InvalidModelInfo? invalidModel,
-            ErrorInfo? errorInfo
-        ) generation
+        (MethodGeneration? methodGeneration, InvalidModelInfo? invalidModel, ErrorInfo? errorInfo) generation
     )
     {
         if (generation.invalidModel is not null)
         {
-            ReportInvalidModelError(
-                context: sourceProductionContext,
-                invalidModel: generation.invalidModel.Value
-            );
+            ReportInvalidModelError(context: sourceProductionContext, invalidModel: generation.invalidModel.Value);
 
             return;
         }
@@ -66,11 +59,7 @@ public sealed class DatabaseCodeGenerator : IIncrementalGenerator
         }
     }
 
-    private static void ReportException(
-        Location location,
-        in SourceProductionContext context,
-        Exception exception
-    )
+    private static void ReportException(Location location, in SourceProductionContext context, Exception exception)
     {
         context.ReportDiagnostic(
             diagnostic: Diagnostic.Create(
@@ -87,10 +76,7 @@ public sealed class DatabaseCodeGenerator : IIncrementalGenerator
         );
     }
 
-    private static void ReportInvalidModelError(
-        in SourceProductionContext context,
-        in InvalidModelInfo invalidModel
-    )
+    private static void ReportInvalidModelError(in SourceProductionContext context, in InvalidModelInfo invalidModel)
     {
         context.ReportDiagnostic(
             diagnostic: Diagnostic.Create(
