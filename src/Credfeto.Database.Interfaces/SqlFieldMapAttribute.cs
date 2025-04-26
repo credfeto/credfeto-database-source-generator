@@ -3,9 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Credfeto.Database.Interfaces;
 
-[AttributeUsage(
-    AttributeTargets.Property | AttributeTargets.Parameter | AttributeTargets.ReturnValue
-)]
+[AttributeUsage(AttributeTargets.Property | AttributeTargets.Parameter | AttributeTargets.ReturnValue)]
 [SuppressMessage(
     category: "ReSharper",
     checkId: "UnusedTypeParameter",
