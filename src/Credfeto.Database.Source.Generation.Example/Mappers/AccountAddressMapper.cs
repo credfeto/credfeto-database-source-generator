@@ -11,11 +11,7 @@ namespace Credfeto.Database.Source.Generation.Example.Mappers;
     checkId: "CA1812:AvoidUninstantiatedInternalClasses",
     Justification = "Unit test"
 )]
-[SuppressMessage(
-    category: "ReSharper",
-    checkId: "ClassNeverInstantiated.Local",
-    Justification = "Unit test"
-)]
+[SuppressMessage(category: "ReSharper", checkId: "ClassNeverInstantiated.Local", Justification = "Unit test")]
 internal sealed class AccountAddressMapper : IMapper<AccountAddress>
 {
     public static AccountAddress MapFromDb(object value)
