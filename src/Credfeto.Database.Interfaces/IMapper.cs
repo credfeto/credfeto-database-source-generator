@@ -1,4 +1,4 @@
-﻿using System.Data.Common;
+using System.Data.Common;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Credfeto.Database.Interfaces;
@@ -20,11 +20,7 @@ public interface IMapper<T>
         checkId: "IDE0036: Modifiers are not ordered",
         Justification = "CSharpifier requires"
     )]
-    [SuppressMessage(
-        category: "ReSharper",
-        checkId: "ArrangeModifiersOrder",
-        Justification = "CSharpifier requires"
-    )]
+    [SuppressMessage(category: "ReSharper", checkId: "ArrangeModifiersOrder", Justification = "CSharpifier requires")]
     static abstract T MapFromDb(object value);
 
     [SuppressMessage(
@@ -42,10 +38,6 @@ public interface IMapper<T>
         checkId: "IDE0036: Modifiers are not ordered",
         Justification = "By Design"
     )]
-    [SuppressMessage(
-        category: "ReSharper",
-        checkId: "ArrangeModifiersOrder",
-        Justification = "CSharpifier requires"
-    )]
+    [SuppressMessage(category: "ReSharper", checkId: "ArrangeModifiersOrder", Justification = "CSharpifier requires")]
     static abstract void MapToDb(T value, DbParameter parameter);
 }
