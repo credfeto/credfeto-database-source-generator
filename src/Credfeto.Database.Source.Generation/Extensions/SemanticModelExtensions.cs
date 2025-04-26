@@ -11,10 +11,7 @@ internal static class SemanticModelExtensions
         CancellationToken cancellationToken
     )
     {
-        return semanticModel.GetDeclaredSymbol(
-                declaration: node,
-                cancellationToken: cancellationToken
-            )
+        return semanticModel.GetDeclaredSymbol(declaration: node, cancellationToken: cancellationToken)
             ?? semanticModel.GetSymbolInfo(node: node, cancellationToken: cancellationToken).Symbol;
     }
 }
