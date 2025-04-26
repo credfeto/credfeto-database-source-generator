@@ -6,8 +6,7 @@ using Npgsql;
 
 namespace Credfeto.Database.Pgsql.Validators;
 
-public sealed class PostgresqlConnectionStringValidator
-    : IPropertyValidator<PgsqlServerConfiguration, string>
+public sealed class PostgresqlConnectionStringValidator : IPropertyValidator<PgsqlServerConfiguration, string>
 {
     public bool IsValid(ValidationContext<PgsqlServerConfiguration> context, string value)
     {
