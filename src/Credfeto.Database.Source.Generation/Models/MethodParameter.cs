@@ -4,13 +4,7 @@ namespace Credfeto.Database.Source.Generation.Models;
 
 internal sealed class MethodParameter
 {
-    public MethodParameter(
-        string name,
-        ISymbol type,
-        MethodParameterUsage usage,
-        bool nullable,
-        MapperInfo? mapperInfo
-    )
+    public MethodParameter(string name, ISymbol type, MethodParameterUsage usage, bool nullable, MapperInfo? mapperInfo)
     {
         this.Name = name;
         this.Type = type;
