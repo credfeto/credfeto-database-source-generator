@@ -22,11 +22,7 @@ public sealed class TestDatabase : ITestDatabase
     {
         return this._database.ExecuteAsync(
             action: (c, ct) =>
-                DatabaseWrapper.GetAllAsync(
-                    connection: c,
-                    address: accountAddress,
-                    cancellationToken: ct
-                ),
+                DatabaseWrapper.GetAllAsync(connection: c, address: accountAddress, cancellationToken: ct),
             cancellationToken: cancellationToken
         );
     }
@@ -34,26 +30,16 @@ public sealed class TestDatabase : ITestDatabase
     public ValueTask<Accounts?> GetAsync(int id, CancellationToken cancellationToken)
     {
         return this._database.ExecuteAsync(
-            action: (c, ct) =>
-                DatabaseWrapper.GetAsync(connection: c, id: id, cancellationToken: ct),
+            action: (c, ct) => DatabaseWrapper.GetAsync(connection: c, id: id, cancellationToken: ct),
             cancellationToken: cancellationToken
         );
     }
 
-    public ValueTask InsertAsync(
-        string name,
-        AccountAddress address,
-        CancellationToken cancellationToken
-    )
+    public ValueTask InsertAsync(string name, AccountAddress address, CancellationToken cancellationToken)
     {
         return this._database.ExecuteAsync(
             action: (c, ct) =>
-                DatabaseWrapper.InsertAsync(
-                    connection: c,
-                    name: name,
-                    address: address,
-                    cancellationToken: ct
-                ),
+                DatabaseWrapper.InsertAsync(connection: c, name: name, address: address, cancellationToken: ct),
             cancellationToken: cancellationToken
         );
     }
@@ -82,9 +68,7 @@ public sealed class TestDatabase : ITestDatabase
         );
     }
 
-    public ValueTask<AccountAddress> GetAddressMeaningOfLifeAsync(
-        CancellationToken cancellationToken
-    )
+    public ValueTask<AccountAddress> GetAddressMeaningOfLifeAsync(CancellationToken cancellationToken)
     {
         return this._database.ExecuteAsync(
             action: DatabaseWrapper.GetAddressMeaningOfLifeAsync,
@@ -92,9 +76,7 @@ public sealed class TestDatabase : ITestDatabase
         );
     }
 
-    public ValueTask<AccountAddress?> GetOptionalAddressMeaningOfLifeAsync(
-        CancellationToken cancellationToken
-    )
+    public ValueTask<AccountAddress?> GetOptionalAddressMeaningOfLifeAsync(CancellationToken cancellationToken)
     {
         return this._database.ExecuteAsync(
             action: DatabaseWrapper.GetOptionalAddressMeaningOfLifeAsync,
