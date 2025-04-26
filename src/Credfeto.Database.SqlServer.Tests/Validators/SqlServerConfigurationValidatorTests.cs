@@ -25,11 +25,7 @@ public sealed class SqlServerConfigurationValidatorTests
     {
         SqlServerConfiguration options = new(string.Empty);
 
-        this.Validate(
-            instance: options,
-            expectedErrorCount: 1,
-            nameof(SqlServerConfiguration.ConnectionString)
-        );
+        this.Validate(instance: options, expectedErrorCount: 1, nameof(SqlServerConfiguration.ConnectionString));
     }
 
     [Fact]
@@ -37,10 +33,6 @@ public sealed class SqlServerConfigurationValidatorTests
     {
         SqlServerConfiguration options = new("Qwertyuiop");
 
-        this.Validate(
-            instance: options,
-            expectedErrorCount: 1,
-            nameof(SqlServerConfiguration.ConnectionString)
-        );
+        this.Validate(instance: options, expectedErrorCount: 1, nameof(SqlServerConfiguration.ConnectionString));
     }
 }
