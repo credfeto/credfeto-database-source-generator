@@ -36,17 +36,11 @@ internal static class ExtractColumns
             "string" => ExtractString(source: source),
             "string?" => ExtractNullableString(source: source),
             nameof(System) + "." + nameof(DateTime) => ExtractDateTime(source: source),
-            nameof(System) + "." + nameof(DateTime) + "?" => ExtractNullableDateTime(
-                source: source
-            ),
+            nameof(System) + "." + nameof(DateTime) + "?" => ExtractNullableDateTime(source: source),
             nameof(System) + "." + nameof(DateTimeOffset) => ExtractDateTimeOffset(source: source),
-            nameof(System) + "." + nameof(DateTimeOffset) + "?" => ExtractNullableDateTimeOffset(
-                source: source
-            ),
+            nameof(System) + "." + nameof(DateTimeOffset) + "?" => ExtractNullableDateTimeOffset(source: source),
             nameof(System) + "." + nameof(TimeSpan) => ExtractTimeSpan(source: source),
-            nameof(System) + "." + nameof(TimeSpan) + "?" => ExtractNullableTimeSpan(
-                source: source
-            ),
+            nameof(System) + "." + nameof(TimeSpan) + "?" => ExtractNullableTimeSpan(source: source),
             nameof(System) + "." + nameof(Guid) => ExtractGuid(source: source),
             nameof(System) + "." + nameof(Guid) + "?" => ExtractNullableGuid(source: source),
             _ => null,
@@ -71,9 +65,7 @@ internal static class ExtractColumns
             "decimal" => ReturnDecimal(variable: variable),
             "string" => ReturnString(variable: variable),
             nameof(System) + "." + nameof(DateTime) => ReturnDateTime(variable: variable),
-            nameof(System) + "." + nameof(DateTimeOffset) => ReturnDateTimeOffset(
-                variable: variable
-            ),
+            nameof(System) + "." + nameof(DateTimeOffset) => ReturnDateTimeOffset(variable: variable),
             nameof(System) + "." + nameof(TimeSpan) => ReturnTimeSpan(variable: variable),
             nameof(System) + "." + nameof(Guid) => ReturnGuid(variable: variable),
             _ => null,
@@ -100,9 +92,7 @@ internal static class ExtractColumns
             using (source.StartBlock("if (value is null || Convert.IsDBNull(value))"))
             {
                 source.AppendLine(
-                    isNullable
-                        ? "return null;"
-                        : "throw new DataException($\"Column {columName} is not nullable\");"
+                    isNullable ? "return null;" : "throw new DataException($\"Column {columName} is not nullable\");"
                 );
             }
 
