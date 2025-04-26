@@ -30,10 +30,5 @@ internal sealed class MethodGeneration
     public Location Location { get; }
 
     public string FullName =>
-        string.Join(
-            separator: ".",
-            this.ContainingContext.Namespace,
-            this.ContainingContext.Name,
-            this.Method.Name
-        );
+        string.Join(separator: ".", this.ContainingContext.Namespace, this.ContainingContext.Name, this.Method.Name);
 }
