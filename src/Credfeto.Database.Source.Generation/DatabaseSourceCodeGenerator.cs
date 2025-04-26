@@ -18,10 +18,7 @@ namespace Credfeto.Database.Source.Generation;
 
 internal static class DatabaseSourceCodeGenerator
 {
-    public static void GenerateOneMethodGroup(
-        in SourceProductionContext context,
-        MethodGeneration method
-    )
+    public static void GenerateOneMethodGroup(in SourceProductionContext context, MethodGeneration method)
     {
         CodeBuilder source = new();
 
@@ -54,18 +51,12 @@ internal static class DatabaseSourceCodeGenerator
 
         string hash = GenerateParameterHash(method.Method.Parameters);
 
-        context.AddSource(
-            $"{method.FullName}.Database.{hash}.generated.cs",
-            sourceText: source.Text
-        );
+        context.AddSource($"{method.FullName}.Database.{hash}.generated.cs", sourceText: source.Text);
     }
 
     private static string GenerateParameterHash(IReadOnlyList<MethodParameter> methodParameters)
     {
-        string parameters = string.Join(
-            separator: ",",
-            methodParameters.Select(static p => p.Type.ToDisplayString())
-        );
+        string parameters = string.Join(separator: ",", methodParameters.Select(static p => p.Type.ToDisplayString()));
 
         using (SHA256 hasher = SHA256.Create())
         {
@@ -109,11 +100,7 @@ internal static class DatabaseSourceCodeGenerator
         }
     }
 
-    [SuppressMessage(
-        category: "Meziantou.Analyzer",
-        checkId: "MA0051:Method too long",
-        Justification = "Test"
-    )]
+    [SuppressMessage(category: "Meziantou.Analyzer", checkId: "MA0051:Method too long", Justification = "Test")]
     private static void GenerateTableFunctionMethod(MethodGeneration method, CodeBuilder source)
     {
         bool isCollection = IsMethodCollectionReturnType(method);
@@ -122,9 +109,7 @@ internal static class DatabaseSourceCodeGenerator
         {
             string functionParameters = BuildFunctionParameters(method);
             INamedTypeSymbol elementReturnType = GetMethodElementReturnType(method);
-            ImmutableArray<IParameterSymbol> columns = ExtractColumnsFromConstructor(
-                elementReturnType
-            );
+            ImmutableArray<IParameterSymbol> columns = ExtractColumnsFromConstructor(elementReturnType);
             string columnSelector = BuildFunctionColumns(columns: columns);
 
             string returnType = elementReturnType.ToDisplayString();
@@ -209,9 +194,7 @@ internal static class DatabaseSourceCodeGenerator
         {
             foreach (string column in columns.Select(selector: static column => column.Name))
             {
-                source.AppendLine(
-                    $"int ordinal{column} = reader.GetOrdinal(name: nameof({returnType}.{column}));"
-                );
+                source.AppendLine($"int ordinal{column} = reader.GetOrdinal(name: nameof({returnType}.{column}));");
             }
 
             using (source.StartBlock("while (reader.Read())"))
@@ -225,12 +208,7 @@ internal static class DatabaseSourceCodeGenerator
 
                     IParameterSymbol column = columns[columnIndex];
 
-                    AppendConstructorParameter(
-                        source: source,
-                        column: column,
-                        end: end,
-                        generated: generated
-                    );
+                    AppendConstructorParameter(source: source, column: column, end: end, generated: generated);
                 }
             }
         }
@@ -273,9 +251,7 @@ internal static class DatabaseSourceCodeGenerator
         return string.Join(separator: ", ", columns.Select(selector: static p => p.Name));
     }
 
-    private static ImmutableArray<IParameterSymbol> ExtractColumnsFromConstructor(
-        INamedTypeSymbol returnType
-    )
+    private static ImmutableArray<IParameterSymbol> ExtractColumnsFromConstructor(INamedTypeSymbol returnType)
     {
         ImmutableArray<IParameterSymbol> columns = GetColumns(returnType);
 
@@ -322,16 +298,12 @@ internal static class DatabaseSourceCodeGenerator
 
             source
                 .AppendLine("DbCommand command = connection.CreateCommand();")
-                .AppendLine(
-                    $"command.CommandText = \"select {method.SqlObject.Name}({functionParameters})\";"
-                );
+                .AppendLine($"command.CommandText = \"select {method.SqlObject.Name}({functionParameters})\";");
             AppendCommandParameters(source: source, method: method, command: "command");
 
             source
                 .AppendBlankLine()
-                .AppendLine(
-                    "object? result = await command.ExecuteScalarAsync(cancellationToken: cancellationToken);"
-                )
+                .AppendLine("object? result = await command.ExecuteScalarAsync(cancellationToken: cancellationToken);")
                 .AppendBlankLine();
 
             if (method.Method.ReturnType.ElementReturnType is null)
@@ -372,11 +344,7 @@ internal static class DatabaseSourceCodeGenerator
         }
     }
 
-    private static void AppendCommandParameters(
-        CodeBuilder source,
-        MethodGeneration method,
-        string command
-    )
+    private static void AppendCommandParameters(CodeBuilder source, MethodGeneration method, string command)
     {
         int parameterIndex = 0;
 
@@ -384,12 +352,7 @@ internal static class DatabaseSourceCodeGenerator
         {
             if (parameter.Usage == MethodParameterUsage.DB)
             {
-                CreateParameter(
-                    source: source,
-                    command: command,
-                    parameterIndex: parameterIndex,
-                    parameter: parameter
-                );
+                CreateParameter(source: source, command: command, parameterIndex: parameterIndex, parameter: parameter);
 
                 ++parameterIndex;
             }
@@ -520,11 +483,7 @@ internal static class DatabaseSourceCodeGenerator
         return method.ReturnType.ReturnType;
     }
 
-    [SuppressMessage(
-        "Meziantou.Analyzer",
-        "MA0051: Method is too long",
-        Justification = "To refactor"
-    )]
+    [SuppressMessage("Meziantou.Analyzer", "MA0051: Method is too long", Justification = "To refactor")]
     private static void GenerateStoredProcedureMethod(MethodGeneration method, CodeBuilder source)
     {
         using (BuildFunctionSignature(source: source, method: method))
@@ -532,9 +491,7 @@ internal static class DatabaseSourceCodeGenerator
             if (method.Method.ReturnType.ElementReturnType is not null)
             {
                 INamedTypeSymbol elementReturnType = GetMethodElementReturnType(method);
-                ImmutableArray<IParameterSymbol> columns = ExtractColumnsFromConstructor(
-                    elementReturnType
-                );
+                ImmutableArray<IParameterSymbol> columns = ExtractColumnsFromConstructor(elementReturnType);
 
                 string returnType = elementReturnType.ToDisplayString();
 
@@ -547,15 +504,11 @@ internal static class DatabaseSourceCodeGenerator
             switch (method.SqlObject.SqlDialect)
             {
                 case SqlDialect.GENERIC:
-                    source.AppendLine(
-                        $"command.CommandText = \"CALL {method.SqlObject.Name}({functionParameters})\";"
-                    );
+                    source.AppendLine($"command.CommandText = \"CALL {method.SqlObject.Name}({functionParameters})\";");
 
                     break;
                 case SqlDialect.MICROSOFT_SQL_SERVER:
-                    source.AppendLine(
-                        $"command.CommandText = \"EXEC {method.SqlObject.Name} {functionParameters}\";"
-                    );
+                    source.AppendLine($"command.CommandText = \"EXEC {method.SqlObject.Name} {functionParameters}\";");
 
                     break;
                 default:
