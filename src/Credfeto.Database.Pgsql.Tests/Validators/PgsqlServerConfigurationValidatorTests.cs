@@ -12,9 +12,7 @@ public sealed class PgsqlServerConfigurationValidatorTests
 
     protected override PgsqlServerConfiguration CreateAValidObject()
     {
-        return new(
-            "Server=localhost;Port=5432;Database=postgres;User Id=postgres;Password=NotTellingYou"
-        );
+        return new("Server=localhost;Port=5432;Database=postgres;User Id=postgres;Password=NotTellingYou");
     }
 
     protected override void EverythingValid()
@@ -27,11 +25,7 @@ public sealed class PgsqlServerConfigurationValidatorTests
     {
         PgsqlServerConfiguration options = new(string.Empty);
 
-        this.Validate(
-            instance: options,
-            expectedErrorCount: 1,
-            nameof(PgsqlServerConfiguration.ConnectionString)
-        );
+        this.Validate(instance: options, expectedErrorCount: 1, nameof(PgsqlServerConfiguration.ConnectionString));
     }
 
     [Fact]
@@ -39,10 +33,6 @@ public sealed class PgsqlServerConfigurationValidatorTests
     {
         PgsqlServerConfiguration options = new("Qwertyuiop");
 
-        this.Validate(
-            instance: options,
-            expectedErrorCount: 1,
-            nameof(PgsqlServerConfiguration.ConnectionString)
-        );
+        this.Validate(instance: options, expectedErrorCount: 1, nameof(PgsqlServerConfiguration.ConnectionString));
     }
 }
