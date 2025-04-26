@@ -9,15 +9,18 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Added
 ### Fixed
 ### Changed
-- Dependencies - Updated Meziantou.Analyzer to 2.0.199
-- Dependencies - Updated Microsoft.Data.SqlClient to 6.0.2
-- Dependencies - Updated Credfeto.Version.Information.Generator to 1.0.67.507
 ### Removed
 ### Deployment Changes
 
 <!--
 Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
 -->
+## [1.2.112] - 2025-04-26
+### Changed
+- Dependencies - Updated Meziantou.Analyzer to 2.0.199
+- Dependencies - Updated Microsoft.Data.SqlClient to 6.0.2
+- Dependencies - Updated Credfeto.Version.Information.Generator to 1.0.67.507
+
 ## [1.2.111] - 2025-04-25
 ### Changed
 - Dependencies - Updated Meziantou.Analyzer to 2.0.198
