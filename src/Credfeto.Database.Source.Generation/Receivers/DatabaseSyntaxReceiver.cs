@@ -22,14 +22,9 @@ internal static class DatabaseSyntaxReceiver
         ErrorInfo? errorInfo
     ) IgnoredMethod = (methodGeneration: null, invalidModel: null, errorInfo: null);
 
-    private static ClassDeclarationSyntax? GetClassDeclarationSyntax(
-        MethodDeclarationSyntax methodDeclarationSyntax
-    )
+    private static ClassDeclarationSyntax? GetClassDeclarationSyntax(MethodDeclarationSyntax methodDeclarationSyntax)
     {
-        return methodDeclarationSyntax
-            .Ancestors()
-            .OfType<ClassDeclarationSyntax>()
-            .FirstOrDefault();
+        return methodDeclarationSyntax.Ancestors().OfType<ClassDeclarationSyntax>().FirstOrDefault();
     }
 
     private static MethodGeneration? BuildMethod(
@@ -152,22 +147,14 @@ internal static class DatabaseSyntaxReceiver
     {
         if (
             !StringComparer.Ordinal.Equals(x: identifierNameSyntax.Identifier.Text, y: "Task")
-            && !StringComparer.Ordinal.Equals(
-                x: identifierNameSyntax.Identifier.Text,
-                y: "ValueTask"
-            )
+            && !StringComparer.Ordinal.Equals(x: identifierNameSyntax.Identifier.Text, y: "ValueTask")
         )
         {
-            throw new InvalidModelException(
-                message: $"Method {name} does not return a Task or ValueTask"
-            );
+            throw new InvalidModelException(message: $"Method {name} does not return a Task or ValueTask");
         }
 
         ISymbol returnSymbol = ValidateSymbol(
-            semanticModel.GetSymbol(
-                node: identifierNameSyntax,
-                cancellationToken: cancellationToken
-            ),
+            semanticModel.GetSymbol(node: identifierNameSyntax, cancellationToken: cancellationToken),
             $"Method {name} could not determine task type"
         );
 
@@ -195,11 +182,7 @@ internal static class DatabaseSyntaxReceiver
         return symbol;
     }
 
-    [SuppressMessage(
-        "Meziantou.Analyzer",
-        "MA0051: Method is too long",
-        Justification = "To refactor"
-    )]
+    [SuppressMessage("Meziantou.Analyzer", "MA0051: Method is too long", Justification = "To refactor")]
     private static MethodReturnType GetGenericTaskReturnType(
         SemanticModel semanticModel,
         MapperInfo? mapperInfo,
@@ -213,9 +196,7 @@ internal static class DatabaseSyntaxReceiver
             && !StringComparer.Ordinal.Equals(x: genericNameSyntax.Identifier.Text, y: "ValueTask")
         )
         {
-            throw new InvalidModelException(
-                message: $"Method {name} does not return a Task or ValueTask"
-            );
+            throw new InvalidModelException(message: $"Method {name} does not return a Task or ValueTask");
         }
 
         ISymbol returnSymbol = ValidateSymbol(
@@ -228,19 +209,13 @@ internal static class DatabaseSyntaxReceiver
         if (taskReturnType is GenericNameSyntax taskGenericNameSyntax)
         {
             ISymbol taskReturnSymbol = ValidateSymbol(
-                semanticModel.GetSymbol(
-                    node: taskGenericNameSyntax,
-                    cancellationToken: cancellationToken
-                ),
+                semanticModel.GetSymbol(node: taskGenericNameSyntax, cancellationToken: cancellationToken),
                 $"Method {name} could not determine task return type"
             );
 
             TypeSyntax taskReturnElementType = taskGenericNameSyntax.TypeArgumentList.Arguments[0];
             ISymbol taskReturnElementSymbol = ValidateSymbol(
-                semanticModel.GetSymbol(
-                    node: taskReturnElementType,
-                    cancellationToken: cancellationToken
-                ),
+                semanticModel.GetSymbol(node: taskReturnElementType, cancellationToken: cancellationToken),
                 $"Method {name} could not determine task return element type"
             );
 
@@ -256,10 +231,7 @@ internal static class DatabaseSyntaxReceiver
         if (taskReturnType is PredefinedTypeSyntax predefinedTypeSyntax)
         {
             ISymbol taskIdentifierPredefinedTypeReturnSymbol = ValidateSymbol(
-                semanticModel.GetSymbol(
-                    node: predefinedTypeSyntax,
-                    cancellationToken: cancellationToken
-                ),
+                semanticModel.GetSymbol(node: predefinedTypeSyntax, cancellationToken: cancellationToken),
                 $"Method {name} could not determine task return element type"
             );
 
@@ -275,10 +247,7 @@ internal static class DatabaseSyntaxReceiver
         if (taskReturnType is NullableTypeSyntax nullableTypeSyntax)
         {
             ISymbol taskIdentifierNullableTypeReturnSymbol = ValidateSymbol(
-                semanticModel.GetSymbol(
-                    node: nullableTypeSyntax.ElementType,
-                    cancellationToken: cancellationToken
-                ),
+                semanticModel.GetSymbol(node: nullableTypeSyntax.ElementType, cancellationToken: cancellationToken),
                 $"Method {name} could not determine task return element type"
             );
 
@@ -297,10 +266,7 @@ internal static class DatabaseSyntaxReceiver
         }
 
         ISymbol taskIdentifierReturnSymbol = ValidateSymbol(
-            semanticModel.GetSymbol(
-                node: taskIdentifierNameSyntax,
-                cancellationToken: cancellationToken
-            ),
+            semanticModel.GetSymbol(node: taskIdentifierNameSyntax, cancellationToken: cancellationToken),
             $"Method {name} could not determine task return element type"
         );
 
@@ -320,10 +286,7 @@ internal static class DatabaseSyntaxReceiver
     )
     {
         INamedTypeSymbol symbol = (INamedTypeSymbol)ValidateSymbol(
-            semanticModel.GetSymbol(
-                node: classDeclarationSyntax,
-                cancellationToken: cancellationToken
-            ),
+            semanticModel.GetSymbol(node: classDeclarationSyntax, cancellationToken: cancellationToken),
             $"Could not determine class type for {classDeclarationSyntax.Identifier.Text}"
         );
 
@@ -341,14 +304,7 @@ internal static class DatabaseSyntaxReceiver
         CancellationToken cancellationToken
     )
     {
-        return
-        [
-            .. Build(
-                model: semanticModel,
-                parameters: method.ParameterList.Parameters,
-                ct: cancellationToken
-            ),
-        ];
+        return [.. Build(model: semanticModel, parameters: method.ParameterList.Parameters, ct: cancellationToken)];
 
         static IEnumerable<MethodParameter> Build(
             SemanticModel model,
@@ -358,11 +314,7 @@ internal static class DatabaseSyntaxReceiver
         {
             foreach (ParameterSyntax parameter in parameters)
             {
-                yield return GetParameter(
-                    semanticModel: model,
-                    parameter: parameter,
-                    cancellationToken: ct
-                );
+                yield return GetParameter(semanticModel: model, parameter: parameter, cancellationToken: ct);
             }
         }
     }
@@ -422,24 +374,13 @@ internal static class DatabaseSyntaxReceiver
             || StringComparer.Ordinal.Equals(x: displayType, y: typeof(CancellationToken).FullName);
     }
 
-    [SuppressMessage(
-        "Roslynator.Analyzers",
-        "RCS1231: Make parameter ref-read-only",
-        Justification = "False positive"
-    )]
-    [SuppressMessage(
-        "Meziantou.Analyzer",
-        "MA0051: Method is too long",
-        Justification = "To refactor"
-    )]
+    [SuppressMessage("Roslynator.Analyzers", "RCS1231: Make parameter ref-read-only", Justification = "False positive")]
+    [SuppressMessage("Meziantou.Analyzer", "MA0051: Method is too long", Justification = "To refactor")]
     public static (
         MethodGeneration? methodGeneration,
         InvalidModelInfo? invalidModel,
         ErrorInfo? errorInfo
-    ) GetMethodDetails(
-        GeneratorSyntaxContext generatorSyntaxContext,
-        CancellationToken cancellationToken
-    )
+    ) GetMethodDetails(GeneratorSyntaxContext generatorSyntaxContext, CancellationToken cancellationToken)
     {
         if (generatorSyntaxContext.Node is not MethodDeclarationSyntax methodDeclarationSyntax)
         {
@@ -456,9 +397,7 @@ internal static class DatabaseSyntaxReceiver
             return IgnoredMethod;
         }
 
-        ClassDeclarationSyntax? classDeclarationSyntax = GetClassDeclarationSyntax(
-            methodDeclarationSyntax
-        );
+        ClassDeclarationSyntax? classDeclarationSyntax = GetClassDeclarationSyntax(methodDeclarationSyntax);
 
         if (classDeclarationSyntax is null)
         {
@@ -481,9 +420,7 @@ internal static class DatabaseSyntaxReceiver
                 cancellationToken: cancellationToken
             );
 
-            return method is null
-                ? IgnoredMethod
-                : (methodGeneration: method, invalidModel: null, errorInfo: null);
+            return method is null ? IgnoredMethod : (methodGeneration: method, invalidModel: null, errorInfo: null);
         }
         catch (InvalidModelException exception)
         {
