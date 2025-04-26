@@ -11,6 +11,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Changed
 - Dependencies - Updated Meziantou.Analyzer to 2.0.199
 - Dependencies - Updated Microsoft.Data.SqlClient to 6.0.2
+- Dependencies - Updated CSharpier to 1.0.1
 ### Removed
 ### Deployment Changes
 
