@@ -1,4 +1,4 @@
-﻿using FunFair.Test.Common;
+using FunFair.Test.Common;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NSubstitute;
@@ -15,9 +15,7 @@ public sealed class DependencyInjectionTests : DependencyInjectionTestsBase
     {
         return services
             .AddMockedService<IOptions<SqlServerConfiguration>>(static x =>
-                x.Value.Returns(
-                    new SqlServerConfiguration("Database=Example;Server=.;Integrated Security=SSPI")
-                )
+                x.Value.Returns(new SqlServerConfiguration("Database=Example;Server=.;Integrated Security=SSPI"))
             )
             .AddSqlServer();
     }
