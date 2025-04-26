@@ -17,14 +17,10 @@ public sealed class PgsqlDatabase : BaseDatabase
     private readonly NpgsqlDataSource _dataSource;
     private readonly ILogger<PgsqlDatabase> _logger;
 
-    public PgsqlDatabase(
-        IOptions<PgsqlServerConfiguration> configuration,
-        ILogger<PgsqlDatabase> logger
-    )
+    public PgsqlDatabase(IOptions<PgsqlServerConfiguration> configuration, ILogger<PgsqlDatabase> logger)
     {
         this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        this._configuration =
-            configuration.Value ?? throw new ArgumentNullException(nameof(configuration));
+        this._configuration = configuration.Value ?? throw new ArgumentNullException(nameof(configuration));
         this._dataSource = NpgsqlDataSource.Create(
             new NpgsqlConnectionStringBuilder(this._configuration.ConnectionString)
         );
@@ -57,10 +53,7 @@ public sealed class PgsqlDatabase : BaseDatabase
     {
         int error = 0;
 
-        StringBuilder sb = new StringBuilder()
-            .Append("Calling Stored Procedure: ")
-            .AppendLine(context)
-            .Append(++error);
+        StringBuilder sb = new StringBuilder().Append("Calling Stored Procedure: ").AppendLine(context).Append(++error);
 
         if (exception is NpgsqlException sqlException)
         {
@@ -75,9 +68,7 @@ public sealed class PgsqlDatabase : BaseDatabase
         return sb.ToString();
     }
 
-    protected override async ValueTask<DbConnection> GetConnectionAsync(
-        CancellationToken cancellationToken
-    )
+    protected override async ValueTask<DbConnection> GetConnectionAsync(CancellationToken cancellationToken)
     {
         return await this._dataSource.OpenConnectionAsync(cancellationToken);
     }
