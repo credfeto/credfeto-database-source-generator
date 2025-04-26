@@ -16,9 +16,7 @@ internal static class ParameterSetter
     )
     {
         bool isNullable = typeName.EndsWith(value: "?", comparisonType: StringComparison.Ordinal);
-        string nonNullableType = isNullable
-            ? typeName.Substring(startIndex: 0, typeName.Length - 1)
-            : typeName;
+        string nonNullableType = isNullable ? typeName.Substring(startIndex: 0, typeName.Length - 1) : typeName;
 
         DbType dbType =
             TypeMapper.Map(nonNullableType)
