@@ -19,14 +19,10 @@ public sealed class SqlServerDatabase : BaseDatabase
     private readonly SqlConnectionStringBuilder _connectionStringBuilder;
     private readonly ILogger<SqlServerDatabase> _logger;
 
-    public SqlServerDatabase(
-        IOptions<SqlServerConfiguration> configuration,
-        ILogger<SqlServerDatabase> logger
-    )
+    public SqlServerDatabase(IOptions<SqlServerConfiguration> configuration, ILogger<SqlServerDatabase> logger)
     {
         this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        SqlServerConfiguration cfg =
-            configuration.Value ?? throw new ArgumentNullException(nameof(configuration));
+        SqlServerConfiguration cfg = configuration.Value ?? throw new ArgumentNullException(nameof(configuration));
         this._connectionStringBuilder = new(cfg.ConnectionString);
     }
 
@@ -150,10 +146,7 @@ public sealed class SqlServerDatabase : BaseDatabase
     {
         int error = 0;
 
-        StringBuilder sb = new StringBuilder()
-            .Append("Calling Stored Procedure: ")
-            .AppendLine(context)
-            .Append(++error);
+        StringBuilder sb = new StringBuilder().Append("Calling Stored Procedure: ").AppendLine(context).Append(++error);
 
         if (exception is SqlException sqlException)
         {
@@ -172,9 +165,7 @@ public sealed class SqlServerDatabase : BaseDatabase
         return sb.ToString();
     }
 
-    protected override async ValueTask<DbConnection> GetConnectionAsync(
-        CancellationToken cancellationToken
-    )
+    protected override async ValueTask<DbConnection> GetConnectionAsync(CancellationToken cancellationToken)
     {
         SqlConnection connection = new(this._connectionStringBuilder.ConnectionString);
 
