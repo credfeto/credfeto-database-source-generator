@@ -80,9 +80,7 @@ public abstract class BaseDatabase : IDatabase
         int maxRetries
     );
 
-    protected abstract ValueTask<DbConnection> GetConnectionAsync(
-        CancellationToken cancellationToken
-    );
+    protected abstract ValueTask<DbConnection> GetConnectionAsync(CancellationToken cancellationToken);
 
     private async ValueTask ExecuteWithRetriesAsync(Func<ValueTask> func, string context)
     {
@@ -98,17 +96,11 @@ public abstract class BaseDatabase : IDatabase
         }
     }
 
-    private async ValueTask<TReturn> ExecuteWithRetriesAsync<TReturn>(
-        Func<ValueTask<TReturn>> func,
-        string context
-    )
+    private async ValueTask<TReturn> ExecuteWithRetriesAsync<TReturn>(Func<ValueTask<TReturn>> func, string context)
     {
         Context loggingContext = new(context);
 
-        return await this._retryPolicyAsync.ExecuteAsync(
-            action: WrappedAsync,
-            context: loggingContext
-        );
+        return await this._retryPolicyAsync.ExecuteAsync(action: WrappedAsync, context: loggingContext);
 
         Task<TReturn> WrappedAsync(Context c)
         {
