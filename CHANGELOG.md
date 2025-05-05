@@ -9,17 +9,20 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Added
 ### Fixed
 ### Changed
-- Dependencies - Updated Nullable.Extended.Analyzer to 1.15.6581
-- Dependencies - Updated SonarAnalyzer.CSharp to 10.9.0.115408
-- Dependencies - Updated Meziantou.Analyzer to 2.0.201
-- Dependencies - Updated xunit.v3 to 2.0.2
-- Dependencies - Updated FluentValidation to 12.0.0
 ### Removed
 ### Deployment Changes
 
 <!--
 Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
 -->
+## [1.2.116] - 2025-05-05
+### Changed
+- Dependencies - Updated Nullable.Extended.Analyzer to 1.15.6581
+- Dependencies - Updated SonarAnalyzer.CSharp to 10.9.0.115408
+- Dependencies - Updated Meziantou.Analyzer to 2.0.201
+- Dependencies - Updated xunit.v3 to 2.0.2
+- Dependencies - Updated FluentValidation to 12.0.0
+
 ## [1.2.115] - 2025-04-28
 ### Changed
 - Dependencies - Updated Credfeto.Enumeration to 1.2.81.1087
