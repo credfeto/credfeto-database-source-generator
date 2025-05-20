@@ -42,7 +42,7 @@
     <Product>Database wrapper</Product>
     <RepositoryUrl>https://github.com/credfeto/credfeto-database-source-generation</RepositoryUrl>
     <RunAOTCompilation>false</RunAOTCompilation>
-    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
     <TieredCompilation>true</TieredCompilation>
     <TieredPGO>true</TieredPGO>
     <TreatSpecificWarningsAsErrors />
