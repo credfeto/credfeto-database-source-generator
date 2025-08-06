@@ -20,6 +20,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated xunit.analyzers to 1.23.0
 - Dependencies - Updated FunFair.Test.Common to 6.1.280.1580
 - Dependencies - Updated Microsoft.Extensions to 9.0.8
+- Dependencies - Updated Polly to 8.6.2
 ### Removed
 ### Deployment Changes
 
