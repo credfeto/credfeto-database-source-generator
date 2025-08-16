@@ -20,7 +20,6 @@
     <IlcGenerateStackTraceData>false</IlcGenerateStackTraceData>
     <IlcOptimizationPreference>Size</IlcOptimizationPreference>
     <ImplicitUsings>disable</ImplicitUsings>
-    <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
     <IncludeSymbols>true</IncludeSymbols>
     <IsPackable>true</IsPackable>
     <IsPublishable>false</IsPublishable>
@@ -52,7 +51,6 @@
     <PackageReleaseNotes>$(ReleaseNotes)</PackageReleaseNotes>
     <NeutralLanguage>en-GB</NeutralLanguage>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>$(ReleaseNotes)</PackageReleaseNotes>
     <PackageTags>Database wrapper.</PackageTags>
     <Product>Database wrapper</Product>
     <RepositoryUrl>https://github.com/credfeto/credfeto-database-source-generation</RepositoryUrl>
@@ -72,7 +70,7 @@
     <PackageReference Include="CSharpIsNullAnalyzer" Version="0.1.593" PrivateAssets="all" ExcludeAssets="runtime" />
     <PackageReference Include="FunFair.CodeAnalysis" Version="7.1.21.1364" PrivateAssets="All" ExcludeAssets="runtime" />
     <PackageReference Include="Meziantou.Analyzer" Version="2.0.212" PrivateAssets="All" ExcludeAssets="runtime" />
-    <PackageReference Include="Microsoft.Sbom.Targets" Version="4.1.0" PrivateAssets="All" ExcludeAssets="runtime" />
+    <PackageReference Include="Microsoft.Sbom.Targets" Version="4.1.0" PrivateAssets="All" ExcludeAssets="runtime" Condition="$(EnableSbom)=='True'" />
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.14.15" PrivateAssets="All" ExcludeAssets="runtime" />
     <PackageReference Include="Nullable.Extended.Analyzer" Version="1.15.6581" PrivateAssets="All" ExcludeAssets="runtime" />
     <PackageReference Include="Philips.CodeAnalysis.DuplicateCodeAnalyzer" Version="1.6.4" PrivateAssets="All" ExcludeAssets="runtime" />
