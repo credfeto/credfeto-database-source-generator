@@ -1,0 +1,28 @@
+<Solution>
+  <Folder Name="/Config/">
+    <File Path="../CHANGELOG.md" />
+    <File Path="../README.md" />
+    <File Path="CodeAnalysis.ruleset" />
+    <File Path="global.json" />
+    <File Path="KeepGeneratedFiles.props" />
+    <File Path="SourceGenerator.props" />
+  </Folder>
+  <Folder Name="/Generation/">
+    <Project Path="Credfeto.Database.Source.Generation.Example/Credfeto.Database.Source.Generation.Example.csproj" />
+    <Project Path="Credfeto.Database.Source.Generation/Credfeto.Database.Source.Generation.csproj" />
+  </Folder>
+  <Folder Name="/Infastructure/">
+    <Project Path="Credfeto.Database.Interfaces/Credfeto.Database.Interfaces.csproj" />
+    <Project Path="Credfeto.Database/Credfeto.Database.csproj" />
+  </Folder>
+  <Folder Name="/Providers/">
+    <Project Path="Credfeto.Database.Pgsql.Tests/Credfeto.Database.Pgsql.Tests.csproj" />
+    <Project Path="Credfeto.Database.Pgsql/Credfeto.Database.Pgsql.csproj" />
+    <Project Path="Credfeto.Database.SqlServer.Tests/Credfeto.Database.SqlServer.Tests.csproj" />
+    <Project Path="Credfeto.Database.SqlServer/Credfeto.Database.SqlServer.csproj" />
+  </Folder>
+  <Folder Name="/SQL/" />
+  <Folder Name="/SQL/Postgresql/">
+    <File Path="../db/postgresql/pgsql.schema.sql" />
+  </Folder>
+</Solution>
