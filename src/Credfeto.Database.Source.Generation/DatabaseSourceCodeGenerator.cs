@@ -100,7 +100,6 @@ internal static class DatabaseSourceCodeGenerator
         }
     }
 
-    
     private static void GenerateTableFunctionMethod(MethodGeneration method, CodeBuilder source)
     {
         bool isCollection = IsMethodCollectionReturnType(method);
@@ -439,7 +438,6 @@ internal static class DatabaseSourceCodeGenerator
         return BuildFunctionSignature(source: source, method: method.Method);
     }
 
-    
     private static IDisposable BuildFunctionSignature(CodeBuilder source, MethodToGenerate method)
     {
         string methodStaticModifier = method.IsStatic ? "static " : string.Empty;
