@@ -375,7 +375,7 @@ internal static class DatabaseSyntaxReceiver
     }
 
     [SuppressMessage("Roslynator.Analyzers", "RCS1231: Make parameter ref-read-only", Justification = "False positive")]
-    [SuppressMessage("Meziantou.Analyzer", "MA0051: Method is too long", Justification = "To refactor")]
+    
     public static (
         MethodGeneration? methodGeneration,
         InvalidModelInfo? invalidModel,
