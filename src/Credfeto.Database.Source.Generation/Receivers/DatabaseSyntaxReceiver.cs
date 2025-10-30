@@ -375,7 +375,6 @@ internal static class DatabaseSyntaxReceiver
     }
 
     [SuppressMessage("Roslynator.Analyzers", "RCS1231: Make parameter ref-read-only", Justification = "False positive")]
-    
     public static (
         MethodGeneration? methodGeneration,
         InvalidModelInfo? invalidModel,
