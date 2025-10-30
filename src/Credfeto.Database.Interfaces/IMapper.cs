@@ -20,7 +20,6 @@ public interface IMapper<T>
         checkId: "IDE0036: Modifiers are not ordered",
         Justification = "CSharpifier requires"
     )]
-    
     static abstract T MapFromDb(object value);
 
     [SuppressMessage(
@@ -38,6 +37,5 @@ public interface IMapper<T>
         checkId: "IDE0036: Modifiers are not ordered",
         Justification = "By Design"
     )]
-    
     static abstract void MapToDb(T value, DbParameter parameter);
 }
