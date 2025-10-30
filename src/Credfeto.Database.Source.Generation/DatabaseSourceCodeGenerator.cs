@@ -100,7 +100,7 @@ internal static class DatabaseSourceCodeGenerator
         }
     }
 
-    [SuppressMessage(category: "Meziantou.Analyzer", checkId: "MA0051:Method too long", Justification = "Test")]
+    
     private static void GenerateTableFunctionMethod(MethodGeneration method, CodeBuilder source)
     {
         bool isCollection = IsMethodCollectionReturnType(method);
@@ -439,7 +439,7 @@ internal static class DatabaseSourceCodeGenerator
         return BuildFunctionSignature(source: source, method: method.Method);
     }
 
-    [SuppressMessage(category: "", checkId: "ENUM001", Justification = "Temp code")]
+    
     private static IDisposable BuildFunctionSignature(CodeBuilder source, MethodToGenerate method)
     {
         string methodStaticModifier = method.IsStatic ? "static " : string.Empty;
