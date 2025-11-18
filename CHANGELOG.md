@@ -11,6 +11,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Changed
 - Dotnet 10
 - SDK - Updated DotNet SDK to 10.0.100
+- Dependencies - Updated Credfeto.Enumeration to 1.2.131.1523
 ### Removed
 ### Deployment Changes
 
