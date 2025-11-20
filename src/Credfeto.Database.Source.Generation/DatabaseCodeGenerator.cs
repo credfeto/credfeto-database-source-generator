@@ -14,11 +14,7 @@ public sealed class DatabaseCodeGenerator : IIncrementalGenerator
         context.RegisterSourceOutput(ExtractMethods(context), action: GenerateMethods);
     }
 
-    private static IncrementalValuesProvider<(
-        MethodGeneration? methodGeneration,
-        InvalidModelInfo? invalidModel,
-        ErrorInfo? errorInfo
-    )> ExtractMethods(in IncrementalGeneratorInitializationContext context)
+    private static IncrementalValuesProvider<MethodContext> ExtractMethods(in IncrementalGeneratorInitializationContext context)
     {
         return context.SyntaxProvider.CreateSyntaxProvider(
             predicate: static (n, _) => n is MethodDeclarationSyntax,
@@ -28,19 +24,27 @@ public sealed class DatabaseCodeGenerator : IIncrementalGenerator
 
     private static void GenerateMethods(
         SourceProductionContext sourceProductionContext,
-        (MethodGeneration? methodGeneration, InvalidModelInfo? invalidModel, ErrorInfo? errorInfo) generation
+        MethodContext generation
     )
     {
-        if (generation.invalidModel is not null)
+        if (generation.Warnings is not null)
         {
-            ReportInvalidModelError(context: sourceProductionContext, invalidModel: generation.invalidModel.Value);
+            foreach (WarningModelInfo warning in generation.Warnings)
+            {
+                ReportWarning(context: sourceProductionContext, warningModelInfo:warning);
+            }
+        }
+
+        if (generation.InvalidModel is not null)
+        {
+            ReportInvalidModelError(context: sourceProductionContext, invalidModel: generation.InvalidModel.Value);
 
             return;
         }
 
-        if (generation.errorInfo is not null)
+        if (generation.ErrorInfo is not null)
         {
-            ErrorInfo errorInfo = generation.errorInfo.Value;
+            ErrorInfo errorInfo = generation.ErrorInfo.Value;
             ReportException(
                 location: errorInfo.Location,
                 context: sourceProductionContext,
@@ -50,11 +54,11 @@ public sealed class DatabaseCodeGenerator : IIncrementalGenerator
             return;
         }
 
-        if (generation.methodGeneration is not null)
+        if (generation.MethodGeneration is not null)
         {
             DatabaseSourceCodeGenerator.GenerateOneMethodGroup(
                 context: sourceProductionContext,
-                generation.methodGeneration
+                generation.MethodGeneration
             );
         }
     }
@@ -64,7 +68,7 @@ public sealed class DatabaseCodeGenerator : IIncrementalGenerator
         context.ReportDiagnostic(
             diagnostic: Diagnostic.Create(
                 new(
-                    id: "CDSG002",
+                    id: RuleConstants.UnhandledException,
                     title: "Unhandled Exception",
                     exception.Message + ' ' + exception.StackTrace,
                     category: VersionInformation.Product,
@@ -81,7 +85,7 @@ public sealed class DatabaseCodeGenerator : IIncrementalGenerator
         context.ReportDiagnostic(
             diagnostic: Diagnostic.Create(
                 new(
-                    id: "CDSG001",
+                    id: RuleConstants.InvalidModel,
                     title: "Invalid model",
                     messageFormat: invalidModel.Message,
                     category: VersionInformation.Product,
@@ -89,6 +93,23 @@ public sealed class DatabaseCodeGenerator : IIncrementalGenerator
                     isEnabledByDefault: true
                 ),
                 location: invalidModel.Location
+            )
+        );
+    }
+
+    private static void ReportWarning(in SourceProductionContext context, in WarningModelInfo warningModelInfo)
+    {
+        context.ReportDiagnostic(
+            diagnostic: Diagnostic.Create(
+                new(
+                    id: warningModelInfo.Code,
+                    title: warningModelInfo.Message,
+                    messageFormat: warningModelInfo.Message,
+                    category: VersionInformation.Product,
+                    defaultSeverity: DiagnosticSeverity.Info,
+                    isEnabledByDefault: true
+                ),
+                location: warningModelInfo.Location
             )
         );
     }

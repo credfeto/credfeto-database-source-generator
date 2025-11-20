@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Credfeto.Database.Source.Generation.Exceptions;
@@ -14,13 +15,14 @@ internal static class AttributeMappings
     public static SqlObject? GetSqlObject(
         SemanticModel semanticModel,
         MethodDeclarationSyntax methodDeclarationSyntax,
+        List<WarningModelInfo> warnings,
         CancellationToken cancellationToken
     )
     {
         return methodDeclarationSyntax
             .AttributeLists.SelectMany(selector: x => x.Attributes)
-            .Select(x =>
-                CreateSqlObject(semanticModel: semanticModel, attributeSyntax: x, cancellationToken: cancellationToken)
+            .Select(attributeSyntax =>
+                CreateSqlObject( semanticModel: semanticModel, attributeSyntax: attributeSyntax, warnings: warnings, cancellationToken: cancellationToken)
             )
             .RemoveNulls()
             .FirstOrDefault();
@@ -139,12 +141,7 @@ internal static class AttributeMappings
 
         string name = containingType.OriginalDefinition.ToDisplayString();
 
-        if (
-            !StringComparer.Ordinal.Equals(
-                x: name,
-                y: "Credfeto.Database.Interfaces.SqlFieldMapAttribute<TMapper, TDataType>"
-            )
-        )
+        if (!IsSqlFieldMapAttribute(name))
         {
             return null;
         }
@@ -153,26 +150,38 @@ internal static class AttributeMappings
 
         if (mapperSymbol.Kind == SymbolKind.ErrorType)
         {
-            throw new InvalidModelException(
-                $"Unable to determine the mapped type for {mapperSymbol.ToDisplayString()}"
-            );
+            return CouldNotDetermineMapped(mapperSymbol);
         }
 
         ISymbol mappedSymbol = containingType.TypeArguments[1];
 
         if (mappedSymbol.Kind == SymbolKind.ErrorType)
         {
-            throw new InvalidModelException(
-                $"Unable to determine the mapped type for {mappedSymbol.ToDisplayString()}"
-            );
+            return CouldNotDetermineMapped(mappedSymbol);
         }
 
         return new(mapperSymbol: mapperSymbol, mappedSymbol: mappedSymbol);
     }
 
+    private static bool IsSqlFieldMapAttribute(string name)
+    {
+        return StringComparer.Ordinal.Equals(
+            x: name,
+            y: "Credfeto.Database.Interfaces.SqlFieldMapAttribute<TMapper, TDataType>"
+        );
+    }
+
+    private static MapperInfo CouldNotDetermineMapped(ISymbol mappedSymbol)
+    {
+        throw new InvalidModelException(
+            $"Unable to determine the mapped type for {mappedSymbol.ToDisplayString()}"
+        );
+    }
+
     private static SqlObject? CreateSqlObject(
         SemanticModel semanticModel,
         AttributeSyntax attributeSyntax,
+        List<WarningModelInfo> warnings,
         CancellationToken cancellationToken
     )
     {
@@ -208,7 +217,12 @@ internal static class AttributeMappings
 
         if (sqlObjectType is null)
         {
-            // TODO: Log error?
+            warnings.Add(new WarningModelInfo(
+                                        RuleConstants.InvalidSqlObjectType,
+                                        location:attributeSyntax.GetLocation(),
+                                        "Invalid SQL Object Type"
+                                        ));
+
             return null;
         }
 
@@ -216,7 +230,11 @@ internal static class AttributeMappings
 
         if (sqlDialect is null)
         {
-            // TODO: Log error?
+            warnings.Add(new WarningModelInfo(
+                             RuleConstants.InvalidSqlDialect,
+                                 location:attributeSyntax.GetLocation(),
+                                 "Invalid SQL Dialect"
+                             ));
             return null;
         }
 

@@ -3,16 +3,19 @@ using Microsoft.CodeAnalysis;
 
 namespace Credfeto.Database.Source.Generation.Models;
 
-[DebuggerDisplay("{Location} {Message}")]
-internal readonly record struct InvalidModelInfo
+[DebuggerDisplay("{Code} {Location} {Message}")]
+internal readonly record struct WarningModelInfo
 {
-    public InvalidModelInfo(Location location, string message)
+    public WarningModelInfo(string code, Location location, string message)
     {
+        this.Code = code;
         this.Location = location;
         this.Message = message;
     }
 
     public string Message { get; }
+
+    public string Code { get; }
 
     public Location Location { get; }
 }

@@ -16,11 +16,7 @@ namespace Credfeto.Database.Source.Generation.Receivers;
 
 internal static class DatabaseSyntaxReceiver
 {
-    private static readonly (
-        MethodGeneration? methodGeneration,
-        InvalidModelInfo? invalidModel,
-        ErrorInfo? errorInfo
-    ) IgnoredMethod = (methodGeneration: null, invalidModel: null, errorInfo: null);
+    private static readonly MethodContext IgnoredMethod = new ();
 
     private static ClassDeclarationSyntax? GetClassDeclarationSyntax(MethodDeclarationSyntax methodDeclarationSyntax)
     {
@@ -28,15 +24,17 @@ internal static class DatabaseSyntaxReceiver
     }
 
     private static MethodGeneration? BuildMethod(
-        in GeneratorSyntaxContext context,
+        in GeneratorSyntaxContext generatorSyntaxContext,
         MethodDeclarationSyntax methodDeclarationSyntax,
         ClassDeclarationSyntax classDeclarationSyntax,
+        List<WarningModelInfo> warnings,
         CancellationToken cancellationToken
     )
     {
         SqlObject? sqlObject = AttributeMappings.GetSqlObject(
-            semanticModel: context.SemanticModel,
+            semanticModel: generatorSyntaxContext.SemanticModel,
             methodDeclarationSyntax: methodDeclarationSyntax,
+            warnings: warnings,
             cancellationToken: cancellationToken
         );
 
@@ -46,12 +44,12 @@ internal static class DatabaseSyntaxReceiver
         }
 
         ClassInfo containingContext = GetClass(
-            semanticModel: context.SemanticModel,
+            semanticModel: generatorSyntaxContext.SemanticModel,
             classDeclarationSyntax: classDeclarationSyntax,
             cancellationToken: cancellationToken
         );
         MethodToGenerate methodToGenerate = GetMethod(
-            semanticModel: context.SemanticModel,
+            semanticModel: generatorSyntaxContext.SemanticModel,
             methodDeclarationSyntax: methodDeclarationSyntax,
             cancellationToken: cancellationToken
         );
@@ -59,7 +57,7 @@ internal static class DatabaseSyntaxReceiver
         return new(
             containingContext: containingContext,
             methodToGenerate: methodToGenerate,
-            semanticModel: context.SemanticModel,
+            semanticModel: generatorSyntaxContext.SemanticModel,
             sqlObject: sqlObject,
             methodDeclarationSyntax.GetLocation()
         );
@@ -375,11 +373,7 @@ internal static class DatabaseSyntaxReceiver
     }
 
     [SuppressMessage("Roslynator.Analyzers", "RCS1231: Make parameter ref-read-only", Justification = "False positive")]
-    public static (
-        MethodGeneration? methodGeneration,
-        InvalidModelInfo? invalidModel,
-        ErrorInfo? errorInfo
-    ) GetMethodDetails(GeneratorSyntaxContext generatorSyntaxContext, CancellationToken cancellationToken)
+    public static MethodContext GetMethodDetails(GeneratorSyntaxContext generatorSyntaxContext, CancellationToken cancellationToken)
     {
         if (generatorSyntaxContext.Node is not MethodDeclarationSyntax methodDeclarationSyntax)
         {
@@ -412,30 +406,42 @@ internal static class DatabaseSyntaxReceiver
 
         try
         {
-            MethodGeneration? method = BuildMethod(
-                context: generatorSyntaxContext,
-                methodDeclarationSyntax: methodDeclarationSyntax,
-                classDeclarationSyntax: classDeclarationSyntax,
-                cancellationToken: cancellationToken
-            );
-
-            return method is null ? IgnoredMethod : (methodGeneration: method, invalidModel: null, errorInfo: null);
+            return Build(generatorSyntaxContext: generatorSyntaxContext, methodDeclarationSyntax: methodDeclarationSyntax, classDeclarationSyntax: classDeclarationSyntax, cancellationToken: cancellationToken);
         }
         catch (InvalidModelException exception)
         {
-            return (
-                methodGeneration: null,
-                invalidModel: new InvalidModelInfo(location: location, message: exception.Message),
-                errorInfo: null
+            return new (
+                invalidModel: new InvalidModelInfo(location: location, message: exception.Message)
             );
         }
         catch (Exception exception)
         {
-            return (
-                methodGeneration: null,
-                invalidModel: null,
+            return new (
                 errorInfo: new ErrorInfo(location: location, exception: exception)
             );
         }
+    }
+
+    private static MethodContext Build(
+        in GeneratorSyntaxContext generatorSyntaxContext,
+        MethodDeclarationSyntax methodDeclarationSyntax,
+        ClassDeclarationSyntax classDeclarationSyntax,
+        CancellationToken cancellationToken)
+    {
+        List<WarningModelInfo> warnings = [];
+        MethodGeneration? method = BuildMethod(
+            generatorSyntaxContext: generatorSyntaxContext,
+            methodDeclarationSyntax: methodDeclarationSyntax,
+            classDeclarationSyntax: classDeclarationSyntax,
+            warnings:warnings,
+            cancellationToken: cancellationToken
+        );
+
+        return method is null ? IgnoredMethod : new (methodGeneration: method, warnings: NullIfEmpty(warnings));
+    }
+
+    private static List<WarningModelInfo>? NullIfEmpty(List<WarningModelInfo> warnings)
+    {
+        return warnings.Count != 0 ? warnings: null;
     }
 }

@@ -312,7 +312,6 @@ internal static class DatabaseSourceCodeGenerator
 
             using (source.StartBlock(text: "if (result is null || Convert.IsDBNull(result))"))
             {
-                // TODO: find a way to move the exception out
                 source.AppendLine(
                     method.Method.ReturnType.IsNullable
                         ? "return null;"
