@@ -15,26 +15,23 @@ internal readonly struct MethodContext
     public ErrorInfo? ErrorInfo { get; }
 
     public MethodContext()
-        : this(methodGeneration: null, warnings: null, invalidModel: null, errorInfo: null)
-    {
-    }
+        : this(methodGeneration: null, warnings: null, invalidModel: null, errorInfo: null) { }
 
     public MethodContext(MethodGeneration? methodGeneration, List<WarningModelInfo>? warnings)
-        : this(methodGeneration: methodGeneration, warnings: warnings, invalidModel: null, errorInfo: null)
-    {
-    }
+        : this(methodGeneration: methodGeneration, warnings: warnings, invalidModel: null, errorInfo: null) { }
 
     public MethodContext(InvalidModelInfo? invalidModel)
-        : this(methodGeneration: null, warnings: null, invalidModel: invalidModel, errorInfo: null)
-    {
-    }
+        : this(methodGeneration: null, warnings: null, invalidModel: invalidModel, errorInfo: null) { }
 
     public MethodContext(ErrorInfo? errorInfo)
-        : this(methodGeneration: null, warnings: null, invalidModel: null, errorInfo: errorInfo)
-    {
-    }
+        : this(methodGeneration: null, warnings: null, invalidModel: null, errorInfo: errorInfo) { }
 
-    private MethodContext(MethodGeneration? methodGeneration, List<WarningModelInfo>? warnings, InvalidModelInfo? invalidModel, ErrorInfo? errorInfo)
+    private MethodContext(
+        MethodGeneration? methodGeneration,
+        List<WarningModelInfo>? warnings,
+        InvalidModelInfo? invalidModel,
+        ErrorInfo? errorInfo
+    )
     {
         this.MethodGeneration = methodGeneration;
         this.Warnings = warnings;
