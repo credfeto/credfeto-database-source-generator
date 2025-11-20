@@ -22,7 +22,12 @@ internal static class AttributeMappings
         return methodDeclarationSyntax
             .AttributeLists.SelectMany(selector: x => x.Attributes)
             .Select(attributeSyntax =>
-                CreateSqlObject( semanticModel: semanticModel, attributeSyntax: attributeSyntax, warnings: warnings, cancellationToken: cancellationToken)
+                CreateSqlObject(
+                    semanticModel: semanticModel,
+                    attributeSyntax: attributeSyntax,
+                    warnings: warnings,
+                    cancellationToken: cancellationToken
+                )
             )
             .RemoveNulls()
             .FirstOrDefault();
@@ -173,9 +178,7 @@ internal static class AttributeMappings
 
     private static MapperInfo CouldNotDetermineMapped(ISymbol mappedSymbol)
     {
-        throw new InvalidModelException(
-            $"Unable to determine the mapped type for {mappedSymbol.ToDisplayString()}"
-        );
+        throw new InvalidModelException($"Unable to determine the mapped type for {mappedSymbol.ToDisplayString()}");
     }
 
     private static SqlObject? CreateSqlObject(
@@ -217,11 +220,13 @@ internal static class AttributeMappings
 
         if (sqlObjectType is null)
         {
-            warnings.Add(new WarningModelInfo(
-                                        RuleConstants.InvalidSqlObjectType,
-                                        location:attributeSyntax.GetLocation(),
-                                        "Invalid SQL Object Type"
-                                        ));
+            warnings.Add(
+                new WarningModelInfo(
+                    RuleConstants.InvalidSqlObjectType,
+                    location: attributeSyntax.GetLocation(),
+                    "Invalid SQL Object Type"
+                )
+            );
 
             return null;
         }
@@ -230,11 +235,13 @@ internal static class AttributeMappings
 
         if (sqlDialect is null)
         {
-            warnings.Add(new WarningModelInfo(
-                             RuleConstants.InvalidSqlDialect,
-                                 location:attributeSyntax.GetLocation(),
-                                 "Invalid SQL Dialect"
-                             ));
+            warnings.Add(
+                new WarningModelInfo(
+                    RuleConstants.InvalidSqlDialect,
+                    location: attributeSyntax.GetLocation(),
+                    "Invalid SQL Dialect"
+                )
+            );
             return null;
         }
 
