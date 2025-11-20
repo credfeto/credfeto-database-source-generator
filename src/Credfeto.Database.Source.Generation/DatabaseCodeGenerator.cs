@@ -14,7 +14,9 @@ public sealed class DatabaseCodeGenerator : IIncrementalGenerator
         context.RegisterSourceOutput(ExtractMethods(context), action: GenerateMethods);
     }
 
-    private static IncrementalValuesProvider<MethodContext> ExtractMethods(in IncrementalGeneratorInitializationContext context)
+    private static IncrementalValuesProvider<MethodContext> ExtractMethods(
+        in IncrementalGeneratorInitializationContext context
+    )
     {
         return context.SyntaxProvider.CreateSyntaxProvider(
             predicate: static (n, _) => n is MethodDeclarationSyntax,
@@ -22,16 +24,13 @@ public sealed class DatabaseCodeGenerator : IIncrementalGenerator
         );
     }
 
-    private static void GenerateMethods(
-        SourceProductionContext sourceProductionContext,
-        MethodContext generation
-    )
+    private static void GenerateMethods(SourceProductionContext sourceProductionContext, MethodContext generation)
     {
         if (generation.Warnings is not null)
         {
             foreach (WarningModelInfo warning in generation.Warnings)
             {
-                ReportWarning(context: sourceProductionContext, warningModelInfo:warning);
+                ReportWarning(context: sourceProductionContext, warningModelInfo: warning);
             }
         }
 
