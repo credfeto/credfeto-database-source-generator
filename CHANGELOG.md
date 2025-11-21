@@ -19,6 +19,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Philips.CodeAnalysis.MaintainabilityAnalyzers to 1.9.1
 - Dependencies - Updated Roslynator.Analyzers to 4.14.1
 - Dependencies - Updated FluentValidation to 12.1.0
+- Dependencies - Updated FunFair.Test.Common to 6.2.5.1856
 ### Removed
 ### Deployment Changes
 
