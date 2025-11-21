@@ -9,6 +9,14 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Added
 ### Fixed
 ### Changed
+### Removed
+### Deployment Changes
+
+<!--
+Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
+-->
+## [1.2.200] - 2025-11-21
+### Changed
 - Dotnet 10
 - SDK - Updated DotNet SDK to 10.0.100
 - Dependencies - Updated Credfeto.Enumeration to 1.2.131.1523
@@ -24,12 +32,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Microsoft.Extensions to 10.0.0
 - Dependencies - Updated Npgsql to 9.0.4
 - Dependencies - Updated Polly to 8.6.4
-### Removed
-### Deployment Changes
 
-<!--
-Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
--->
 ## [1.2.199] - 2025-09-11
 ### Changed
 - SDK - Updated DotNet SDK to 9.0.305
