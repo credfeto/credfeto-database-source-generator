@@ -4,7 +4,6 @@
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
     <AssemblyTitle>Database interfaces</AssemblyTitle>
     <Authors>Mark Ridgwell</Authors>
-    <CodeAnalysisRuleSet>$(SolutionDir)\CodeAnalysis.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
     <Company>Mark Ridgwell</Company>
     <Copyright>Mark Ridgwell</Copyright>
