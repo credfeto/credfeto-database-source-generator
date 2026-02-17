@@ -19,6 +19,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated SonarAnalyzer.CSharp to 10.19.0.132793
 - Dependencies - Updated xunit.analyzers to 1.27.0
 - Dependencies - Updated xunit.v3 to 3.2.2
+- Dependencies - Updated FluentValidation to 12.1.1
 ### Removed
 ### Deployment Changes
 
