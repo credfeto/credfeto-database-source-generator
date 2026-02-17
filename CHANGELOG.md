@@ -22,6 +22,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated FluentValidation to 12.1.1
 - Dependencies - Updated FunFair.Test.Common to 6.2.16.1963
 - Dependencies - Updated FunFair.Test.Source.Generator to 6.2.16.1963
+- Dependencies - Updated Microsoft.Data.SqlClient to 6.1.4
 ### Removed
 ### Deployment Changes
 
