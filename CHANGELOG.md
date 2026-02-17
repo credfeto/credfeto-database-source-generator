@@ -25,6 +25,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Microsoft.Data.SqlClient to 6.1.4
 - Dependencies - Updated Microsoft.Extensions to 10.0.3
 - Dependencies - Updated Npgsql to 10.0.1
+- Dependencies - Updated Polly to 8.6.5
 ### Removed
 ### Deployment Changes
 
