@@ -9,6 +9,14 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Added
 ### Fixed
 ### Changed
+### Removed
+### Deployment Changes
+
+<!--
+Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
+-->
+## [1.2.203] - 2026-02-22
+### Changed
 - Dependencies - Updated AsyncFixer to 2.1.0
 - Dependencies - Updated Credfeto.Enumeration to 1.2.135.1701
 - Dependencies - Updated Credfeto.Version.Information.Generator to 1.0.119.1070
@@ -27,12 +35,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Npgsql to 10.0.1
 - Dependencies - Updated Polly to 8.6.5
 - SDK - Updated DotNet SDK to 10.0.103
-### Removed
-### Deployment Changes
 
-<!--
-Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
--->
 ## [1.2.202] - 2026-01-20
 ### Changed
 - SDK - Updated DotNet SDK to 10.0.102
