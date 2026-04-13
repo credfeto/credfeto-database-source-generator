@@ -18,6 +18,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated FunFair.Test.Common to 6.2.19.2017
 - Dependencies - Updated FunFair.Test.Source.Generator to 6.2.19.2017
 - Dependencies - Updated Microsoft.Data.SqlClient to 7.0.0
+- Dependencies - Updated Microsoft.Extensions to 10.0.5
 ### Removed
 ### Deployment Changes
 
