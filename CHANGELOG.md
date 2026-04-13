@@ -11,6 +11,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Changed
 - Dependencies - Updated Credfeto.Enumeration to 1.2.140.1751
 - Dependencies - Updated Credfeto.Version.Information.Generator to 1.0.121.1094
+- Dependencies - Updated Microsoft.CodeAnalysis.CSharp to 5.3.0
 ### Removed
 ### Deployment Changes
 
