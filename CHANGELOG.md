@@ -13,7 +13,6 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Credfeto.Version.Information.Generator to 1.0.121.1094
 - Dependencies - Updated Microsoft.CodeAnalysis.CSharp to 5.3.0
 - Dependencies - Updated Philips.CodeAnalysis.DuplicateCodeAnalyzer to 1.11.1
-- Dependencies - Updated Philips.CodeAnalysis.MaintainabilityAnalyzers to 1.11.0
 - Dependencies - Updated SonarAnalyzer.CSharp to 10.23.0.137933
 - Dependencies - Updated FunFair.Test.Common to 6.2.19.2017
 - Dependencies - Updated FunFair.Test.Source.Generator to 6.2.19.2017
@@ -22,6 +21,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Npgsql to 10.0.2
 - Dependencies - Updated Polly to 8.6.6
 - Dependencies - Updated Meziantou.Analyzer to 3.0.50
+- Dependencies - Updated Philips.CodeAnalysis.MaintainabilityAnalyzers to 2.0.0
 ### Removed
 ### Deployment Changes
 
