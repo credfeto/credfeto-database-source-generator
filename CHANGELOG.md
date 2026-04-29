@@ -13,6 +13,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Credfeto.Version.Information.Generator to 1.0.123.1157
 - Dependencies - Updated FunFair.CodeAnalysis to 7.1.39.1841
 - Dependencies - Updated Meziantou.Analyzer to 3.0.54
+- Dependencies - Updated Philips.CodeAnalysis.DuplicateCodeAnalyzer to 2.0.0
 ### Removed
 ### Deployment Changes
 
