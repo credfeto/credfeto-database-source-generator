@@ -16,6 +16,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Philips.CodeAnalysis.DuplicateCodeAnalyzer to 2.0.0
 - Dependencies - Updated SonarAnalyzer.CSharp to 10.24.0.138807
 - Dependencies - Updated Microsoft.Data.SqlClient to 7.0.1
+- Dependencies - Updated Microsoft.Extensions to 10.0.7
 ### Removed
 ### Deployment Changes
 
