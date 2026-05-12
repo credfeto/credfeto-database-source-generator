@@ -8,6 +8,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ## [Unreleased]
 ### Security
 ### Added
+- BenchmarkDotNet performance benchmark project for the database source code generator
 ### Fixed
 ### Changed
 ### Removed
