@@ -7,6 +7,9 @@
     <File Path="KeepGeneratedFiles.props" />
     <File Path="SourceGenerator.props" />
   </Folder>
+  <Folder Name="/Benchmarks/">
+    <Project Path="Credfeto.Database.Source.Generation.Benchmark.Tests/Credfeto.Database.Source.Generation.Benchmark.Tests.csproj" />
+  </Folder>
   <Folder Name="/Generation/">
     <Project Path="Credfeto.Database.Source.Generation.Example/Credfeto.Database.Source.Generation.Example.csproj" />
     <Project Path="Credfeto.Database.Source.Generation/Credfeto.Database.Source.Generation.csproj" />
