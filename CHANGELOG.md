@@ -6,9 +6,12 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 -->
 
 ## [Unreleased]
+### Security
 ### Added
+- Added BenchmarkDotNet performance benchmark tests for the database source code generator
 ### Fixed
 ### Changed
+### Deprecated
 ### Removed
 ### Deployment Changes
 
@@ -24,7 +27,6 @@ Releases that have at least been deployed to staging, BUT NOT necessarily releas
 - Dependencies - Updated SonarAnalyzer.CSharp to 10.25.0.139117
 - Dependencies - Updated FunFair.Test.Common to 6.2.23.2204
 - Dependencies - Updated FunFair.Test.Source.Generator to 6.2.23.2204
-
 ## [1.2.207] - 2026-04-30
 ### Changed
 - Dependencies - Updated Credfeto.Enumeration to 1.2.141.1822
