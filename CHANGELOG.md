@@ -10,6 +10,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Added
 - Added BenchmarkDotNet performance benchmark tests for the database source code generator
 ### Fixed
+- Fixed SQLFLUFF LT02 indentation violations in pgsql.schema.sql
 ### Changed
 - Dependencies - Updated Credfeto.Enumeration to 1.2.142.1836
 - Dependencies - Updated Credfeto.Version.Information.Generator to 1.0.124.1183
