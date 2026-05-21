@@ -20,6 +20,8 @@
  - any: [ 'src/$Credfeto.Database.Pgsql.Tests/**/*' ]
 "credfeto-database-source-generation":
  - any: [ 'src/$Credfeto.Database.Source.Generation/**/*' ]
+"credfeto-database-source-generation-benchmark-tests":
+ - any: [ 'src/$Credfeto.Database.Source.Generation.Benchmark.Tests/**/*' ]
 "credfeto-database-source-generation-example":
  - any: [ 'src/$Credfeto.Database.Source.Generation.Example/**/*' ]
 "credfeto-database-sqlserver":
