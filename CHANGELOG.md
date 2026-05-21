@@ -8,7 +8,9 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ## [Unreleased]
 ### Security
 ### Added
+- BenchmarkDotNet performance benchmark project for the database source code generator
 ### Fixed
+- Fixed SQLFLUFF LT02 indentation violations in pgsql.schema.sql
 ### Changed
 ### Removed
 ### Deployment Changes
