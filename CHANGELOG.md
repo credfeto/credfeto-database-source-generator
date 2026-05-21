@@ -6,14 +6,15 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 -->
 
 ## [Unreleased]
+### Security
 ### Added
 ### Fixed
+- DateTimeOffset columns now extracted via direct cast rather than Convert.ToDateTime, which fails as DateTimeOffset does not implement IConvertible
 ### Changed
 - Dependencies - Updated Credfeto.Version.Information.Generator to 1.0.125.1199
 - Dependencies - Updated Meziantou.Analyzer to 3.0.85
 ### Removed
 ### Deployment Changes
-
 <!--
 Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
 -->
