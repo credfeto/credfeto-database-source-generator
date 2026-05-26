@@ -9,6 +9,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Security
 ### Added
 - BenchmarkDotNet performance benchmark project for the database source code generator
+- Add usage examples to README covering model, mapper, and SqlObjectMap attribute patterns (#12)
 ### Fixed
 - Fixed SQLFLUFF LT02 indentation violations in pgsql.schema.sql
 ### Changed
