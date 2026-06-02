@@ -10,6 +10,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Added
 - BenchmarkDotNet performance benchmark project for the database source code generator
 - Add usage examples to README covering model, mapper, and SqlObjectMap attribute patterns (#12)
+- Unit tests for Credfeto.Database.Source.Generation to achieve 100% code coverage (#130)
 ### Fixed
 - Fixed SQLFLUFF LT02 indentation violations in pgsql.schema.sql
 ### Changed
