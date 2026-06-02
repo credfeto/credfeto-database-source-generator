@@ -26,14 +26,6 @@ public sealed class DatabaseCodeGenerator : IIncrementalGenerator
 
     private static void GenerateMethods(SourceProductionContext sourceProductionContext, MethodContext generation)
     {
-        if (generation.Warnings is not null)
-        {
-            foreach (WarningModelInfo warning in generation.Warnings)
-            {
-                ReportWarning(context: sourceProductionContext, warningModelInfo: warning);
-            }
-        }
-
         if (generation.InvalidModel is not null)
         {
             ReportInvalidModelError(context: sourceProductionContext, invalidModel: generation.InvalidModel.Value);
@@ -96,20 +88,4 @@ public sealed class DatabaseCodeGenerator : IIncrementalGenerator
         );
     }
 
-    private static void ReportWarning(in SourceProductionContext context, in WarningModelInfo warningModelInfo)
-    {
-        context.ReportDiagnostic(
-            diagnostic: Diagnostic.Create(
-                new(
-                    id: warningModelInfo.Code,
-                    title: warningModelInfo.Message,
-                    messageFormat: warningModelInfo.Message,
-                    category: VersionInformation.Product,
-                    defaultSeverity: DiagnosticSeverity.Info,
-                    isEnabledByDefault: true
-                ),
-                location: warningModelInfo.Location
-            )
-        );
-    }
 }
