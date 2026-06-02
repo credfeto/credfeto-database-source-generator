@@ -7,11 +7,6 @@ namespace Credfeto.Database.Source.Generation.Extensions;
 
 internal static class TypeDeclarationSyntaxExtensions
 {
-    public static AccessType GetAccessType(this EnumDeclarationSyntax generatorSyntaxContext)
-    {
-        return GetAccessType(generatorSyntaxContext.Modifiers);
-    }
-
     public static AccessType GetAccessType(this ClassDeclarationSyntax generatorSyntaxContext)
     {
         return GetAccessType(generatorSyntaxContext.Modifiers);

@@ -232,15 +232,8 @@ internal static class DatabaseSourceCodeGenerator
         {
             string typeName = column.Type.ToDisplayString();
 
-            if (!generated.TryGetValue(key: typeName, out string? mapper))
-            {
-                throw new InvalidModelException(
-                    $"Unsupported C# data type {typeName} for column {column.Name}, does it need a mapper?"
-                );
-            }
-
             source.AppendLine(
-                $"                         {column.Name}: {mapper}(reader.GetValue(ordinal{column.Name}), @\"{column.Name}\"){end}"
+                $"                         {column.Name}: {generated[typeName]}(reader.GetValue(ordinal{column.Name}), @\"{column.Name}\"){end}"
             );
         }
     }
@@ -266,11 +259,6 @@ internal static class DatabaseSourceCodeGenerator
 
         bool IsSameType(IMethodSymbol constructor)
         {
-            if (constructor.IsStatic)
-            {
-                return false;
-            }
-
             if (constructor.DeclaredAccessibility != Accessibility.Public)
             {
                 return false;
@@ -391,24 +379,12 @@ internal static class DatabaseSourceCodeGenerator
         }
         else
         {
-            if (parameter.Type is IParameterSymbol ps)
-            {
-                ParameterSetter.SetParamerterInfo(
-                    source: source,
-                    $"p{parameterIndex}",
-                    parameterName: parameter.Name,
-                    ps.Type.ToDisplayString()
-                );
-            }
-            else
-            {
-                ParameterSetter.SetParamerterInfo(
-                    source: source,
-                    $"p{parameterIndex}",
-                    parameterName: parameter.Name,
-                    parameter.Type.ToDisplayString()
-                );
-            }
+            ParameterSetter.SetParamerterInfo(
+                source: source,
+                $"p{parameterIndex}",
+                parameterName: parameter.Name,
+                ((IParameterSymbol)parameter.Type).Type.ToDisplayString()
+            );
         }
 
         source
@@ -460,14 +436,10 @@ internal static class DatabaseSourceCodeGenerator
                 stringBuilder.Append(", ");
             }
 
-            if (parameter.Type is IParameterSymbol ps)
-            {
-                stringBuilder.Append(ps.Type.ToDisplayString()).Append(' ').Append(parameter.Name);
-            }
-            else
-            {
-                stringBuilder.Append(parameter.Type.ToDisplayString());
-            }
+            stringBuilder
+                .Append(((IParameterSymbol)parameter.Type).Type.ToDisplayString())
+                .Append(' ')
+                .Append(parameter.Name);
         }
 
         stringBuilder.Append(')');

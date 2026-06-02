@@ -40,14 +40,22 @@
     <WarnOnPackingNonPackableProject>false</WarnOnPackingNonPackableProject>
     <WarningsAsErrors />
   </PropertyGroup>
+  <ItemGroup>
+    <!-- error NU1903: Warning As Error: Package 'System.Private.Uri' 4.3.0 has a known high severity vulnerability -->
+    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-5f2m-466j-3848" />
+    <!-- error NU1902: Warning As Error: Package 'System.Private.Uri' 4.3.0 has a known moderate severity vulnerability -->
+    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-x5qj-9vmx-7g6g" />
+    <!-- error NU1903: Warning As Error: Package 'System.Private.Uri' 4.3.0 has a known high severity vulnerability -->
+    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-xhfc-gr8f-ffwc" />
+  </ItemGroup>
   <Import Project="$(SolutionDir)UnitTests.props" Condition="Exists('$(SolutionDir)UnitTests.props')" />
   <ItemGroup>
     <ProjectReference Include="..\Credfeto.Database.Interfaces\Credfeto.Database.Interfaces.csproj" />
     <ProjectReference Include="..\Credfeto.Database.Source.Generation\Credfeto.Database.Source.Generation.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.15.8" />
     <PackageReference Include="FunFair.Test.Common" Version="6.2.23.2204" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.3.0" />
     <PackageReference Include="xunit.v3.mtp-v2" Version="3.2.2" />
   </ItemGroup>
   <ItemGroup>

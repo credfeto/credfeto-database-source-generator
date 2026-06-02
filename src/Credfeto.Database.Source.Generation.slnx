@@ -24,6 +24,9 @@
     <Project Path="Credfeto.Database.SqlServer.Tests/Credfeto.Database.SqlServer.Tests.csproj" />
     <Project Path="Credfeto.Database.SqlServer/Credfeto.Database.SqlServer.csproj" />
   </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="Credfeto.Database.Source.Generation.Tests/Credfeto.Database.Source.Generation.Tests.csproj" />
+  </Folder>
   <Folder Name="/SQL/" />
   <Folder Name="/SQL/Postgresql/">
     <File Path="../db/postgresql/pgsql.schema.sql" />

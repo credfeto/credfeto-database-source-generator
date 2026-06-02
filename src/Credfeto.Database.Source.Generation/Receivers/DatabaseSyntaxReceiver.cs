@@ -358,12 +358,7 @@ internal static class DatabaseSyntaxReceiver
 
     private static string GetParameterType(ISymbol pType)
     {
-        if (pType is IParameterSymbol ps)
-        {
-            return ps.Type.ToDisplayString();
-        }
-
-        return pType.ToDisplayString();
+        return ((IParameterSymbol)pType).Type.ToDisplayString();
     }
 
     private static bool IsContextParameter(string displayType)
@@ -378,10 +373,7 @@ internal static class DatabaseSyntaxReceiver
         CancellationToken cancellationToken
     )
     {
-        if (generatorSyntaxContext.Node is not MethodDeclarationSyntax methodDeclarationSyntax)
-        {
-            return IgnoredMethod;
-        }
+        MethodDeclarationSyntax methodDeclarationSyntax = (MethodDeclarationSyntax)generatorSyntaxContext.Node;
 
         if (methodDeclarationSyntax.AttributeLists.Count == 0)
         {

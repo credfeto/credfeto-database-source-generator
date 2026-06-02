@@ -102,37 +102,15 @@ internal static class AttributeMappings
             return null;
         }
 
-        if (symbol.Kind == SymbolKind.ErrorType)
-        {
-            return null;
-        }
-
-        INamedTypeSymbol? containingType = symbol.ContainingType;
-
-        return CreateMapperInfo(containingType);
+        return CreateMapperInfo(symbol.ContainingType);
     }
 
-    private static MapperInfo? CreateMapperInfo2(ISymbol? symbol)
+    private static MapperInfo? CreateMapperInfo2(INamedTypeSymbol symbol)
     {
-        if (symbol is null)
-        {
-            return null;
-        }
-
-        if (symbol.Kind == SymbolKind.ErrorType)
-        {
-            return null;
-        }
-
-        if (symbol is not INamedTypeSymbol namedTypeSymbol)
-        {
-            return null;
-        }
-
-        return CreateMapperInfo(namedTypeSymbol);
+        return CreateMapperInfo(symbol);
     }
 
-    private static MapperInfo? CreateMapperInfo(INamedTypeSymbol containingType)
+    private static MapperInfo? CreateMapperInfo(INamedTypeSymbol? containingType)
     {
         if (containingType is null)
         {
