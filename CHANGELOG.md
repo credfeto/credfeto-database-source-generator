@@ -14,6 +14,8 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Unit tests for Credfeto.Database.SqlServer to achieve 100% code coverage (#132)
 ### Fixed
 - Fixed SQLFLUFF LT02 indentation violations in pgsql.schema.sql
+- Fix S125 commented-out code violations in DatabaseCodeGeneratorWarningTests (#139)
+- Fix BenchmarkDotNet CodeAnalysis version mismatch in benchmark tests (#140)
 ### Changed
 ### Removed
 ### Deployment Changes
