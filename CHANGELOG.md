@@ -19,6 +19,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Meziantou.Analyzer to 3.0.98
 - Dependencies - Updated SonarAnalyzer.CSharp to 10.27.0.140913
 - Dependencies - Updated FunFair.Test.Common to 6.2.25.2243
+- Dependencies - Updated FunFair.Test.Source.Generator to 6.2.25.2243
 ### Removed
 ### Deployment Changes
 <!--
