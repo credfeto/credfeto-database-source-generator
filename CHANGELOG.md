@@ -15,6 +15,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Fixed SQLFLUFF LT02 indentation violations in pgsql.schema.sql
 ### Changed
 - Dependencies - Updated Credfeto.Enumeration to 1.2.144.1906
+- Dependencies - Updated FunFair.CodeAnalysis to 7.2.0.1978
 ### Removed
 ### Deployment Changes
 <!--
