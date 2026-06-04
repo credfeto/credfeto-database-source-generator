@@ -11,25 +11,25 @@
 "Config Change":
  - any: [ 'src/**/*.json', '!src/global.json' ]
 "credfeto-database":
- - any: [ 'src/$Credfeto.Database/**/*' ]
+ - any: [ 'src/Credfeto.Database/**/*' ]
 "credfeto-database-interfaces":
- - any: [ 'src/$Credfeto.Database.Interfaces/**/*' ]
+ - any: [ 'src/Credfeto.Database.Interfaces/**/*' ]
 "credfeto-database-pgsql":
- - any: [ 'src/$Credfeto.Database.Pgsql/**/*' ]
+ - any: [ 'src/Credfeto.Database.Pgsql/**/*' ]
 "credfeto-database-pgsql-tests":
- - any: [ 'src/$Credfeto.Database.Pgsql.Tests/**/*' ]
+ - any: [ 'src/Credfeto.Database.Pgsql.Tests/**/*' ]
 "credfeto-database-source-generation":
- - any: [ 'src/$Credfeto.Database.Source.Generation/**/*' ]
+ - any: [ 'src/Credfeto.Database.Source.Generation/**/*' ]
 "credfeto-database-source-generation-benchmark-tests":
- - any: [ 'src/$Credfeto.Database.Source.Generation.Benchmark.Tests/**/*' ]
+ - any: [ 'src/Credfeto.Database.Source.Generation.Benchmark.Tests/**/*' ]
 "credfeto-database-source-generation-example":
- - any: [ 'src/$Credfeto.Database.Source.Generation.Example/**/*' ]
+ - any: [ 'src/Credfeto.Database.Source.Generation.Example/**/*' ]
 "credfeto-database-source-generation-tests":
- - any: [ 'src/$Credfeto.Database.Source.Generation.Tests/**/*' ]
+ - any: [ 'src/Credfeto.Database.Source.Generation.Tests/**/*' ]
 "credfeto-database-sqlserver":
- - any: [ 'src/$Credfeto.Database.SqlServer/**/*' ]
+ - any: [ 'src/Credfeto.Database.SqlServer/**/*' ]
 "credfeto-database-sqlserver-tests":
- - any: [ 'src/$Credfeto.Database.SqlServer.Tests/**/*' ]
+ - any: [ 'src/Credfeto.Database.SqlServer.Tests/**/*' ]
 "dotnet":
  - any: [ 'src/**/*.csproj' ]
 "Editorconfig":
