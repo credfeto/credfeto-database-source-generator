@@ -11,8 +11,11 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - BenchmarkDotNet performance benchmark project for the database source code generator
 - Add usage examples to README covering model, mapper, and SqlObjectMap attribute patterns (#12)
 - Unit tests for Credfeto.Database.Source.Generation to achieve 100% code coverage (#130)
+- Unit tests for Credfeto.Database.SqlServer to achieve 100% code coverage (#132)
 ### Fixed
 - Fixed SQLFLUFF LT02 indentation violations in pgsql.schema.sql
+- Fix S125 commented-out code violations in DatabaseCodeGeneratorWarningTests (#139)
+- Fix BenchmarkDotNet CodeAnalysis version mismatch in benchmark tests (#140)
 ### Changed
 - Dependencies - Updated Credfeto.Enumeration to 1.2.144.1906
 - Dependencies - Updated FunFair.CodeAnalysis to 7.2.0.1978

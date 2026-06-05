@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using FunFair.Test.Common;
@@ -169,10 +169,9 @@ public sealed class DatabaseCodeGeneratorWarningTests : TestBase
     [Fact]
     public void AttributeWithWrongNumberOfArgumentsProducesNoCode()
     {
-        // The CreateSqlObject method checks: if (argumentList?.Arguments.Count != 3) return null
-        // This covers the case where the SqlObjectMapAttribute has wrong argument count
-        // (though the attribute constructor requires exactly 3, so we can't really do this at compile time)
-        // Instead test with a non-SqlObjectMap attribute which should just produce no code
+        // The SqlObjectMap attribute argument count is validated internally. Since the attribute constructor
+        // requires exactly 3 arguments, a wrong count cannot be expressed at compile time.
+        // Instead test with a non-SqlObjectMap attribute which should produce no code.
         const string source = """
             using System.Data.Common;
             using System.Threading;
@@ -233,21 +232,21 @@ public sealed class DatabaseCodeGeneratorWarningTests : TestBase
         GeneratorRunResult generatorResult = generatorResults[0];
 
         // Should not produce an unhandled exception diagnostic (CDSG002)
-        Assert.DoesNotContain(generatorResult.Diagnostics, d => string.Equals(d.Id, "CDSG002", StringComparison.Ordinal));
+        Assert.DoesNotContain(
+            generatorResult.Diagnostics,
+            d => string.Equals(d.Id, "CDSG002", StringComparison.Ordinal)
+        );
     }
 
     [Fact]
     public void InvalidEnumValueNameInSqlObjectTypeProducesExceptionDiagnostic()
     {
         // Using a constant cast expression for SqlObjectType where the constant's name is not a
-        // valid SqlObjectType member triggers Enum.Parse to throw ArgumentException (not
-        // InvalidModelException). The text "(SqlObjectType)InvalidConstants.BAD_TYPE" has a dot,
-        // so GetSqlObjectType splits it into ["(SqlObjectType)InvalidConstants", "BAD_TYPE"],
-        // then Enum.Parse("BAD_TYPE") throws ArgumentException.
-        // This is caught by the outer catch(Exception) in GetMethodDetails, creating ErrorInfo
-        // and triggering ReportException with CDSG002 diagnostic.
-        // Note: the cast (SqlObjectType)99 is a valid attribute argument (unnamed enum value),
-        // so the attribute binds successfully and GetSymbol returns the constructor.
+        // valid SqlObjectType member triggers Enum.Parse to throw ArgumentException rather than
+        // InvalidModelException. The dotted name is split by GetSqlObjectType and the enum
+        // parse fails for the suffix segment, which is caught and reported as CDSG002.
+        // An unnamed numeric enum value such as a raw integer cast is a valid attribute argument
+        // that binds successfully, so the constructor symbol is resolved before the error occurs.
         const string source = """
             using System.Data.Common;
             using System.Threading;
@@ -273,14 +272,13 @@ public sealed class DatabaseCodeGeneratorWarningTests : TestBase
 
         GeneratorDriverRunResult result = CompilationHelpers.RunGenerator(source);
 
-        IReadOnlyList<Diagnostic> diagnostics = [
-            .. result.Results[0]
-                .Diagnostics.Where(d => d.Severity == DiagnosticSeverity.Error),
+        IReadOnlyList<Diagnostic> diagnostics =
+        [
+            .. result.Results[0].Diagnostics.Where(d => d.Severity == DiagnosticSeverity.Error),
         ];
 
         // Should produce CDSG002 (unhandled exception) since Enum.Parse throws ArgumentException
         Assert.NotEmpty(diagnostics);
         Assert.Contains(diagnostics, d => string.Equals(d.Id, "CDSG002", StringComparison.Ordinal));
     }
-
 }
