@@ -16,6 +16,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Fixed SQLFLUFF LT02 indentation violations in pgsql.schema.sql
 - Fix S125 commented-out code violations in DatabaseCodeGeneratorWarningTests (#139)
 - Fix BenchmarkDotNet CodeAnalysis version mismatch in benchmark tests (#140)
+- Fixed workflow CI failures for Dependabot pull requests by adding missing checkout steps in on_new_pr.yml and Dependabot guards on secret-dependent steps in pr-lint.yml and pr-code-review-and-approve.yml
 ### Changed
 - Dependencies - Updated Credfeto.Enumeration to 1.2.144.1906
 - Dependencies - Updated FunFair.CodeAnalysis to 7.2.0.1978
