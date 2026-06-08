@@ -8,6 +8,15 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ## [Unreleased]
 ### Security
 ### Added
+### Fixed
+### Changed
+### Removed
+### Deployment Changes
+<!--
+Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
+-->
+## [1.2.210] - 2026-06-08
+### Added
 - BenchmarkDotNet performance benchmark project for the database source code generator
 - Add usage examples to README covering model, mapper, and SqlObjectMap attribute patterns (#12)
 - Unit tests for Credfeto.Database.Source.Generation to achieve 100% code coverage (#130)
@@ -26,11 +35,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated FunFair.Test.Source.Generator to 6.2.25.2243
 - Dependencies - Updated Microsoft.Extensions to 10.0.8
 - Dependencies - Updated Npgsql to 10.0.3
-### Removed
-### Deployment Changes
-<!--
-Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
--->
+
 ## [1.2.209] - 2026-05-21
 ### Fixed
 - DateTimeOffset columns now extracted via direct cast rather than Convert.ToDateTime, which fails as DateTimeOffset does not implement IConvertible
