@@ -9,6 +9,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Security
 ### Added
 ### Fixed
+- Inline composite action logic in on_new_pr.yml to fix pull_request_target CI failures
 ### Changed
 ### Removed
 ### Deployment Changes
