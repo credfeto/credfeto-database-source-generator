@@ -8,6 +8,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ## [Unreleased]
 ### Security
 ### Added
+- Unit tests for Credfeto.Database to achieve 100% code coverage (#131)
 ### Fixed
 - Fix BenchmarkDotNet test failure caused by conflicting Microsoft.CodeAnalysis versions (#140)
 ### Changed
