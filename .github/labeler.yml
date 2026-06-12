@@ -30,6 +30,8 @@
  - any: [ 'src/Credfeto.Database.SqlServer/**/*' ]
 "credfeto-database-sqlserver-tests":
  - any: [ 'src/Credfeto.Database.SqlServer.Tests/**/*' ]
+"credfeto-database-tests":
+ - any: [ 'src/Credfeto.Database.Tests/**/*' ]
 "dotnet":
  - any: [ 'src/**/*.csproj' ]
 "Editorconfig":

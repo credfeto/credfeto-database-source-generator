@@ -82,6 +82,10 @@
   color: "0e8a16"
   description: "Changes in Credfeto.Database.SqlServer.Tests project"
 
+- name: "credfeto-database-tests"
+  color: "0e8a16"
+  description: "Changes in Credfeto.Database.Tests project"
+
 - name: "dependencies"
   color: "0366d6"
   description: "Updates to dependencies"
