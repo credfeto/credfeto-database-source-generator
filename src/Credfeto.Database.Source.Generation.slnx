@@ -26,6 +26,7 @@
   </Folder>
   <Folder Name="/Tests/">
     <Project Path="Credfeto.Database.Source.Generation.Tests/Credfeto.Database.Source.Generation.Tests.csproj" />
+    <Project Path="Credfeto.Database.Tests/Credfeto.Database.Tests.csproj" />
   </Folder>
   <Folder Name="/SQL/" />
   <Folder Name="/SQL/Postgresql/">
