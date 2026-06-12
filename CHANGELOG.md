@@ -9,6 +9,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Security
 ### Added
 ### Fixed
+- Fix BenchmarkDotNet test failure caused by conflicting Microsoft.CodeAnalysis versions (#140)
 ### Changed
 ### Removed
 ### Deployment Changes
