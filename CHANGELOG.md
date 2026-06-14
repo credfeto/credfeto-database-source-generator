@@ -18,6 +18,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Meziantou.Analyzer to 3.0.102
 - Dependencies - Updated Microsoft.Extensions to 10.0.9
 - Dependencies - Updated Polly to 8.7.0
+- Updated FunFair.CodeAnalysis to 7.2.1.2035 - removed InternalsVisibleTo attributes and made previously-internal types public; replaced string.Equals(x, y, StringComparison) with StringComparer.Equals(x, y)
 ### Removed
 ### Deployment Changes
 <!--
