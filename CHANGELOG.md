@@ -16,6 +16,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Credfeto.Version.Information.Generator to 1.0.127.1265
 - Dependencies - Updated Meziantou.Analyzer to 3.0.102
 - Dependencies - Updated Microsoft.Extensions to 10.0.9
+- Dependencies - Updated Polly to 8.7.0
 ### Removed
 ### Deployment Changes
 <!--
