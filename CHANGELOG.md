@@ -12,6 +12,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Fixed
 - Fix BenchmarkDotNet test failure caused by conflicting Microsoft.CodeAnalysis versions (#140)
 ### Changed
+- Dependencies - Updated Credfeto.Enumeration to 1.2.145.1962
 ### Removed
 ### Deployment Changes
 <!--
