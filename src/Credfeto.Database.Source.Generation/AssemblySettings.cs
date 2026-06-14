@@ -1,7 +1,4 @@
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
-
-[assembly: InternalsVisibleTo("Credfeto.Database.Source.Generation.Tests")]
 
 [assembly: SuppressMessage(
     category: "Philips.CodeAnalysis.DuplocateCodeAnalyzers",

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using FunFair.Test.Common;
@@ -96,7 +96,7 @@ public sealed class DatabaseCodeGeneratorWarningTests : TestBase
 
         // Should not produce an unhandled exception diagnostic (CDSG002)
         IReadOnlyList<Diagnostic> allDiagnostics = [.. result.Results[0].Diagnostics];
-        Assert.DoesNotContain(allDiagnostics, d => string.Equals(d.Id, "CDSG002", StringComparison.Ordinal));
+        Assert.DoesNotContain(allDiagnostics, d => StringComparer.Ordinal.Equals(d.Id, "CDSG002"));
     }
 
     [Fact]
@@ -124,7 +124,7 @@ public sealed class DatabaseCodeGeneratorWarningTests : TestBase
 
         // Should not produce an unhandled exception diagnostic (CDSG002)
         IReadOnlyList<Diagnostic> allDiagnostics = [.. result.Results[0].Diagnostics];
-        Assert.DoesNotContain(allDiagnostics, d => string.Equals(d.Id, "CDSG002", StringComparison.Ordinal));
+        Assert.DoesNotContain(allDiagnostics, d => StringComparer.Ordinal.Equals(d.Id, "CDSG002"));
     }
 
     [Fact]
@@ -157,7 +157,7 @@ public sealed class DatabaseCodeGeneratorWarningTests : TestBase
         // So RemoveQuotes should return it as-is (the no-quotes branch)
         // The generator should still produce code using that literal name
         IReadOnlyList<Diagnostic> allDiagnostics = [.. result.Results[0].Diagnostics];
-        Assert.DoesNotContain(allDiagnostics, d => string.Equals(d.Id, "CDSG002", StringComparison.Ordinal));
+        Assert.DoesNotContain(allDiagnostics, d => StringComparer.Ordinal.Equals(d.Id, "CDSG002"));
 
         IReadOnlyList<GeneratedSourceResult> sources = result.Results[0].GeneratedSources;
         Assert.Single(sources);
@@ -232,10 +232,7 @@ public sealed class DatabaseCodeGeneratorWarningTests : TestBase
         GeneratorRunResult generatorResult = generatorResults[0];
 
         // Should not produce an unhandled exception diagnostic (CDSG002)
-        Assert.DoesNotContain(
-            generatorResult.Diagnostics,
-            d => string.Equals(d.Id, "CDSG002", StringComparison.Ordinal)
-        );
+        Assert.DoesNotContain(generatorResult.Diagnostics, d => StringComparer.Ordinal.Equals(d.Id, "CDSG002"));
     }
 
     [Fact]
@@ -279,6 +276,6 @@ public sealed class DatabaseCodeGeneratorWarningTests : TestBase
 
         // Should produce CDSG002 (unhandled exception) since Enum.Parse throws ArgumentException
         Assert.NotEmpty(diagnostics);
-        Assert.Contains(diagnostics, d => string.Equals(d.Id, "CDSG002", StringComparison.Ordinal));
+        Assert.Contains(diagnostics, d => StringComparer.Ordinal.Equals(d.Id, "CDSG002"));
     }
 }

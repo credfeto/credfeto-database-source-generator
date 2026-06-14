@@ -200,7 +200,7 @@ public sealed class DatabaseCodeGeneratorMapperTests : TestBase
         GeneratorRunResult generatorResult = generatorResults[0];
 
         // Whether or not code is generated, the generator must not throw an unhandled exception
-        Assert.DoesNotContain(generatorResult.Diagnostics, d => string.Equals(d.Id, "CDSG002", StringComparison.Ordinal));
+        Assert.DoesNotContain(generatorResult.Diagnostics, d => StringComparer.Ordinal.Equals(d.Id, "CDSG002"));
     }
 
     [Fact]
@@ -332,7 +332,10 @@ public sealed class DatabaseCodeGeneratorMapperTests : TestBase
         bool hasErrorDiagnostic = generatorResult.Diagnostics.Any(d => d.Severity == DiagnosticSeverity.Error);
         bool hasNoSources = generatorResult.GeneratedSources.Length == 0;
 
-        Assert.True(condition: hasErrorDiagnostic || hasNoSources, userMessage: "Expected either an error diagnostic or no sources for unresolvable mapper type");
+        Assert.True(
+            condition: hasErrorDiagnostic || hasNoSources,
+            userMessage: "Expected either an error diagnostic or no sources for unresolvable mapper type"
+        );
     }
 
     [Fact]
@@ -381,7 +384,10 @@ public sealed class DatabaseCodeGeneratorMapperTests : TestBase
         bool hasErrorDiagnostic = generatorResult.Diagnostics.Any(d => d.Severity == DiagnosticSeverity.Error);
         bool hasNoSources = generatorResult.GeneratedSources.Length == 0;
 
-        Assert.True(condition: hasErrorDiagnostic || hasNoSources, userMessage: "Expected error or no sources for unresolvable data type in mapper");
+        Assert.True(
+            condition: hasErrorDiagnostic || hasNoSources,
+            userMessage: "Expected error or no sources for unresolvable data type in mapper"
+        );
     }
 
     [Fact]
@@ -425,6 +431,9 @@ public sealed class DatabaseCodeGeneratorMapperTests : TestBase
         bool hasErrorDiagnostic = generatorResult.Diagnostics.Any(d => d.Severity == DiagnosticSeverity.Error);
         bool hasNoSources = generatorResult.GeneratedSources.Length == 0;
 
-        Assert.True(condition: hasErrorDiagnostic || hasNoSources, userMessage: "Expected either an error diagnostic or no sources for unresolvable mapper type on column");
+        Assert.True(
+            condition: hasErrorDiagnostic || hasNoSources,
+            userMessage: "Expected either an error diagnostic or no sources for unresolvable mapper type on column"
+        );
     }
 }

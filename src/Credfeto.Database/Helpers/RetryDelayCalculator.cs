@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 
 namespace Credfeto.Database.Helpers;
 
-internal static class RetryDelayCalculator
+public static class RetryDelayCalculator
 {
     public static TimeSpan Calculate(int attempts)
     {

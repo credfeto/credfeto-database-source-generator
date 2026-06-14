@@ -63,13 +63,13 @@ public sealed class DatabaseCodeGeneratorEdgeCaseTests : TestBase
 
         GeneratorDriverRunResult result = CompilationHelpers.RunGenerator(source);
 
-        IReadOnlyList<Diagnostic> diagnostics = [
-            .. result.Results[0]
-                .Diagnostics.Where(d => d.Severity == DiagnosticSeverity.Error),
+        IReadOnlyList<Diagnostic> diagnostics =
+        [
+            .. result.Results[0].Diagnostics.Where(d => d.Severity == DiagnosticSeverity.Error),
         ];
 
         Assert.NotEmpty(diagnostics);
-        Assert.Contains(diagnostics, d => string.Equals(d.Id, "CDSG001", StringComparison.Ordinal));
+        Assert.Contains(diagnostics, d => StringComparer.Ordinal.Equals(d.Id, "CDSG001"));
     }
 
     [Fact]
@@ -98,13 +98,13 @@ public sealed class DatabaseCodeGeneratorEdgeCaseTests : TestBase
 
         GeneratorDriverRunResult result = CompilationHelpers.RunGenerator(source);
 
-        IReadOnlyList<Diagnostic> diagnostics = [
-            .. result.Results[0]
-                .Diagnostics.Where(d => d.Severity == DiagnosticSeverity.Error),
+        IReadOnlyList<Diagnostic> diagnostics =
+        [
+            .. result.Results[0].Diagnostics.Where(d => d.Severity == DiagnosticSeverity.Error),
         ];
 
         Assert.NotEmpty(diagnostics);
-        Assert.Contains(diagnostics, d => string.Equals(d.Id, "CDSG001", StringComparison.Ordinal));
+        Assert.Contains(diagnostics, d => StringComparer.Ordinal.Equals(d.Id, "CDSG001"));
     }
 
     [Fact]
@@ -194,7 +194,7 @@ public sealed class DatabaseCodeGeneratorEdgeCaseTests : TestBase
         Assert.Single(generatorResults);
 
         GeneratorRunResult generatorResult = generatorResults[0];
-        Assert.DoesNotContain(generatorResult.Diagnostics, d => string.Equals(d.Id, "CDSG002", StringComparison.Ordinal));
+        Assert.DoesNotContain(generatorResult.Diagnostics, d => StringComparer.Ordinal.Equals(d.Id, "CDSG002"));
 
         IReadOnlyList<GeneratedSourceResult> sources = generatorResult.GeneratedSources;
         Assert.Single(sources);
@@ -376,7 +376,10 @@ public sealed class DatabaseCodeGeneratorEdgeCaseTests : TestBase
         bool hasException = generatorResult.Exception is not null;
         bool hasNoSources = generatorResult.GeneratedSources.Length == 0;
 
-        Assert.True(condition: hasException || hasNoSources, userMessage: "Expected either an exception or no generated sources for unsupported parameter type");
+        Assert.True(
+            condition: hasException || hasNoSources,
+            userMessage: "Expected either an exception or no generated sources for unsupported parameter type"
+        );
     }
 
     [Fact]
@@ -414,7 +417,10 @@ public sealed class DatabaseCodeGeneratorEdgeCaseTests : TestBase
         bool hasException = generatorResult.Exception is not null;
         bool hasNoSources = generatorResult.GeneratedSources.Length == 0;
 
-        Assert.True(condition: hasException || hasNoSources, userMessage: "Expected either an exception or no generated sources for scalar function with void return");
+        Assert.True(
+            condition: hasException || hasNoSources,
+            userMessage: "Expected either an exception or no generated sources for scalar function with void return"
+        );
     }
 
     [Fact]
@@ -444,13 +450,13 @@ public sealed class DatabaseCodeGeneratorEdgeCaseTests : TestBase
 
         GeneratorDriverRunResult result = CompilationHelpers.RunGenerator(source);
 
-        IReadOnlyList<Diagnostic> diagnostics = [
-            .. result.Results[0]
-                .Diagnostics.Where(d => d.Severity == DiagnosticSeverity.Error),
+        IReadOnlyList<Diagnostic> diagnostics =
+        [
+            .. result.Results[0].Diagnostics.Where(d => d.Severity == DiagnosticSeverity.Error),
         ];
 
         Assert.NotEmpty(diagnostics);
-        Assert.Contains(diagnostics, d => string.Equals(d.Id, "CDSG001", StringComparison.Ordinal));
+        Assert.Contains(diagnostics, d => StringComparer.Ordinal.Equals(d.Id, "CDSG001"));
     }
 
     [Fact]
@@ -497,7 +503,10 @@ public sealed class DatabaseCodeGeneratorEdgeCaseTests : TestBase
         bool hasException = generatorResult.Exception is not null;
         bool hasNoSources = generatorResult.GeneratedSources.Length == 0;
 
-        Assert.True(condition: hasException || hasNoSources, userMessage: "Expected either an exception or no generated sources for unsupported column type");
+        Assert.True(
+            condition: hasException || hasNoSources,
+            userMessage: "Expected either an exception or no generated sources for unsupported column type"
+        );
     }
 
     [Fact]
@@ -536,7 +545,7 @@ public sealed class DatabaseCodeGeneratorEdgeCaseTests : TestBase
 
         // The unresolvable attribute produces no code, but the SqlObjectMap is still processed
         // Generator may produce a source or may silently fail — either way, no CDSG002 exception
-        Assert.DoesNotContain(generatorResult.Diagnostics, d => string.Equals(d.Id, "CDSG002", StringComparison.Ordinal));
+        Assert.DoesNotContain(generatorResult.Diagnostics, d => StringComparer.Ordinal.Equals(d.Id, "CDSG002"));
     }
 
     [Fact]
@@ -605,7 +614,10 @@ public sealed class DatabaseCodeGeneratorEdgeCaseTests : TestBase
         bool hasErrorDiagnostic = generatorResult.Diagnostics.Any(d => d.Severity == DiagnosticSeverity.Error);
         bool hasNoSources = generatorResult.GeneratedSources.Length == 0;
 
-        Assert.True(condition: hasErrorDiagnostic || hasNoSources, userMessage: "Expected either an error diagnostic or no generated sources for unresolvable return type");
+        Assert.True(
+            condition: hasErrorDiagnostic || hasNoSources,
+            userMessage: "Expected either an error diagnostic or no generated sources for unresolvable return type"
+        );
     }
 
     [Fact]
@@ -644,7 +656,10 @@ public sealed class DatabaseCodeGeneratorEdgeCaseTests : TestBase
         bool hasErrorDiagnostic = generatorResult.Diagnostics.Any(d => d.Severity == DiagnosticSeverity.Error);
         bool hasNoSources = generatorResult.GeneratedSources.Length == 0;
 
-        Assert.True(condition: hasErrorDiagnostic || hasNoSources, userMessage: "Expected either an error diagnostic or no generated sources for unresolvable collection element type");
+        Assert.True(
+            condition: hasErrorDiagnostic || hasNoSources,
+            userMessage: "Expected either an error diagnostic or no generated sources for unresolvable collection element type"
+        );
     }
 
     [Fact]
@@ -682,7 +697,10 @@ public sealed class DatabaseCodeGeneratorEdgeCaseTests : TestBase
         bool hasErrorDiagnostic = generatorResult.Diagnostics.Any(d => d.Severity == DiagnosticSeverity.Error);
         bool hasNoSources = generatorResult.GeneratedSources.Length == 0;
 
-        Assert.True(condition: hasErrorDiagnostic || hasNoSources, userMessage: "Expected either an error diagnostic or no generated sources for unresolvable generic return type");
+        Assert.True(
+            condition: hasErrorDiagnostic || hasNoSources,
+            userMessage: "Expected either an error diagnostic or no generated sources for unresolvable generic return type"
+        );
     }
 
     [Fact]
@@ -721,6 +739,9 @@ public sealed class DatabaseCodeGeneratorEdgeCaseTests : TestBase
         bool hasErrorDiagnostic = generatorResult.Diagnostics.Any(d => d.Severity == DiagnosticSeverity.Error);
         bool hasNoSources = generatorResult.GeneratedSources.Length == 0;
 
-        Assert.True(condition: hasException || hasErrorDiagnostic || hasNoSources, userMessage: "Expected either an exception, error diagnostic, or no generated sources for char return type");
+        Assert.True(
+            condition: hasException || hasErrorDiagnostic || hasNoSources,
+            userMessage: "Expected either an exception, error diagnostic, or no generated sources for char return type"
+        );
     }
 }

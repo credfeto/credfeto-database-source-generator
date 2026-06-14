@@ -28,13 +28,13 @@ public sealed class DatabaseCodeGeneratorDiagnosticTests : TestBase
 
         GeneratorDriverRunResult result = CompilationHelpers.RunGenerator(source);
 
-        IReadOnlyList<Diagnostic> diagnostics = [
-            .. result.Results[0]
-                .Diagnostics.Where(d => d.Severity == DiagnosticSeverity.Error),
+        IReadOnlyList<Diagnostic> diagnostics =
+        [
+            .. result.Results[0].Diagnostics.Where(d => d.Severity == DiagnosticSeverity.Error),
         ];
 
         Assert.NotEmpty(diagnostics);
-        Assert.Contains(diagnostics, d => string.Equals(d.Id, "CDSG001", StringComparison.Ordinal));
+        Assert.Contains(diagnostics, d => StringComparer.Ordinal.Equals(d.Id, "CDSG001"));
     }
 
     [Fact]
