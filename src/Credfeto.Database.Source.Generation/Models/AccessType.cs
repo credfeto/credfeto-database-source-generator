@@ -2,7 +2,7 @@ using Microsoft.CodeAnalysis.CSharp;
 
 namespace Credfeto.Database.Source.Generation.Models;
 
-internal enum AccessType
+public enum AccessType
 {
     PUBLIC = SyntaxKind.PublicKeyword,
     PRIVATE = SyntaxKind.PrivateKeyword,

@@ -31,10 +31,11 @@ public sealed class GeneratorDiagnosticTests : TestBase
         CSharpCompilation compilation = CompilationHelpers.CreateCompilation(source);
 
         // CS8795 is expected - partial method needs an implementation (the generator provides it)
-        IReadOnlyList<Diagnostic> nonPartialErrors = [
-            .. compilation.GetDiagnostics(Xunit.TestContext.Current.CancellationToken)
-                .Where(d => d.Severity == DiagnosticSeverity.Error
-                    && !string.Equals(d.Id, "CS8795", StringComparison.Ordinal)),
+        IReadOnlyList<Diagnostic> nonPartialErrors =
+        [
+            .. compilation
+                .GetDiagnostics(Xunit.TestContext.Current.CancellationToken)
+                .Where(d => d.Severity == DiagnosticSeverity.Error && !StringComparer.Ordinal.Equals(d.Id, "CS8795")),
         ];
 
         Assert.Empty(nonPartialErrors);
@@ -86,7 +87,10 @@ public sealed class GeneratorDiagnosticTests : TestBase
         GeneratorRunResult generatorResult = result.Results[0];
 
         IReadOnlyList<Diagnostic> allDiagnostics = [.. generatorResult.Diagnostics];
-        string diagnosticsMessage = string.Join(separator: "; ", allDiagnostics.Select(d => $"{d.Id}: {d.GetMessage()}"));
+        string diagnosticsMessage = string.Join(
+            separator: "; ",
+            allDiagnostics.Select(d => $"{d.Id}: {d.GetMessage()}")
+        );
 
         Assert.True(
             generatorResult.GeneratedSources.Length > 0,

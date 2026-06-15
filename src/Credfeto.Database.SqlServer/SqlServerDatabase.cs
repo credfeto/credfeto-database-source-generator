@@ -41,7 +41,7 @@ public sealed class SqlServerDatabase : BaseDatabase
         checkId: "MA0051: Method is too long",
         Justification = "Needed in this case"
     )]
-    internal static bool IsTransientError(SqlError err)
+    public static bool IsTransientError(SqlError err)
     {
         return err.Number switch
         {
@@ -142,7 +142,7 @@ public sealed class SqlServerDatabase : BaseDatabase
         );
     }
 
-    internal static string FormatException(Exception exception, string context)
+    public static string FormatException(Exception exception, string context)
     {
         int error = 0;
 
