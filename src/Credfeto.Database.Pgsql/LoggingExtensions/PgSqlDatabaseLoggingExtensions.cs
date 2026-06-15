@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Credfeto.Database.Pgsql.LoggingExtensions;
 
-internal static partial class PgSqlDatabaseLoggingExtensions
+public static partial class PgSqlDatabaseLoggingExtensions
 {
     [LoggerMessage(
         EventId = 0,
