@@ -46,7 +46,10 @@ public sealed class DatabaseCodeGeneratorBenchmarkTests : TestBase
 
     private static void AssertBenchmarkReport(BenchmarkReport report, string benchmarkName)
     {
-        long bytesAllocatedPerOperation = AssertBytesAllocatedPerOperation(report: report, benchmarkName: benchmarkName);
+        long bytesAllocatedPerOperation = AssertBytesAllocatedPerOperation(
+            report: report,
+            benchmarkName: benchmarkName
+        );
 
         Assert.True(report.Success, userMessage: $"Benchmark {benchmarkName} did not complete successfully.");
         Assert.True(
@@ -55,11 +58,7 @@ public sealed class DatabaseCodeGeneratorBenchmarkTests : TestBase
         );
         Assert.Equal(expected: 0, actual: report.GcStats.Gen1Collections);
         Assert.Equal(expected: 0, actual: report.GcStats.Gen2Collections);
-        Assert.InRange(
-            actual: bytesAllocatedPerOperation,
-            low: 1,
-            high: MaximumAllocatedBytesPerOperation
-        );
+        Assert.InRange(actual: bytesAllocatedPerOperation, low: 1, high: MaximumAllocatedBytesPerOperation);
     }
 
     private static long AssertBytesAllocatedPerOperation(BenchmarkReport report, string benchmarkName)
@@ -79,11 +78,7 @@ public sealed class DatabaseCodeGeneratorBenchmarkTests : TestBase
         return Assert.Single(
             collection: summary.Reports,
             predicate: report =>
-                string.Equals(
-                    a: report.BenchmarkCase.Descriptor.WorkloadMethod.Name,
-                    b: benchmarkName,
-                    comparisonType: StringComparison.Ordinal
-                )
+                StringComparer.Ordinal.Equals(report.BenchmarkCase.Descriptor.WorkloadMethod.Name, benchmarkName)
         );
     }
 }

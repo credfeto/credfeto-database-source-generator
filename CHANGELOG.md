@@ -14,9 +14,11 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Changed
 - Dependencies - Updated Credfeto.Enumeration to 1.2.145.1962
 - Dependencies - Updated Credfeto.Version.Information.Generator to 1.0.127.1265
+- Dependencies - Updated FunFair.CodeAnalysis to 7.2.1.2035
 - Dependencies - Updated Meziantou.Analyzer to 3.0.102
 - Dependencies - Updated Microsoft.Extensions to 10.0.9
 - Dependencies - Updated Polly to 8.7.0
+- Updated FunFair.CodeAnalysis to 7.2.1.2035 - removed InternalsVisibleTo attributes and made previously-internal types public; replaced string.Equals(x, y, StringComparison) with StringComparer.Equals(x, y)
 ### Removed
 ### Deployment Changes
 <!--

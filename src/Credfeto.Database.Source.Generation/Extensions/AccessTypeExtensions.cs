@@ -3,7 +3,7 @@ using Credfeto.Database.Source.Generation.Models;
 
 namespace Credfeto.Database.Source.Generation.Extensions;
 
-internal static class AccessTypeExtensions
+public static class AccessTypeExtensions
 {
     public static string ToKeywords(this AccessType accessType)
     {
