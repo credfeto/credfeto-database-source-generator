@@ -49,7 +49,7 @@ public sealed class PgsqlDatabase : BaseDatabase
         );
     }
 
-    internal static string FormatException(Exception exception, string context)
+    public static string FormatException(Exception exception, string context)
     {
         int error = 0;
 
