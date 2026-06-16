@@ -8,6 +8,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ## [Unreleased]
 ### Security
 ### Added
+- Increased unit test coverage for Credfeto.Database.Pgsql achieving 100% branch coverage for PgsqlDatabase and PgSqlDatabaseLoggingExtensions
 ### Fixed
 ### Changed
 ### Removed
@@ -18,7 +19,6 @@ Releases that have at least been deployed to staging, BUT NOT necessarily releas
 ## [1.2.212] - 2026-06-15
 ### Added
 - Unit tests for Credfeto.Database to achieve 100% code coverage (#131)
-- Increased unit test coverage for Credfeto.Database.Pgsql achieving 100% branch coverage for PgsqlDatabase and PgSqlDatabaseLoggingExtensions
 ### Fixed
 - Fix BenchmarkDotNet test failure caused by conflicting Microsoft.CodeAnalysis versions (#140)
 ### Changed
