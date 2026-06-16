@@ -72,6 +72,10 @@
   color: "96f7d2"
   description: "Changes in Credfeto.Database.Source.Generation.Example project"
 
+- name: "credfeto-database-source-generation-example-tests"
+  color: "0e8a16"
+  description: "Changes in Credfeto.Database.Source.Generation.Example.Tests project"
+
 - name: "credfeto-database-source-generation-tests"
   color: "0e8a16"
   description: "Changes in Credfeto.Database.Source.Generation.Tests project"

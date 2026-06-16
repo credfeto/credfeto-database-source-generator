@@ -26,6 +26,8 @@
   - any: ['src/Credfeto.Database.Source.Generation.Benchmark.Tests/**/*']
 "credfeto-database-source-generation-example":
   - any: ['src/Credfeto.Database.Source.Generation.Example/**/*']
+"credfeto-database-source-generation-example-tests":
+  - any: ['src/Credfeto.Database.Source.Generation.Example.Tests/**/*']
 "credfeto-database-source-generation-tests":
   - any: ['src/Credfeto.Database.Source.Generation.Tests/**/*']
 "credfeto-database-sqlserver":
