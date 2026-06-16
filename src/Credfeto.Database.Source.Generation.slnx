@@ -12,6 +12,7 @@
   </Folder>
   <Folder Name="/Generation/">
     <Project Path="Credfeto.Database.Source.Generation.Example/Credfeto.Database.Source.Generation.Example.csproj" />
+    <Project Path="Credfeto.Database.Source.Generation.Example.Tests/Credfeto.Database.Source.Generation.Example.Tests.csproj" />
     <Project Path="Credfeto.Database.Source.Generation/Credfeto.Database.Source.Generation.csproj" />
   </Folder>
   <Folder Name="/Infastructure/">

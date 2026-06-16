@@ -9,7 +9,9 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Security
 ### Added
 - Increased unit test coverage for Credfeto.Database.Pgsql achieving 100% branch coverage for PgsqlDatabase and PgSqlDatabaseLoggingExtensions
+- Credfeto.Database.Source.Generation.Example: Added unit test project with 100% coverage
 ### Fixed
+- Credfeto.Database.Source.Generation.Benchmark.Tests: Fix Microsoft.CodeAnalysis version conflict by overriding BenchmarkDotNet's 4.14.0 dependency with 5.3.0
 ### Changed
 ### Removed
 ### Deployment Changes
