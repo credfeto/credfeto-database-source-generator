@@ -17,6 +17,7 @@
   </Folder>
   <Folder Name="/Infastructure/">
     <Project Path="Credfeto.Database.Interfaces/Credfeto.Database.Interfaces.csproj" />
+    <Project Path="Credfeto.Database.Interfaces.Tests/Credfeto.Database.Interfaces.Tests.csproj" />
     <Project Path="Credfeto.Database/Credfeto.Database.csproj" />
   </Folder>
   <Folder Name="/Providers/">
