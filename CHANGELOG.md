@@ -8,6 +8,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ## [Unreleased]
 ### Security
 ### Added
+- Increased unit test coverage for Credfeto.Database.Pgsql achieving 100% branch coverage for PgsqlDatabase and PgSqlDatabaseLoggingExtensions
 ### Fixed
 ### Changed
 ### Removed
