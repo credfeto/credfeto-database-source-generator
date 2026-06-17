@@ -16,6 +16,8 @@
   - any: ['src/Credfeto.Database/**/*']
 "credfeto-database-interfaces":
   - any: ['src/Credfeto.Database.Interfaces/**/*']
+"credfeto-database-interfaces-tests":
+  - any: ['src/Credfeto.Database.Interfaces.Tests/**/*']
 "credfeto-database-pgsql":
   - any: ['src/Credfeto.Database.Pgsql/**/*']
 "credfeto-database-pgsql-tests":
