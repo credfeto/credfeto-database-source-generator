@@ -77,26 +77,17 @@ internal static class DatabaseSourceCodeGenerator
 
     private static void GenerateMethod(MethodGeneration method, CodeBuilder source)
     {
-        switch (method.SqlObject.SqlObjectType)
+        if (method.SqlObject.SqlObjectType == SqlObjectType.SCALAR_FUNCTION)
         {
-            case SqlObjectType.SCALAR_FUNCTION:
-                GenerateScalarFunctionMethod(method: method, source: source);
-
-                break;
-            case SqlObjectType.TABLE_FUNCTION:
-                GenerateTableFunctionMethod(method: method, source: source);
-
-                break;
-            case SqlObjectType.STORED_PROCEDURE:
-                GenerateStoredProcedureMethod(method: method, source: source);
-
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(
-                    nameof(method),
-                    actualValue: method.SqlObject.SqlObjectType,
-                    message: "Unsupported SQL object type"
-                );
+            GenerateScalarFunctionMethod(method: method, source: source);
+        }
+        else if (method.SqlObject.SqlObjectType == SqlObjectType.TABLE_FUNCTION)
+        {
+            GenerateTableFunctionMethod(method: method, source: source);
+        }
+        else if (method.SqlObject.SqlObjectType == SqlObjectType.STORED_PROCEDURE)
+        {
+            GenerateStoredProcedureMethod(method: method, source: source);
         }
     }
 
@@ -470,22 +461,13 @@ internal static class DatabaseSourceCodeGenerator
             string functionParameters = BuildFunctionParameters(method);
             source.AppendLine("DbCommand command = connection.CreateCommand();");
 
-            switch (method.SqlObject.SqlDialect)
+            if (method.SqlObject.SqlDialect == SqlDialect.GENERIC)
             {
-                case SqlDialect.GENERIC:
-                    source.AppendLine($"command.CommandText = \"CALL {method.SqlObject.Name}({functionParameters})\";");
-
-                    break;
-                case SqlDialect.MICROSOFT_SQL_SERVER:
-                    source.AppendLine($"command.CommandText = \"EXEC {method.SqlObject.Name} {functionParameters}\";");
-
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(
-                        nameof(method),
-                        actualValue: method.SqlObject.SqlDialect,
-                        message: "Unsupported SQL dialect"
-                    );
+                source.AppendLine($"command.CommandText = \"CALL {method.SqlObject.Name}({functionParameters})\";");
+            }
+            else if (method.SqlObject.SqlDialect == SqlDialect.MICROSOFT_SQL_SERVER)
+            {
+                source.AppendLine($"command.CommandText = \"EXEC {method.SqlObject.Name} {functionParameters}\";");
             }
 
             AppendCommandParameters(source: source, method: method, command: "command");

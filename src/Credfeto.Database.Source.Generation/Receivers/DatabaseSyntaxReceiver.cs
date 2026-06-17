@@ -172,11 +172,6 @@ internal static class DatabaseSyntaxReceiver
             throw new InvalidModelException(message: error);
         }
 
-        if (symbol.Kind == SymbolKind.ErrorType)
-        {
-            throw new InvalidModelException(message: error);
-        }
-
         return symbol;
     }
 
