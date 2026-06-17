@@ -97,12 +97,12 @@ internal static class AttributeMappings
 
     private static MapperInfo? CreateMapperInfo(ISymbol? symbol)
     {
-        if (symbol is null)
+        if (symbol is null || symbol.ContainingType is not INamedTypeSymbol containingType)
         {
             return null;
         }
 
-        return CreateMapperInfo(symbol.ContainingType);
+        return CreateMapperInfo(containingType);
     }
 
     private static MapperInfo? CreateMapperInfo2(INamedTypeSymbol symbol)
@@ -110,13 +110,8 @@ internal static class AttributeMappings
         return CreateMapperInfo(symbol);
     }
 
-    private static MapperInfo? CreateMapperInfo(INamedTypeSymbol? containingType)
+    private static MapperInfo? CreateMapperInfo(INamedTypeSymbol containingType)
     {
-        if (containingType is null)
-        {
-            return null;
-        }
-
         if (!containingType.IsGenericType)
         {
             return null;
@@ -173,19 +168,9 @@ internal static class AttributeMappings
             return null;
         }
 
-        if (symbol.Kind == SymbolKind.ErrorType)
-        {
-            return null;
-        }
-
         string name = symbol.ContainingType.ToDisplayString();
 
         if (!StringComparer.Ordinal.Equals(x: name, y: "Credfeto.Database.Interfaces.SqlObjectMapAttribute"))
-        {
-            return null;
-        }
-
-        if (attributeSyntax.ArgumentList?.Arguments.Count != 3)
         {
             return null;
         }
