@@ -15,6 +15,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Fixed
 - Credfeto.Database.Source.Generation.Benchmark.Tests: Fix Microsoft.CodeAnalysis version conflict by overriding BenchmarkDotNet's 4.14.0 dependency with 5.3.0
 ### Changed
+- Credfeto.Database.Source.Generation: Removed unreachable dead code (exhaustive switch defaults and unreachable null guards) to achieve 100% line coverage
 ### Removed
 ### Deployment Changes
 <!--
