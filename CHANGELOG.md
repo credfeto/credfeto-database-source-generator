@@ -17,6 +17,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Changed
 - Credfeto.Database.Source.Generation: Removed unreachable dead code (exhaustive switch defaults and unreachable null guards) to achieve 100% line coverage
 - Dependencies - Updated Credfeto.Enumeration to 1.2.146.1978
+- Dependencies - Updated Credfeto.Version.Information.Generator to 1.0.129.1310
 ### Removed
 ### Deployment Changes
 <!--
