@@ -8,6 +8,15 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ## [Unreleased]
 ### Security
 ### Added
+### Fixed
+### Changed
+### Removed
+### Deployment Changes
+<!--
+Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
+-->
+## [1.2.213] - 2026-06-18
+### Added
 - Increased unit test coverage for Credfeto.Database.Pgsql achieving 100% branch coverage for PgsqlDatabase and PgSqlDatabaseLoggingExtensions
 - Credfeto.Database.Source.Generation.Example: Added unit test project with 100% coverage
 - Credfeto.Database.Interfaces.Tests: Added unit test project to increase coverage to 100%
@@ -18,11 +27,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Credfeto.Database.Source.Generation: Removed unreachable dead code (exhaustive switch defaults and unreachable null guards) to achieve 100% line coverage
 - Dependencies - Updated Credfeto.Enumeration to 1.2.146.1978
 - Dependencies - Updated Credfeto.Version.Information.Generator to 1.0.129.1310
-### Removed
-### Deployment Changes
-<!--
-Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
--->
+
 ## [1.2.212] - 2026-06-15
 ### Added
 - Unit tests for Credfeto.Database to achieve 100% code coverage (#131)
