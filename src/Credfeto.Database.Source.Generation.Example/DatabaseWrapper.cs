@@ -218,4 +218,19 @@ internal static partial class DatabaseWrapper
         short value,
         CancellationToken cancellationToken
     );
+
+    // TABLE-VALUED PARAMETER (TVP) EXAMPLE
+    // accountIds is passed as a SQL Server TVP using the AccountIdListMapper.
+    // The mapper converts IReadOnlyList<AccountId> to a DataTable and sets SqlDbType.Structured
+    // on the SqlParameter so SQL Server treats it as a table-valued parameter of type dbo.AccountId.
+    [SqlObjectMap(
+        name: "dbo.account_bulk_get",
+        sqlObjectType: SqlObjectType.STORED_PROCEDURE,
+        sqlDialect: SqlDialect.MICROSOFT_SQL_SERVER
+    )]
+    public static partial ValueTask<IReadOnlyList<Accounts>> BulkGetAccountsByIdsAsync(
+        DbConnection connection,
+        [SqlFieldMap<AccountIdListMapper, IReadOnlyList<AccountId>>] IReadOnlyList<AccountId> accountIds,
+        CancellationToken cancellationToken
+    );
 }
