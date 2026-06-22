@@ -83,4 +83,17 @@ public sealed class TestDatabase : ITestDatabase
             cancellationToken: cancellationToken
         );
     }
+
+    // TABLE-VALUED PARAMETER EXAMPLE: delegates accountIds as a SQL Server TVP
+    public ValueTask<IReadOnlyList<Accounts>> BulkGetAccountsByIdsAsync(
+        IReadOnlyList<AccountId> accountIds,
+        CancellationToken cancellationToken
+    )
+    {
+        return this._database.ExecuteAsync(
+            action: (c, ct) =>
+                DatabaseWrapper.BulkGetAccountsByIdsAsync(connection: c, accountIds: accountIds, cancellationToken: ct),
+            cancellationToken: cancellationToken
+        );
+    }
 }

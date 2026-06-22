@@ -23,4 +23,10 @@ public interface ITestDatabase
     ValueTask<AccountAddress> GetAddressMeaningOfLifeAsync(CancellationToken cancellationToken);
 
     ValueTask<AccountAddress?> GetOptionalAddressMeaningOfLifeAsync(CancellationToken cancellationToken);
+
+    // TABLE-VALUED PARAMETER EXAMPLE: accountIds is passed as a SQL Server TVP
+    ValueTask<IReadOnlyList<Accounts>> BulkGetAccountsByIdsAsync(
+        IReadOnlyList<AccountId> accountIds,
+        CancellationToken cancellationToken
+    );
 }

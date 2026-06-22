@@ -177,6 +177,42 @@ public sealed class TestDatabaseTests : TestBase
         );
     }
 
+    // TABLE-VALUED PARAMETER DELEGATION TESTS
+
+    [Fact]
+    public async Task BulkGetAccountsByIdsAsync_DelegatesToDatabase_ReturnsExpected()
+    {
+        AccountAddress address = CreateAddress();
+        IReadOnlyList<Accounts> expected = [CreateAccount(address)];
+        IReadOnlyList<AccountId> accountIds = [new(1L), new(2L)];
+
+        TestDatabase sut = new(new PresetDatabase(expected));
+
+        IReadOnlyList<Accounts> result = await sut.BulkGetAccountsByIdsAsync(
+            accountIds: accountIds,
+            cancellationToken: System.Threading.CancellationToken.None
+        );
+
+        Assert.Same(expected, result);
+    }
+
+    [Fact]
+    public Task BulkGetAccountsByIdsAsync_WithExecutingDatabase_ExecutesLambda()
+    {
+        IReadOnlyList<AccountId> accountIds = [new(1L)];
+        DbConnection connection = GetSubstitute<DbConnection>();
+
+        TestDatabase sut = new(new ExecutingDatabase(connection));
+
+        return Assert.ThrowsAnyAsync<Exception>(() =>
+            sut.BulkGetAccountsByIdsAsync(
+                    accountIds: accountIds,
+                    cancellationToken: System.Threading.CancellationToken.None
+                )
+                .AsTask()
+        );
+    }
+
     private sealed class PresetDatabase : IDatabase
     {
         private readonly object? _returnValue;
