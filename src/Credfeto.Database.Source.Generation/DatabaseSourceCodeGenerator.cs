@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Data;
@@ -443,7 +443,7 @@ internal static class DatabaseSourceCodeGenerator
         return method.ReturnType.ReturnType;
     }
 
-    [SuppressMessage("Meziantou.Analyzer", "MA0051: Method is too long", Justification = "To refactor")]
+    
     private static void GenerateStoredProcedureMethod(MethodGeneration method, CodeBuilder source)
     {
         using (BuildFunctionSignature(source: source, method: method))
