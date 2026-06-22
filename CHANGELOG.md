@@ -8,7 +8,11 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ## [Unreleased]
 ### Security
 ### Added
+- Credfeto.Database.Source.Generation.Example: Added Table-Valued Parameter (TVP) examples with AccountId primitive, AccountIdListMapper, and BulkGetAccountsByIdsAsync to demonstrate the SqlFieldMap TVP pattern (#157)
+- Credfeto.Database.Source.Generation.Example.Tests: Added unit tests for AccountId, AccountIdListMapper, and TVP delegation in TestDatabase (#157)
+- Credfeto.Database.Source.Generation.Tests: Added source generator tests for TVP code generation patterns (#157)
 ### Fixed
+- Credfeto.Database.Source.Generation.Benchmark.Tests: Restored Microsoft.CodeAnalysis.CSharp 5.3.0 override to fix CS0433 in BenchmarkDotNet auto-generated harness (regression from e71c1b8d)
 ### Changed
 - Dependencies - Updated Meziantou.Analyzer to 3.0.105
 ### Removed
