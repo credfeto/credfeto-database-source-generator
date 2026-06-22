@@ -443,7 +443,6 @@ internal static class DatabaseSourceCodeGenerator
         return method.ReturnType.ReturnType;
     }
 
-    
     private static void GenerateStoredProcedureMethod(MethodGeneration method, CodeBuilder source)
     {
         using (BuildFunctionSignature(source: source, method: method))
