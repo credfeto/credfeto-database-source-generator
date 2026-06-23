@@ -87,5 +87,4 @@ public sealed class DatabaseCodeGenerator : IIncrementalGenerator
             )
         );
     }
-
 }
