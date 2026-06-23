@@ -15,6 +15,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Credfeto.Database.Source.Generation.Benchmark.Tests: Restored Microsoft.CodeAnalysis.CSharp 5.3.0 override to fix CS0433 in BenchmarkDotNet auto-generated harness (regression from e71c1b8d)
 ### Changed
 - Dependencies - Updated Meziantou.Analyzer to 3.0.105
+- Dependencies - Updated Credfeto.Enumeration to 1.2.148.2012
 ### Removed
 ### Deployment Changes
 <!--
