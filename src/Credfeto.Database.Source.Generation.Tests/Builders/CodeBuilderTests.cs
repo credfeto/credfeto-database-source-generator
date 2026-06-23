@@ -111,14 +111,8 @@ public sealed class CodeBuilderTests : TestBase
         }
 
         string result = builder.Text.ToString();
-        Assert.True(
-            result.Contains("inner", StringComparison.Ordinal),
-            userMessage: "Should contain 'inner'"
-        );
-        Assert.True(
-            result.Contains("deep", StringComparison.Ordinal),
-            userMessage: "Should contain 'deep'"
-        );
+        Assert.True(result.Contains("inner", StringComparison.Ordinal), userMessage: "Should contain 'inner'");
+        Assert.True(result.Contains("deep", StringComparison.Ordinal), userMessage: "Should contain 'deep'");
     }
 
     [Fact]
