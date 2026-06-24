@@ -8,6 +8,15 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ## [Unreleased]
 ### Security
 ### Added
+### Fixed
+### Changed
+### Removed
+### Deployment Changes
+<!--
+Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
+-->
+## [1.2.215] - 2026-06-24
+### Added
 - Credfeto.Database.Source.Generation.Example: Added Table-Valued Parameter (TVP) examples with AccountId primitive, AccountIdListMapper, and BulkGetAccountsByIdsAsync to demonstrate the SqlFieldMap TVP pattern (#157)
 - Credfeto.Database.Source.Generation.Example.Tests: Added unit tests for AccountId, AccountIdListMapper, and TVP delegation in TestDatabase (#157)
 - Credfeto.Database.Source.Generation.Tests: Added source generator tests for TVP code generation patterns (#157)
@@ -17,11 +26,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Credfeto.Enumeration to 1.2.148.2012
 - Dependencies - Updated Meziantou.Analyzer to 3.0.109
 - Dependencies - Updated Microsoft.VisualStudio.Threading.Analyzers to 18.7.23
-### Removed
-### Deployment Changes
-<!--
-Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
--->
+
 ## [1.2.214] - 2026-06-19
 ### Changed
 - Dependencies - Updated Meziantou.Analyzer to 3.0.104
