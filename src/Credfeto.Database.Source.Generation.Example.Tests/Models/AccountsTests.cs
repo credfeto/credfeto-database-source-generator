@@ -1,7 +1,7 @@
 using Credfeto.Database.Source.Generation.Example.Models;
 using Credfeto.Database.Source.Generation.Example.Primatives;
 using FunFair.Test.Common;
-using FunFair.Test.Common.Mocks;
+using FunFair.Test.Infrastructure.Mocks;
 
 namespace Credfeto.Database.Source.Generation.Example.Tests.Models;
 
