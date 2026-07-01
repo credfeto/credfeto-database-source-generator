@@ -9,8 +9,11 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Security
 ### Added
 ### Fixed
+- BenchmarksShouldRemainWithinAllocationBudget test failure due to Microsoft.CodeAnalysis version conflict between BenchmarkDotNet (4.14.0) and source generator (5.3.0)
+- Test compilation errors due to FunFair.Test.Common 6.3.1.2342 moving AddMockedService and MockDateTimeSources to FunFair.Test.Infrastructure namespaces
 ### Changed
 - Dependencies - Updated Credfeto.Version.Information.Generator to 1.0.131.1336
+- Dependencies - Updated FunFair.Test.Common to 6.3.1.2342
 - Dependencies - Updated FunFair.Test.Source.Generator to 6.3.1.2342
 - Dependencies - Updated FunFair.CodeAnalysis to 7.2.2.2066
 - Dependencies - Updated Meziantou.Analyzer to 3.0.114
