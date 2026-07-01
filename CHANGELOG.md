@@ -9,6 +9,14 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Security
 ### Added
 ### Fixed
+### Changed
+### Removed
+### Deployment Changes
+<!--
+Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
+-->
+## [1.2.216] - 2026-07-01
+### Fixed
 - BenchmarksShouldRemainWithinAllocationBudget test failure due to Microsoft.CodeAnalysis version conflict between BenchmarkDotNet (4.14.0) and source generator (5.3.0)
 - Test compilation errors due to FunFair.Test.Common 6.3.1.2342 moving AddMockedService and MockDateTimeSources to FunFair.Test.Infrastructure namespaces
 ### Changed
@@ -18,11 +26,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated FunFair.CodeAnalysis to 7.2.2.2066
 - Dependencies - Updated Meziantou.Analyzer to 3.0.114
 - Dependencies - Updated Microsoft.Data.SqlClient to 7.0.2
-### Removed
-### Deployment Changes
-<!--
-Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
--->
+
 ## [1.2.215] - 2026-06-24
 ### Added
 - Credfeto.Database.Source.Generation.Example: Added Table-Valued Parameter (TVP) examples with AccountId primitive, AccountIdListMapper, and BulkGetAccountsByIdsAsync to demonstrate the SqlFieldMap TVP pattern (#157)
