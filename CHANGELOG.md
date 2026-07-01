@@ -14,6 +14,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated FunFair.Test.Source.Generator to 6.3.1.2342
 - Dependencies - Updated FunFair.CodeAnalysis to 7.2.2.2066
 - Dependencies - Updated Meziantou.Analyzer to 3.0.114
+- Dependencies - Updated Microsoft.Data.SqlClient to 7.0.2
 ### Removed
 ### Deployment Changes
 <!--
