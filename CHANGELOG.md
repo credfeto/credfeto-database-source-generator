@@ -10,16 +10,19 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Added
 ### Fixed
 ### Changed
-- Dependencies - Updated Credfeto.Enumeration to 1.2.149.2059
-- Dependencies - Updated FunFair.CodeAnalysis to 7.2.4.2117
-- Dependencies - Updated Meziantou.Analyzer to 3.0.117
-- Dependencies - Updated FunFair.Test to 6.3.3.2407
-- Dependencies - Updated FunFair.Test.Source.Generator to 6.3.3.2407
 ### Removed
 ### Deployment Changes
 <!--
 Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
 -->
+## [1.2.217] - 2026-07-05
+### Changed
+- Dependencies - Updated Credfeto.Enumeration to 1.2.149.2059
+- Dependencies - Updated FunFair.CodeAnalysis to 7.2.4.2117
+- Dependencies - Updated Meziantou.Analyzer to 3.0.117
+- Dependencies - Updated FunFair.Test to 6.3.3.2407
+- Dependencies - Updated FunFair.Test.Source.Generator to 6.3.3.2407
+
 ## [1.2.216] - 2026-07-01
 ### Fixed
 - BenchmarksShouldRemainWithinAllocationBudget test failure due to Microsoft.CodeAnalysis version conflict between BenchmarkDotNet (4.14.0) and source generator (5.3.0)
