@@ -14,6 +14,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Microsoft.CodeAnalysis.Analyzers to 5.6.0
 - Dependencies - Updated SonarAnalyzer.CSharp to 10.29.0.143774
 - Dependencies - Updated Microsoft.CodeAnalysis.CSharp to 5.6.0
+- Dependencies - Updated FunFair.CodeAnalysis to 7.2.7.2152
 ### Removed
 ### Deployment Changes
 <!--
