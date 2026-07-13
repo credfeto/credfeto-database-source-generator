@@ -12,6 +12,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Changed
 - Dependencies - Updated Meziantou.Analyzer to 3.0.122
 - Dependencies - Updated Microsoft.CodeAnalysis.Analyzers to 5.6.0
+- Dependencies - Updated Microsoft.CodeAnalysis.CSharp to 5.6.0
 ### Removed
 ### Deployment Changes
 <!--
