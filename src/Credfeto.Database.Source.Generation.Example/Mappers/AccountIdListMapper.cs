@@ -14,12 +14,7 @@ namespace Credfeto.Database.Source.Generation.Example.Mappers;
 //   CREATE TYPE dbo.AccountId AS TABLE (Id BIGINT NOT NULL)
 // Annotate stored procedure parameters with:
 //   [SqlFieldMap<AccountIdListMapper, IReadOnlyList<AccountId>>]
-[SuppressMessage(
-    category: "Microsoft.Performance",
-    checkId: "CA1812:AvoidUninstantiatedInternalClasses",
-    Justification = "Used by source generator"
-)]
-internal sealed class AccountIdListMapper : IMapper<IReadOnlyList<AccountId>>
+public sealed class AccountIdListMapper : IMapper<IReadOnlyList<AccountId>>
 {
     private const string TABLE_TYPE = "dbo.AccountId";
     private const string COLUMN_NAME = "Id";

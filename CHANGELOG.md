@@ -9,12 +9,15 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Security
 ### Added
 ### Fixed
+- Removed InternalsVisibleTo usage from Credfeto.Database.Source.Generation.Example by making AccountAddressMapper and AccountIdListMapper public, satisfying the build-check ban on InternalsVisibleTo (FFS0051)
 ### Changed
 - Dependencies - Updated Meziantou.Analyzer to 3.0.122
 - Dependencies - Updated Microsoft.CodeAnalysis.Analyzers to 5.6.0
 - Dependencies - Updated SonarAnalyzer.CSharp to 10.29.0.143774
 - Dependencies - Updated FunFair.Test to 6.3.4.2441
 - Dependencies - Updated FunFair.Test.Source.Generator to 6.3.4.2441
+- Dependencies - Updated FunFair.CodeAnalysis to 7.2.7.2152
+- Dependencies - Updated Microsoft.CodeAnalysis.CSharp to 5.6.0 to satisfy FunFair.CodeAnalysis 7.2.7.2152's minimum version requirement
 ### Removed
 ### Deployment Changes
 <!--
