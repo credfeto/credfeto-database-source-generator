@@ -59,11 +59,6 @@
   </ItemGroup>
   <Import Project="$(SolutionDir)KeepGeneratedFiles.props" Condition="Exists('$(SolutionDir)KeepGeneratedFiles.props')" />
   <ItemGroup>
-    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-      <_Parameter1>Credfeto.Database.Source.Generation.Example.Tests</_Parameter1>
-    </AssemblyAttribute>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Credfeto.Database.Interfaces\Credfeto.Database.Interfaces.csproj" />
     <ProjectReference Include="..\Credfeto.Database.Pgsql\Credfeto.Database.Pgsql.csproj" />
     <ProjectReference Include="..\Credfeto.Database.Source.Generation\Credfeto.Database.Source.Generation.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
