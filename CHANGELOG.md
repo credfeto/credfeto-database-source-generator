@@ -9,6 +9,14 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Security
 ### Added
 ### Fixed
+### Changed
+### Removed
+### Deployment Changes
+<!--
+Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
+-->
+## [1.2.218] - 2026-07-15
+### Fixed
 - Removed InternalsVisibleTo usage from Credfeto.Database.Source.Generation.Example by making AccountAddressMapper and AccountIdListMapper public, satisfying the build-check ban on InternalsVisibleTo (FFS0051)
 ### Changed
 - Dependencies - Updated Meziantou.Analyzer to 3.0.122
@@ -20,11 +28,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Microsoft.CodeAnalysis.CSharp to 5.6.0 to satisfy FunFair.CodeAnalysis 7.2.7.2152's minimum version requirement
 - SDK - Updated DotNet SDK to 10.0.302
 - Increased analyzer severity to error for FFS0040, FFS0042, MA0026, and S125 (previously suggestion/none), catching file-naming mismatches, TODO markers in suppressions/comments, and commented-out code at build time
-### Removed
-### Deployment Changes
-<!--
-Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
--->
+
 ## [1.2.217] - 2026-07-05
 ### Changed
 - Dependencies - Updated Credfeto.Enumeration to 1.2.149.2059
