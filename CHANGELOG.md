@@ -19,6 +19,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated FunFair.CodeAnalysis to 7.2.7.2152
 - Dependencies - Updated Microsoft.CodeAnalysis.CSharp to 5.6.0 to satisfy FunFair.CodeAnalysis 7.2.7.2152's minimum version requirement
 - SDK - Updated DotNet SDK to 10.0.302
+- Increased analyzer severity to error for FFS0040, FFS0042, MA0026, and S125 (previously suggestion/none), catching file-naming mismatches, TODO markers in suppressions/comments, and commented-out code at build time
 ### Removed
 ### Deployment Changes
 <!--
