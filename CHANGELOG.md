@@ -18,6 +18,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated FunFair.Test.Source.Generator to 6.3.4.2441
 - Dependencies - Updated FunFair.CodeAnalysis to 7.2.7.2152
 - Dependencies - Updated Microsoft.CodeAnalysis.CSharp to 5.6.0 to satisfy FunFair.CodeAnalysis 7.2.7.2152's minimum version requirement
+- SDK - Updated DotNet SDK to 10.0.302
 ### Removed
 ### Deployment Changes
 <!--
