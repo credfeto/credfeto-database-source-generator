@@ -9,7 +9,9 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Security
 ### Added
 ### Fixed
+- Fixed build failure after updating Credfeto.Enumeration to 1.2.151.2192 by polyfilling System.Diagnostics.CodeAnalysis.DoesNotReturnAttribute for netstandard2.0 via PolySharp
 ### Changed
+- Dependencies - Updated Credfeto.Enumeration to 1.2.151.2192
 ### Removed
 ### Deployment Changes
 <!--

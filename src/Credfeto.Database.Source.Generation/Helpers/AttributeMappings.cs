@@ -247,7 +247,7 @@ internal static class AttributeMappings
             && objectName.EndsWith(value: "\"", comparisonType: StringComparison.Ordinal)
         )
         {
-            return objectName.Substring(startIndex: 1, objectName.Length - 2);
+            return objectName[1..^1];
         }
 
         return objectName;
