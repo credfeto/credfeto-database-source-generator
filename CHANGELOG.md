@@ -9,14 +9,18 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Security
 ### Added
 ### Fixed
-- Fixed build failure after updating Credfeto.Enumeration to 1.2.151.2192 by polyfilling System.Diagnostics.CodeAnalysis.DoesNotReturnAttribute for netstandard2.0 via PolySharp
 ### Changed
-- Dependencies - Updated Credfeto.Enumeration to 1.2.151.2192
 ### Removed
 ### Deployment Changes
 <!--
 Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
 -->
+## [1.2.219] - 2026-07-18
+### Fixed
+- Fixed build failure after updating Credfeto.Enumeration to 1.2.151.2192 by polyfilling System.Diagnostics.CodeAnalysis.DoesNotReturnAttribute for netstandard2.0 via PolySharp
+### Changed
+- Dependencies - Updated Credfeto.Enumeration to 1.2.151.2192
+
 ## [1.2.218] - 2026-07-15
 ### Fixed
 - Removed InternalsVisibleTo usage from Credfeto.Database.Source.Generation.Example by making AccountAddressMapper and AccountIdListMapper public, satisfying the build-check ban on InternalsVisibleTo (FFS0051)
