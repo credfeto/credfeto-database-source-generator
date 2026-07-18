@@ -10,6 +10,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Added
 ### Fixed
 ### Changed
+- Dropped net9.0 support: projects now target net10.0 only
 ### Removed
 ### Deployment Changes
 <!--
