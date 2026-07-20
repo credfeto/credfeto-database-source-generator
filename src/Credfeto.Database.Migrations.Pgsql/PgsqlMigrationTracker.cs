@@ -1,8 +1,4 @@
-using System;
-using System.Data.Common;
 using System.Diagnostics.CodeAnalysis;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Credfeto.Database.Migrations.Pgsql;
 
@@ -21,24 +17,15 @@ public sealed class PgsqlMigrationTracker : MigrationTrackerBase
     public PgsqlMigrationTracker(MigrationRunnerOptions? options = null)
         : base(options) { }
 
-    public override async ValueTask EnsureCreatedAsync(DbConnection connection, CancellationToken cancellationToken)
+    protected override string BuildEnsureCreatedSql()
     {
-        ArgumentNullException.ThrowIfNull(connection);
-
-        DbCommand command = connection.CreateCommand();
-
-        await using (command)
-        {
-            command.CommandText = $"""
-                CREATE TABLE IF NOT EXISTS "{this.TableName}" (
-                    id BIGINT NOT NULL PRIMARY KEY,
-                    name TEXT NOT NULL,
-                    applied_at_utc TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT (now() AT TIME ZONE 'utc')
-                )
-                """;
-
-            await command.ExecuteNonQueryAsync(cancellationToken);
-        }
+        return $"""
+            CREATE TABLE IF NOT EXISTS "{this.TableName}" (
+                id BIGINT NOT NULL PRIMARY KEY,
+                name TEXT NOT NULL,
+                applied_at_utc TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT (now() AT TIME ZONE 'utc')
+            )
+            """;
     }
 
     protected override string BuildSelectAppliedIdsSql()

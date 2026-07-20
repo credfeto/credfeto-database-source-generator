@@ -2,6 +2,7 @@ using System.Globalization;
 using Credfeto.Database.Migrations.Source.Generation.Builders;
 using Credfeto.Database.Migrations.Source.Generation.Models;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace Credfeto.Database.Migrations.Source.Generation;
 
@@ -40,7 +41,7 @@ internal static class MigrationSourceCodeGenerator
                 foreach (MigrationSourceFile migration in generation.Migrations)
                 {
                     builder.AppendLine(
-                        $"new Migration(Id: {migration.Id.ToString(CultureInfo.InvariantCulture)}, Name: {EscapeString(migration.Name)}, Sql: {EscapeString(migration.Sql)}),"
+                        $"new Migration(Id: {migration.Id.ToString(CultureInfo.InvariantCulture)}, Name: {SymbolDisplay.FormatLiteral(migration.Name, quote: true)}, Sql: {SymbolDisplay.FormatLiteral(migration.Sql, quote: true)}),"
                     );
                 }
             }
@@ -50,12 +51,5 @@ internal static class MigrationSourceCodeGenerator
             generation.Namespace.Length == 0 ? generation.ClassName : $"{generation.Namespace}.{generation.ClassName}";
 
         context.AddSource(hintName: $"{hintNamePrefix}.Migrations.g.cs", sourceText: builder.Text);
-    }
-
-    private static string EscapeString(string value)
-    {
-        return "\""
-            + value.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("\r\n", "\\r\\n").Replace("\n", "\\n")
-            + "\"";
     }
 }

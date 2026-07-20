@@ -43,11 +43,28 @@ public abstract partial class MigrationTrackerBase : IMigrationTracker
         return tableName;
     }
 
-    public abstract ValueTask EnsureCreatedAsync(DbConnection connection, CancellationToken cancellationToken);
+    protected abstract string BuildEnsureCreatedSql();
 
     protected abstract string BuildSelectAppliedIdsSql();
 
     protected abstract string BuildInsertAppliedSql();
+
+    protected virtual void BindEnsureCreatedParameters(DbCommand command) { }
+
+    public async ValueTask EnsureCreatedAsync(DbConnection connection, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(connection);
+
+        DbCommand command = connection.CreateCommand();
+
+        await using (command)
+        {
+            command.CommandText = this.BuildEnsureCreatedSql();
+            this.BindEnsureCreatedParameters(command);
+
+            await command.ExecuteNonQueryAsync(cancellationToken);
+        }
+    }
 
     public async ValueTask<IReadOnlySet<long>> GetAppliedMigrationIdsAsync(
         DbConnection connection,
