@@ -54,6 +54,19 @@ public sealed class DatabaseMigrationsCodeGeneratorTests : TestBase
     }
 
     [Fact]
+    public void UpperCaseSqlExtensionIsRecognizedAsMigration()
+    {
+        GeneratorDriverRunResult result = CompilationHelpers.RunGenerator(
+            Source,
+            ("0001_create_accounts.SQL", "CREATE TABLE accounts (id INT);")
+        );
+
+        string generated = SoleGeneratedSource(result);
+
+        Assert.Contains("create_accounts", generated, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void GapsInNumberingAreAllowed()
     {
         GeneratorDriverRunResult result = CompilationHelpers.RunGenerator(

@@ -10,7 +10,7 @@ internal static class MigrationFileNameExtensions
 {
     private static readonly Regex FileNamePattern = new(
         pattern: @"^(?<id>\d+)_(?<name>[A-Za-z0-9_]+)\.sql$",
-        options: RegexOptions.CultureInvariant,
+        options: RegexOptions.CultureInvariant | RegexOptions.IgnoreCase,
         matchTimeout: TimeSpan.FromSeconds(1)
     );
 
