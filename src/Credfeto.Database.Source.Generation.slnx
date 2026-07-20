@@ -20,6 +20,10 @@
     <Project Path="Credfeto.Database.Interfaces.Tests/Credfeto.Database.Interfaces.Tests.csproj" />
     <Project Path="Credfeto.Database/Credfeto.Database.csproj" />
   </Folder>
+  <Folder Name="/Migrations/">
+    <Project Path="Credfeto.Database.Migrations/Credfeto.Database.Migrations.csproj" />
+    <Project Path="Credfeto.Database.Migrations.Tests/Credfeto.Database.Migrations.Tests.csproj" />
+  </Folder>
   <Folder Name="/Providers/">
     <Project Path="Credfeto.Database.Pgsql.Tests/Credfeto.Database.Pgsql.Tests.csproj" />
     <Project Path="Credfeto.Database.Pgsql/Credfeto.Database.Pgsql.csproj" />
