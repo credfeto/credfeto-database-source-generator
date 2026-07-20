@@ -54,6 +54,25 @@ public sealed class DatabaseMigrationsCodeGeneratorTests : TestBase
     }
 
     [Fact]
+    public void FileWithNumericPrefixButInvalidNameProducesDiagnosticAndIsIgnored()
+    {
+        GeneratorDriverRunResult result = CompilationHelpers.RunGenerator(
+            Source,
+            ("0001_create_accounts.sql", "CREATE TABLE accounts (id INT);"),
+            ("0002_add-email.sql", "ALTER TABLE accounts ADD email TEXT;")
+        );
+
+        GeneratorRunResult generatorResult = result.Results[0];
+
+        Assert.Contains(generatorResult.Diagnostics, d => StringComparer.Ordinal.Equals(d.Id, "CDMG003"));
+
+        string generated = SoleGeneratedSource(result);
+
+        Assert.Contains("create_accounts", generated, StringComparison.Ordinal);
+        Assert.DoesNotContain("add-email", generated, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void UpperCaseSqlExtensionIsRecognizedAsMigration()
     {
         GeneratorDriverRunResult result = CompilationHelpers.RunGenerator(

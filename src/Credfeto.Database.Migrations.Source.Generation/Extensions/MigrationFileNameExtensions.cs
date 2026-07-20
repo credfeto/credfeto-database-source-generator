@@ -14,6 +14,14 @@ internal static class MigrationFileNameExtensions
         matchTimeout: TimeSpan.FromSeconds(1)
     );
 
+    private static readonly Regex NearMissPattern = new(
+        pattern: @"^\d+_.+\.sql$",
+        options: RegexOptions.CultureInvariant | RegexOptions.IgnoreCase,
+        matchTimeout: TimeSpan.FromSeconds(1)
+    );
+
+    public static bool LooksLikeMigrationFileName(string fileName) => NearMissPattern.IsMatch(fileName);
+
     public static bool TryParse(string fileName, SourceText sql, out MigrationSourceFile migration)
     {
         Match match = FileNamePattern.Match(fileName);

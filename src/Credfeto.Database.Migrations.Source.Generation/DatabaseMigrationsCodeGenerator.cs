@@ -27,11 +27,16 @@ public sealed class DatabaseMigrationsCodeGenerator : IIncrementalGenerator
                 GetClassInfo((ClassDeclarationSyntax)ctx.TargetNode, (INamedTypeSymbol)ctx.TargetSymbol)
         );
 
-        IncrementalValueProvider<ImmutableArray<MigrationSourceFile>> migrationFiles = context
-            .AdditionalTextsProvider.Where(static file =>
-                file.Path.EndsWith(".sql", StringComparison.OrdinalIgnoreCase)
-            )
+        IncrementalValuesProvider<AdditionalText> sqlFiles = context.AdditionalTextsProvider.Where(static file =>
+            file.Path.EndsWith(".sql", StringComparison.OrdinalIgnoreCase)
+        );
+
+        IncrementalValueProvider<ImmutableArray<MigrationSourceFile>> migrationFiles = sqlFiles
             .SelectMany(static (file, ct) => ToMigrations(file, ct))
+            .Collect();
+
+        IncrementalValueProvider<ImmutableArray<NearMissMigrationFileInfo>> nearMisses = sqlFiles
+            .SelectMany(static (file, ct) => ToNearMisses(file, ct))
             .Collect();
 
         IncrementalValuesProvider<MigrationGenerationContext> generations = classes
@@ -39,6 +44,7 @@ public sealed class DatabaseMigrationsCodeGenerator : IIncrementalGenerator
             .Select(static (pair, _) => BuildGeneration(classInfo: pair.Left, migrationFiles: pair.Right));
 
         context.RegisterSourceOutput(generations, action: Generate);
+        context.RegisterSourceOutput(nearMisses, action: ReportNearMisses);
     }
 
     private static AttributedClassInfo GetClassInfo(ClassDeclarationSyntax classDeclaration, INamedTypeSymbol symbol)
@@ -75,6 +81,38 @@ public sealed class DatabaseMigrationsCodeGenerator : IIncrementalGenerator
         return MigrationFileNameExtensions.TryParse(fileName, sourceText, out MigrationSourceFile migration)
             ? [migration]
             : [];
+    }
+
+    private static ImmutableArray<NearMissMigrationFileInfo> ToNearMisses(
+        AdditionalText file,
+        CancellationToken cancellationToken
+    )
+    {
+        SourceText? sourceText = file.GetText(cancellationToken);
+
+        if (sourceText is null)
+        {
+            return [];
+        }
+
+        string fileName = Path.GetFileName(file.Path);
+
+        if (MigrationFileNameExtensions.TryParse(fileName, sourceText, out _))
+        {
+            return [];
+        }
+
+        return MigrationFileNameExtensions.LooksLikeMigrationFileName(fileName)
+            ? [new(FileName: fileName, Location: GetFileLocation(file))]
+            : [];
+    }
+
+    private static Location GetFileLocation(AdditionalText file)
+    {
+        TextSpan span = new(start: 0, length: 0);
+        LinePositionSpan lineSpan = new(new(line: 0, character: 0), new(line: 0, character: 0));
+
+        return Location.Create(filePath: file.Path, textSpan: span, lineSpan: lineSpan);
     }
 
     private static MigrationGenerationContext BuildGeneration(
@@ -168,12 +206,31 @@ public sealed class DatabaseMigrationsCodeGenerator : IIncrementalGenerator
         );
     }
 
+    private static void ReportNearMisses(
+        SourceProductionContext context,
+        ImmutableArray<NearMissMigrationFileInfo> nearMisses
+    )
+    {
+        foreach (NearMissMigrationFileInfo nearMiss in nearMisses)
+        {
+            Report(
+                context: context,
+                id: RuleConstants.UnrecognizedMigrationFileName,
+                title: "Unrecognized migration file name",
+                messageFormat: $"File '{nearMiss.FileName}' has a numeric id but does not match the required 'NNNN_name.sql' pattern and will be ignored.",
+                location: nearMiss.Location,
+                severity: DiagnosticSeverity.Warning
+            );
+        }
+    }
+
     private static void Report(
         in SourceProductionContext context,
         string id,
         string title,
         string messageFormat,
-        Location location
+        Location location,
+        DiagnosticSeverity severity = DiagnosticSeverity.Error
     )
     {
         context.ReportDiagnostic(
@@ -183,7 +240,7 @@ public sealed class DatabaseMigrationsCodeGenerator : IIncrementalGenerator
                     title: title,
                     messageFormat: messageFormat,
                     category: VersionInformation.Product,
-                    defaultSeverity: DiagnosticSeverity.Error,
+                    defaultSeverity: severity,
                     isEnabledByDefault: true
                 ),
                 location: location
