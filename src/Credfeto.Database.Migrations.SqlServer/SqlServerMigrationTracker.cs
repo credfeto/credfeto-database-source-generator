@@ -1,8 +1,5 @@
-using System;
 using System.Data.Common;
 using System.Diagnostics.CodeAnalysis;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Credfeto.Database.Migrations.SqlServer;
 
@@ -21,32 +18,26 @@ public sealed class SqlServerMigrationTracker : MigrationTrackerBase
     public SqlServerMigrationTracker(MigrationRunnerOptions? options = null)
         : base(options) { }
 
-    public override async ValueTask EnsureCreatedAsync(DbConnection connection, CancellationToken cancellationToken)
+    protected override string BuildEnsureCreatedSql()
     {
-        ArgumentNullException.ThrowIfNull(connection);
+        return $"""
+            IF NOT EXISTS (SELECT 1 FROM sys.tables WHERE name = @tableName)
+            BEGIN
+                CREATE TABLE [{this.TableName}] (
+                    id BIGINT NOT NULL PRIMARY KEY,
+                    name NVARCHAR(400) NOT NULL,
+                    applied_at_utc DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
+                )
+            END
+            """;
+    }
 
-        DbCommand command = connection.CreateCommand();
-
-        await using (command)
-        {
-            command.CommandText = $"""
-                IF NOT EXISTS (SELECT 1 FROM sys.tables WHERE name = @tableName)
-                BEGIN
-                    CREATE TABLE [{this.TableName}] (
-                        id BIGINT NOT NULL PRIMARY KEY,
-                        name NVARCHAR(400) NOT NULL,
-                        applied_at_utc DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
-                    )
-                END
-                """;
-
-            DbParameter tableNameParameter = command.CreateParameter();
-            tableNameParameter.ParameterName = "tableName";
-            tableNameParameter.Value = this.TableName;
-            command.Parameters.Add(tableNameParameter);
-
-            await command.ExecuteNonQueryAsync(cancellationToken);
-        }
+    protected override void BindEnsureCreatedParameters(DbCommand command)
+    {
+        DbParameter tableNameParameter = command.CreateParameter();
+        tableNameParameter.ParameterName = "tableName";
+        tableNameParameter.Value = this.TableName;
+        command.Parameters.Add(tableNameParameter);
     }
 
     protected override string BuildSelectAppliedIdsSql()

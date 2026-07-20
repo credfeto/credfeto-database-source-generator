@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
@@ -70,15 +67,6 @@ internal static class CompilationHelpers
 
         // Add the migrations assembly first (guaranteed)
         AddReference(typeof(DatabaseMigrationsAttribute).Assembly.Location);
-
-        // Add BCL assemblies by anchoring on well-known types
-        AddReference(typeof(object).Assembly.Location);
-        AddReference(typeof(Task).Assembly.Location);
-        AddReference(typeof(DbConnection).Assembly.Location);
-        AddReference(typeof(RuntimeHelpers).Assembly.Location);
-        AddReference(typeof(Console).Assembly.Location);
-        AddReference(typeof(Enumerable).Assembly.Location);
-        AddReference(typeof(List<>).Assembly.Location);
 
         // Add any other loaded assemblies
         foreach (System.Reflection.Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
