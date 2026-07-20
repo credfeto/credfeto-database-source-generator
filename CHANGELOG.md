@@ -11,7 +11,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ## [Unreleased]
 ### Security
 ### Added
-- AOT-friendly database migration runner and providers (work in progress)
+- AOT-friendly database migration runner, PostgreSQL/SQL Server providers, and a source generator for compile-time SQL migrations
 ### Fixed
 ### Changed
 - Dropped net9.0 support: projects now target net10.0 only

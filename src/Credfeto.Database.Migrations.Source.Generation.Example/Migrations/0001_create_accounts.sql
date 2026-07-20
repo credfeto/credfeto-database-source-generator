@@ -1,0 +1,6 @@
+CREATE TABLE Dbo.Accounts
+(
+  Id BIGINT NOT NULL,
+  AccountName NVARCHAR(200) NOT NULL,
+  CONSTRAINT Pk_Accounts PRIMARY KEY (Id)
+);
