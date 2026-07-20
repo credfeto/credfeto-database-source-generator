@@ -23,7 +23,9 @@ internal static class MigrationSourceCodeGenerator
             builder.AppendLine($"namespace {generation.Namespace};").AppendBlankLine();
         }
 
-        builder.AppendGeneratedCodeAttribute();
+        builder.AppendLine(
+            $"[GeneratedCode(tool: \"{VersionInformation.Product}\", version: \"{VersionInformation.Version}\")]"
+        );
 
         using (builder.StartBlock($"{generation.AccessModifier} partial class {generation.ClassName}"))
         {
@@ -38,13 +40,7 @@ internal static class MigrationSourceCodeGenerator
                 foreach (MigrationSourceFile migration in generation.Migrations)
                 {
                     builder.AppendLine(
-                        "new Migration(Id: "
-                            + migration.Id.ToString(CultureInfo.InvariantCulture)
-                            + ", Name: "
-                            + EscapeString(migration.Name)
-                            + ", Sql: "
-                            + EscapeString(migration.Sql)
-                            + "),"
+                        $"new Migration(Id: {migration.Id.ToString(CultureInfo.InvariantCulture)}, Name: {EscapeString(migration.Name)}, Sql: {EscapeString(migration.Sql)}),"
                     );
                 }
             }

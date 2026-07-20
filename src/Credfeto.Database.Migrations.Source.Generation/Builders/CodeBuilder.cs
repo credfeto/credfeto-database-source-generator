@@ -38,13 +38,6 @@ public sealed class CodeBuilder
         return this;
     }
 
-    public CodeBuilder AppendGeneratedCodeAttribute()
-    {
-        return this.AppendLine(
-            $"[GeneratedCode(tool: \"{VersionInformation.Product}\", version: \"{VersionInformation.Version}\")]"
-        );
-    }
-
     public CodeBuilder AppendLine(string text)
     {
         if (string.IsNullOrWhiteSpace(text))
