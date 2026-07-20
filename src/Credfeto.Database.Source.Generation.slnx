@@ -29,6 +29,8 @@
     <Project Path="Credfeto.Database.Migrations.SqlServer.Tests/Credfeto.Database.Migrations.SqlServer.Tests.csproj" />
     <Project Path="Credfeto.Database.Migrations.Source.Generation/Credfeto.Database.Migrations.Source.Generation.csproj" />
     <Project Path="Credfeto.Database.Migrations.Source.Generation.Tests/Credfeto.Database.Migrations.Source.Generation.Tests.csproj" />
+    <Project Path="Credfeto.Database.Migrations.Source.Generation.Example/Credfeto.Database.Migrations.Source.Generation.Example.csproj" />
+    <Project Path="Credfeto.Database.Migrations.Source.Generation.Example.Tests/Credfeto.Database.Migrations.Source.Generation.Example.Tests.csproj" />
   </Folder>
   <Folder Name="/Providers/">
     <Project Path="Credfeto.Database.Pgsql.Tests/Credfeto.Database.Pgsql.Tests.csproj" />
