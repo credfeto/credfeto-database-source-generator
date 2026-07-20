@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 using System.Threading.Tasks;
 using Credfeto.Database.Migrations.Tests.Helpers;
 using FunFair.Test.Common;
@@ -42,13 +41,23 @@ public sealed class MigrationRunnerTests : TestBase
         return tracker;
     }
 
+    private static MigrationRunner CreateRunner(
+        out FakeDbConnection connection,
+        IReadOnlySet<long>? applied = null,
+        Func<string, bool>? shouldFail = null
+    )
+    {
+        connection = new(shouldFail);
+        FakeDatabase database = new(connection);
+        IMigrationTracker tracker = CreateTracker(applied);
+
+        return new MigrationRunner(database: database, tracker: tracker);
+    }
+
     [Fact]
     public async Task MigrateAsync_WithMigrationsOutOfOrder_AppliesThemInIdOrder()
     {
-        FakeDbConnection connection = new();
-        FakeDatabase database = new(connection);
-        IMigrationTracker tracker = CreateTracker();
-        MigrationRunner runner = new(database: database, tracker: tracker);
+        MigrationRunner runner = CreateRunner(out FakeDbConnection connection);
 
         Migration first = new(Id: 1, Name: "first", Sql: "CREATE TABLE a");
         Migration second = new(Id: 2, Name: "second", Sql: "CREATE TABLE b");
@@ -61,10 +70,7 @@ public sealed class MigrationRunnerTests : TestBase
     [Fact]
     public async Task MigrateAsync_WithSuccessfulMigration_CommitsItsOwnTransaction()
     {
-        FakeDbConnection connection = new();
-        FakeDatabase database = new(connection);
-        IMigrationTracker tracker = CreateTracker();
-        MigrationRunner runner = new(database: database, tracker: tracker);
+        MigrationRunner runner = CreateRunner(out FakeDbConnection connection);
 
         Migration migration = new(Id: 1, Name: "first", Sql: "CREATE TABLE a");
 
@@ -78,10 +84,10 @@ public sealed class MigrationRunnerTests : TestBase
     [Fact]
     public async Task MigrateAsync_WithFailingMigration_RollsBackAndAbortsWithoutApplyingLaterMigrations()
     {
-        FakeDbConnection connection = new(shouldFail: static sql => StringComparer.Ordinal.Equals(sql, "FAIL"));
-        FakeDatabase database = new(connection);
-        IMigrationTracker tracker = CreateTracker();
-        MigrationRunner runner = new(database: database, tracker: tracker);
+        MigrationRunner runner = CreateRunner(
+            out FakeDbConnection connection,
+            shouldFail: static sql => StringComparer.Ordinal.Equals(sql, "FAIL")
+        );
 
         Migration failing = new(Id: 1, Name: "failing", Sql: "FAIL");
         Migration later = new(Id: 2, Name: "later", Sql: "CREATE TABLE b");
@@ -99,10 +105,7 @@ public sealed class MigrationRunnerTests : TestBase
     [Fact]
     public async Task MigrateAsync_WithAlreadyAppliedMigration_SkipsIt()
     {
-        FakeDbConnection connection = new();
-        FakeDatabase database = new(connection);
-        IMigrationTracker tracker = CreateTracker(applied: new HashSet<long> { 1 });
-        MigrationRunner runner = new(database: database, tracker: tracker);
+        MigrationRunner runner = CreateRunner(out FakeDbConnection connection, applied: new HashSet<long> { 1 });
 
         Migration alreadyApplied = new(Id: 1, Name: "first", Sql: "CREATE TABLE a");
         Migration pending = new(Id: 2, Name: "second", Sql: "CREATE TABLE b");
@@ -115,10 +118,7 @@ public sealed class MigrationRunnerTests : TestBase
     [Fact]
     public async Task MigrateAsync_WithDuplicateMigrationIds_ThrowsInvalidOperationException()
     {
-        FakeDbConnection connection = new();
-        FakeDatabase database = new(connection);
-        IMigrationTracker tracker = CreateTracker();
-        MigrationRunner runner = new(database: database, tracker: tracker);
+        MigrationRunner runner = CreateRunner(out FakeDbConnection connection);
 
         Migration first = new(Id: 1, Name: "first", Sql: "CREATE TABLE a");
         Migration duplicate = new(Id: 1, Name: "duplicate", Sql: "CREATE TABLE b");
@@ -131,54 +131,43 @@ public sealed class MigrationRunnerTests : TestBase
     }
 
     [Fact]
-    public void MigrateAsync_WithNullMigrations_ThrowsArgumentNullException()
+    [SuppressMessage(
+        category: "CSharpIsNullAnalyzer",
+        checkId: "NX0002:Instance of NullForgiving operator without justification detected",
+        Justification = "Verifying the ArgumentNullException.ThrowIfNull guard for the migrations parameter"
+    )]
+    public Task MigrateAsync_WithNullMigrations_ThrowsArgumentNullException()
     {
-        FakeDbConnection connection = new();
-        FakeDatabase database = new(connection);
-        IMigrationTracker tracker = CreateTracker();
-        MigrationRunner runner = new(database: database, tracker: tracker);
+        MigrationRunner runner = CreateRunner(out _);
 
-        MethodInfo method =
-            typeof(MigrationRunner).GetMethod(nameof(MigrationRunner.MigrateAsync))
-            ?? throw new InvalidOperationException("Cannot find MigrateAsync method");
-
-        TargetInvocationException ex = Assert.Throws<TargetInvocationException>(() =>
-            method.Invoke(obj: runner, parameters: [null, System.Threading.CancellationToken.None])
+        return Assert.ThrowsAsync<ArgumentNullException>(() =>
+            runner.MigrateAsync(migrations: null!, cancellationToken: System.Threading.CancellationToken.None).AsTask()
         );
-
-        Assert.IsType<ArgumentNullException>(ex.InnerException);
     }
 
     [Fact]
+    [SuppressMessage(
+        category: "CSharpIsNullAnalyzer",
+        checkId: "NX0002:Instance of NullForgiving operator without justification detected",
+        Justification = "Verifying the ArgumentNullException.ThrowIfNull guard for the database parameter"
+    )]
     public void Constructor_WithNullDatabase_ThrowsArgumentNullException()
     {
         IMigrationTracker tracker = CreateTracker();
 
-        ConstructorInfo constructor =
-            typeof(MigrationRunner).GetConstructor([typeof(IDatabase), typeof(IMigrationTracker)])
-            ?? throw new InvalidOperationException("Cannot find MigrationRunner constructor");
-
-        TargetInvocationException ex = Assert.Throws<TargetInvocationException>(() =>
-            constructor.Invoke([null, tracker])
-        );
-
-        Assert.IsType<ArgumentNullException>(ex.InnerException);
+        Assert.Throws<ArgumentNullException>(() => new MigrationRunner(database: null!, tracker: tracker));
     }
 
     [Fact]
+    [SuppressMessage(
+        category: "CSharpIsNullAnalyzer",
+        checkId: "NX0002:Instance of NullForgiving operator without justification detected",
+        Justification = "Verifying the ArgumentNullException.ThrowIfNull guard for the tracker parameter"
+    )]
     public void Constructor_WithNullTracker_ThrowsArgumentNullException()
     {
-        FakeDbConnection connection = new();
-        FakeDatabase database = new(connection);
+        FakeDatabase database = new(new FakeDbConnection());
 
-        ConstructorInfo constructor =
-            typeof(MigrationRunner).GetConstructor([typeof(IDatabase), typeof(IMigrationTracker)])
-            ?? throw new InvalidOperationException("Cannot find MigrationRunner constructor");
-
-        TargetInvocationException ex = Assert.Throws<TargetInvocationException>(() =>
-            constructor.Invoke([database, null])
-        );
-
-        Assert.IsType<ArgumentNullException>(ex.InnerException);
+        Assert.Throws<ArgumentNullException>(() => new MigrationRunner(database: database, tracker: null!));
     }
 }
