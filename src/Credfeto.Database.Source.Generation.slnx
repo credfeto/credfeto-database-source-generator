@@ -22,6 +22,7 @@
   </Folder>
   <Folder Name="/Migrations/">
     <Project Path="Credfeto.Database.Migrations/Credfeto.Database.Migrations.csproj" />
+    <Project Path="Credfeto.Database.Migrations.TestHelpers/Credfeto.Database.Migrations.TestHelpers.csproj" />
     <Project Path="Credfeto.Database.Migrations.Tests/Credfeto.Database.Migrations.Tests.csproj" />
     <Project Path="Credfeto.Database.Migrations.Pgsql/Credfeto.Database.Migrations.Pgsql.csproj" />
     <Project Path="Credfeto.Database.Migrations.Pgsql.Tests/Credfeto.Database.Migrations.Pgsql.Tests.csproj" />

@@ -2,9 +2,9 @@ using System.Data;
 using System.Data.Common;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Credfeto.Database.Migrations.SqlServer.Tests.Helpers;
+namespace Credfeto.Database.Migrations.TestHelpers;
 
-internal sealed class FakeDbCommand : DbCommand
+public sealed class FakeDbCommand : DbCommand
 {
     private readonly FakeDbConnection _connection;
     private readonly FakeDbParameterCollection _parameters = [];

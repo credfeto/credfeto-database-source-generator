@@ -50,6 +50,7 @@
   <Import Project="$(SolutionDir)UnitTests.props" Condition="Exists('$(SolutionDir)UnitTests.props')" />
   <ItemGroup>
     <ProjectReference Include="..\Credfeto.Database.Migrations.SqlServer\Credfeto.Database.Migrations.SqlServer.csproj" />
+    <ProjectReference Include="..\Credfeto.Database.Migrations.TestHelpers\Credfeto.Database.Migrations.TestHelpers.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FunFair.Test.Common" Version="6.3.4.2441" />

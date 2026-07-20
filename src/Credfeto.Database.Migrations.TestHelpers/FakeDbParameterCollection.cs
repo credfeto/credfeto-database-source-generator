@@ -2,11 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-namespace Credfeto.Database.Migrations.Tests.Helpers;
+namespace Credfeto.Database.Migrations.TestHelpers;
 
-internal sealed class FakeDbParameterCollection : DbParameterCollection
+[SuppressMessage(
+    category: "Microsoft.Design",
+    checkId: "CA1010: Generic interface should also be implemented",
+    Justification = "DbParameterCollection's non-generic IList is inherited from the BCL base class"
+)]
+public sealed class FakeDbParameterCollection : DbParameterCollection
 {
     private readonly List<DbParameter> _parameters = [];
 

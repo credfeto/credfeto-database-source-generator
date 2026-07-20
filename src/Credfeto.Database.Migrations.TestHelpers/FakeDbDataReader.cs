@@ -4,9 +4,14 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Credfeto.Database.Migrations.SqlServer.Tests.Helpers;
+namespace Credfeto.Database.Migrations.TestHelpers;
 
-internal sealed class FakeDbDataReader : DbDataReader
+[SuppressMessage(
+    category: "Microsoft.Design",
+    checkId: "CA1010: Generic interface should also be implemented",
+    Justification = "DbDataReader's non-generic IEnumerable is inherited from the BCL base class"
+)]
+public sealed class FakeDbDataReader : DbDataReader
 {
     private readonly IReadOnlyList<long> _values;
     private int _index = -1;

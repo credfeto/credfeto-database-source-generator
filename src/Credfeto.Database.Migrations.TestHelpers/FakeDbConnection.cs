@@ -4,20 +4,23 @@ using System.Data;
 using System.Data.Common;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Credfeto.Database.Migrations.Tests.Helpers;
+namespace Credfeto.Database.Migrations.TestHelpers;
 
-internal sealed class FakeDbConnection : DbConnection
+public sealed class FakeDbConnection : DbConnection
 {
     private readonly List<FakeDbTransaction> _transactions = [];
 
-    public FakeDbConnection(Func<string, bool>? shouldFail = null)
+    public FakeDbConnection(IReadOnlyList<long>? appliedIds = null, Func<string, bool>? shouldFail = null)
     {
+        this.AppliedIds = appliedIds ?? [];
         this.ShouldFail = shouldFail;
     }
 
     public List<string> ExecutedSql { get; } = [];
 
     public IReadOnlyList<FakeDbTransaction> Transactions => this._transactions;
+
+    public IReadOnlyList<long> AppliedIds { get; }
 
     public Func<string, bool>? ShouldFail { get; }
 

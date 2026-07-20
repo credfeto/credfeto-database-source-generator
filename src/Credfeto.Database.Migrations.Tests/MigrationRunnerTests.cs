@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using Credfeto.Database.Migrations.TestHelpers;
 using Credfeto.Database.Migrations.Tests.Helpers;
 using FunFair.Test.Common;
 using NSubstitute;
@@ -47,7 +48,7 @@ public sealed class MigrationRunnerTests : TestBase
         Func<string, bool>? shouldFail = null
     )
     {
-        connection = new(shouldFail);
+        connection = new(shouldFail: shouldFail);
         FakeDatabase database = new(connection);
         IMigrationTracker tracker = CreateTracker(applied);
 

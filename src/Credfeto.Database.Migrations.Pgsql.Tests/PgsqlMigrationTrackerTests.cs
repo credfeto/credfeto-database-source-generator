@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
-using Credfeto.Database.Migrations.Pgsql.Tests.Helpers;
+using Credfeto.Database.Migrations.TestHelpers;
 using FunFair.Test.Common;
 using Xunit;
 

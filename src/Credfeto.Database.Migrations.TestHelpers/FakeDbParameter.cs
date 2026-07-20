@@ -2,9 +2,9 @@ using System.Data;
 using System.Data.Common;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Credfeto.Database.Migrations.Pgsql.Tests.Helpers;
+namespace Credfeto.Database.Migrations.TestHelpers;
 
-internal sealed class FakeDbParameter : DbParameter
+public sealed class FakeDbParameter : DbParameter
 {
     public override DbType DbType { get; set; }
 

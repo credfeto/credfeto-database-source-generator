@@ -2,6 +2,7 @@ using System;
 using System.Data.Common;
 using System.Threading;
 using System.Threading.Tasks;
+using Credfeto.Database.Migrations.TestHelpers;
 using Polly;
 
 namespace Credfeto.Database.Migrations.Tests.Helpers;

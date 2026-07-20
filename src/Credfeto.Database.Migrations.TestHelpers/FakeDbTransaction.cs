@@ -1,9 +1,9 @@
 using System.Data;
 using System.Data.Common;
 
-namespace Credfeto.Database.Migrations.SqlServer.Tests.Helpers;
+namespace Credfeto.Database.Migrations.TestHelpers;
 
-internal sealed class FakeDbTransaction : DbTransaction
+public sealed class FakeDbTransaction : DbTransaction
 {
     private readonly FakeDbConnection _connection;
 
