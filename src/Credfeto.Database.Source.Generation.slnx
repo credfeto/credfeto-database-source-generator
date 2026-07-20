@@ -20,6 +20,19 @@
     <Project Path="Credfeto.Database.Interfaces.Tests/Credfeto.Database.Interfaces.Tests.csproj" />
     <Project Path="Credfeto.Database/Credfeto.Database.csproj" />
   </Folder>
+  <Folder Name="/Migrations/">
+    <Project Path="Credfeto.Database.Migrations/Credfeto.Database.Migrations.csproj" />
+    <Project Path="Credfeto.Database.Migrations.TestHelpers/Credfeto.Database.Migrations.TestHelpers.csproj" />
+    <Project Path="Credfeto.Database.Migrations.Tests/Credfeto.Database.Migrations.Tests.csproj" />
+    <Project Path="Credfeto.Database.Migrations.Pgsql/Credfeto.Database.Migrations.Pgsql.csproj" />
+    <Project Path="Credfeto.Database.Migrations.Pgsql.Tests/Credfeto.Database.Migrations.Pgsql.Tests.csproj" />
+    <Project Path="Credfeto.Database.Migrations.SqlServer/Credfeto.Database.Migrations.SqlServer.csproj" />
+    <Project Path="Credfeto.Database.Migrations.SqlServer.Tests/Credfeto.Database.Migrations.SqlServer.Tests.csproj" />
+    <Project Path="Credfeto.Database.Migrations.Source.Generation/Credfeto.Database.Migrations.Source.Generation.csproj" />
+    <Project Path="Credfeto.Database.Migrations.Source.Generation.Tests/Credfeto.Database.Migrations.Source.Generation.Tests.csproj" />
+    <Project Path="Credfeto.Database.Migrations.Source.Generation.Example/Credfeto.Database.Migrations.Source.Generation.Example.csproj" />
+    <Project Path="Credfeto.Database.Migrations.Source.Generation.Example.Tests/Credfeto.Database.Migrations.Source.Generation.Example.Tests.csproj" />
+  </Folder>
   <Folder Name="/Providers/">
     <Project Path="Credfeto.Database.Pgsql.Tests/Credfeto.Database.Pgsql.Tests.csproj" />
     <Project Path="Credfeto.Database.Pgsql/Credfeto.Database.Pgsql.csproj" />
