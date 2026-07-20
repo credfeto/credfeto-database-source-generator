@@ -145,18 +145,12 @@ public sealed class DatabaseMigrationsCodeGenerator : IIncrementalGenerator
 
     private static void ReportInvalidModel(in SourceProductionContext context, in InvalidModelInfo invalidModel)
     {
-        context.ReportDiagnostic(
-            diagnostic: Diagnostic.Create(
-                new(
-                    id: RuleConstants.InvalidModel,
-                    title: "Invalid model",
-                    messageFormat: invalidModel.Message,
-                    category: VersionInformation.Product,
-                    defaultSeverity: DiagnosticSeverity.Error,
-                    isEnabledByDefault: true
-                ),
-                location: invalidModel.Location
-            )
+        Report(
+            context: context,
+            id: RuleConstants.InvalidModel,
+            title: "Invalid model",
+            messageFormat: invalidModel.Message,
+            location: invalidModel.Location
         );
     }
 
@@ -165,17 +159,34 @@ public sealed class DatabaseMigrationsCodeGenerator : IIncrementalGenerator
         in DuplicateMigrationIdInfo duplicate
     )
     {
+        Report(
+            context: context,
+            id: RuleConstants.DuplicateMigrationId,
+            title: "Duplicate migration id",
+            messageFormat: $"Multiple migration files declare id {duplicate.Id.ToString(CultureInfo.InvariantCulture)}.",
+            location: duplicate.Location
+        );
+    }
+
+    private static void Report(
+        in SourceProductionContext context,
+        string id,
+        string title,
+        string messageFormat,
+        Location location
+    )
+    {
         context.ReportDiagnostic(
             diagnostic: Diagnostic.Create(
                 new(
-                    id: RuleConstants.DuplicateMigrationId,
-                    title: "Duplicate migration id",
-                    messageFormat: $"Multiple migration files declare id {duplicate.Id.ToString(CultureInfo.InvariantCulture)}.",
+                    id: id,
+                    title: title,
+                    messageFormat: messageFormat,
                     category: VersionInformation.Product,
                     defaultSeverity: DiagnosticSeverity.Error,
                     isEnabledByDefault: true
                 ),
-                location: duplicate.Location
+                location: location
             )
         );
     }
