@@ -13,6 +13,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Added
 - AOT-friendly database migration runner, PostgreSQL/SQL Server providers, and a source generator for compile-time SQL migrations
 ### Fixed
+- Ensured .csproj files end with a trailing newline
 ### Changed
 - Dropped net9.0 support: projects now target net10.0 only
 ### Deprecated
