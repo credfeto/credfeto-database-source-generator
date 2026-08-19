@@ -18,6 +18,28 @@
   - any: ['src/Credfeto.Database.Interfaces/**/*']
 "credfeto-database-interfaces-tests":
   - any: ['src/Credfeto.Database.Interfaces.Tests/**/*']
+"credfeto-database-migrations":
+  - any: ['src/Credfeto.Database.Migrations/**/*']
+"credfeto-database-migrations-pgsql":
+  - any: ['src/Credfeto.Database.Migrations.Pgsql/**/*']
+"credfeto-database-migrations-pgsql-tests":
+  - any: ['src/Credfeto.Database.Migrations.Pgsql.Tests/**/*']
+"credfeto-database-migrations-source-generation":
+  - any: ['src/Credfeto.Database.Migrations.Source.Generation/**/*']
+"credfeto-database-migrations-source-generation-example":
+  - any: ['src/Credfeto.Database.Migrations.Source.Generation.Example/**/*']
+"credfeto-database-migrations-source-generation-example-tests":
+  - any: ['src/Credfeto.Database.Migrations.Source.Generation.Example.Tests/**/*']
+"credfeto-database-migrations-source-generation-tests":
+  - any: ['src/Credfeto.Database.Migrations.Source.Generation.Tests/**/*']
+"credfeto-database-migrations-sqlserver":
+  - any: ['src/Credfeto.Database.Migrations.SqlServer/**/*']
+"credfeto-database-migrations-sqlserver-tests":
+  - any: ['src/Credfeto.Database.Migrations.SqlServer.Tests/**/*']
+"credfeto-database-migrations-testhelpers":
+  - any: ['src/Credfeto.Database.Migrations.TestHelpers/**/*']
+"credfeto-database-migrations-tests":
+  - any: ['src/Credfeto.Database.Migrations.Tests/**/*']
 "credfeto-database-pgsql":
   - any: ['src/Credfeto.Database.Pgsql/**/*']
 "credfeto-database-pgsql-tests":

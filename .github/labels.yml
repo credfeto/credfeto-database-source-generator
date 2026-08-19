@@ -56,6 +56,50 @@
   color: "0e8a16"
   description: "Changes in Credfeto.Database.Interfaces.Tests project"
 
+- name: "credfeto-database-migrations"
+  color: "96f7d2"
+  description: "Changes in Credfeto.Database.Migrations project"
+
+- name: "credfeto-database-migrations-pgsql"
+  color: "96f7d2"
+  description: "Changes in Credfeto.Database.Migrations.Pgsql project"
+
+- name: "credfeto-database-migrations-pgsql-tests"
+  color: "0e8a16"
+  description: "Changes in Credfeto.Database.Migrations.Pgsql.Tests project"
+
+- name: "credfeto-database-migrations-source-generation"
+  color: "96f7d2"
+  description: "Changes in Credfeto.Database.Migrations.Source.Generation project"
+
+- name: "credfeto-database-migrations-source-generation-example"
+  color: "96f7d2"
+  description: "Changes in Credfeto.Database.Migrations.Source.Generation.Example project"
+
+- name: "credfeto-database-migrations-source-generation-example-tests"
+  color: "0e8a16"
+  description: "Changes in Credfeto.Database.Migrations.Source.Generation.Example.Tests project"
+
+- name: "credfeto-database-migrations-source-generation-tests"
+  color: "0e8a16"
+  description: "Changes in Credfeto.Database.Migrations.Source.Generation.Tests project"
+
+- name: "credfeto-database-migrations-sqlserver"
+  color: "96f7d2"
+  description: "Changes in Credfeto.Database.Migrations.SqlServer project"
+
+- name: "credfeto-database-migrations-sqlserver-tests"
+  color: "0e8a16"
+  description: "Changes in Credfeto.Database.Migrations.SqlServer.Tests project"
+
+- name: "credfeto-database-migrations-testhelpers"
+  color: "96f7d2"
+  description: "Changes in Credfeto.Database.Migrations.TestHelpers project"
+
+- name: "credfeto-database-migrations-tests"
+  color: "0e8a16"
+  description: "Changes in Credfeto.Database.Migrations.Tests project"
+
 - name: "credfeto-database-pgsql"
   color: "96f7d2"
   description: "Changes in Credfeto.Database.Pgsql project"
