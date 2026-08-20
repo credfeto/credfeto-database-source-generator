@@ -11,17 +11,21 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ## [Unreleased]
 ### Security
 ### Added
-- AOT-friendly database migration runner, PostgreSQL/SQL Server providers, and a source generator for compile-time SQL migrations
 ### Fixed
 ### Changed
-- Dropped net9.0 support: projects now target net10.0 only
-- SDK - Updated DotNet SDK to 10.0.400
 ### Deprecated
 ### Removed
 ### Deployment Changes
 <!--
 Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
 -->
+## [1.2.220] - 2026-08-20
+### Added
+- AOT-friendly database migration runner, PostgreSQL/SQL Server providers, and a source generator for compile-time SQL migrations
+### Changed
+- Dropped net9.0 support: projects now target net10.0 only
+- SDK - Updated DotNet SDK to 10.0.400
+
 ## [1.2.219] - 2026-07-18
 ### Fixed
 - Fixed build failure after updating Credfeto.Enumeration to 1.2.151.2192 by polyfilling System.Diagnostics.CodeAnalysis.DoesNotReturnAttribute for netstandard2.0 via PolySharp
