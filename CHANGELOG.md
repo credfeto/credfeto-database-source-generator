@@ -12,6 +12,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Security
 ### Added
 ### Fixed
+- Fixed a Microsoft.CodeAnalysis.CSharp assembly version conflict (CS0433/CS1705) in the source generator test projects caused by the 5.9.0 dependency bump
 ### Changed
 - Dependencies - Updated Credfeto.Enumeration to 1.2.152.2216
 - Dependencies - Updated Credfeto.Version.Information.Generator to 1.0.136.1515
@@ -24,6 +25,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated FunFair.Test.Source.Generator to 6.4.0.2617
 - Dependencies - Updated Microsoft.Extensions to 10.0.11
 - Dependencies - Updated NSubstitute to 6.2.0
+- Dependencies - Updated Microsoft.CodeAnalysis.CSharp to 5.9.0
 ### Deprecated
 ### Removed
 ### Deployment Changes
