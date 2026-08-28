@@ -24,7 +24,8 @@ public sealed class AppMigrationsTests : TestBase
 
         Assert.Equal(
             ["create_accounts", "add_email_column", "create_email_index"],
-            migrations.Select(static migration => migration.Name)
+            migrations.Select(static migration => migration.Name),
+            StringComparer.Ordinal
         );
     }
 
