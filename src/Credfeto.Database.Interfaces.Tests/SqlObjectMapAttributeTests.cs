@@ -11,7 +11,7 @@ public sealed class SqlObjectMapAttributeTests : TestBase
     [InlineData("sp_test", SqlObjectType.STORED_PROCEDURE, SqlDialect.GENERIC)]
     [InlineData("fn_test", SqlObjectType.SCALAR_FUNCTION, SqlDialect.MICROSOFT_SQL_SERVER)]
     [InlineData("tvf_test", SqlObjectType.TABLE_FUNCTION, SqlDialect.GENERIC)]
-    public void ConstructorSetsNameProperty(string name, SqlObjectType sqlObjectType, SqlDialect sqlDialect)
+    public static void ConstructorSetsNameProperty(string name, SqlObjectType sqlObjectType, SqlDialect sqlDialect)
     {
         SqlObjectMapAttribute attribute = new(name, sqlObjectType, sqlDialect);
 
@@ -22,7 +22,11 @@ public sealed class SqlObjectMapAttributeTests : TestBase
     [InlineData("sp_test", SqlObjectType.STORED_PROCEDURE, SqlDialect.GENERIC)]
     [InlineData("fn_test", SqlObjectType.SCALAR_FUNCTION, SqlDialect.MICROSOFT_SQL_SERVER)]
     [InlineData("tvf_test", SqlObjectType.TABLE_FUNCTION, SqlDialect.GENERIC)]
-    public void ConstructorSetsSqlObjectTypeProperty(string name, SqlObjectType sqlObjectType, SqlDialect sqlDialect)
+    public static void ConstructorSetsSqlObjectTypeProperty(
+        string name,
+        SqlObjectType sqlObjectType,
+        SqlDialect sqlDialect
+    )
     {
         SqlObjectMapAttribute attribute = new(name, sqlObjectType, sqlDialect);
 
@@ -33,7 +37,11 @@ public sealed class SqlObjectMapAttributeTests : TestBase
     [InlineData("sp_test", SqlObjectType.STORED_PROCEDURE, SqlDialect.GENERIC)]
     [InlineData("fn_test", SqlObjectType.SCALAR_FUNCTION, SqlDialect.MICROSOFT_SQL_SERVER)]
     [InlineData("tvf_test", SqlObjectType.TABLE_FUNCTION, SqlDialect.GENERIC)]
-    public void ConstructorSetsSqlDialectProperty(string name, SqlObjectType sqlObjectType, SqlDialect sqlDialect)
+    public static void ConstructorSetsSqlDialectProperty(
+        string name,
+        SqlObjectType sqlObjectType,
+        SqlDialect sqlDialect
+    )
     {
         SqlObjectMapAttribute attribute = new(name, sqlObjectType, sqlDialect);
 

@@ -138,7 +138,7 @@ public sealed class SqlServerDatabaseTests : TestBase
     [InlineData(53)]
     [InlineData(20)]
     [InlineData(-2)]
-    public void IsTransientException_WithTransientSqlErrorCode_ReturnsTrue(int errorNumber)
+    public static void IsTransientException_WithTransientSqlErrorCode_ReturnsTrue(int errorNumber)
     {
         SqlServerDatabase instance = CreateInstance();
         SqlException sqlException = CreateSqlExceptionWithError(errorNumber: errorNumber);
@@ -165,7 +165,7 @@ public sealed class SqlServerDatabaseTests : TestBase
     [InlineData(53)]
     [InlineData(20)]
     [InlineData(-2)]
-    public void IsTransientError_WithTransientErrorCode_ReturnsTrue(int errorNumber)
+    public static void IsTransientError_WithTransientErrorCode_ReturnsTrue(int errorNumber)
     {
         SqlError sqlError = SqlExceptionFactory.CreateSqlError(errorNumber);
 
@@ -179,7 +179,7 @@ public sealed class SqlServerDatabaseTests : TestBase
     [InlineData(0)]
     [InlineData(1)]
     [InlineData(9999)]
-    public void IsTransientError_WithNonTransientErrorCode_ReturnsFalse(int errorNumber)
+    public static void IsTransientError_WithNonTransientErrorCode_ReturnsFalse(int errorNumber)
     {
         SqlError sqlError = SqlExceptionFactory.CreateSqlError(errorNumber);
 

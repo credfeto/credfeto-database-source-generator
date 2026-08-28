@@ -66,7 +66,10 @@ public sealed class DatabaseCodeGeneratorColumnTypeTests : TestBase
     [InlineData("TimeSpan?", "ExtractNullableTimeSpan")]
     [InlineData("Guid", "ExtractGuid")]
     [InlineData("Guid?", "ExtractNullableGuid")]
-    public void TableFunctionColumnOfTypeGeneratesExtractHelperMethod(string columnType, string expectedMethodName)
+    public static void TableFunctionColumnOfTypeGeneratesExtractHelperMethod(
+        string columnType,
+        string expectedMethodName
+    )
     {
         string source = BuildTableFunctionSource(columnType);
 

@@ -42,11 +42,15 @@
   </PropertyGroup>
   <Import Project="$(SolutionDir)UnitTests.props" Condition="Exists('$(SolutionDir)UnitTests.props')" />
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.15.8" />
-    <PackageReference Include="FunFair.Test.Common" Version="6.4.0.2617" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.15.8" IncludeAssets="compile;runtime" />
+    <PackageReference Include="FunFair.Test.Common" Version="6.4.0.2617" IncludeAssets="compile;runtime" />
     <!-- Override BenchmarkDotNet's dependency on Microsoft.CodeAnalysis.CSharp 4.14.0 to match the source generator's 5.9.0 and prevent CS0433 in BenchmarkDotNet auto-generated projects -->
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.9.0" />
-    <PackageReference Include="xunit.v3.mtp-v2" Version="4.0.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.9.0" IncludeAssets="compile;runtime;build;buildTransitive" />
+    <!-- PrivateAssets stops xunit's AOT source generators (and their netstandard2.0 ValueTask facade) from flowing into
+         BenchmarkDotNet's separately-compiled auto-generated host project via the ProjectReference it creates back to
+         this assembly, which otherwise fails with CS0433 on ValueTask (System.Threading.Tasks.Extensions vs System.Runtime).
+         IncludeAssets="all" still applies to this project's own compilation, satisfying the buildcheck override. -->
+    <PackageReference Include="xunit.v3.aot.mtp-v2" Version="4.0.0" IncludeAssets="all" PrivateAssets="analyzers;buildtransitive" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Credfeto.Database.Interfaces\Credfeto.Database.Interfaces.csproj" />

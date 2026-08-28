@@ -10,7 +10,7 @@ public sealed class AccountIdTests : TestBase
     [InlineData(1L)]
     [InlineData(42L)]
     [InlineData(long.MaxValue)]
-    public void AccountId_WithValue_HasExpectedValue(long expectedValue)
+    public static void AccountId_WithValue_HasExpectedValue(long expectedValue)
     {
         AccountId accountId = new(expectedValue);
 
