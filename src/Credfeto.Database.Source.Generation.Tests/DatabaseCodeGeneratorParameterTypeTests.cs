@@ -48,7 +48,7 @@ public sealed class DatabaseCodeGeneratorParameterTypeTests : TestBase
     [InlineData("DateTimeOffset", "DbType.DateTimeOffset")]
     [InlineData("TimeSpan", "DbType.Time")]
     [InlineData("Guid", "DbType.Guid")]
-    public void ScalarFunctionWithParameterSetsDbType(string parameterType, string expectedDbType)
+    public static void ScalarFunctionWithParameterSetsDbType(string parameterType, string expectedDbType)
     {
         string source = BuildScalarFunctionWithParamSource(parameterType);
 

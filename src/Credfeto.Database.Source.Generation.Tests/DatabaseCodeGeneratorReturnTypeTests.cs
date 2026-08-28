@@ -45,7 +45,10 @@ public sealed class DatabaseCodeGeneratorReturnTypeTests : TestBase
     [InlineData("DateTimeOffset", "(System.DateTimeOffset)")]
     [InlineData("TimeSpan", "(System.TimeSpan)")]
     [InlineData("Guid", "(System.Guid)")]
-    public void ScalarFunctionReturningTypeGeneratesExpectedConvert(string returnType, string expectedConvertCall)
+    public static void ScalarFunctionReturningTypeGeneratesExpectedConvert(
+        string returnType,
+        string expectedConvertCall
+    )
     {
         string source = BuildScalarFunctionSource(returnType);
 

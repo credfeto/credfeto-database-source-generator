@@ -64,9 +64,9 @@
     <ProjectReference Include="..\Credfeto.Database\Credfeto.Database.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="FluentValidation" Version="12.1.1" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.11" />
+    <PackageReference Include="FluentValidation" Version="12.1.1" IncludeAssets="compile;runtime" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.2" IncludeAssets="compile;runtime" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.11" IncludeAssets="compile;runtime" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AsyncFixer" Version="2.1.0" PrivateAssets="All" ExcludeAssets="runtime" />

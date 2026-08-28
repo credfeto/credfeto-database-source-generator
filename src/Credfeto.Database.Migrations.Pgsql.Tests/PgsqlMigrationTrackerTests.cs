@@ -17,7 +17,7 @@ public sealed class PgsqlMigrationTrackerTests : TestBase
     [InlineData("migrations table")]
     [InlineData("migrations-table")]
     [InlineData("migrations;drop table users")]
-    public void Constructor_WithInvalidTableName_ThrowsArgumentException(string tableName)
+    public static void Constructor_WithInvalidTableName_ThrowsArgumentException(string tableName)
     {
         Assert.Throws<ArgumentException>(() => new PgsqlMigrationTracker(new MigrationRunnerOptions(tableName)));
     }

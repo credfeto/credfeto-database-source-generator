@@ -13,6 +13,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Added
 ### Fixed
 - Fixed a Microsoft.CodeAnalysis.CSharp assembly version conflict (CS0433/CS1705) in the source generator test projects caused by the 5.9.0 dependency bump
+- Fixed a FactAttribute type conflict (CS0433) and repo-wide build-check policy failures (missing NuGet IncludeAssets metadata, xunit.v3.mtp-v2 usage) surfaced by the FunFair.Test.Common 6.4.0.2617 upgrade, by migrating all test projects to xunit.v3.aot.mtp-v2 and adding the required IncludeAssets to package references
 ### Changed
 - Dependencies - Updated Credfeto.Enumeration to 1.2.152.2216
 - Dependencies - Updated Credfeto.Version.Information.Generator to 1.0.136.1515
@@ -26,12 +27,15 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Microsoft.Extensions to 10.0.11
 - Dependencies - Updated NSubstitute to 6.2.0
 - Dependencies - Updated Microsoft.CodeAnalysis.CSharp to 5.9.0
+- Dependencies - Updated FunFair.Test to 6.4.0.2617
 ### Deprecated
 ### Removed
 ### Deployment Changes
+
 <!--
 Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
 -->
+
 ## [1.2.220] - 2026-08-20
 ### Added
 - AOT-friendly database migration runner, PostgreSQL/SQL Server providers, and a source generator for compile-time SQL migrations
