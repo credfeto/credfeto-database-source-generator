@@ -24,13 +24,6 @@
         <TestingPlatformCommandLineArguments>$(TestingPlatformCommandLineArguments) --coverage-settings "$(_CoverageSettingsFile)"</TestingPlatformCommandLineArguments>
     </PropertyGroup>
 
-    <!-- Analyzer/source-generator packages resolve their own Microsoft.CodeAnalysis.CSharp as a compile-time project reference; strip it from the resolved assembly references so it doesn't collide with the version pinned directly by the referencing test project. -->
-    <Target Name="RemoveGeneratorNuGetCompileDependencies" AfterTargets="ResolveProjectReferences" BeforeTargets="ResolveAssemblyReferences">
-        <ItemGroup>
-            <_ResolvedProjectReferencePaths Remove="@(_ResolvedProjectReferencePaths)" Condition="'%(_ResolvedProjectReferencePaths.NuGetPackageId)' != '' And '%(_ResolvedProjectReferencePaths.IncludeRuntimeDependency)' == 'false'" />
-        </ItemGroup>
-    </Target>
-
     <Target Name="GenerateCoverageSettings" BeforeTargets="Build">
         <ItemGroup>
             <!-- %3F = ?, %2A = *, %5C = \ : percent-encode special chars so MSBuild does not expand globs or normalise backslashes to / on Linux -->
