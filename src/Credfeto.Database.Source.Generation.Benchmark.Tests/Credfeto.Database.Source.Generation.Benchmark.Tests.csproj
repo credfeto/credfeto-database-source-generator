@@ -52,9 +52,21 @@
          IncludeAssets="all" still applies to this project's own compilation, satisfying the buildcheck override. -->
     <PackageReference Include="xunit.v3.aot.mtp-v2" Version="4.0.0" IncludeAssets="all" PrivateAssets="analyzers;buildtransitive" />
   </ItemGroup>
+  <!-- Credfeto.Database.Source.Generation targets netstandard2.0 and its compiled DLL has a real metadata reference
+       to Microsoft.CodeAnalysis.CSharp's netstandard2.0 build, which itself needs the System.Threading.Tasks.Extensions
+       compat package for ValueTask. ResolveAssemblyReferences walks that binary dependency closure independently of
+       NuGet's restore graph (PrivateAssets on the generator project's own PackageReference has no effect here), so it
+       still ends up alongside net10.0's own built-in ValueTask (System.Runtime), causing CS0433 in this project's own
+       compilation. Drop the NuGet-cache copy from the resolved reference list; net10.0's own reference assembly
+       satisfies the same type identity. -->
+  <Target Name="RemoveNetStandardValueTaskFacade" AfterTargets="ResolveAssemblyReferences">
+    <ItemGroup>
+      <ReferencePath Remove="@(ReferencePath)" Condition="'%(ReferencePath.NuGetPackageId)' == 'System.Threading.Tasks.Extensions'" />
+    </ItemGroup>
+  </Target>
   <ItemGroup>
-    <ProjectReference Include="..\Credfeto.Database.Interfaces\Credfeto.Database.Interfaces.csproj" />
-    <ProjectReference Include="..\Credfeto.Database.Source.Generation\Credfeto.Database.Source.Generation.csproj" />
+    <ProjectReference Include="../Credfeto.Database.Interfaces/Credfeto.Database.Interfaces.csproj" />
+    <ProjectReference Include="../Credfeto.Database.Source.Generation/Credfeto.Database.Source.Generation.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AsyncFixer" Version="2.1.0" PrivateAssets="All" ExcludeAssets="runtime" />
