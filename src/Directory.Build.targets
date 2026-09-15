@@ -1,0 +1,13 @@
+<Project>
+    <!-- Generator-consuming projects pull in Microsoft.CodeAnalysis.CSharp's netstandard2.0 build via a real metadata
+         reference, which drags in the System.Threading.Tasks.Extensions ValueTask facade. That facade collides with
+         net10.0's built-in ValueTask (CS0433), and PrivateAssets on the generator's own reference doesn't stop it
+         because ResolveAssemblyReferences resolves the binary closure, not NuGet's graph. Drop the facade from the
+         resolved references; net10.0's own ValueTask satisfies the same type. Skipped for the netstandard2.0 generator
+         projects themselves, which need the real facade to compile. -->
+    <Target Name="RemoveNetStandardValueTaskFacade" AfterTargets="ResolveAssemblyReferences" Condition="'$(TargetFramework)' != 'netstandard2.0'">
+        <ItemGroup>
+            <ReferencePath Remove="@(ReferencePath)" Condition="'%(ReferencePath.NuGetPackageId)' == 'System.Threading.Tasks.Extensions'" />
+        </ItemGroup>
+    </Target>
+</Project>
