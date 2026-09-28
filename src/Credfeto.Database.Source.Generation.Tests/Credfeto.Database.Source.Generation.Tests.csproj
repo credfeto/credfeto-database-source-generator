@@ -56,8 +56,8 @@
     <PackageReference Include="xunit.v3.aot.mtp-v2" Version="4.0.0" IncludeAssets="all" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Credfeto.Database.Interfaces\Credfeto.Database.Interfaces.csproj" />
-    <ProjectReference Include="..\Credfeto.Database.Source.Generation\Credfeto.Database.Source.Generation.csproj" />
+    <ProjectReference Include="../Credfeto.Database.Interfaces/Credfeto.Database.Interfaces.csproj" />
+    <ProjectReference Include="../Credfeto.Database.Source.Generation/Credfeto.Database.Source.Generation.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AsyncFixer" Version="2.1.0" PrivateAssets="All" ExcludeAssets="runtime" />
