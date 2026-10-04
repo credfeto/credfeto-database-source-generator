@@ -12,6 +12,17 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Security
 ### Added
 ### Fixed
+### Changed
+### Deprecated
+### Removed
+### Deployment Changes
+
+<!--
+Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
+-->
+
+## [1.2.221] - 2026-10-04
+### Fixed
 - Fixed a Microsoft.CodeAnalysis.CSharp assembly version conflict (CS0433/CS1705) in the source generator test projects caused by the 5.9.0 dependency bump
 - Fixed a FactAttribute type conflict (CS0433) and repo-wide build-check policy failures (missing NuGet IncludeAssets metadata, xunit.v3.mtp-v2 usage) surfaced by the FunFair.Test.Common 6.4.0.2617 upgrade, by migrating all test projects to xunit.v3.aot.mtp-v2 and adding the required IncludeAssets to package references
 - Fixed a new MA0002 finding (missing explicit StringComparer on a sequence-equality assertion) surfaced by the Meziantou.Analyzer 3.0.177 upgrade
@@ -33,13 +44,6 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated FunFair.CodeAnalysis to 7.2.13.2323
 - Dependencies - Updated Meziantou.Analyzer to 3.0.177
 - SDK - Updated DotNet SDK to 10.0.401
-### Deprecated
-### Removed
-### Deployment Changes
-
-<!--
-Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
--->
 
 ## [1.2.220] - 2026-08-20
 ### Added
