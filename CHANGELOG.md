@@ -15,6 +15,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Fixed a Microsoft.CodeAnalysis.CSharp assembly version conflict (CS0433/CS1705) in the source generator test projects caused by the 5.9.0 dependency bump
 - Fixed a FactAttribute type conflict (CS0433) and repo-wide build-check policy failures (missing NuGet IncludeAssets metadata, xunit.v3.mtp-v2 usage) surfaced by the FunFair.Test.Common 6.4.0.2617 upgrade, by migrating all test projects to xunit.v3.aot.mtp-v2 and adding the required IncludeAssets to package references
 - Fixed a new MA0002 finding (missing explicit StringComparer on a sequence-equality assertion) surfaced by the Meziantou.Analyzer 3.0.177 upgrade
+- Fixed a pre-existing CS0433 build failure (ValueTask ambiguity between System.Threading.Tasks.Extensions and System.Runtime) in the source generator test and benchmark projects by excluding the netstandard2.0 ValueTask facade from the resolved reference path
 ### Changed
 - Dependencies - Updated Credfeto.Enumeration to 1.2.152.2216
 - Dependencies - Updated Credfeto.Version.Information.Generator to 1.0.136.1515
@@ -31,6 +32,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated FunFair.Test to 6.4.0.2617
 - Dependencies - Updated FunFair.CodeAnalysis to 7.2.13.2323
 - Dependencies - Updated Meziantou.Analyzer to 3.0.177
+- SDK - Updated DotNet SDK to 10.0.401
 ### Deprecated
 ### Removed
 ### Deployment Changes
