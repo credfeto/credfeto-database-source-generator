@@ -18,6 +18,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Meziantou.Analyzer to 3.0.299
 - Dependencies - Updated Microsoft.Sbom.Targets to 4.1.13
 - Dependencies - Updated Nullable.Extended.Analyzer to 1.16.6891
+- Dependencies - Updated Roslynator.Analyzers to 5.0.1
 ### Deprecated
 ### Removed
 ### Deployment Changes
