@@ -19,6 +19,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Microsoft.Sbom.Targets to 4.1.13
 - Dependencies - Updated Nullable.Extended.Analyzer to 1.16.6891
 - Dependencies - Updated Roslynator.Analyzers to 5.0.1
+- Dependencies - Updated SonarAnalyzer.CSharp to 10.35.0.4138
 ### Deprecated
 ### Removed
 ### Deployment Changes
