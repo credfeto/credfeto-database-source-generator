@@ -25,6 +25,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Microsoft.Data.SqlClient to 7.1.1
 - Dependencies - Updated Microsoft.Extensions to 10.0.12
 - Dependencies - Updated Polly to 8.8.0
+- Dependencies - Updated Microsoft.VisualStudio.Threading.Analyzers to 18.12.1
 ### Deprecated
 ### Removed
 ### Deployment Changes
