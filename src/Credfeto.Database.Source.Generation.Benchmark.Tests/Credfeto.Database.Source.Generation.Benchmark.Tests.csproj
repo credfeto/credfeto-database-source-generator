@@ -51,7 +51,7 @@
          BenchmarkDotNet's separately-compiled auto-generated host project via the ProjectReference it creates back to
          this assembly, which otherwise fails with CS0433 on ValueTask (System.Threading.Tasks.Extensions vs System.Runtime).
          IncludeAssets="all" still applies to this project's own compilation, satisfying the buildcheck override. -->
-    <PackageReference Include="xunit.v3.aot.mtp-v2" Version="4.0.0" IncludeAssets="all" PrivateAssets="analyzers;buildtransitive" />
+    <PackageReference Include="xunit.v3.aot.mtp-v2" Version="4.0.2" IncludeAssets="all" PrivateAssets="analyzers;buildtransitive" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../Credfeto.Database.Interfaces/Credfeto.Database.Interfaces.csproj" />
