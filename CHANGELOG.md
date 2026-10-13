@@ -15,7 +15,6 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Changed
 - Dependencies - Updated Credfeto.Enumeration to 1.2.154.2267
 - Dependencies - Updated Credfeto.Version.Information.Generator to 1.0.138.1557
-- Dependencies - Updated Meziantou.Analyzer to 3.0.299
 - Dependencies - Updated Microsoft.Sbom.Targets to 4.1.13
 - Dependencies - Updated Nullable.Extended.Analyzer to 1.16.6891
 - Dependencies - Updated Roslynator.Analyzers to 5.0.1
@@ -26,6 +25,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Microsoft.Extensions to 10.0.12
 - Dependencies - Updated Polly to 8.8.0
 - Dependencies - Updated Microsoft.VisualStudio.Threading.Analyzers to 18.12.1
+- Dependencies - Updated Meziantou.Analyzer to 3.0.301
 ### Deprecated
 ### Removed
 ### Deployment Changes
