@@ -8,7 +8,7 @@
     <Company>Mark Ridgwell</Company>
     <Copyright>Mark Ridgwell</Copyright>
     <DebuggerSupport>true</DebuggerSupport>
-    <Description>PostgreSQL implemetation of database.</Description>
+    <Description>SQL Server implemetation of database.</Description>
     <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
     <EnableMicrosoftExtensionsConfigurationBinderSourceGenerator>true</EnableMicrosoftExtensionsConfigurationBinderSourceGenerator>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
@@ -66,6 +66,7 @@
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="12.2.0" IncludeAssets="compile;runtime" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.1.1" IncludeAssets="compile;runtime" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.13" IncludeAssets="compile;runtime" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.12" IncludeAssets="compile;runtime" />
   </ItemGroup>
   <ItemGroup>
