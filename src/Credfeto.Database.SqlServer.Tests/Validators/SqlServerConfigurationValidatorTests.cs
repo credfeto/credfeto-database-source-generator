@@ -1,6 +1,8 @@
+using System;
 using Credfeto.Database.SqlServer.Validators;
 using FunFair.Test.Common;
 using Xunit;
+using static FunFair.Test.Common.DispatcherCaseData;
 
 namespace Credfeto.Database.SqlServer.Tests.Validators;
 
@@ -9,6 +11,17 @@ public sealed class SqlServerConfigurationValidatorTests
 {
     public SqlServerConfigurationValidatorTests(ITestOutputHelper output)
         : base(output) { }
+
+    public static TheoryData<string, Action<SqlServerConfigurationValidatorTests>> BaseCaseData() =>
+        BuildDispatcherCases<SqlServerConfigurationValidatorTests>().ToTheoryData();
+
+    [Theory]
+    [MemberData(nameof(BaseCaseData))]
+    public void CommonTests(string name, Action<SqlServerConfigurationValidatorTests> action)
+    {
+        Assert.NotEmpty(name);
+        action(this);
+    }
 
     protected override SqlServerConfiguration CreateAValidObject()
     {
