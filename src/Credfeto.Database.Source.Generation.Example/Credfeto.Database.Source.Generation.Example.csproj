@@ -10,7 +10,7 @@
     <DebuggerSupport>true</DebuggerSupport>
     <Description>Database interfaces</Description>
     <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
-    <EnableMicrosoftExtensionsConfigurationBinderSourceGenerator>true</EnableMicrosoftExtensionsConfigurationBinderSourceGenerator>
+    <EnableConfigurationBindingGenerator>true</EnableConfigurationBindingGenerator>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <EnablePackageValidation>true</EnablePackageValidation>
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
@@ -59,9 +59,9 @@
   </ItemGroup>
   <Import Project="$(SolutionDir)KeepGeneratedFiles.props" Condition="Exists('$(SolutionDir)KeepGeneratedFiles.props')" />
   <ItemGroup>
-    <ProjectReference Include="..\Credfeto.Database.Interfaces\Credfeto.Database.Interfaces.csproj" />
-    <ProjectReference Include="..\Credfeto.Database.Pgsql\Credfeto.Database.Pgsql.csproj" />
-    <ProjectReference Include="..\Credfeto.Database.Source.Generation\Credfeto.Database.Source.Generation.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="../Credfeto.Database.Interfaces/Credfeto.Database.Interfaces.csproj" />
+    <ProjectReference Include="../Credfeto.Database.Pgsql/Credfeto.Database.Pgsql.csproj" />
+    <ProjectReference Include="../Credfeto.Database.Source.Generation/Credfeto.Database.Source.Generation.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.1.1" IncludeAssets="compile;runtime" />

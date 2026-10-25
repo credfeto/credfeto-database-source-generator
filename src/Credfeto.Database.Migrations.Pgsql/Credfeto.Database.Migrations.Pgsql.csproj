@@ -10,7 +10,7 @@
     <DebuggerSupport>true</DebuggerSupport>
     <Description>PostgreSQL implementation of the AOT-friendly database migration tracker.</Description>
     <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
-    <EnableMicrosoftExtensionsConfigurationBinderSourceGenerator>true</EnableMicrosoftExtensionsConfigurationBinderSourceGenerator>
+    <EnableConfigurationBindingGenerator>true</EnableConfigurationBindingGenerator>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <EnablePackageValidation>true</EnablePackageValidation>
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
@@ -61,8 +61,8 @@
     <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-xhfc-gr8f-ffwc" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Credfeto.Database.Migrations\Credfeto.Database.Migrations.csproj" />
-    <ProjectReference Include="..\Credfeto.Database.Pgsql\Credfeto.Database.Pgsql.csproj" />
+    <ProjectReference Include="../Credfeto.Database.Migrations/Credfeto.Database.Migrations.csproj" />
+    <ProjectReference Include="../Credfeto.Database.Pgsql/Credfeto.Database.Pgsql.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Npgsql" Version="10.0.3" IncludeAssets="compile;runtime" />

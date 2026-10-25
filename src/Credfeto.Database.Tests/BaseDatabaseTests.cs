@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Threading;
@@ -61,9 +61,10 @@ public sealed class BaseDatabaseTests : TestBase
         DbConnection connection = GetSubstitute<DbConnection>();
         bool actionCalled = false;
 
-        TestDatabase db = CreateInstance(
-            [_ => throw new TransientTestException(), _ => ValueTask.FromResult(connection)]
-        );
+        TestDatabase db = CreateInstance([
+            _ => throw new TransientTestException(),
+            _ => ValueTask.FromResult(connection),
+        ]);
 
         await db.ExecuteAsync(
             action: (_, _) =>
@@ -116,9 +117,10 @@ public sealed class BaseDatabaseTests : TestBase
         const int EXPECTED_RESULT = 99;
         DbConnection connection = GetSubstitute<DbConnection>();
 
-        TestDatabase db = CreateInstance(
-            [_ => throw new TransientTestException(), _ => ValueTask.FromResult(connection)]
-        );
+        TestDatabase db = CreateInstance([
+            _ => throw new TransientTestException(),
+            _ => ValueTask.FromResult(connection),
+        ]);
 
         int result = await db.ExecuteAsync<int>(
             action: (_, _) => ValueTask.FromResult(EXPECTED_RESULT),

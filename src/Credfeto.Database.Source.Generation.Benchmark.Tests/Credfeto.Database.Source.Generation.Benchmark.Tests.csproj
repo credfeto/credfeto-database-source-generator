@@ -5,7 +5,7 @@
     <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
     <DebuggerSupport>true</DebuggerSupport>
     <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
-    <EnableMicrosoftExtensionsConfigurationBinderSourceGenerator>true</EnableMicrosoftExtensionsConfigurationBinderSourceGenerator>
+    <EnableConfigurationBindingGenerator>true</EnableConfigurationBindingGenerator>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <EnablePackageValidation>true</EnablePackageValidation>
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
@@ -42,7 +42,7 @@
   </PropertyGroup>
   <Import Project="$(SolutionDir)UnitTests.props" Condition="Exists('$(SolutionDir)UnitTests.props')" />
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.15.8" IncludeAssets="compile;runtime" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.15.8" IncludeAssets="compile;runtime;buildTransitive" />
     <PackageReference Include="FunFair.Test.Common" Version="6.4.6.2749" IncludeAssets="compile;runtime" />
     <!-- Override BenchmarkDotNet's dependency on Microsoft.CodeAnalysis.CSharp 4.14.0 to match the source generator's 5.9.0 and prevent CS0433 in BenchmarkDotNet auto-generated projects -->
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.9.0" IncludeAssets="compile;runtime;build;buildTransitive" />
