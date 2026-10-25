@@ -9,7 +9,7 @@
     <Description>Source code generator for AOT-friendly database migrations.</Description>
     <DevelopmentDependency>true</DevelopmentDependency>
     <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
-    <EnableMicrosoftExtensionsConfigurationBinderSourceGenerator>true</EnableMicrosoftExtensionsConfigurationBinderSourceGenerator>
+    <EnableConfigurationBindingGenerator>true</EnableConfigurationBindingGenerator>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <EnablePackageValidation>true</EnablePackageValidation>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
