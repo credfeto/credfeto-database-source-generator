@@ -14,6 +14,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Fixed
 ### Changed
 - Both source generators (Credfeto.Database.Source.Generation and Credfeto.Database.Migrations.Source.Generation) now use the shared CodeBuilder from Credfeto.SourceGeneration.Helpers instead of their own local copies, so generator output is produced by one maintained implementation
+- SDK - Updated DotNet SDK to 10.0.402
 ### Deprecated
 ### Removed
 ### Deployment Changes
