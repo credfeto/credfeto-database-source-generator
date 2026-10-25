@@ -10,7 +10,7 @@
     <DebuggerSupport>true</DebuggerSupport>
     <Description>PostgreSQL implemetation of database.</Description>
     <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
-    <EnableMicrosoftExtensionsConfigurationBinderSourceGenerator>true</EnableMicrosoftExtensionsConfigurationBinderSourceGenerator>
+    <EnableConfigurationBindingGenerator>true</EnableConfigurationBindingGenerator>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <EnablePackageValidation>true</EnablePackageValidation>
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
@@ -61,7 +61,7 @@
     <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-xhfc-gr8f-ffwc" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Credfeto.Database\Credfeto.Database.csproj" />
+    <ProjectReference Include="../Credfeto.Database/Credfeto.Database.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="12.2.0" IncludeAssets="compile;runtime" />

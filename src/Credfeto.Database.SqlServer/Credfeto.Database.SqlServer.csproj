@@ -10,7 +10,7 @@
     <DebuggerSupport>true</DebuggerSupport>
     <Description>SQL Server implemetation of database.</Description>
     <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
-    <EnableMicrosoftExtensionsConfigurationBinderSourceGenerator>true</EnableMicrosoftExtensionsConfigurationBinderSourceGenerator>
+    <EnableConfigurationBindingGenerator>true</EnableConfigurationBindingGenerator>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <EnablePackageValidation>true</EnablePackageValidation>
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
@@ -61,13 +61,13 @@
     <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-xhfc-gr8f-ffwc" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Credfeto.Database\Credfeto.Database.csproj" />
+    <ProjectReference Include="../Credfeto.Database/Credfeto.Database.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="12.2.0" IncludeAssets="compile;runtime" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.1.1" IncludeAssets="compile;runtime" />
-    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.13" IncludeAssets="compile;runtime" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.12" IncludeAssets="compile;runtime" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.13" IncludeAssets="compile;runtime" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AsyncFixer" Version="2.1.0" PrivateAssets="All" ExcludeAssets="runtime" />
