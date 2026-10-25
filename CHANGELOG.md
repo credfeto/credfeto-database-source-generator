@@ -12,6 +12,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Security
 ### Added
 ### Fixed
+- Fixed build configuration failures (#189) by using portable path separators in project references and output paths, renaming the configuration binder source generator switch to EnableConfigurationBindingGenerator consistently across all projects, and including build-transitive assets for BenchmarkDotNet so the pre-commit check passes
 ### Changed
 ### Deprecated
 ### Removed
