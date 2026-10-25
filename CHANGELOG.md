@@ -13,7 +13,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Added
 ### Fixed
 ### Changed
-- Migrated source generators to use Credfeto.SourceGeneration.Helpers shared library (#183)
+- Both source generators (Credfeto.Database.Source.Generation and Credfeto.Database.Migrations.Source.Generation) now use the shared CodeBuilder from Credfeto.SourceGeneration.Helpers instead of their own local copies, so generator output is produced by one maintained implementation
 ### Deprecated
 ### Removed
 ### Deployment Changes
