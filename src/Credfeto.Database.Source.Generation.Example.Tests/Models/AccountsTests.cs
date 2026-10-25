@@ -1,7 +1,10 @@
+using System;
 using Credfeto.Database.Source.Generation.Example.Models;
 using Credfeto.Database.Source.Generation.Example.Primatives;
 using FunFair.Test.Common;
 using FunFair.Test.Infrastructure.Mocks;
+using Xunit;
+using static FunFair.Test.Common.DispatcherCaseData;
 
 namespace Credfeto.Database.Source.Generation.Example.Tests.Models;
 
@@ -30,6 +33,17 @@ public sealed class AccountsTests : EquatableObjectTestBase<Accounts>
                 LastModified: MockDateTimeSources.Past.GetUtcNow().UtcDateTime
             )
         ) { }
+
+    public static TheoryData<string, Action<AccountsTests>> BaseCaseData() =>
+        BuildDispatcherCases<AccountsTests>().ToTheoryData();
+
+    [Theory]
+    [MemberData(nameof(BaseCaseData))]
+    public void CommonTests(string name, Action<AccountsTests> action)
+    {
+        Assert.NotEmpty(name);
+        action(this);
+    }
 
     protected override bool OperatorEquals(Accounts? x, Accounts? y)
     {
