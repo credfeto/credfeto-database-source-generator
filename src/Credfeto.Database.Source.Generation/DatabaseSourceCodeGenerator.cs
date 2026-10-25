@@ -7,11 +7,11 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
-using Credfeto.Database.Source.Generation.Builders;
 using Credfeto.Database.Source.Generation.Exceptions;
 using Credfeto.Database.Source.Generation.Extensions;
 using Credfeto.Database.Source.Generation.Helpers;
 using Credfeto.Database.Source.Generation.Models;
+using Credfeto.SourceGeneration.Helpers.Builders;
 using Microsoft.CodeAnalysis;
 
 namespace Credfeto.Database.Source.Generation;
@@ -408,7 +408,7 @@ internal static class DatabaseSourceCodeGenerator
     {
         string methodStaticModifier = method.IsStatic ? "static " : string.Empty;
 
-        source.AppendGeneratedCodeAttribute();
+        source.AppendGeneratedCodeAttribute(tool: VersionInformation.Product, version: VersionInformation.Version);
         ISymbol methodReturnType = GetMethodReturnType(method);
         StringBuilder stringBuilder = new(
             $"{method.AccessType.ToKeywords()} {methodStaticModifier}async partial {methodReturnType.ToDisplayString()} {method.Name}("
