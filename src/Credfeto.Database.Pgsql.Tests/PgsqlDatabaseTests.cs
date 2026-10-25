@@ -72,9 +72,10 @@ public sealed class PgsqlDatabaseTests : TestBase
         options.Value.Returns(new PgsqlServerConfiguration(VALID_CONNECTION_STRING));
 
         ConstructorInfo constructor =
-            typeof(PgsqlDatabase).GetConstructor(
-                [typeof(IOptions<PgsqlServerConfiguration>), typeof(ILogger<PgsqlDatabase>)]
-            ) ?? throw new InvalidOperationException("Cannot find PgsqlDatabase constructor");
+            typeof(PgsqlDatabase).GetConstructor([
+                typeof(IOptions<PgsqlServerConfiguration>),
+                typeof(ILogger<PgsqlDatabase>),
+            ]) ?? throw new InvalidOperationException("Cannot find PgsqlDatabase constructor");
 
         TargetInvocationException ex = Assert.Throws<TargetInvocationException>(() =>
             constructor.Invoke([options, null])
