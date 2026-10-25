@@ -13,6 +13,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Added
 ### Fixed
 ### Changed
+- Migrated source generators to use Credfeto.SourceGeneration.Helpers shared library (#183)
 ### Deprecated
 ### Removed
 ### Deployment Changes
