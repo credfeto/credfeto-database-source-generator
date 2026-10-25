@@ -1,6 +1,6 @@
 using System.Globalization;
-using Credfeto.Database.Migrations.Source.Generation.Builders;
 using Credfeto.Database.Migrations.Source.Generation.Models;
+using Credfeto.SourceGeneration.Helpers.Builders;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
@@ -24,9 +24,7 @@ internal static class MigrationSourceCodeGenerator
             builder.AppendLine($"namespace {generation.Namespace};").AppendBlankLine();
         }
 
-        builder.AppendLine(
-            $"[GeneratedCode(tool: \"{VersionInformation.Product}\", version: \"{VersionInformation.Version}\")]"
-        );
+        builder.AppendGeneratedCodeAttribute(tool: VersionInformation.Product, version: VersionInformation.Version);
 
         using (builder.StartBlock($"{generation.AccessModifier} partial class {generation.ClassName}"))
         {

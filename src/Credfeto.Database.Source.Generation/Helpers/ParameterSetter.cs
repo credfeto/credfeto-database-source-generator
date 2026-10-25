@@ -1,8 +1,8 @@
 using System;
 using System.Data;
-using Credfeto.Database.Source.Generation.Builders;
 using Credfeto.Database.Source.Generation.Exceptions;
 using Credfeto.Database.Source.Generation.Extensions;
+using Credfeto.SourceGeneration.Helpers.Builders;
 
 namespace Credfeto.Database.Source.Generation.Helpers;
 

@@ -66,6 +66,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Credfeto.Enumeration.Source.Generation.Attributes" Version="1.2.154.2267" IncludeAssets="compile;runtime" />
+    <PackageReference Include="Credfeto.SourceGeneration.Helpers" Version="0.0.6.369" IncludeAssets="compile;runtime" PrivateAssets="All" GeneratePathProperty="true" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(PkgCredfeto_SourceGeneration_Helpers)/lib/netstandard2.0/Credfeto.SourceGeneration.Helpers.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AsyncFixer" Version="2.1.0" PrivateAssets="All" ExcludeAssets="runtime" />
