@@ -27,6 +27,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated xunit.analyzers to 2.2.0
 - SDK - Updated DotNet SDK to 10.0.403
 - Dependencies - Updated xunit.v3 to 4.0.2
+- Dependencies - Updated xunit.analyzers to 2.2.0
 ### Deprecated
 ### Removed
 ### Deployment Changes
