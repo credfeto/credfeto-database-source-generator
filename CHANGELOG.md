@@ -16,7 +16,6 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Both source generators (Credfeto.Database.Source.Generation and Credfeto.Database.Migrations.Source.Generation) now use the shared CodeBuilder from Credfeto.SourceGeneration.Helpers instead of their own local copies, so generator output is produced by one maintained implementation
 - Dependencies - Updated Credfeto.Enumeration to 1.2.154.2267
 - Dependencies - Updated Credfeto.Version.Information.Generator to 1.0.138.1557
-- Dependencies - Updated Meziantou.Analyzer to 3.0.299
 - Dependencies - Updated Microsoft.Sbom.Targets to 4.1.13
 - Dependencies - Updated Nullable.Extended.Analyzer to 1.16.6891
 - Dependencies - Updated Roslynator.Analyzers to 5.0.1
@@ -29,6 +28,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated xunit.v3 to 4.0.2
 - Dependencies - Updated xunit.analyzers to 2.2.0
 - Dependencies - Updated FunFair.CodeAnalysis to 7.2.20.2501
+- Dependencies - Updated Meziantou.Analyzer to 3.0.317
 ### Deprecated
 ### Removed
 ### Deployment Changes
