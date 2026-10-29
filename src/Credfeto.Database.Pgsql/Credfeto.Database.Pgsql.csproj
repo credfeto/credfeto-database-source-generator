@@ -65,7 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="12.2.0" IncludeAssets="compile;runtime" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.12" IncludeAssets="compile;runtime" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.14" IncludeAssets="compile;runtime" />
     <PackageReference Include="Npgsql" Version="10.0.3" IncludeAssets="compile;runtime" />
   </ItemGroup>
   <ItemGroup>
