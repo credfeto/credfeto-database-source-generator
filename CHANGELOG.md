@@ -13,6 +13,16 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Added
 ### Fixed
 ### Changed
+### Deprecated
+### Removed
+### Deployment Changes
+
+<!--
+Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
+-->
+
+## [1.2.224] - 2026-10-30
+### Changed
 - Both source generators (Credfeto.Database.Source.Generation and Credfeto.Database.Migrations.Source.Generation) now use the shared CodeBuilder from Credfeto.SourceGeneration.Helpers instead of their own local copies, so generator output is produced by one maintained implementation
 - Dependencies - Updated Credfeto.Enumeration to 1.2.154.2267
 - Dependencies - Updated Credfeto.Version.Information.Generator to 1.0.138.1557
@@ -31,13 +41,6 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated FunFair.Test.Source.Generator to 6.4.7.2960
 - Dependencies - Updated Microsoft.Extensions to 10.0.14
 - Dependencies - Updated Polly to 8.9.0
-### Deprecated
-### Removed
-### Deployment Changes
-
-<!--
-Releases that have at least been deployed to staging, BUT NOT necessarily released to live.  Changes should be moved from [Unreleased] into here as they are merged into the appropriate release branch
--->
 
 ## [1.2.223] - 2026-10-25
 ### Fixed
