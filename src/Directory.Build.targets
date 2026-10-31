@@ -1,4 +1,10 @@
-<Project>
+<!-- CI passes -p:NoWarn=MSB4241 as a global property, which would otherwise make MSBuild ignore the assignment below; TreatAsLocalProperty lets it append to that value instead -->
+<Project TreatAsLocalProperty="NoWarn">
+    <!-- FunFair.CodeAnalysis 7.2.22.2617 analyses source-generator output (xunit, Logging); those trees cannot be fixed or excluded via editorconfig -->
+    <PropertyGroup>
+        <NoWarn>$(NoWarn);FFS0012;FFS0022;FFS0040</NoWarn>
+    </PropertyGroup>
+
     <!-- Generator-consuming projects pull in Microsoft.CodeAnalysis.CSharp's netstandard2.0 build via a real metadata
          reference, which drags in the System.Threading.Tasks.Extensions ValueTask facade. That facade collides with
          net10.0's built-in ValueTask (CS0433), and PrivateAssets on the generator's own reference doesn't stop it
