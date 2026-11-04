@@ -14,7 +14,7 @@ public sealed class SqlConnectionStringValidator : IPropertyValidator<SqlServerC
 
         try
         {
-            cs = new(value);
+            cs = [with(value)];
         }
         catch (Exception exception)
         {

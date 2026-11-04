@@ -278,7 +278,7 @@ public sealed class SqlServerDatabaseTests : TestBase
     {
         SqlServerDatabase instance = CreateInstance();
         InvalidOperationException exception = new("test");
-        Context context = new("test-operation");
+        Context context = [with("test-operation")];
 
         InvokeLogAndDispatchTransientExceptions(
             instance: instance,
@@ -295,7 +295,7 @@ public sealed class SqlServerDatabaseTests : TestBase
     {
         SqlServerDatabase instance = CreateInstance();
         SqlException sqlException = CreateSqlExceptionWithError(errorNumber: 40501);
-        Context context = new("test-operation");
+        Context context = [with("test-operation")];
 
         InvokeLogAndDispatchTransientExceptions(
             instance: instance,
