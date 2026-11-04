@@ -152,7 +152,7 @@ internal static class DatabaseSourceCodeGenerator
         in ImmutableArray<IParameterSymbol> columns
     )
     {
-        Dictionary<string, string> generated = new(StringComparer.Ordinal);
+        Dictionary<string, string> generated = [with(StringComparer.Ordinal)];
 
         foreach (IParameterSymbol column in columns)
         {

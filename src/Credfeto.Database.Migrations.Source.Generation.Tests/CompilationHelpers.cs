@@ -62,7 +62,7 @@ internal static class CompilationHelpers
     {
         // Collect references from all currently-loaded non-dynamic assemblies
         // plus the Migrations assembly explicitly
-        HashSet<string> locations = new(StringComparer.OrdinalIgnoreCase);
+        HashSet<string> locations = [with(StringComparer.OrdinalIgnoreCase)];
         List<MetadataReference> references = [];
 
         // Add the migrations assembly first (guaranteed)
