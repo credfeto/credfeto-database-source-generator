@@ -84,7 +84,7 @@ public abstract class BaseDatabase : IDatabase
 
     private async ValueTask ExecuteWithRetriesAsync(Func<ValueTask> func, string context)
     {
-        Context loggingContext = new(context);
+        Context loggingContext = [with(context)];
 
         await this._retryPolicyAsync.ExecuteAsync(action: WrappedAsync, context: loggingContext);
 
@@ -98,7 +98,7 @@ public abstract class BaseDatabase : IDatabase
 
     private async ValueTask<TReturn> ExecuteWithRetriesAsync<TReturn>(Func<ValueTask<TReturn>> func, string context)
     {
-        Context loggingContext = new(context);
+        Context loggingContext = [with(context)];
 
         return await this._retryPolicyAsync.ExecuteAsync(action: WrappedAsync, context: loggingContext);
 

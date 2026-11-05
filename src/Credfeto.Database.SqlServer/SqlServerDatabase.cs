@@ -23,7 +23,7 @@ public sealed class SqlServerDatabase : BaseDatabase
     {
         this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
         SqlServerConfiguration cfg = configuration.Value ?? throw new ArgumentNullException(nameof(configuration));
-        this._connectionStringBuilder = new(cfg.ConnectionString);
+        this._connectionStringBuilder = [with(cfg.ConnectionString)];
     }
 
     protected override bool IsTransientException(Exception exception)

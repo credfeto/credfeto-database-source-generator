@@ -158,7 +158,7 @@ public sealed class PgsqlDatabaseTests : TestBase
     {
         PgsqlDatabase instance = CreateInstance();
         InvalidOperationException exception = new("test");
-        Context context = new("test-operation");
+        Context context = [with("test-operation")];
 
         InvokeLogAndDispatchTransientExceptions(
             instance: instance,
@@ -175,7 +175,7 @@ public sealed class PgsqlDatabaseTests : TestBase
     {
         PgsqlDatabase instance = CreateInstance();
         NpgsqlException npgsqlException = new("transient error");
-        Context context = new("test-operation");
+        Context context = [with("test-operation")];
 
         InvokeLogAndDispatchTransientExceptions(
             instance: instance,

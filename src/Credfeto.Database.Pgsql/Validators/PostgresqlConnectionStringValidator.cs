@@ -14,7 +14,7 @@ public sealed class PostgresqlConnectionStringValidator : IPropertyValidator<Pgs
 
         try
         {
-            cs = new(value);
+            cs = [with(value)];
         }
         catch (Exception exception)
         {
