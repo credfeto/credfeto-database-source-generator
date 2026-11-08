@@ -13,8 +13,12 @@ using Microsoft.CodeAnalysis.CSharp;
 
 namespace Credfeto.Database.Source.Generation.Benchmark.Tests;
 
+// In-process with ShortRun's settings: BenchmarkDotNet 0.15.8's out-of-process CsProj toolchain cannot validate a
+// net11.0 SDK (GetRuntimeVersion throws for NotRecognized), and 0.16 is binary-incompatible with FunFair.Test.Common.
 [MemoryDiagnoser]
-[ShortRunJob]
+[InProcess]
+[WarmupCount(3)]
+[IterationCount(3)]
 public class DatabaseCodeGeneratorBenchmarks
 {
     private const string ScalarFunctionSource = """
