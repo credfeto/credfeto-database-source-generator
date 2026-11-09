@@ -1,13 +1,22 @@
 <Project>
     <!-- Generator-consuming projects pull in Microsoft.CodeAnalysis.CSharp's netstandard2.0 build via a real metadata
-         reference, which drags in the System.Threading.Tasks.Extensions ValueTask facade. That facade collides with
-         net10.0's built-in ValueTask (CS0433), and PrivateAssets on the generator's own reference doesn't stop it
-         because ResolveAssemblyReferences resolves the binary closure, not NuGet's graph. Drop the facade from the
-         resolved references; net10.0's own ValueTask satisfies the same type. Skipped for the netstandard2.0 generator
-         projects themselves, which need the real facade to compile. -->
-    <Target Name="RemoveNetStandardValueTaskFacade" AfterTargets="ResolveAssemblyReferences" Condition="'$(TargetFramework)' != 'netstandard2.0'">
+         reference, which drags in netstandard2.0 facades (ValueTask, ImmutableArray, Memory and friends) older than
+         the copies net11.0 already ships. The duplicates collide with the framework's own types (CS0433, CS1685), and
+         PrivateAssets on the generator's own reference doesn't stop it because ResolveAssemblyReferences resolves the
+         binary closure, not NuGet's graph. Drop the facades from the resolved references; net11.0's own assemblies
+         satisfy the same types. Skipped for the netstandard2.0 generator projects themselves, which need the real
+         facades to compile. -->
+    <Target Name="RemoveNetStandardFacades" AfterTargets="ResolveAssemblyReferences" Condition="'$(TargetFramework)' != 'netstandard2.0'">
         <ItemGroup>
-            <ReferencePath Remove="@(ReferencePath)" Condition="'%(ReferencePath.NuGetPackageId)' == 'System.Threading.Tasks.Extensions'" />
+            <_FrameworkSuppliedFacade Include="System.Buffers" NuGetPackageId="System.Buffers" />
+            <_FrameworkSuppliedFacade Include="System.Collections.Immutable" NuGetPackageId="System.Collections.Immutable" />
+            <_FrameworkSuppliedFacade Include="System.Memory" NuGetPackageId="System.Memory" />
+            <_FrameworkSuppliedFacade Include="System.Numerics.Vectors" NuGetPackageId="System.Numerics.Vectors" />
+            <_FrameworkSuppliedFacade Include="System.Reflection.Metadata" NuGetPackageId="System.Reflection.Metadata" />
+            <_FrameworkSuppliedFacade Include="System.Runtime.CompilerServices.Unsafe" NuGetPackageId="System.Runtime.CompilerServices.Unsafe" />
+            <_FrameworkSuppliedFacade Include="System.Text.Encoding.CodePages" NuGetPackageId="System.Text.Encoding.CodePages" />
+            <_FrameworkSuppliedFacade Include="System.Threading.Tasks.Extensions" NuGetPackageId="System.Threading.Tasks.Extensions" />
+            <ReferencePath Remove="@(_FrameworkSuppliedFacade)" MatchOnMetadata="NuGetPackageId" />
         </ItemGroup>
     </Target>
 </Project>

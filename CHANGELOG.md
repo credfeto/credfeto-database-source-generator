@@ -15,6 +15,9 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Changed
 - SDK - Updated DotNet SDK to 11.0.100-rc.3.26522.148
 - Dependencies - Updated Credfeto.Enumeration to 1.2.158.2511
+- Target .NET 11 with runtime-async enabled - all non-netstandard projects now target net11.0 with runtime-async turned on
+- Removed Microsoft.Extensions.Options package references from the Pgsql and SqlServer packages
+- Build - the netstandard2.0 facade removal target in Directory.Build.targets now also applies to the net11.0 retarget, and benchmarks run in-process as BenchmarkDotNet does not support net11.0 out of the box
 ### Deprecated
 ### Removed
 ### Deployment Changes
