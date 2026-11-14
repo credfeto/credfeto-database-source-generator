@@ -21,6 +21,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated SonarAnalyzer.CSharp to 10.36.0.15337
 - Dependencies - Updated xunit.analyzers to 2.3.0
 - Dependencies - Updated xunit.v3 to 4.0.3
+- Dependencies - Updated Microsoft.Data.SqlClient to 7.1.2
 ### Deprecated
 ### Removed
 ### Deployment Changes
