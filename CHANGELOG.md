@@ -13,7 +13,6 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Added
 ### Fixed
 ### Changed
-- Dependencies - Updated FunFair.CodeAnalysis to 7.2.26.2691
 - Dependencies - Updated Meziantou.Analyzer to 3.0.340
 - Dependencies - Updated Microsoft.CodeAnalysis.Analyzers to 5.12.0
 - Dependencies - Updated Microsoft.CodeAnalysis.CSharp to 5.12.0
@@ -24,6 +23,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Microsoft.Data.SqlClient to 7.1.2
 - Dependencies - Updated Polly to 8.9.1
 - Dependencies - Updated Credfeto.Enumeration to 1.2.159.2554
+- Dependencies - Updated FunFair.CodeAnalysis to 7.2.27.2695
 ### Deprecated
 ### Removed
 ### Deployment Changes
