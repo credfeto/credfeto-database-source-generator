@@ -17,6 +17,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Meziantou.Analyzer to 3.0.340
 - Dependencies - Updated Microsoft.CodeAnalysis.Analyzers to 5.12.0
 - Dependencies - Updated Microsoft.CodeAnalysis.CSharp to 5.12.0
+- Dependencies - Updated Philips.CodeAnalysis.MaintainabilityAnalyzers to 2.2.0
 ### Deprecated
 ### Removed
 ### Deployment Changes
