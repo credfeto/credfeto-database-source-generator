@@ -23,7 +23,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated Microsoft.Data.SqlClient to 7.1.2
 - Dependencies - Updated Polly to 8.9.1
 - Dependencies - Updated Credfeto.Enumeration to 1.2.159.2554
-- Dependencies - Updated FunFair.CodeAnalysis to 7.2.27.2695
+- Dependencies - Updated FunFair.CodeAnalysis to 7.2.28.2699
 ### Deprecated
 ### Removed
 ### Deployment Changes
