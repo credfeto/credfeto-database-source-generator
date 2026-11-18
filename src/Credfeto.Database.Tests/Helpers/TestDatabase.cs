@@ -10,13 +10,17 @@ namespace Credfeto.Database.Tests.Helpers;
 internal sealed class TestDatabase : BaseDatabase
 {
     private readonly Queue<Func<CancellationToken, ValueTask<DbConnection>>> _connectionResponses;
+    private readonly List<TimeSpan> _retryDelays;
 
     public TestDatabase(IEnumerable<Func<CancellationToken, ValueTask<DbConnection>>> connectionResponses)
     {
         this._connectionResponses = new(connectionResponses);
+        this._retryDelays = [];
     }
 
-    public int LogCallCount { get; private set; }
+    public int LogCallCount => this._retryDelays.Count;
+
+    public IReadOnlyList<TimeSpan> RetryDelays => this._retryDelays;
 
     protected override bool IsTransientException(Exception exception)
     {
@@ -31,7 +35,7 @@ internal sealed class TestDatabase : BaseDatabase
         int maxRetries
     )
     {
-        this.LogCallCount++;
+        this._retryDelays.Add(delay);
     }
 
     protected override ValueTask<DbConnection> GetConnectionAsync(CancellationToken cancellationToken)
