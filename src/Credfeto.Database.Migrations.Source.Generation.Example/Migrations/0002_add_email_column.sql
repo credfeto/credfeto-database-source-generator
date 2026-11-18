@@ -1,2 +1,0 @@
-ALTER TABLE Dbo.Accounts
-ADD Email NVARCHAR(200) NULL;

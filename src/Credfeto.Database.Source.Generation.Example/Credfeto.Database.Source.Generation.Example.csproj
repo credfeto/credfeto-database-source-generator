@@ -60,8 +60,8 @@
   <Import Project="$(SolutionDir)KeepGeneratedFiles.props" Condition="Exists('$(SolutionDir)KeepGeneratedFiles.props')" />
   <ItemGroup>
     <ProjectReference Include="../Credfeto.Database.Interfaces/Credfeto.Database.Interfaces.csproj" />
-    <ProjectReference Include="../Credfeto.Database.Pgsql/Credfeto.Database.Pgsql.csproj" />
     <ProjectReference Include="../Credfeto.Database.Source.Generation/Credfeto.Database.Source.Generation.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="../Credfeto.Database.SqlServer/Credfeto.Database.SqlServer.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.1.2" IncludeAssets="compile;runtime" />
