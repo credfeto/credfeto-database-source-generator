@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Data.Common;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -43,9 +44,10 @@ public sealed class SqlServerDatabaseTests : TestBase
 
     private static bool InvokeIsTransientException(SqlServerDatabase instance, Exception exception)
     {
-        MethodInfo method =
-            typeof(SqlServerDatabase).GetMethod("IsTransientException", BindingFlags.Instance | BindingFlags.NonPublic)
-            ?? throw new InvalidOperationException("Cannot find IsTransientException method");
+        MethodInfo method = typeof(SqlServerDatabase).GetMethod(
+            "IsTransientException",
+            BindingFlags.Instance | BindingFlags.NonPublic
+        ) ?? throw new InvalidOperationException("Cannot find IsTransientException method");
 
         return (bool)(
             method.Invoke(obj: instance, parameters: [exception])
@@ -62,11 +64,10 @@ public sealed class SqlServerDatabaseTests : TestBase
         int maxRetries
     )
     {
-        MethodInfo method =
-            typeof(SqlServerDatabase).GetMethod(
-                "LogAndDispatchTransientExceptions",
-                BindingFlags.Instance | BindingFlags.NonPublic
-            ) ?? throw new InvalidOperationException("Cannot find LogAndDispatchTransientExceptions method");
+        MethodInfo method = typeof(SqlServerDatabase).GetMethod(
+            "LogAndDispatchTransientExceptions",
+            BindingFlags.Instance | BindingFlags.NonPublic
+        ) ?? throw new InvalidOperationException("Cannot find LogAndDispatchTransientExceptions method");
 
         method.Invoke(obj: instance, parameters: [exception, context, delay, retryCount, maxRetries]);
     }
@@ -110,15 +111,22 @@ public sealed class SqlServerDatabaseTests : TestBase
         Assert.False(result, userMessage: "SqlException with no errors should not be transient");
     }
 
-    [Fact]
-    public void IsTransientException_WithSqlExceptionWithNonTransientError_ReturnsFalse()
+    [Theory]
+    [InlineData(50000)]
+    [InlineData(0)]
+    [InlineData(1)]
+    [InlineData(9999)]
+    public static void IsTransientException_WithSqlExceptionWithNonTransientError_ReturnsFalse(int errorNumber)
     {
         SqlServerDatabase instance = CreateInstance();
-        SqlException sqlException = CreateSqlExceptionWithError(errorNumber: 50000);
+        SqlException sqlException = CreateSqlExceptionWithError(errorNumber: errorNumber);
 
         bool result = InvokeIsTransientException(instance: instance, exception: sqlException);
 
-        Assert.False(result, userMessage: "SqlException with non-transient error code 50000 should not be transient");
+        Assert.False(
+            result,
+            userMessage: $"SqlException with non-transient error code {errorNumber} should not be transient"
+        );
     }
 
     [Theory]
@@ -148,46 +156,6 @@ public sealed class SqlServerDatabaseTests : TestBase
         Assert.True(result, userMessage: $"SqlException with error code {errorNumber} should be transient");
     }
 
-    [Theory]
-    [InlineData(40501)]
-    [InlineData(10928)]
-    [InlineData(10929)]
-    [InlineData(10053)]
-    [InlineData(10054)]
-    [InlineData(10060)]
-    [InlineData(40197)]
-    [InlineData(40540)]
-    [InlineData(40613)]
-    [InlineData(40143)]
-    [InlineData(1205)]
-    [InlineData(233)]
-    [InlineData(64)]
-    [InlineData(53)]
-    [InlineData(20)]
-    [InlineData(-2)]
-    public static void IsTransientError_WithTransientErrorCode_ReturnsTrue(int errorNumber)
-    {
-        SqlError sqlError = SqlExceptionFactory.CreateSqlError(errorNumber);
-
-        bool result = SqlServerDatabase.IsTransientError(sqlError);
-
-        Assert.True(result, userMessage: $"Error code {errorNumber} should be transient");
-    }
-
-    [Theory]
-    [InlineData(50000)]
-    [InlineData(0)]
-    [InlineData(1)]
-    [InlineData(9999)]
-    public static void IsTransientError_WithNonTransientErrorCode_ReturnsFalse(int errorNumber)
-    {
-        SqlError sqlError = SqlExceptionFactory.CreateSqlError(errorNumber);
-
-        bool result = SqlServerDatabase.IsTransientError(sqlError);
-
-        Assert.False(result, userMessage: $"Error code {errorNumber} should not be transient");
-    }
-
     [Fact]
     public void FormatException_WithNonSqlException_ReturnsFormattedStringContainingContext()
     {
@@ -211,6 +179,35 @@ public sealed class SqlServerDatabaseTests : TestBase
 
         Assert.Contains(
             expectedSubstring: "usp_TestSqlProc",
+            actualString: result,
+            comparisonType: StringComparison.Ordinal
+        );
+    }
+
+    [Fact]
+    public void FormatException_WithSqlExceptionWithMultipleErrors_NumbersEachErrorAfterTheHeader()
+    {
+        SqlError error1 = SqlExceptionFactory.CreateSqlError(
+            errorNumber: 100,
+            message: "First error",
+            procedure: "usp_Proc1"
+        );
+        SqlError error2 = SqlExceptionFactory.CreateSqlError(
+            errorNumber: 200,
+            message: "Second error",
+            procedure: "usp_Proc2"
+        );
+        SqlException sqlException = SqlExceptionFactory.CreateSqlException(error1, error2);
+
+        string result = SqlServerDatabase.FormatException(exception: sqlException, context: "usp_Multiple");
+
+        Assert.Contains(
+            expectedSubstring: "3: Error 100. Proc: usp_Proc1: First error",
+            actualString: result,
+            comparisonType: StringComparison.Ordinal
+        );
+        Assert.Contains(
+            expectedSubstring: "4: Error 200. Proc: usp_Proc2: Second error",
             actualString: result,
             comparisonType: StringComparison.Ordinal
         );
@@ -288,6 +285,33 @@ public sealed class SqlServerDatabaseTests : TestBase
             retryCount: 1,
             maxRetries: 3
         );
+    }
+
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void LogAndDispatchTransientExceptions_WithLoggerEnablement_LogsOnlyWhenEnabled(bool loggingEnabled)
+    {
+        IOptions<SqlServerConfiguration> options = GetSubstitute<IOptions<SqlServerConfiguration>>();
+        options.Value.Returns(new SqlServerConfiguration(VALID_CONNECTION_STRING));
+        ILogger<SqlServerDatabase> logger = GetSubstitute<ILogger<SqlServerDatabase>>();
+        logger.IsEnabled(Arg.Any<LogLevel>()).Returns(loggingEnabled);
+        SqlServerDatabase instance = new(configuration: options, logger: logger);
+        Context context = [with("test-operation")];
+
+        InvokeLogAndDispatchTransientExceptions(
+            instance: instance,
+            exception: CreateSqlExceptionWithError(errorNumber: 40501),
+            context: context,
+            delay: TimeSpan.FromSeconds(1),
+            retryCount: 1,
+            maxRetries: 3
+        );
+
+        bool logged = logger
+            .ReceivedCalls()
+            .Any(static call => StringComparer.Ordinal.Equals(x: call.GetMethodInfo().Name, y: nameof(ILogger.Log)));
+        Assert.Equal(expected: loggingEnabled, actual: logged);
     }
 
     [Fact]
