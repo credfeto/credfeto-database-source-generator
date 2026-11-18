@@ -15,6 +15,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Changed
 ### Deprecated
 ### Removed
+- Unconsumed Migrations and Pgsql packages, unwired FluentValidation validators and needless public helpers - #199
 ### Deployment Changes
 
 <!--
