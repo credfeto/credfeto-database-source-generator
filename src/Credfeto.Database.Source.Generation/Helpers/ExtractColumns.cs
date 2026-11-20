@@ -1,10 +1,35 @@
 using System;
+using System.Collections.Generic;
 using Credfeto.SourceGeneration.Helpers.Builders;
 
 namespace Credfeto.Database.Source.Generation.Helpers;
 
 internal static class ExtractColumns
 {
+    private static readonly IReadOnlyDictionary<string, Func<string, string>> ReturnGenerators = new Dictionary<
+        string,
+        Func<string, string>
+    >(StringComparer.Ordinal)
+    {
+        { "bool", ReturnBool },
+        { "byte", ReturnUInt8 },
+        { "sbyte", ReturnInt8 },
+        { "short", ReturnInt16 },
+        { "ushort", ReturnUInt16 },
+        { "int", ReturnInt32 },
+        { "uint", ReturnUInt32 },
+        { "long", ReturnInt64 },
+        { "ulong", ReturnUInt64 },
+        { "float", ReturnFloat },
+        { "double", ReturnDouble },
+        { "decimal", ReturnDecimal },
+        { "string", ReturnString },
+        { nameof(System) + "." + nameof(DateTime), ReturnDateTime },
+        { nameof(System) + "." + nameof(DateTimeOffset), ReturnDateTimeOffset },
+        { nameof(System) + "." + nameof(TimeSpan), ReturnTimeSpan },
+        { nameof(System) + "." + nameof(Guid), ReturnGuid },
+    };
+
     public static string? GenerateExtractColumnMapper(CodeBuilder source, string typeName)
     {
         return typeName switch
@@ -49,27 +74,9 @@ internal static class ExtractColumns
 
     public static string? GenerateReturn(string typeName, string variable)
     {
-        return typeName switch
-        {
-            "bool" => ReturnBool(variable: variable),
-            "byte" => ReturnUInt8(variable: variable),
-            "sbyte" => ReturnInt8(variable: variable),
-            "short" => ReturnInt16(variable: variable),
-            "ushort" => ReturnUInt16(variable: variable),
-            "int" => ReturnInt32(variable: variable),
-            "uint" => ReturnUInt32(variable: variable),
-            "long" => ReturnInt64(variable: variable),
-            "ulong" => ReturnUInt64(variable: variable),
-            "float" => ReturnFloat(variable: variable),
-            "double" => ReturnDouble(variable: variable),
-            "decimal" => ReturnDecimal(variable: variable),
-            "string" => ReturnString(variable: variable),
-            nameof(System) + "." + nameof(DateTime) => ReturnDateTime(variable: variable),
-            nameof(System) + "." + nameof(DateTimeOffset) => ReturnDateTimeOffset(variable: variable),
-            nameof(System) + "." + nameof(TimeSpan) => ReturnTimeSpan(variable: variable),
-            nameof(System) + "." + nameof(Guid) => ReturnGuid(variable: variable),
-            _ => null,
-        };
+        return ReturnGenerators.TryGetValue(key: typeName, out Func<string, string>? generator)
+            ? generator(variable)
+            : null;
     }
 
     private static string ExtractCommon(
