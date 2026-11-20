@@ -72,6 +72,30 @@ internal static class ExtractColumns
         };
     }
 
+    private static readonly IReadOnlyDictionary<string, Func<string, string>> ReturnGenerators = new Dictionary<
+        string,
+        Func<string, string>
+    >(StringComparer.Ordinal)
+    {
+        ["bool"] = ReturnBool,
+        ["byte"] = ReturnUInt8,
+        ["sbyte"] = ReturnInt8,
+        ["short"] = ReturnInt16,
+        ["ushort"] = ReturnUInt16,
+        ["int"] = ReturnInt32,
+        ["uint"] = ReturnUInt32,
+        ["long"] = ReturnInt64,
+        ["ulong"] = ReturnUInt64,
+        ["float"] = ReturnFloat,
+        ["double"] = ReturnDouble,
+        ["decimal"] = ReturnDecimal,
+        ["string"] = ReturnString,
+        [nameof(System) + "." + nameof(DateTime)] = ReturnDateTime,
+        [nameof(System) + "." + nameof(DateTimeOffset)] = ReturnDateTimeOffset,
+        [nameof(System) + "." + nameof(TimeSpan)] = ReturnTimeSpan,
+        [nameof(System) + "." + nameof(Guid)] = ReturnGuid,
+    };
+
     public static string? GenerateReturn(string typeName, string variable)
     {
         return ReturnGenerators.TryGetValue(key: typeName, out Func<string, string>? generator)
