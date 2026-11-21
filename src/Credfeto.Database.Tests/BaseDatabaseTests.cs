@@ -77,7 +77,29 @@ public sealed class BaseDatabaseTests : TestBase
         );
 
         Assert.Equal(expected: 1, actual: db.LogCallCount);
+        TimeSpan[] expectedDelays = [TimeSpan.Zero];
+        Assert.Equal(expected: expectedDelays, actual: db.RetryDelays);
         Assert.True(actionCalled, userMessage: "Action should have been called after retry");
+    }
+
+    [Fact]
+    public async Task ExecuteAsync_WithTwoTransientExceptionsThenSuccess_RetriesImmediatelyThenBacksOff()
+    {
+        DbConnection connection = GetSubstitute<DbConnection>();
+
+        TestDatabase db = CreateInstance([
+            _ => throw new TransientTestException(),
+            _ => throw new TransientTestException(),
+            _ => ValueTask.FromResult(connection),
+        ]);
+
+        await db.ExecuteAsync(
+            action: (_, _) => ValueTask.CompletedTask,
+            cancellationToken: System.Threading.CancellationToken.None
+        );
+
+        TimeSpan[] expectedDelays = [TimeSpan.Zero, TimeSpan.FromSeconds(4)];
+        Assert.Equal(expected: expectedDelays, actual: db.RetryDelays);
     }
 
     [Fact]

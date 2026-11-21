@@ -4,7 +4,7 @@ using Microsoft.Data.SqlClient;
 
 namespace Credfeto.Database.SqlServer.Extensions;
 
-public static class SqlErrorBuilder
+internal static class SqlErrorBuilder
 {
     public static StringBuilder AppendErrorsFromException(
         this StringBuilder sb,

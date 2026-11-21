@@ -17,6 +17,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Dependencies - Updated FunFair.CodeAnalysis to 7.2.32.2718
 ### Deprecated
 ### Removed
+- Unconsumed Migrations and Pgsql packages, unwired FluentValidation validators and needless public helpers - #199
 ### Deployment Changes
 
 <!--

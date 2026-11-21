@@ -64,7 +64,6 @@
     <ProjectReference Include="../Credfeto.Database/Credfeto.Database.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="FluentValidation" Version="12.2.0" IncludeAssets="compile;runtime" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.1.2" IncludeAssets="compile;runtime" />
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.13" IncludeAssets="compile;runtime" />
   </ItemGroup>

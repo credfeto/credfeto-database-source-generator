@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Credfeto.Database.SqlServer.LoggingExtensions;
 
-public static partial class SqlServerDatabaseLoggingExtensions
+internal static partial class SqlServerDatabaseLoggingExtensions
 {
     [LoggerMessage(
         EventId = 0,
