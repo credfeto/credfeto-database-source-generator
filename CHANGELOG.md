@@ -15,6 +15,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Changed
 - Dependencies - Updated Credfeto.Enumeration to 1.2.166.2629
 - Dependencies - Updated Microsoft.Data.SqlClient to 8.0.0
+- Dependencies - Updated Credfeto.Version.Information.Generator to 1.0.150.1907
 ### Deprecated
 ### Removed
 ### Deployment Changes
